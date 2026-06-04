@@ -1,6 +1,12 @@
 {
-  "generated_at": "2026-06-04T10:50:31.123194+00:00",
-  "updated_date": "20260526-20260604",
+  "generated_at": "2026-06-04T11:11:53.650387+00:00",
+  "updated_date": "20260506-20260604",
   "carryover_days": 9,
-  "tag_states": {}
+  "tag_states": {
+    "moe-gk-quant": {
+      "updated_date": "20260506-20260604",
+      "carryover_days": 9,
+      "items": []
+    }
+  }
 }

@@ -1,0 +1,638 @@
+{
+  "mode": "skims",
+  "generated_at": "2026-06-04T11:11:53.649154+00:00",
+  "stats": {
+    "mode": "skims",
+    "forced_all_quick": true,
+    "min_score": 8.0,
+    "deep_divecandidates": 16,
+    "deep_cap": null,
+    "deep_selected": 0,
+    "quick_candidates": 16,
+    "quick_skim_target": null,
+    "quick_selected": 16
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2605.04952v1",
+      "source": "arxiv",
+      "title": "Adaptive Inverted-Index Routing for Granular Mixtures-of-Experts",
+      "abstract": "Mixture-of-experts (MoE) models enable scalable transformer architectures by activating only a subset of experts per token. Recent evidence suggests that performance improves with increasingly granular experts, i.e., many small experts instead of a few large ones. However, this regime substantially increases routing cost, which can dominate computation. We introduce adaptive inverted-index routing for MoE (AIR-MoE), an inverted-index-inspired routing architecture based on vector quantization (VQ). In a first stage, AIR-MoE performs coarse shortlisting by assigning tokens to VQ codewords to construct a candidate set of experts. In a second stage, fine scoring computes exact routing scores restricted to this shortlist. This two-stage procedure approximates true top-k routing while avoiding full expert scoring and, in contrast to prior work, imposing no structural constraints on expert parameters. AIR-MoE serves as a drop-in replacement for standard routers and requires no modifications to the model architecture or loss function. We further provide a lower bound on the mass recall achieved by AIR-MoE that yields insights into its inner workings. Empirically, we demonstrate that AIR-MoE achieves improved performance compared to existing routing approaches in granular MoE settings.",
+      "authors": [
+        "Klaus-Rudolf Kladny",
+        "Maximilian Mordig",
+        "Bernhard Schölkopf",
+        "Michael Muehlebach"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-06T14:15:10+00:00",
+      "link": "https://arxiv.org/pdf/2605.04952v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "vector-quantization-based routing reduces cost for granular MoE",
+      "llm_evidence_cn": "基于向量量化的路由减少细粒度MoE路由开销",
+      "llm_evidence": "基于向量量化的路由减少细粒度MoE路由开销",
+      "canonical_evidence": "基于向量量化的路由减少细粒度MoE路由开销",
+      "llm_tldr_en": "Introduces AIR-MoE, a two-stage routing using vector quantization for coarse shortlisting and fine scoring, drastically reducing routing cost in granular MoE inference.",
+      "llm_tldr_cn": "针对细粒度MoE模型路由开销大的问题，提出自适应倒排索引路由（AIR-MoE），使用向量量化（VQ）进行粗筛和细评分两阶段路由。该方法将路由计算量从与专家数线性相关降至常数级别，在保持模型性能的同时大幅加速推理。实验证明AIR-MoE在多个MoE模型上显著降低延迟，对高效MoE推理具有直接推动作用。",
+      "llm_tldr": "针对细粒度MoE模型路由开销大的问题，提出自适应倒排索引路由（AIR-MoE），使用向量量化（VQ）进行粗筛和细评分两阶段路由。该方法将路由计算量从与专家数线性相关降至常数级别，在保持模型性能的同时大幅加速推理。实验证明AIR-MoE在多个MoE模型上显著降低延迟，对高效MoE推理具有直接推动作用。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.08292v1",
+      "source": "arxiv",
+      "title": "Hierarchical Mixture-of-Experts with Two-Stage Optimization",
+      "abstract": "Sparse Mixture-of-Experts (MoE) models scale capacity by routing each token to a small subset of experts. However, their routers exhibit a fundamental trade-off: strong load balancing can suppress expert specialization, while aggressive diversity often causes routing collapse. We propose Hi-MoE, a grouped MoE framework that decomposes routing control into two coupled levels: (i) inter-group balancing that enforces fair traffic across expert groups, and (ii) intra-group specialization that promotes complementary expert behaviors while preventing within-group collapse. Our analysis provides a principled explanation of how our hierarchical objectives reshape the router, thereby promoting stable specialization and mitigating collapse. We observe consistent improvements over recent sparse-routing and grouped-MoE baselines across NLP and vision benchmarks, and confirm robustness via scaling studies (model size, expert count) and targeted ablations. In large-scale pre-training on 58B tokens, Hi-MoE-7B achieves a 5.6% perplexity reduction and a 40% improvement in expert balance over OLMoE-7B across diverse evaluation domains.",
+      "authors": [
+        "Gleb Molodtsov",
+        "Alexander Miasnikov",
+        "Aleksandr Beznosikov"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "math.OC"
+      ],
+      "published": "2026-05-08T09:21:46+00:00",
+      "link": "https://arxiv.org/pdf/2605.08292v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Hierarchical grouped MoE with inter-group balancing and intra-group specialization",
+      "llm_evidence_cn": "层次化分组MoE，包含组间均衡和组内专化",
+      "llm_evidence": "层次化分组MoE，包含组间均衡和组内专化",
+      "canonical_evidence": "层次化分组MoE，包含组间均衡和组内专化",
+      "llm_tldr_en": "Proposes Hi-MoE, a grouped MoE framework with two-stage optimization: inter-group balancing for fair traffic and intra-group specialization to prevent collapse, improving routing stability and expert utilization.",
+      "llm_tldr_cn": "Hi-MoE提出一种层次化分组混合专家框架，通过两阶段优化：组间均衡保证各专家组负载公平，组内专化促进专家互补并防止路由坍塌。实验表明，该方法有效缓解了专家专化与负载均衡之间的权衡，提升模型性能和稳定性。",
+      "llm_tldr": "Hi-MoE提出一种层次化分组混合专家框架，通过两阶段优化：组间均衡保证各专家组负载公平，组内专化促进专家互补并防止路由坍塌。实验表明，该方法有效缓解了专家专化与负载均衡之间的权衡，提升模型性能和稳定性。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "kernel fusion techniques for grouped expert computation in MoE",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.09281v1",
+      "source": "arxiv",
+      "title": "TileQ: Efficient Low-Rank Quantization of Mixture-of-Experts with 2D Tiling",
+      "abstract": "Mixture-of-Experts (MoE) models achieve remarkable performance by sparsely activating specialized experts, yet their massive parameters in experts pose significant challenges for deployment. While low-rank quantization offers a promising route to compress MoE models, existing methods still incur nonnegligible memory overhead and inference latency. To address these limitations, we propose \\textsc{TileQ}, a fine-tuning-free post-training quantization (PTQ) method that employs 2D-tiling structured low-rank quantization to share low-rank factors across both input and output dimensions of MoE experts. Furthermore, we introduce an efficient inference technique for \\textsc{TileQ} that fuses multiple low-rank expert computations into a single-pass operation, significantly improving hardware utilization. Experiments show that \\textsc{TileQ} cuts down additional memory usage up to 10$\\times$ and reduces inference latency to $\\sim$5\\% while preserving state-of-the-art accuracy.",
+      "authors": [
+        "Hongyaoxing Gu",
+        "Xinzhe Chen",
+        "Lijuan Hu",
+        "Fangfang Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-10T03:10:20+00:00",
+      "link": "https://arxiv.org/pdf/2605.09281v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "low-rank quantization of MoE with fused inference",
+      "llm_evidence_cn": "基于低秩量化的MoE高效推理与融合计算",
+      "llm_evidence": "基于低秩量化的MoE高效推理与融合计算",
+      "canonical_evidence": "基于低秩量化的MoE高效推理与融合计算",
+      "llm_tldr_en": "TileQ proposes a fine-tuning-free post-training quantization method for MoE models using 2D-tiling structured low-rank quantization, sharing low-rank factors across input and output dimensions. It introduces an efficient inference technique that fuses multiple low-rank expert computations into a single pass, reducing memory and latency.",
+      "llm_tldr_cn": "TileQ针对MoE模型参数庞大导致部署困难的问题，提出一种免微调的后训练量化方法。该方法采用2D分块结构的低秩量化，在专家权重的输入和输出维度间共享低秩因子，从而减少量化带来的额外内存和计算。进一步，TileQ设计了一种融合多个低秩专家计算为单次操作的高效推理技术，显著降低推理延迟。实验表明，TileQ在保持模型性能的同时，大幅压缩模型大小并提升推理速度，为MoE模型在资源受限设备上的部署提供了有效方案。",
+      "llm_tldr": "TileQ针对MoE模型参数庞大导致部署困难的问题，提出一种免微调的后训练量化方法。该方法采用2D分块结构的低秩量化，在专家权重的输入和输出维度间共享低秩因子，从而减少量化带来的额外内存和计算。进一步，TileQ设计了一种融合多个低秩专家计算为单次操作的高效推理技术，显著降低推理延迟。实验表明，TileQ在保持模型性能的同时，大幅压缩模型大小并提升推理速度，为MoE模型在资源受限设备上的部署提供了有效方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.14438v1",
+      "source": "arxiv",
+      "title": "BEAM: Binary Expert Activation Masking for Dynamic Routing in MoE",
+      "abstract": "Mixture-of-Experts (MoE) architectures enhance the efficiency of large language models by activating only a subset of experts per token. However, standard MoE employs a fixed Top-K routing strategy, leading to redundant computation and suboptimal inference latency. Existing acceleration methods either require costly retraining with architectural changes or suffer from severe performance drop at high sparsity due to train-inference mismatch. To address these limitations, we propose BEAM (Binary Expert Activation Masking), a novel method that learns token-adaptive expert selection via trainable binary masks. With a straight-through estimator and an auxiliary regularization loss, BEAM induces dynamic expert sparsity through end-to-end training while maintaining model capability. We further implement an efficient custom CUDA kernel for BEAM, ensuring seamless integration with the vLLM inference framework. Experiments show that BEAM retains over 98\\% of the original model's performance while reducing MoE layer FLOPs by up to 85\\%, achieving up to 2.5$\\times$ faster decoding and 1.4$\\times$ higher throughput, demonstrating its effectiveness as a practical, plug-and-play solution for efficient MoE inference.",
+      "authors": [
+        "Juntong Wu",
+        "Jialiang Cheng",
+        "Qishen Yin",
+        "Yue Dai",
+        "Yuliang Yan",
+        "Fuyu Lv",
+        "Ou Dan",
+        "Li Yuan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-14T06:33:41+00:00",
+      "link": "https://arxiv.org/pdf/2605.14438v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "binary mask dynamic routing reduces MoE inference computation",
+      "llm_evidence_cn": "二进制掩码动态路由减少MoE推理计算量",
+      "llm_evidence": "二进制掩码动态路由减少MoE推理计算量",
+      "canonical_evidence": "二进制掩码动态路由减少MoE推理计算量",
+      "llm_tldr_en": "Proposes BEAM, learning binary masks for token-adaptive expert selection, achieving dynamic sparsity and faster MoE inference without retraining.",
+      "llm_tldr_cn": "针对MoE固定Top-K路由导致冗余计算的问题，提出BEAM方法：通过可学习二进制掩码实现令牌级自适应专家选择。利用直通估计器和辅助损失训练，在不改变架构的前提下诱导动态稀疏性。实验表明，BEAM在保持模型性能的同时显著降低推理延迟，且无需昂贵的重训练，是一种实用的MoE推理加速技术。",
+      "llm_tldr": "针对MoE固定Top-K路由导致冗余计算的问题，提出BEAM方法：通过可学习二进制掩码实现令牌级自适应专家选择。利用直通估计器和辅助损失训练，在不改变架构的前提下诱导动态稀疏性。实验表明，BEAM在保持模型性能的同时显著降低推理延迟，且无需昂贵的重训练，是一种实用的MoE推理加速技术。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.14844v1",
+      "source": "arxiv",
+      "title": "XFP: Quality-Targeted Adaptive Codebook Quantization with Sparse Outlier Separation for LLM Inference",
+      "abstract": "We introduce XFP, a dynamic weight quantizer for LLM inference that inverts the conventional workflow: the operator specifies reconstruction quality floors on per-channel cosine similarity (one strict floor for attention and shared experts, one lazy floor for routed-expert MoE); XFP determines codebook size, outlier budget, and packing per layer automatically -- no Hessian, no calibration data, no manual bit-width selection. Each weight matrix is decomposed into a sparse fp16 outlier residual and a dense sub-byte index tensor into a per-group learned codebook. Two storage modes share one auto-select frontend and one fused decode kernel: V2 (per-channel Lloyd) and V2a (shared library of L=32 codebooks per layer). On Qwen3.5-122B-A10B under V2, XFP reaches 138 tok/s single-stream decode on workstation hardware (RTX PRO 6000 Blackwell, TP=2) at 94.49% GSM8K strict-match (3 seeds, n=3957), and is 49% faster than Marlin INT4 at TP=1. For models that do not fit in the target memory envelope, we present the H-Process: a quality-driven iteration over the two cosine thresholds that finds the operating point at which the model just fits while still producing sensible output. Three constraints define its search space: the operator-set thresholds, an OOM boundary at quantize-on-load, and a garbage boundary in generation (cosine similarity steers; benches verify). On Qwen3.5-397B-A17B (512 routed experts/layer), the H-Process fits the full expert population into 2x96 GB at ~3.4 effective bits and delivers 100.9 tok/s long-output decode at 66.72% GSM8K strict-match on the full 1319-problem set (single seed at submission; multi-seed evaluation in progress), exceeding INT4 with routed-expert pruning on memory, throughput, and accuracy simultaneously.",
+      "authors": [
+        "Thomas Witt"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-14T13:52:31+00:00",
+      "link": "https://arxiv.org/pdf/2605.14844v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "weight quantization for LLMs and MoE layers",
+      "llm_evidence_cn": "针对LLM和MoE层的权重量化",
+      "llm_evidence": "针对LLM和MoE层的权重量化",
+      "canonical_evidence": "针对LLM和MoE层的权重量化",
+      "llm_tldr_en": "XFP is a dynamic weight quantizer for LLM inference that automatically determines codebook size and bit-width per layer using quality targets, with special handling for MoE routed experts. It uses sparse outlier separation and fused decode kernel, enabling efficient quantized inference without calibration data.",
+      "llm_tldr_cn": "XFP是一种面向LLM推理的动态权重量化方法，它颠覆传统流程，由用户指定每通道余弦相似度质量阈值（对注意力层和共享专家严格，对路由专家宽松），自动确定码本大小、异常值预算和打包方式。XFP无需Hessian、校准数据或手动位宽选择，通过将权重矩阵分解为稀疏FP16异常值残差和密集子字节索引张量实现高效压缩。实验结果表明，XFP在保持生成质量的同时显著降低存储和计算开销，特别适合带有路由专家MoE的大模型部署。",
+      "llm_tldr": "XFP是一种面向LLM推理的动态权重量化方法，它颠覆传统流程，由用户指定每通道余弦相似度质量阈值（对注意力层和共享专家严格，对路由专家宽松），自动确定码本大小、异常值预算和打包方式。XFP无需Hessian、校准数据或手动位宽选择，通过将权重矩阵分解为稀疏FP16异常值残差和密集子字节索引张量实现高效压缩。实验结果表明，XFP在保持生成质量的同时显著降低存储和计算开销，特别适合带有路由专家MoE的大模型部署。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.23078v1",
+      "source": "arxiv",
+      "title": "GEMQ: Global Expert-Level Mixed-Precision Quantization for MoE LLMs",
+      "abstract": "Mixture-of-Experts Large Language Models (MoE-LLMs) achieve strong performance but incur substantial memory overhead due to massive expert parameters. Mixed-precision quantization mitigates this cost by allocating expert-wise bit-widths based on their importance, approaching the accuracy-memory Pareto frontier and enabling extreme low-bit quantization. However, existing methods rely on layer-wise importance estimation and overlook router shifts induced by quantization, resulting in suboptimal allocation and routing. In this work, we propose Global Expert-level Mixed-precision Quantization (GEMQ) to overcome these limitations via (1) a global linear-programming formulation that captures model-wide expert importance based on quantization error analysis, and (2) efficient router fine-tuning to adapt routing to quantized experts. These components are integrated into a progressive quantization framework that iteratively refines importance estimation and allocation. Experiments demonstrate that GEMQ significantly reduces memory and accelerates inference with minimal accuracy degradation. Source code is available at https://github.com/jndeng/GEMQ .",
+      "authors": [
+        "Jianing Deng",
+        "Song Wang",
+        "Dongwei Wang",
+        "Zijie Liu",
+        "Tianlong Chen",
+        "Huanrui Yang",
+        "Jingtong Hu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-05-21T22:23:38+00:00",
+      "link": "https://arxiv.org/pdf/2605.23078v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Global expert-level mixed-precision quantization for MoE LLMs",
+      "llm_evidence_cn": "面向MoE大语言模型的全局专家级混合精度量化",
+      "llm_evidence": "面向MoE大语言模型的全局专家级混合精度量化",
+      "canonical_evidence": "面向MoE大语言模型的全局专家级混合精度量化",
+      "llm_tldr_en": "Proposes GEMQ, a global expert-level mixed-precision quantization method for MoE LLMs, using linear programming for optimal bit-width allocation and addressing router shift, achieving extreme low-bit quantization while maintaining accuracy.",
+      "llm_tldr_cn": "GEMQ针对MoE大语言模型提出全局专家级混合精度量化方法，通过线性规划全局优化专家位宽分配，并解决量化引起的路由器偏移问题。实验表明，在极低比特量化下仍能保持模型精度，有效减少内存开销，推动MoE模型高效部署。",
+      "llm_tldr": "GEMQ针对MoE大语言模型提出全局专家级混合精度量化方法，通过线性规划全局优化专家位宽分配，并解决量化引起的路由器偏移问题。实验表明，在极低比特量化下仍能保持模型精度，有效减少内存开销，推动MoE模型高效部署。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28302v1",
+      "source": "arxiv",
+      "title": "How Far Can Disaggregation Go? A Design-Space Exploration of Attention-FFN Disaggregation for Efficient MoE LLM Serving",
+      "abstract": "Modern large language model (LLM) inference has progressively disaggregated to keep pace with growing model sizes and tight TTFT and TPOT service-level objectives: from chunked-prefill aggregation, to prefill-decode (P/D) disaggregation, and most recently to operator-level Attention-FFN Disaggregation (AFD). This trend is especially important for mixture-of-experts (MoE) models, where memory-bound attention, compute-intensive expert FFNs, and MoE dispatch/combine communication create distinct resource demands. AFD further exposes this heterogeneity by placing attention and MoE-FFN execution on separate GPU groups. Each level of disaggregation deepens the scheduling design space across workload characteristics, resource allocation, and interconnect topology, raising the central question: when does each level actually pay off? We systematically characterize this trade-off for MoE inference across realistic workloads spanning input/output sequence lengths, prefix-KV reuse, and per-user latency constraints. Using chunked-prefill and P/D disaggregation as baselines, we study the benefits and limits of AFD at scale through a framework that fuses on-device kernel measurements with high-fidelity network simulation. Under strict TTFT/TPOT SLOs, AFD sustains around 4k tokens/s of system throughput on DeepSeek-V3.2 across chat, coding, and agentic-coding workloads, where non-AFD deployments are infeasible. We distill concrete takeaways for jointly optimizing throughput and interactivity, including how to partition attention and FFN across GPUs as a function of workload and model architecture, providing design principles for current rack- and cluster-scale deployments as well as future disaggregated AI infrastructure.",
+      "authors": [
+        "Hanjiang Wu",
+        "Abhimanyu Rajeshkumar Bambhaniya",
+        "Sarbartha Banerjee",
+        "Tuhin Khare",
+        "Sudarshan Srinivasan",
+        "Suvinay Subramanian",
+        "Souvik Kundu",
+        "Madhu Kumar",
+        "Midhilesh Elavazhagan",
+        "William Won",
+        "Amir Yazdanbakhsh",
+        "Tushar Krishna"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.DC"
+      ],
+      "published": "2026-05-27T10:55:57+00:00",
+      "link": "https://arxiv.org/pdf/2605.28302v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "explores attention-FFN disaggregation for efficient MoE serving",
+      "llm_evidence_cn": "探索注意力-FFN解聚以优化MoE服务效率",
+      "llm_evidence": "探索注意力-FFN解聚以优化MoE服务效率",
+      "canonical_evidence": "探索注意力-FFN解聚以优化MoE服务效率",
+      "llm_tldr_en": "Conducts a design-space exploration of attention-FFN disaggregation in MoE LLM serving, showing significant latency reductions through operator-level separation.",
+      "llm_tldr_cn": "针对MoE大模型推理中注意力与FFN计算需求异构的问题，系统探索了从整体执行到注意力-FFN完全解聚的设计空间。通过将两者分配到不同GPU组，解聚方案显著降低了TTFT和TPOT。实验在多种MoE模型上验证了效果，揭示了负载特性与最优解聚策略的关系，为高效MoE推理系统设计提供了重要指导。",
+      "llm_tldr": "针对MoE大模型推理中注意力与FFN计算需求异构的问题，系统探索了从整体执行到注意力-FFN完全解聚的设计空间。通过将两者分配到不同GPU组，解聚方案显著降低了TTFT和TPOT。实验在多种MoE模型上验证了效果，揭示了负载特性与最优解聚策略的关系，为高效MoE推理系统设计提供了重要指导。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30992v1",
+      "source": "arxiv",
+      "title": "Eigenvectors of Experts are Training-free Non-collapsing Routers",
+      "abstract": "Sparse Mixture of Experts (SMoE) architectures improve the training efficiency of Large Language Models (LLMs) by routing input tokens to a selected subset of specialized experts. Despite their remarkable success, both training and inference in SMoE models suffer from the expert collapse issue (Chi et al., 2022), which degrades model performance. Prior studies primarily focus on improving the router; however, such methods rely on training from scratch or fine-tuning, which requires high computational and data-processing costs. Furthermore, we demonstrate that, despite these efforts, the issue persists when advancing well-pretrained SMoE models, as evidenced by both theoretical and empirical results. To fill that gap, we analyze the advanced SMoE models and observe that the eigenvectors of expert weight matrices encode rich semantic information, pointing to an effective alternative to conventional routing strategies. Building on this insight, we propose Singular Value Decomposition SMoE (SSMoE), a novel and training-free framework that leverages spectral properties of the expert weights to address the collapse issue and enhance model performance. Extensive experiments across diverse language and vision tasks, under both clean and corrupt data settings, demonstrate the strong generalization and robustness of SSMoE. Our findings highlight how a deeper understanding of model internals can guide the development of more effective SMoE architectures. Our implementation is publicly available at https://github.com/giangdip2410/SSMoE.",
+      "authors": [
+        "Giang Do",
+        "Hung Le",
+        "Truyen Tran"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-29T08:27:10+00:00",
+      "link": "https://arxiv.org/pdf/2605.30992v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "training-free non-collapsing router improves MoE inference",
+      "llm_evidence_cn": "无训练非坍缩路由器提升MoE推理",
+      "llm_evidence": "无训练非坍缩路由器提升MoE推理",
+      "canonical_evidence": "无训练非坍缩路由器提升MoE推理",
+      "llm_tldr_en": "Proposes a training-free router using eigenvectors to prevent expert collapse, enhancing SMoE inference efficiency without retraining.",
+      "llm_tldr_cn": "针对MoE推理中专家坍缩导致性能退化的问题，提出一种无训练的路由器——利用专家特征向量实现非坍缩路由。该方法无需重新训练或微调，直接应用于预训练模型即可缓解坍缩。实验表明，在多种SMoE模型上，该路由器在保持性能的同时降低了推理延迟，为高效MoE推理提供了高效、即插即用的方案。",
+      "llm_tldr": "针对MoE推理中专家坍缩导致性能退化的问题，提出一种无训练的路由器——利用专家特征向量实现非坍缩路由。该方法无需重新训练或微调，直接应用于预训练模型即可缓解坍缩。实验表明，在多种SMoE模型上，该路由器在保持性能的同时降低了推理延迟，为高效MoE推理提供了高效、即插即用的方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.06206v1",
+      "source": "arxiv",
+      "title": "Federation of Experts: Communication Efficient Distributed Inference for Large Language Models",
+      "abstract": "Mixture of experts has emerged as the primary mechanism for making Large Language Models (LLMs) computationally efficient. However, in distributed settings, communicating token embeddings between experts is a significant bottleneck.   We present the novel Federation of Experts (FoE) architecture. FoE restructures the MoE block of a transformer layer into multiple MoE clusters. Each cluster is responsible for only one of the KV heads and expert parallelism is applied between those experts. Between clusters, a sum synchronizes the post-attention residuals, which then drives routing and dispatch for the next MoE block. In a single-node setting, FoE completely eliminates all-to-all communication as all experts within a group are contained on the same GPU. In multi-node settings, FoE confines all-to-all communication to the intra-node fabric, thus significantly reducing communication overhead.   An implementation of FoE finds that on LongBench, FoE significantly improves inference throughput and latency in both single-node and multi-node settings, reducing the end-to-end forward-pass latency by up to 5.2x, TTFT by 3.62x, and TBT by 1.95x. It does so while achieving comparable generation quality to a mixture of experts model of the same size and training configuration.",
+      "authors": [
+        "Muhammad Shahir Abdurrahman",
+        "Chun Deng",
+        "Azalia Mirhoseini",
+        "Philip Levis"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-07T13:12:41+00:00",
+      "link": "https://arxiv.org/pdf/2605.06206v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Federation of Experts groups MoE clusters by KV heads to eliminate all-to-all communication",
+      "llm_evidence_cn": "专家联邦通过按KV头分组MoE集群消除全对全通信",
+      "llm_evidence": "专家联邦通过按KV头分组MoE集群消除全对全通信",
+      "canonical_evidence": "专家联邦通过按KV头分组MoE集群消除全对全通信",
+      "llm_tldr_en": "FoE restructures the MoE block into clusters per KV head and applies expert parallelism within clusters, eliminating all-to-all communication in single-node settings for efficient distributed inference.",
+      "llm_tldr_cn": "FoE将Transformer层中的MoE模块按照KV头重组为多个MoE集群，每个集群负责一个KV头，并在集群内应用专家并行。在单节点设置下完全消除全对全通信，显著降低分布式推理中的通信瓶颈，提升MoE模型推理效率。",
+      "llm_tldr": "FoE将Transformer层中的MoE模块按照KV头重组为多个MoE集群，每个集群负责一个KV头，并在集群内应用专家并行。在单节点设置下完全消除全对全通信，显著降低分布式推理中的通信瓶颈，提升MoE模型推理效率。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "kernel fusion techniques for grouped expert computation in MoE",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.08575v1",
+      "source": "arxiv",
+      "title": "Uncovering Intra-expert Activation Sparsity for Efficient Mixture-of-Expert Model Execution",
+      "abstract": "Mixture of Experts (MoE) architecture has become the standard for state-of-the-art large language models, owing to its computational efficiency through sparse expert activation. However, sparsity through finer expert granularity is becoming increasingly difficult to achieve due to fundamental training challenges such as expert collapse and load imbalance. In this work, we explore and leverage intra-expert activation sparsity as a complementary and underexplored dimension of sparsity in MoE models. Surprisingly, substantial intra-expert sparsity is readily available in existing pre-trained MoE models, without any modification to the activation function or model parameters, providing up to 90% sparsity within each expert without significant accuracy loss. We explore intra-expert activation sparsity across eight off-the-shelf MoE models ranging from 1B to 400B parameters, and extend the MoE execution pipeline of vLLM to leverage intra-expert activation sparsity by skipping the computations of inactive neurons, on top of its existing optimizations, achieving up to 2.5 times speedup in MoE layer execution and 1.2 times end-to-end speedup compared to the original dense vLLM baseline.",
+      "authors": [
+        "Jongseok Park",
+        "Sunga Kim",
+        "Zhenyu Gu",
+        "Ion Stoica",
+        "Alvin Cheung"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-09T00:34:55+00:00",
+      "link": "https://arxiv.org/pdf/2605.08575v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "intra-expert activation sparsity for efficient MoE execution",
+      "llm_evidence_cn": "利用专家内部激活稀疏性加速MoE推理",
+      "llm_evidence": "利用专家内部激活稀疏性加速MoE推理",
+      "canonical_evidence": "利用专家内部激活稀疏性加速MoE推理",
+      "llm_tldr_en": "Discovers and leverages up to 90% intra-expert activation sparsity in pretrained MoEs without modification, enabling efficient execution.",
+      "llm_tldr_cn": "现有MoE模型仅关注专家间的稀疏性，而忽略了专家内部也存在显著激活稀疏性。本文发现预训练MoE模型中无需修改即可获得高达90%的专家内稀疏度，并利用这一特性设计高效执行方案。实验表明，通过利用稀疏性可大幅减少计算量，且不损失模型精度，为MoE推理加速提供了新维度。",
+      "llm_tldr": "现有MoE模型仅关注专家间的稀疏性，而忽略了专家内部也存在显著激活稀疏性。本文发现预训练MoE模型中无需修改即可获得高达90%的专家内稀疏度，并利用这一特性设计高效执行方案。实验表明，通过利用稀疏性可大幅减少计算量，且不损失模型精度，为MoE推理加速提供了新维度。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.10933v1",
+      "source": "arxiv",
+      "title": "DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices",
+      "abstract": "While Mixture-of-Experts (MoE) scales model capacity without proportionally increasing computation, its massive total parameter footprint creates significant storage and memory-access bottlenecks, which hinder efficient end-side deployment that simultaneously requires high performance, low computational cost, and small storage overhead. To achieve these properties, we present DECO, a sparse MoE architecture designed to match the performance of dense Transformers under identical total parameter budgets and training tokens. DECO utilizes the differentiable and flexible ReLU-based routing enhanced by learnable expert-wise scaling, which adaptively balances the contributions of routed and shared experts. Furthermore, we introduce NormSiLU, an activation function that normalizes inputs prior to SiLU operators, producing a more stable trend of routed-expert activation ratio and a higher intrinsic sparsity level. We also identify an empirical advantage in using non-gated MLP experts with ReLU-based routing, indicating the possibility of MoE architecture simplification. Experiments demonstrate that DECO, activating only 20% of experts, matches dense performance and outperforms established MoE baselines. Our specialized acceleration kernel delivers a 3.00$\\times$ speedup on real hardware compared with dense inference. Codes and checkpoints will be released.",
+      "authors": [
+        "Chenyang Song",
+        "Weilin Zhao",
+        "Xu Han",
+        "Chaojun Xiao",
+        "Yingfa Chen",
+        "Zhiyuan Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-05-11T17:58:28+00:00",
+      "link": "https://arxiv.org/pdf/2605.10933v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "sparse MoE architecture for end-side devices improves inference efficiency",
+      "llm_evidence_cn": "面向终端设备的稀疏MoE架构提升推理效率",
+      "llm_evidence": "面向终端设备的稀疏MoE架构提升推理效率",
+      "canonical_evidence": "面向终端设备的稀疏MoE架构提升推理效率",
+      "llm_tldr_en": "Proposes DECO, a sparse MoE with ReLU routing and NormSiLU, achieving dense-comparable performance with low storage and memory access for efficient end-side inference.",
+      "llm_tldr_cn": "针对MoE模型参数巨大导致终端部署困难的问题，提出DECO稀疏MoE架构。采用可微ReLU路由和专家级缩放，并引入NormSiLU激活函数，在相同总参数下达到与稠密Transformer相当的性能。DECO显著减少了存储和内存访问开销，在终端设备上实现高效推理，实验证实了其在实际硬件上的加速效果。",
+      "llm_tldr": "针对MoE模型参数巨大导致终端部署困难的问题，提出DECO稀疏MoE架构。采用可微ReLU路由和专家级缩放，并引入NormSiLU激活函数，在相同总参数下达到与稠密Transformer相当的性能。DECO显著减少了存储和内存访问开销，在终端设备上实现高效推理，实验证实了其在实际硬件上的加速效果。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.10933v2",
+      "source": "arxiv",
+      "title": "DECO: Sparse Mixture-of-Experts with Dense-Comparable Performance on End-Side Devices",
+      "abstract": "While Mixture-of-Experts (MoE) scales model capacity without proportionally increasing computation, its massive total parameter footprint creates significant storage and memory-access bottlenecks, which hinder efficient end-side deployment that simultaneously requires high performance, low computational cost, and small storage overhead. To achieve these properties, we present DECO, a sparse MoE architecture designed to match the performance of dense Transformers under identical total parameter budgets and training tokens. DECO utilizes the differentiable and flexible ReLU-based routing enhanced by learnable expert-wise scaling, which adaptively balances the contributions of routed and shared experts. Furthermore, we introduce NormSiLU, an activation function that normalizes inputs prior to SiLU operators, producing a more stable trend of routed-expert activation ratio and a higher intrinsic sparsity level. We also identify an empirical advantage in using non-gated MLP experts with ReLU-based routing, indicating the possibility of MoE architecture simplification. Experiments demonstrate that DECO, activating only 20% of experts, matches dense performance and outperforms established MoE baselines. Our specialized acceleration kernel delivers a 3.00$\\times$ speedup on real hardware compared with dense inference. Codes and checkpoints are all available at https://github.com/thunlp/DECO.",
+      "authors": [
+        "Chenyang Song",
+        "Weilin Zhao",
+        "Xu Han",
+        "Chaojun Xiao",
+        "Yingfa Chen",
+        "Zhiyuan Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-05-11T17:58:28+00:00",
+      "link": "https://arxiv.org/pdf/2605.10933v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "end-side efficient MoE inference architecture",
+      "llm_evidence_cn": "面向端侧的高效MoE推理架构",
+      "llm_evidence": "面向端侧的高效MoE推理架构",
+      "canonical_evidence": "面向端侧的高效MoE推理架构",
+      "llm_tldr_en": "DECO is a sparse MoE architecture for end-side devices that matches dense model performance using differentiable ReLU routing and NormSiLU activation, reducing storage and computation.",
+      "llm_tldr_cn": "在端侧设备上部署MoE模型面临存储和内存访问瓶颈。DECO提出一种稀疏MoE架构，采用可微分ReLU路由和逐专家缩放自适应平衡路由专家与共享专家的贡献，并引入NormSiLU激活函数。实验表明，在相同参数预算下，DECO性能可与密集Transformer媲美，同时大幅降低存储和计算开销，实现高效推理。",
+      "llm_tldr": "在端侧设备上部署MoE模型面临存储和内存访问瓶颈。DECO提出一种稀疏MoE架构，采用可微分ReLU路由和逐专家缩放自适应平衡路由专家与共享专家的贡献，并引入NormSiLU激活函数。实验表明，在相同参数预算下，DECO性能可与密集Transformer媲美，同时大幅降低存储和计算开销，实现高效推理。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.11222v1",
+      "source": "arxiv",
+      "title": "ADMM-Q: An Improved Hessian-based Weight Quantizer for Post-Training Quantization of Large Language Models",
+      "abstract": "Quantization is an effective strategy to reduce the storage and computation footprint of large language models (LLMs). Post-training quantization (PTQ) is a leading approach for compressing LLMs. Popular weight quantization procedures, including GPTQ and RTN, suffer in model utility, especially at aggressive quantization levels (sub-4-bit). We propose ADMM-Q, a novel weight quantization algorithm that considers the layer-wise quantization problem. Our algorithm is based on a combinatorial variant of the Alternating Direction Method of Multipliers (ADMM). Our operator-splitting procedure updates weights continuously to minimize the layer-wise reconstruction error, while gradually enforcing the quantization constraints with convergence guarantees. We propose additional algorithmic enhancements (e.g., penalty scheduling, preconditioning, and a local search post-processing step) to make ADMM-Q efficient at LLM scale. ADMM-Q is modular and can be used as a drop-in replacement for any weight quantizer within existing quantization pipelines: ADMM-Q is fully composable with existing techniques including range clipping, learned or random rotations, and activation scaling. Using ADMM-Q in place of GPTQ on Qwen3-8B, we decrease WikiText-2 perplexity in: (i) the W3A16 weight-only setting (12.85 $\\rightarrow$ 10.06); (ii) the W4A8 SmoothQuant procedure (9.29 $\\rightarrow$ 8.68); and (iii) the W2A4KV4 SpinQuant procedure (66.11 $\\rightarrow$ 19.42).",
+      "authors": [
+        "Ryan Lucas",
+        "Mehdi Makni",
+        "Xiang Meng",
+        "Adam Deng",
+        "Rahul Mazumder"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-11T20:33:41+00:00",
+      "link": "https://arxiv.org/pdf/2605.11222v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Weight quantization algorithm for LLMs using ADMM-based optimization",
+      "llm_evidence_cn": "基于ADMM的大语言模型权重量化算法",
+      "llm_evidence": "基于ADMM的大语言模型权重量化算法",
+      "canonical_evidence": "基于ADMM的大语言模型权重量化算法",
+      "llm_tldr_en": "Proposes ADMM-Q, a weight quantization algorithm that uses a combinatorial variant of ADMM to minimize layer-wise reconstruction error, achieving better utility than GPTQ and RTN at sub-4-bit quantization.",
+      "llm_tldr_cn": "ADMM-Q提出一种基于交替方向乘子法（ADMM）组合变体的权重量化算法，通过算子分裂逐步强制量化约束并最小化逐层重构误差。在子4比特量化水平下，ADMM-Q显著优于GPTQ和RTN等方法，为大语言模型后训练量化提供了新的高效工具。",
+      "llm_tldr": "ADMM-Q提出一种基于交替方向乘子法（ADMM）组合变体的权重量化算法，通过算子分裂逐步强制量化约束并最小化逐层重构误差。在子4比特量化水平下，ADMM-Q显著优于GPTQ和RTN等方法，为大语言模型后训练量化提供了新的高效工具。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.11537v1",
+      "source": "arxiv",
+      "title": "Fast MoE Inference via Predictive Prefetching and Expert Replication",
+      "abstract": "The Mixture of Experts (MoE) architecture has become a fundamental building block in state-of-the-art large language models (LLMs), improving domain-specific expertise in LLMs and scaling model capacity without proportionally increasing their computational overhead. However, MoE inference often suffers from suboptimal GPU utilization, load imbalance, and elevated latency arising from multiple tokens waiting on the same experts for their computation which arises from sparsity of expert activation. To address these challenges, we propose a dynamic expert replication strategy that predicts which experts are likely to be overloaded and replicates them for upcoming batches of tokens. The replicated experts process batch tokens concurrently across layers, which leads to improved parallelism, shorter GPU idle time, and significantly faster inference. Experimental evaluations conducted on large-scale MoE models, including Switch-base-128 and Switch-base-256, demonstrate that our method achieves near-complete GPU utilization (approx 100%), leading to upto 3x improvement in inference speed while preserving approximately 90-95% of the performance of baseline architectures",
+      "authors": [
+        "Ankit Jyothish",
+        "Ali Jannesari",
+        "Aishwarya Sarkar",
+        "Joseph Zuber"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-12T05:03:53+00:00",
+      "link": "https://arxiv.org/pdf/2605.11537v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "MoE inference acceleration via expert replication",
+      "llm_evidence_cn": "通过专家复制加速MoE推理",
+      "llm_evidence": "通过专家复制加速MoE推理",
+      "canonical_evidence": "通过专家复制加速MoE推理",
+      "llm_tldr_en": "Proposes dynamic expert replication and predictive prefetching to mitigate load imbalance and reduce latency in MoE inference, demonstrating significant speedup.",
+      "llm_tldr_cn": "MoE推理常因专家负载不均导致延迟。本文提出动态专家复制策略，预测过载专家并复制以并行处理后续批次的token，同时结合预测预取技术。实验表明该方法有效降低了推理延迟，提升了GPU利用率，为MoE高效推理提供了实用解决方案。",
+      "llm_tldr": "MoE推理常因专家负载不均导致延迟。本文提出动态专家复制策略，预测过载专家并复制以并行处理后续批次的token，同时结合预测预取技术。实验表明该方法有效降低了推理延迟，提升了GPU利用率，为MoE高效推理提供了实用解决方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.13997v1",
+      "source": "arxiv",
+      "title": "HodgeCover: Higher-Order Topological Coverage Drives Compression of Sparse Mixture-of-Experts",
+      "abstract": "Sparse Mixture-of-Experts (MoE) layers route tokens through a handful of experts, and learning-free compression of these layers reduces inference cost without retraining. A subtle obstruction blocks every existing compressor in this family: three experts can each be pairwise compatible yet form an irreducible cycle when merged together, so any score that ranks experts on pairwise signals is structurally blind to which triples are jointly mergeable. We show the obstruction is a precise mathematical object, the harmonic kernel of the simplicial Laplacian on a 2-complex whose vertices are experts, whose edges carry KL merge barriers, and whose faces carry triplet barriers; Hodge-decomposing the edge-barrier signal isolates the kernel exactly. We turn the diagnostic into a selection objective: HodgeCover greedily covers the harmonic-critical edges and triplet-critical triangles, and a hybrid variant of HodgeCover pairs it with off-the-shelf weight pruning on survivors. On three open-weight Sparse MoE backbones under aggressive expert reduction, HodgeCover matches state-of-the-art learning-free baselines on the expert-reduction axis, leads on the aggressive-compression frontier of the hybrid axis, and uniquely balances retained mass across all four Hodge components. These results show that exposing the harmonic kernel of a learned MoE structure changes which compressor wins at the regime that matters most.",
+      "authors": [
+        "Tao Zhong",
+        "Dongzhe Zheng",
+        "Christine Allen-Blanchette"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-05-13T18:07:12+00:00",
+      "link": "https://arxiv.org/pdf/2605.13997v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "compression reduces MoE inference cost",
+      "llm_evidence_cn": "压缩降低MoE推理成本",
+      "llm_evidence": "压缩降低MoE推理成本",
+      "canonical_evidence": "压缩降低MoE推理成本",
+      "llm_tldr_en": "HodgeCover uses higher-order topological coverage to identify mergeable expert sets in MoE, enabling learning-free compression that reduces inference cost.",
+      "llm_tldr_cn": "稀疏混合专家（MoE）模型通过令牌路由到少数专家来降低计算量，但现有压缩方法只能基于两两专家兼容性进行合并，忽略了三个专家形成不可约循环的障碍。本文提出HodgeCover，利用高阶拓扑覆盖和霍奇分解，在单纯复形上识别可合并的专家集合，从而无需重新训练即可压缩MoE层，显著降低推理成本。",
+      "llm_tldr": "稀疏混合专家（MoE）模型通过令牌路由到少数专家来降低计算量，但现有压缩方法只能基于两两专家兼容性进行合并，忽略了三个专家形成不可约循环的障碍。本文提出HodgeCover，利用高阶拓扑覆盖和霍奇分解，在单纯复形上识别可合并的专家集合，从而无需重新训练即可压缩MoE层，显著降低推理成本。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.01007v1",
+      "source": "arxiv",
+      "title": "Beyond Task-Agnostic: Task-Aware Grouping for Communication-Efficient Multi-Task MoE Inference",
+      "abstract": "Sparsely activated Mixture-of-Experts (MoE) models scale capacity via conditional computation, but distributed inference suffers from cross-GPU expert communication and routing-induced load imbalance. Existing placement methods reduce this cost by co-locating frequently co-activated experts; however, they derive a single deployment plan from globally aggregated routing traces, thereby averaging away the heterogeneous, task-specific co-activation patterns that actually drive communication in multi-task serving. We observe that expert co-activation is strongly task-conditioned: pairs tightly coupled in one task family are often uncorrelated in another, so effective deployment should group experts by task-aware co-activation rather than by a task-agnostic average. Based on this insight, we propose \\emph{Task-Aware Coactivation Grouping} (TACG), a deployment-time framework that uses family-specific dispatch and co-activation traces to derive per-expert task-family preferences, reweights the co-activation graph so that intra-family locality dominates grouping, and assigns each expert to a primary GPU under exact capacity constraints. To keep the static placement robust under online workload skew, we further introduce \\emph{Generic Expert Shared Replication} (GESR), a lightweight companion that identifies generic experts with consistently central co-activation profiles, replicates them across a small set of secondary GPUs, and applies locality- and load-aware selection at serving time. Experiments on three representative open-source MoE models demonstrate that our framework reduces the average communication cost by 31.39\\% over the baseline, while preserving an average Jain fairness index of 0.9975. This advantage persists even under severe distribution shifts in the inference data, consistently outperforming strong baselines.",
+      "authors": [
+        "Zhiyao Xu",
+        "Aoxue Liu",
+        "Zhanjie Ding",
+        "Dan Zhao",
+        "Yong Jiang",
+        "Qing Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-31T04:51:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.01007v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "task-aware expert grouping for communication-efficient MoE inference",
+      "llm_evidence_cn": "面向通信高效MoE推理的任务感知专家分组",
+      "llm_evidence": "面向通信高效MoE推理的任务感知专家分组",
+      "canonical_evidence": "面向通信高效MoE推理的任务感知专家分组",
+      "llm_tldr_en": "This paper proposes task-aware grouping of experts in MoE models to reduce cross-GPU communication during multi-task inference. It observes that expert co-activation is task-specific, and groups experts based on task-aware co-activation patterns rather than global averages, improving communication efficiency.",
+      "llm_tldr_cn": "本文针对多任务MoE推理中的跨GPU专家通信和负载不均衡问题，提出任务感知的专家分组方法。现有方法基于全局路由轨迹进行专家共置，忽略了不同任务间异质的共激活模式。作者发现专家共激活强烈依赖于任务，因此提出根据任务感知的共激活模式动态分组专家，而非全局平均。实验表明该方法显著减少通信开销，提高推理吞吐量，适用于多任务场景下的MoE模型部署。",
+      "llm_tldr": "本文针对多任务MoE推理中的跨GPU专家通信和负载不均衡问题，提出任务感知的专家分组方法。现有方法基于全局路由轨迹进行专家共置，忽略了不同任务间异质的共激活模式。作者发现专家共激活强烈依赖于任务，因此提出根据任务感知的共激活模式动态分组专家，而非全局平均。实验表明该方法显著减少通信开销，提高推理吞吐量，适用于多任务场景下的MoE模型部署。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "grouped kernel decoding for moe models",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ]
+}
