@@ -1,0 +1,338 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-04T21:56:02.940354+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2606.04980v1",
+      "source": "arxiv",
+      "title": "AlphaQ: Calibration-Free Bit Allocation for Mixture-of-Experts Quantization",
+      "abstract": "Mixture-of-Experts (MoE) architectures scale model capacity through sparse expert activation, but their deployment remains memory-bound because all expert weights must reside in memory. Mixed-precision quantization can substantially reduce this footprint by assigning different bit-widths to different experts. Existing approaches, however, typically rely on calibration data to estimate expert importance and determine bit allocation. For frontier MoE LLMs, the original training data, and hence the true training distribution, is proprietary and inaccessible. As a result, calibration sets are inevitably imperfect surrogates, and this can misestimate expert utilization and lead to suboptimal bit allocation. Motivated by the substantial cross-expert quality variability observed in modern MoE models, and by the success of Heavy-Tailed Self-Regularization (HT-SR) theory at predicting neural network model quality without access to training or testing data, we propose AlphaQ, a calibration-free bit-allocation method for MoE quantization. AlphaQ draws on HT-SR theory and follows a simple principle: experts with more heavy-tailed weight spectra are typically better trained and hence should receive higher bit-widths, while experts with weaker heavy-tailed structure can be quantized more aggressively. AlphaQ operationalizes this principle by measuring expert-wise spectral heavy-tailedness and solving a budget-constrained optimization problem that minimizes total quantization error under a global bit-budget constraint. Across several MoE models, AlphaQ consistently outperforms calibration-based baselines under matched bit budgets. Notably, on Qwen1.5-MoE, AlphaQ achieves near full-precision accuracy with an average expert precision of only 3.5 bits, while delivering more than 4$\\times$ memory compression. Our code is available at https://github.com/Superone77/AlphaQ.",
+      "authors": [
+        "Wanqi Yang",
+        "Yuexiao Ma",
+        "Alexander Conzelmann",
+        "Xiawu Zheng",
+        "Michael W. Mahoney",
+        "T. Konstantin Rusch",
+        "Shiwei Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-03T15:03:18+00:00",
+      "link": "https://arxiv.org/pdf/2606.04980v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "MoE weight quantization with calibration-free bit allocation",
+      "llm_evidence_cn": "MoE权重量化的无校准位分配",
+      "llm_evidence": "MoE权重量化的无校准位分配",
+      "canonical_evidence": "MoE权重量化的无校准位分配",
+      "llm_tldr_en": "AlphaQ proposes a calibration-free mixed-precision quantization method for MoE LLMs that leverages cross-expert weight distribution statistics to allocate bit-widths, reducing memory footprint without requiring original training data.",
+      "llm_tldr_cn": "混合专家（MoE）大型语言模型部署受限于内存带宽，而现有混合精度量化方法依赖校准数据，但真实训练数据往往无法获取。本文提出AlphaQ，一种无需校准数据的位分配方法，通过分析专家间权重分布统计量自动分配位宽，有效降低模型内存占用。实验表明，该方法在保持高精度的同时显著压缩模型大小，为MoE模型高效部署提供了实用方案。",
+      "llm_tldr": "混合专家（MoE）大型语言模型部署受限于内存带宽，而现有混合精度量化方法依赖校准数据，但真实训练数据往往无法获取。本文提出AlphaQ，一种无需校准数据的位分配方法，通过分析专家间权重分布统计量自动分配位宽，有效降低模型内存占用。实验表明，该方法在保持高精度的同时显著压缩模型大小，为MoE模型高效部署提供了实用方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29756v1",
+      "source": "arxiv",
+      "title": "LFQ: Logit-aware Final-block Quantization for Boosting the Generation Quality of Low-Bit Quantized LLMs",
+      "abstract": "As large language models continue to scale, low-bit weight-only post-training quantization (PTQ) offers a practical solution to their memory-efficient deployment. Although block-wise PTQ is capable of matching the full-precision (FP) baseline on basic language modeling and understanding, its quality is degraded for generative tasks -- especially at longer responses and extended chains of thought, which is critical in boosting task accuracy. We attribute this shortfall to two factors: (i) the omission of the unembedding layer (the LM head) in block-wise optimization and (ii) the reliance on the mean squared error (MSE) objective. Both factors cause the token probability distribution of the quantized model to misalign with that of the FP model, yielding notable accuracy drops on text generation benchmarks. To rectify the discrepancy, we introduce Logit-aware Final-block Quantization (LFQ), a simple yet effective enhancement to block-wise PTQ that quantizes the final Transformer block by minimizing the cross-entropy between the logits of the FP model and those of its quantized counterpart. By aligning token probabilities at the logit level in the final block, LFQ consistently improves the accuracy of complex generation tasks over state-of-the-art block-wise PTQ across diverse model families, while maintaining parity with FP baselines on language modeling and understanding.",
+      "authors": [
+        "Jung Hyun Lee",
+        "June Yong Yang",
+        "Jungwook Choi",
+        "Eunho Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-28T11:02:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.29756v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "low-bit weight quantization for LLMs with logit-aware final-block optimization",
+      "llm_evidence_cn": "面向大语言模型的低比特权重量化，结合logit感知最终块优化",
+      "llm_evidence": "面向大语言模型的低比特权重量化，结合logit感知最终块优化",
+      "canonical_evidence": "面向大语言模型的低比特权重量化，结合logit感知最终块优化",
+      "llm_tldr_en": "Proposes LFQ, a logit-aware final-block post-training quantization method that improves generation quality of low-bit quantized LLMs by including unembedding layer and using KL divergence objective.",
+      "llm_tldr_cn": "针对低比特量化LLM的生成质量下降问题，提出LFQ方法，将未嵌入层纳入块优化并使用KL散度目标，使量化模型的输出分布更对齐全精度模型。实验表明，LFQ在多个生成任务上显著提升了低比特量化LLM的质量。",
+      "llm_tldr": "针对低比特量化LLM的生成质量下降问题，提出LFQ方法，将未嵌入层纳入块优化并使用KL散度目标，使量化模型的输出分布更对齐全精度模型。实验表明，LFQ在多个生成任务上显著提升了低比特量化LLM的质量。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.00735v1",
+      "source": "arxiv",
+      "title": "ViBE: Co-Optimizing Workload Skew and Hardware Variability for MoE Serving",
+      "abstract": "In distributed Mixture-of-Experts (MoE) inference, input-dependent token routing interacts with GPU performance variability to create persistent stragglers under synchronized execution, where the slowest GPU determines layer latency. This performance variability is inherent to modern accelerators: manufacturing variation, power limits, and thermal conditions introduce measurable execution-time differences across nominally identical GPUs. The core challenge is that MoE execution-time imbalance arises from the interaction of workload skew and hardware asymmetry. Token routing produces uneven and layer-varying expert loads, while GPU throughput depends on device-specific operating characteristics and workload intensity. Prior work mitigates routing skew but assumes homogeneous hardware, optimizing token balance rather than execution latency. As a result, even balanced token assignments can leave hardware-induced stragglers unaddressed. Thus, we propose Variability-Informed Binning of Experts (ViBE), a hardware-aware expert placement framework that minimizes execution-time imbalance across GPUs. ViBE combines per-GPU performance modeling with expert activation profiling to assign high-load experts to faster devices and low-load experts to slower ones, reducing layer-level stragglers without modifying model semantics or hardware. Because both workload characteristics and effective GPU throughput can shift across serving conditions, ViBE supports lightweight recalibration under workload/performance drift to refresh its routing and performance estimates when needed. Results show that ViBE consistently reduces execution-time imbalance and improves SLO attainment by 14%, while lowering P90 TTFT by up to 45%. We further show that the impact of hardware variability increases at scale, making variability-aware placement important for efficient, high-utilization LLM serving.",
+      "authors": [
+        "Seokjin Go",
+        "Marko Scrbak",
+        "Ephrem Wu",
+        "Srilatha Manne",
+        "Divya Mahajan"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-05-30T13:57:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.00735v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Addresses MoE inference efficiency by handling workload skew and hardware variability",
+      "llm_evidence_cn": "通过处理负载倾斜和硬件变异性来提升MoE推理效率",
+      "llm_evidence": "通过处理负载倾斜和硬件变异性来提升MoE推理效率",
+      "canonical_evidence": "通过处理负载倾斜和硬件变异性来提升MoE推理效率",
+      "llm_tldr_en": "ViBE co-optimizes workload skew and hardware variability for efficient distributed MoE inference, reducing straggler effects.",
+      "llm_tldr_cn": "ViBE针对分布式MoE推理中的负载倾斜与GPU性能变异性问题，提出联合优化方法。通过感知硬件差异的调度策略，有效减少同步执行中的拖尾效应，提升整体推理吞吐量。实验表明该方法在多种MoE模型上显著降低延迟，为大规模MoE部署提供实用方案。",
+      "llm_tldr": "ViBE针对分布式MoE推理中的负载倾斜与GPU性能变异性问题，提出联合优化方法。通过感知硬件差异的调度策略，有效减少同步执行中的拖尾效应，提升整体推理吞吐量。实验表明该方法在多种MoE模型上显著降低延迟，为大规模MoE部署提供实用方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.29350v1",
+      "source": "arxiv",
+      "title": "ConMoE: Expert-Pool Consolidation via Prototype Reassignment for MoE Compression",
+      "abstract": "Mixture-of-Experts (MoE) language models reduce per-token computation but still require storing and serving all experts, making deployment memory-intensive. Existing post-training compression methods mainly shrink this cost by pruning experts or merging their weights. We formulate post-training MoE compression as expert-pool consolidation: retaining a smaller set of pretrained experts as reusable prototypes and deterministically remapping each original expert reference to one selected prototype. This view separates the reduced expert pool from the reuse structure that represents the original expert slots, and allows prototype sharing within local layer scopes while preserving the original router interface. We propose ConMoE, a train-free prototype remapping framework that selects retained experts using calibration-based contribution and replaceability signals, then redirects original expert calls to the selected prototypes without weight updates or post-compression fine-tuning. Experiments on three pretrained MoE language models show that ConMoE matches or outperforms strong pruning and merging baselines in several settings, achieving the best average score on deepseek-moe-16b-base at both 25% and 50% routed-expert reduction, while remaining competitive on Qwen3-30B-A3B and OLMoE-1B-7B-0125. Ablations indicate that deterministic reassignment is the most stable component, whereas broader cross-layer sharing and post-hoc weight fusion are model-dependent.",
+      "authors": [
+        "Yilun Yao",
+        "Jiaming Pan",
+        "Elsie Dai",
+        "Peizhuang Cong",
+        "Yaoming Li",
+        "Tong Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-28T04:44:22+00:00",
+      "link": "https://arxiv.org/pdf/2605.29350v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "MoE compression by consolidating expert pool, reducing memory for inference",
+      "llm_evidence_cn": "通过合并专家池压缩MoE，减少推理内存",
+      "llm_evidence": "通过合并专家池压缩MoE，减少推理内存",
+      "canonical_evidence": "通过合并专家池压缩MoE，减少推理内存",
+      "llm_tldr_en": "ConMoE formulates MoE compression as expert-pool consolidation, retaining a smaller set of prototype experts and remapping original references, reducing memory footprint while preserving the router interface and inference structure.",
+      "llm_tldr_cn": "混合专家模型在推理时需加载全部专家，内存开销大。本文提出ConMoE，将后训练压缩视为专家池合并：保留少量预训练专家作为可复用原型，将原始专家引用确定性映射至原型，从而在不改变路由接口的前提下显著减少参数量。该方法无需训练，通过原型共享有效降低内存占用，同时保持MoE架构的推理特性。",
+      "llm_tldr": "混合专家模型在推理时需加载全部专家，内存开销大。本文提出ConMoE，将后训练压缩视为专家池合并：保留少量预训练专家作为可复用原型，将原始专家引用确定性映射至原型，从而在不改变路由接口的前提下显著减少参数量。该方法无需训练，通过原型共享有效降低内存占用，同时保持MoE架构的推理特性。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.28283v1",
+      "source": "arxiv",
+      "title": "PrunePath: Towards Highly Structured Sparse Language Models",
+      "abstract": "Feed-forward networks (FFNs) dominate the parameter count and computation of modern language models, yet existing pruning methods often struggle to convert sparsity into hardware-friendly inference efficiency gains. We introduce \\textbf{PrunePath}, a budget-adaptive structured sparsification framework for FFN layers. Built on MoEfication, PrunePath replaces independent expert-wise thresholding with a softmax-normalized routing distribution and activates important experts under a cumulative-mass threshold. This formulation imposes a token-level probability budget, enabling adaptive expert counts and a direct inference-time sparsity knob from a single checkpoint. Across NLU, NLG, and instruction-tuning evaluations, PrunePath achieves a favorable sparsity--performance trade-off compared with existing static pruning and MoEfication-based methods. We further implement Triton kernels for KV-cache decoding to translate the resulting structured sparsity into practical memory savings and measurable decoding-speed improvements. These results demonstrate the superior performance of PrunePath for building highly sparse, deployment-friendly large language models.",
+      "authors": [
+        "Zhexuan Gu",
+        "Zixun Fu",
+        "Yancheng Yuan"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-05-27T10:29:52+00:00",
+      "link": "https://arxiv.org/pdf/2605.28283v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Uses MoEfication and structured sparsification for efficient FFN inference",
+      "llm_evidence_cn": "利用MoEfication和结构化稀疏化实现高效FFN推理",
+      "llm_evidence": "利用MoEfication和结构化稀疏化实现高效FFN推理",
+      "canonical_evidence": "利用MoEfication和结构化稀疏化实现高效FFN推理",
+      "llm_tldr_en": "PrunePath introduces budget-adaptive structured sparsification for FFN layers, using a softmax routing distribution for adaptive expert activation.",
+      "llm_tldr_cn": "PrunePath针对FFN层提出预算自适应结构化稀疏框架，基于MoEfication思想，用softmax归一化路由分布替代独立专家阈值，实现自适应专家激活和推理时稀疏度控制。在NLU、NLG等任务上达到良好的稀疏-性能权衡，将结构稀疏转化为硬件友好的推理加速。",
+      "llm_tldr": "PrunePath针对FFN层提出预算自适应结构化稀疏框架，基于MoEfication思想，用softmax归一化路由分布替代独立专家阈值，实现自适应专家激活和推理时稀疏度控制。在NLU、NLG等任务上达到良好的稀疏-性能权衡，将结构稀疏转化为硬件友好的推理加速。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.00573v1",
+      "source": "arxiv",
+      "title": "LASER: Loss-Aware Singular-value Decomposition and Rank Allocation for Efficient Low-Precision Vision-Language Models",
+      "abstract": "Vision-language models (VLMs) deliver strong multimodal reasoning capabilities, but their large computational cost and high parameter counts make deployment challenging on resource-constrained devices. Low-rank decomposition has emerged as a promising compression technique, yet existing methods often optimize local matrix reconstruction error, rely on uniform or heuristic rank allocation, and focus mainly on attention projections while leaving feed-forward networks underexplored. In this paper, we propose~\\textit{LASER} (\\textbf{L}oss-\\textbf{A}ware \\textbf{S}ingular-value d\\textbf{E}composition and \\textbf{R}ank allocation), a low-rank compression framework for efficient low-precision VLM inference. LASER derives a curvature-weighted SVD objective from a second-order approximation of the model loss and uses Kronecker-factored Fisher information to guide decomposition toward downstream performance rather than reconstruction alone. We further introduce a loss-aware cross-layer rank allocation strategy based on calibration gradients, enabling more effective parameter budgeting across layers. Finally, we extend low-rank compression to FFN layers through a hybrid scheme that combines SVD with quantization. The evaluation results show that LASER achieves more than $2.3\\times$ decoding speedup over previous work while preserving strong accuracy under low-precision inference.",
+      "authors": [
+        "Haiyu Wang",
+        "Yutong Wang",
+        "Leshu Li",
+        "Yihui Ren",
+        "Sai Qian Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-30T06:53:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.00573v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "low-precision VLM inference via loss-aware SVD and rank allocation",
+      "llm_evidence_cn": "通过损失感知的SVD和秩分配实现低精度VLM推理",
+      "llm_evidence": "通过损失感知的SVD和秩分配实现低精度VLM推理",
+      "canonical_evidence": "通过损失感知的SVD和秩分配实现低精度VLM推理",
+      "llm_tldr_en": "Proposes LASER, a low-rank compression framework for efficient low-precision VLM inference using loss-aware SVD and rank allocation, achieving speedup with minimal accuracy loss.",
+      "llm_tldr_cn": "现有视觉语言模型压缩方法忽视前馈网络且秩分配不灵活。本文提出LASER框架，通过损失感知的奇异值分解和自适应秩分配，同时压缩注意力投影和前馈网络，实现高效低精度推理。实验表明在多个VLM基准上LASER在保持精度的同时显著降低计算量和参数量，为VLM部署提供了有效方案。",
+      "llm_tldr": "现有视觉语言模型压缩方法忽视前馈网络且秩分配不灵活。本文提出LASER框架，通过损失感知的奇异值分解和自适应秩分配，同时压缩注意力投影和前馈网络，实现高效低精度推理。实验表明在多个VLM基准上LASER在保持精度的同时显著降低计算量和参数量，为VLM部署提供了有效方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.01062v1",
+      "source": "arxiv",
+      "title": "DAG-MoE: From Simple Mixture to Structural Aggregation in Mixture-of-Experts",
+      "abstract": "Mixture-of-Experts (MoE) models have become a leading approach for decoupling parameter count from computational cost in large language models, yet effectively scaling MoE performance remains a challenge. Prior work shows that fine-grained experts enlarge the space of expert combinations and improve flexibility, but they also impose substantial routing overhead, creating a new scalability bottleneck. In this paper, we explore a complementary axis for scaling -- how expert outputs are aggregated. We theoretically show that replacing the standard weighted-summation aggregation with structural aggregation expands the expert-combination space without altering the experts or router, and enables possible multi-step reasoning within a single MoE layer. To this end, we propose DAG-MoE, a sparse MoE framework that employs a lightweight module to automatically learn the optimal aggregation structure among the selected experts. Extensive experiments under standard language modeling settings show that DAG-MoE consistently improves performance in both pretraining and fine-tuning, surpassing traditional MoE baselines.",
+      "authors": [
+        "Jiarui Feng",
+        "Hanqing Zeng",
+        "Karish Grover",
+        "Ruizhong Qiu",
+        "Yinglong Xia",
+        "Qiang Zhang",
+        "Qifan Wang",
+        "Ren Chen",
+        "Dongqi Fu",
+        "Jiayi Liu",
+        "Zhoukai Zhao",
+        "Xiangjun Fan",
+        "Benyu Zhang",
+        "Yixin Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-31T07:08:16+00:00",
+      "link": "https://arxiv.org/pdf/2606.01062v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Proposes structural aggregation for MoE models, improving efficiency",
+      "llm_evidence_cn": "提出MoE模型的结构化聚合方法，提升推理效率",
+      "llm_evidence": "提出MoE模型的结构化聚合方法，提升推理效率",
+      "canonical_evidence": "提出MoE模型的结构化聚合方法，提升推理效率",
+      "llm_tldr_en": "DAG-MoE replaces weighted summation with structural aggregation in MoE layers, expanding expert combinations and enabling multi-step reasoning.",
+      "llm_tldr_cn": "DAG-MoE针对MoE模型的标准加权求和聚合方式，提出结构化聚合方法，在不改变专家和路由器的情况下扩展专家组合空间，并支持单层内的多步推理。理论证明该方法等价于扩大专家组合空间，实验表明在多项任务上取得更好性能-效率权衡。",
+      "llm_tldr": "DAG-MoE针对MoE模型的标准加权求和聚合方式，提出结构化聚合方法，在不改变专家和路由器的情况下扩展专家组合空间，并支持单层内的多步推理。理论证明该方法等价于扩大专家组合空间，实验表明在多项任务上取得更好性能-效率权衡。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.03444v1",
+      "source": "arxiv",
+      "title": "PRISM: Synergizing Vision Foundation Models via Self-organized Expert Specialization",
+      "abstract": "Unifying the complementary strengths of diverse Vision Foundation Models (VFMs) into a single efficient model is highly desirable but challenged by the negative transfer inherent in monolithic distillation. To address these feature conflicts, we introduce \\textbf{PRISM}, a novel dual-stream Mixture-of-Experts (MoE) framework that synergizes VFMs via modular specialization. We propose a two-stage paradigm: (1) expertise deconstruction, where a teacher-conditional router guides experts to specialize in distinct representational subspaces to mitigate interference, followed by (2) dynamic recomposition, where the router learns to assemble these experts into tailored computational pathways for downstream tasks. Experiments on PASCAL-Context and NYUD-v2 show that \\textbf{PRISM} establishes a new state of the art, validating that sparse, emergent specialization is a scalable approach for integrating diverse visual knowledge.",
+      "authors": [
+        "Ying Tang",
+        "Dong Li",
+        "Youjia Zhang",
+        "Zikai Song",
+        "Junqing Yu",
+        "Wei Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-02T10:28:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.03444v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "mixture of experts inference technique via expert specialization",
+      "llm_evidence_cn": "通过专家专门化的混合专家推理技术",
+      "llm_evidence": "通过专家专门化的混合专家推理技术",
+      "canonical_evidence": "通过专家专门化的混合专家推理技术",
+      "llm_tldr_en": "PRISM introduces a dual-stream MoE framework for synergizing vision foundation models via self-organized expert specialization, enabling efficient inference by dynamically routing to specialized experts.",
+      "llm_tldr_cn": "现有方法在融合多个视觉基础模型时面临负迁移问题。PRISM提出双流混合专家框架，通过教师条件路由引导专家专门化，并在下游任务中动态重组专家路径。实验表明该方法有效缓解特征冲突，并提升了计算效率。",
+      "llm_tldr": "现有方法在融合多个视觉基础模型时面临负迁移问题。PRISM提出双流混合专家框架，通过教师条件路由引导专家专门化，并在下游任务中动态重组专家路径。实验表明该方法有效缓解特征冲突，并提升了计算效率。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
