@@ -1,0 +1,175 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-05T21:39:36.916231+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.05429v1",
+      "source": "arxiv",
+      "title": "Minimizing the Hidden Cost of Scales: Graph-Guided Ultra-Low-Bit Quantization for Large Language Models",
+      "abstract": "Post-training quantization (PTQ) is critical for the efficient deployment of large language models (LLMs). Recent ultra-low-bit PTQ methods rely on rigid weight-saliency assumptions or position heuristics, introducing substantial hidden scaling overhead. We propose SAGE-PTQ (Saliency-Aware Graph-guided Efficient PTQ), a novel ultra-low-bit quantization framework for LLMs that minimizes hidden scaling cost. SAGE-PTQ separates salient and unsalient weights using distributional statistics, then models subsampled unsalient weights as a sparse graph to estimate the optimal number of groups per layer. SAGE-PTQ applies dual-mode quantization, assigning multi-bit precision to salient weights and binarizing unsalient weights. To reduce scaling overhead, SAGE-PTQ uses one per-channel scale for salient weights and one scalar per unsalient group. Finally, SAGE-PTQ implements adaptive saliency thresholding to select the optimal saliency ratio per matrix. SAGE-PTQ achieves 1.03 weight bits and only 0.004 scaling bits per matrix on average, outperforming state-of-the-art methods such as BiLLM and PB-LLM. On LLaMA-3-8B, SAGE-PTQ achieves 6.74 WikiText2 perplexity, compared to 55.8 for BiLLM, while using less than 50% of BiLLM's GPU memory. On LLaMA-2-70B, SAGE-PTQ provides 1.5x faster decoding on one NVIDIA L40 GPU, demonstrating practical inference efficiency.",
+      "authors": [
+        "Rayyan Abdalla",
+        "Amir Hussein",
+        "Min Wu",
+        "Dinesh Manocha"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-03T20:51:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.05429v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "weight quantization for large language models",
+      "llm_evidence_cn": "大语言模型的权重量化",
+      "llm_evidence": "大语言模型的权重量化",
+      "canonical_evidence": "大语言模型的权重量化",
+      "llm_tldr_en": "Proposes SAGE-PTQ, a graph-guided ultra-low-bit quantization framework for LLMs that minimizes hidden scaling cost and applies dual-mode quantization.",
+      "llm_tldr_cn": "大语言模型部署中后训练量化至关重要，但现有超低位方法依赖刚性假设，引入隐藏缩放开销。本文提出SAGE-PTQ，通过分布统计分离显著与非显著权重，对非显著权重建模为稀疏图以估计每层最优分组数，并采用双模量化：显著权重多比特，非显著权重二值化。实验表明该方法在保持性能的同时显著降低缩放成本，为LLM高效部署提供新方案。",
+      "llm_tldr": "大语言模型部署中后训练量化至关重要，但现有超低位方法依赖刚性假设，引入隐藏缩放开销。本文提出SAGE-PTQ，通过分布统计分离显著与非显著权重，对非显著权重建模为稀疏图以估计每层最优分组数，并采用双模量化：显著权重多比特，非显著权重二值化。实验表明该方法在保持性能的同时显著降低缩放成本，为LLM高效部署提供新方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.05688v1",
+      "source": "arxiv",
+      "title": "Value-and-Structure Alignment for Routing-Consistent Quantization of Mixture-of-Experts Models",
+      "abstract": "Mixture-of-Experts (MoE) models scale foundation models efficiently by activating only a subset of experts for each token, but their large number of expert parameters still makes quantization essential for practical deployment. Unlike dense models, however, MoE models are sensitive to routing instability: small quantization-induced perturbations can change the top-$k$ expert selection, altering the computation path and degrading model quality. We propose Value-and-Structure Routing Alignment for Quantization (VSRAQ), a MoE-specific post-training quantization objective that preserves pre-quantization expert-selection behavior under quantization. VSRAQ combines two complementary objectives that jointly preserve expert-selection behavior: value alignment, which matches routing-relevant logits or scores, and structure alignment, which preserves expert ordering and top-$k$ decision boundaries. By maintaining routing consistency, VSRAQ reduces quantization-induced degradation without introducing any inference-time overhead and can be integrated into existing quantization frameworks. Experiments on recent MoE foundation models show that VSRAQ improves expert-selection consistency and consistently outperforms reconstruction-only and router-aware baselines.",
+      "authors": [
+        "Hancheol Park",
+        "Geonho Lee",
+        "Tairen Piao",
+        "Tae-Ho Kim"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-06-04T04:13:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.05688v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "routing-consistent quantization for MoE models",
+      "llm_evidence_cn": "面向MoE模型的路由一致量化",
+      "llm_evidence": "面向MoE模型的路由一致量化",
+      "canonical_evidence": "面向MoE模型的路由一致量化",
+      "llm_tldr_en": "Proposes VSRAQ, a post-training quantization method for MoE models that preserves pre-quantization expert selection behavior, addressing routing instability caused by quantization noise.",
+      "llm_tldr_cn": "针对MoE模型量化导致的路由不稳定问题，提出价值与结构对齐量化方法VSRAQ。该方法通过联合优化两个互补目标，保持量化前后专家选择行为的一致性。实验表明VSRAQ在低比特量化下显著优于现有方法，有效保护了MoE模型的结构完整性。该工作为MoE模型的低精度部署提供了关键保障。",
+      "llm_tldr": "针对MoE模型量化导致的路由不稳定问题，提出价值与结构对齐量化方法VSRAQ。该方法通过联合优化两个互补目标，保持量化前后专家选择行为的一致性。实验表明VSRAQ在低比特量化下显著优于现有方法，有效保护了MoE模型的结构完整性。该工作为MoE模型的低精度部署提供了关键保障。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.05538v1",
+      "source": "arxiv",
+      "title": "Less is MoE: Trimming Experts in Domain-Specialist Language Models",
+      "abstract": "Mixture-of-Experts (MoE) models achieve strong performance through conditional computation, but their large parameter footprint poses deployment challenges. Prior MoE compression approaches catastrophically fail when evaluated on general-purpose benchmarks beyond commonsense reasoning. We trace this failure to the granularity of compression: important capabilities are distributed across experts but concentrated in FFN sparse intermediate dimensions. To identify these dimensions, we use Fisher importance which outperforms activation-, router-score-, and magnitude-based alternatives, and identifies tiny sets of task-critical dimensions: in Qwen1.5-MoE, removing as few as 12 of 1.35M routed-FFN intermediate dimensions collapses GSM8K accuracy while largely preserving factual-knowledge performance. Building on this, we propose Fisher-MoE, which operates within FFN to remove intermediate dimensions ranked by Fisher importance. At the same 50% MoE compression ratio, Fisher-MoE preserves model capability, while reducing weight memory by ~45% and improving inference throughput by 21%. These findings suggest intermediate dimension granularity is an effective unit for both compression and ranking where capability concentrates in MoE models.",
+      "authors": [
+        "Haoze He",
+        "Xinkai Zou",
+        "Xuan Jiang",
+        "Xingyuan Ding",
+        "Ao Qu",
+        "Juncheng Billy Li",
+        "Heather Miller"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-06-04T00:43:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.05538v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "expert trimming for efficient MoE inference",
+      "llm_evidence_cn": "通过专家裁剪实现高效混合专家推理",
+      "llm_evidence": "通过专家裁剪实现高效混合专家推理",
+      "canonical_evidence": "通过专家裁剪实现高效混合专家推理",
+      "llm_tldr_en": "Less is MoE identifies that important capabilities in MoE models are concentrated in few FFN dimensions and uses Fisher importance to trim experts, enabling efficient domain-specialist LLMs.",
+      "llm_tldr_cn": "混合专家模型参数庞大，现有压缩方法在通用任务上失效。本文发现关键能力集中在前馈网络的稀疏中间维度，使用Fisher信息量识别这些维度并裁剪非必要专家层。在Qwen1.5-MoE上，仅删除12个维度即可导致GSM8K准确率崩溃，证明关键维度极少。该方法在保持核心能力的前提下大幅压缩模型，适用于领域部署。",
+      "llm_tldr": "混合专家模型参数庞大，现有压缩方法在通用任务上失效。本文发现关键能力集中在前馈网络的稀疏中间维度，使用Fisher信息量识别这些维度并裁剪非必要专家层。在Qwen1.5-MoE上，仅删除12个维度即可导致GSM8K准确率崩溃，证明关键维度极少。该方法在保持核心能力的前提下大幅压缩模型，适用于领域部署。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.01666v1",
+      "source": "arxiv",
+      "title": "DOT-MoE: Differentiable Optimal Transport for MoEfication",
+      "abstract": "The scaling of Large Language Models (LLMs) has driven significant performance gains but created substantial challenges in inference efficiency. While Mixture of Experts (MoEs) architectures address this by decoupling model size from inference cost, training MoEs from scratch is often unstable and compute intensive. Conversion of pre-trained dense models into sparse MoEs has emerged as an alternative solution; however, existing methods typically rely on heuristic neuron clustering or random splitting to partition the Feed-Forward Network (FFN) into experts. In this work, we propose DOT-MoE, a novel framework that formulates the decomposition of dense layers as a Differentiable Optimal Transport (DOT) problem. Instead of static heuristics, we model neuron assignment as a balanced transport problem, utilizing differentiable Sinkhorn-Knopp iterations to enforce strict expert capacity constraints. Furthermore, we utilize Straight-Through Estimators (STE) to jointly learn the discrete neuron-to-expert assignment and the token-to-expert routing policy end-to-end. Extensive experiments across multiple architectures and benchmarks demonstrate that DOT-MoE significantly outperforms structured pruning, heuristic clustering, and random-split baselines, retaining 90% of the original dense model's performance while reducing active parameters by 50%.",
+      "authors": [
+        "Udbhav Bamba",
+        "Arnav Chavan",
+        "Aryamaan Thakur",
+        "Steve Teig",
+        "Deepak Gupta"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-01T04:19:16+00:00",
+      "link": "https://arxiv.org/pdf/2606.01666v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "conversion of dense LLMs to sparse MoEs addresses inference efficiency",
+      "llm_evidence_cn": "将稠密大模型转换为稀疏MoE以提升推理效率",
+      "llm_evidence": "将稠密大模型转换为稀疏MoE以提升推理效率",
+      "canonical_evidence": "将稠密大模型转换为稀疏MoE以提升推理效率",
+      "llm_tldr_en": "Proposes DOT-MoE to convert dense LLMs to sparse MoEs via differentiable optimal transport, improving inference efficiency over heuristic clustering.",
+      "llm_tldr_cn": "大规模语言模型推理成本高，MoE架构可解耦模型大小与计算成本，但现有MoE转换方法依赖启发式聚类。本文提出DOT-MoE，将稠密层分解为稀疏专家问题建模为可微最优传输，避免了静态启发式。实验表明，该方法在保持性能的同时显著提升了转换稳定性和推理效率，为高效MoE推理奠定了基础。",
+      "llm_tldr": "大规模语言模型推理成本高，MoE架构可解耦模型大小与计算成本，但现有MoE转换方法依赖启发式聚类。本文提出DOT-MoE，将稠密层分解为稀疏专家问题建模为可微最优传输，避免了静态启发式。实验表明，该方法在保持性能的同时显著提升了转换稳定性和推理效率，为高效MoE推理奠定了基础。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

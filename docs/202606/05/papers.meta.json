@@ -1,0 +1,69 @@
+{
+  "label": "2026-06-05",
+  "date": "2026-06-05",
+  "generated_at": "2026-06-05T21:47:28",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202606/05/2606.05429v1-minimizing-the-hidden-cost-of-scales-graph-guided-ultra-low-bit-quantization-for-large-language-models",
+      "section": "deep",
+      "title_en": "Minimizing the Hidden Cost of Scales: Graph-Guided Ultra-Low-Bit Quantization for Large Language Models",
+      "authors": "Rayyan Abdalla, Amir Hussein, Min Wu, Dinesh Manocha",
+      "date": "2026-06-03",
+      "pdf": "https://arxiv.org/pdf/2606.05429v1",
+      "score": "9.0",
+      "evidence": "大语言模型的权重量化",
+      "tldr": "针对大语言模型超低位量化中的隐藏缩放开销问题，提出SAGE-PTQ框架。通过分布统计分离显著与非显著权重，将非显著权重建模为稀疏图来优化分组，对显著权重多比特量化、非显著权重二值化，并采用自适应阈值选择最优显著性比例。在LLaMA-3-8B上困惑度6.74，优于BiLLM的55.8，且GPU内存不到一半；LLaMA-2-70B解码速度提升1.5倍。显著降低了缩放位开销，实现高效推理。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Post-training quantization (PTQ) is critical for the efficient deployment of large language models (LLMs). Recent ultra-low-bit PTQ methods rely on rigid weight-saliency assumptions or position heuristics, introducing substantial hidden scaling overhead. We propose SAGE-PTQ (Saliency-Aware Graph-guided Efficient PTQ), a novel ultra-low-bit quantization framework for LLMs that minimizes hidden scaling cost. SAGE-PTQ separates salient and unsalient weights using distributional statistics, then models subsampled unsalient weights as a sparse graph to estimate the optimal number of groups per layer. SAGE-PTQ applies dual-mode quantization, assigning multi-bit precision to salient weights and binarizing unsalient weights. To reduce scaling overhead, SAGE-PTQ uses one per-channel scale for salient weights and one scalar per unsalient group. Finally, SAGE-PTQ implements adaptive saliency thresholding to select the optimal saliency ratio per matrix. SAGE-PTQ achieves 1.03 weight bits and only 0.004 scaling bits per matrix on average, outperforming state-of-the-art methods such as BiLLM and PB-LLM. On LLaMA-3-8B, SAGE-PTQ achieves 6.74 WikiText2 perplexity, compared to 55.8 for BiLLM, while using less than 50% of BiLLM's GPU memory. On LLaMA-2-70B, SAGE-PTQ provides 1.5x faster decoding on one NVIDIA L40 GPU, demonstrating practical inference efficiency.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/05/2606.05688v1-value-and-structure-alignment-for-routing-consistent-quantization-of-mixture-of-experts-models",
+      "section": "deep",
+      "title_en": "Value-and-Structure Alignment for Routing-Consistent Quantization of Mixture-of-Experts Models",
+      "authors": "Hancheol Park, Geonho Lee, Tairen Piao, Tae-Ho Kim",
+      "date": "2026-06-04",
+      "pdf": "https://arxiv.org/pdf/2606.05688v1",
+      "score": "9.0",
+      "evidence": "面向MoE模型的路由一致量化",
+      "tldr": "混合专家模型量化时路由不稳定，微小扰动改变专家选择导致性能下降。提出VSRAQ方法，结合值对齐与结构对齐两个目标，在量化前后保持专家选择行为。实验证明VSRAQ提升了专家选择一致性，优于传统重建基线。该方法无推理开销，可集成到现有量化框架中。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models scale foundation models efficiently by activating only a subset of experts for each token, but their large number of expert parameters still makes quantization essential for practical deployment. Unlike dense models, however, MoE models are sensitive to routing instability: small quantization-induced perturbations can change the top-$k$ expert selection, altering the computation path and degrading model quality. We propose Value-and-Structure Routing Alignment for Quantization (VSRAQ), a MoE-specific post-training quantization objective that preserves pre-quantization expert-selection behavior under quantization. VSRAQ combines two complementary objectives that jointly preserve expert-selection behavior: value alignment, which matches routing-relevant logits or scores, and structure alignment, which preserves expert ordering and top-$k$ decision boundaries. By maintaining routing consistency, VSRAQ reduces quantization-induced degradation without introducing any inference-time overhead and can be integrated into existing quantization frameworks. Experiments on recent MoE foundation models show that VSRAQ improves expert-selection consistency and consistently outperforms reconstruction-only and router-aware baselines.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/05/2606.05538v1-less-is-moe-trimming-experts-in-domain-specialist-language-models",
+      "section": "quick",
+      "title_en": "Less is MoE: Trimming Experts in Domain-Specialist Language Models",
+      "authors": "Haoze He, Xinkai Zou, Xuan Jiang, Xingyuan Ding, Ao Qu, Juncheng Billy Li, Heather Miller",
+      "date": "2026-06-04",
+      "pdf": "https://arxiv.org/pdf/2606.05538v1",
+      "score": "7.0",
+      "evidence": "通过专家裁剪实现高效混合专家推理",
+      "tldr": "混合专家模型（MoE）参数巨大难以部署，现有压缩方法在通用基准上失效。研究发现重要能力集中在FFN稀疏中间维度，而非整个专家。通过Fisher重要性识别关键维度，仅移除12个维度就使GSM8K准确率崩溃。提出Fisher-MoE方法，在50%压缩率下保持模型能力，同时减少45%权重内存并提升21%推理吞吐量，揭示了中间维度作为MoE模型压缩和排序有效单位的重要性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models achieve strong performance through conditional computation, but their large parameter footprint poses deployment challenges. Prior MoE compression approaches catastrophically fail when evaluated on general-purpose benchmarks beyond commonsense reasoning. We trace this failure to the granularity of compression: important capabilities are distributed across experts but concentrated in FFN sparse intermediate dimensions. To identify these dimensions, we use Fisher importance which outperforms activation-, router-score-, and magnitude-based alternatives, and identifies tiny sets of task-critical dimensions: in Qwen1.5-MoE, removing as few as 12 of 1.35M routed-FFN intermediate dimensions collapses GSM8K accuracy while largely preserving factual-knowledge performance. Building on this, we propose Fisher-MoE, which operates within FFN to remove intermediate dimensions ranked by Fisher importance. At the same 50% MoE compression ratio, Fisher-MoE preserves model capability, while reducing weight memory by ~45% and improving inference throughput by 21%. These findings suggest intermediate dimension granularity is an effective unit for both compression and ranking where capability concentrates in MoE models.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/05/2606.01666v1-dot-moe-differentiable-optimal-transport-for-moefication",
+      "section": "quick",
+      "title_en": "DOT-MoE: Differentiable Optimal Transport for MoEfication",
+      "authors": "Udbhav Bamba, Arnav Chavan, Aryamaan Thakur, Steve Teig, Deepak Gupta",
+      "date": "2026-06-01",
+      "pdf": "https://arxiv.org/pdf/2606.01666v1",
+      "score": "6.0",
+      "evidence": "将稠密大模型转换为稀疏MoE以提升推理效率",
+      "tldr": "大型语言模型推理成本高，MoE架构可解耦模型大小与成本，但训练MoE不稳定。现有将密集模型转换为MoE的方法依赖启发式聚类或随机分割。本文提出DOT-MoE，将密集层分解视为可微最优传输问题，利用Sinkhorn-Knopp迭代强制专家容量约束，并通过直通估计器端到端学习神经元分配和路由策略。实验表明，DOT-MoE在减少50%活跃参数下保留原模型90%性能，显著优于基线方法。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "The scaling of Large Language Models (LLMs) has driven significant performance gains but created substantial challenges in inference efficiency. While Mixture of Experts (MoEs) architectures address this by decoupling model size from inference cost, training MoEs from scratch is often unstable and compute intensive. Conversion of pre-trained dense models into sparse MoEs has emerged as an alternative solution; however, existing methods typically rely on heuristic neuron clustering or random splitting to partition the Feed-Forward Network (FFN) into experts. In this work, we propose DOT-MoE, a novel framework that formulates the decomposition of dense layers as a Differentiable Optimal Transport (DOT) problem. Instead of static heuristics, we model neuron assignment as a balanced transport problem, utilizing differentiable Sinkhorn-Knopp iterations to enforce strict expert capacity constraints. Furthermore, we utilize Straight-Through Estimators (STE) to jointly learn the discrete neuron-to-expert assignment and the token-to-expert routing policy end-to-end. Extensive experiments across multiple architectures and benchmarks demonstrate that DOT-MoE significantly outperforms structured pruning, heuristic clustering, and random-split baselines, retaining 90% of the original dense model's performance while reducing active parameters by 50%.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
