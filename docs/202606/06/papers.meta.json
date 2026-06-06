@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-06",
+  "date": "2026-06-06",
+  "generated_at": "2026-06-06T21:13:53",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/06/2606.01509v1-probmoe-differentiable-probabilistic-routing-for-mixture-of-experts",
+      "section": "deep",
+      "title_en": "ProbMoE: Differentiable Probabilistic Routing for Mixture-of-Experts",
+      "authors": "Heng Zhao, Zilei Shao, Guy Van den Broeck, Zhe Zeng",
+      "date": "2026-06-01",
+      "pdf": "https://arxiv.org/pdf/2606.01509v1",
+      "score": "8.0",
+      "evidence": "提出MoE的概率路由框架",
+      "tldr": "MoE模型离散路由导致梯度估计困难。ProbMoE将专家选择建模为基数约束子集上的概率分布，前向采样后通过专家边际概率提供可微梯度。Exact-k路由取得强性能且专家利用率更高；Dynamic-k路由以更少激活专家达到可比性能。该框架提升了MoE训练稳定性和路由多样性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models scale by activating only a small subset of experts per token. However, training such models remains challenging because top-$k$ routing is discrete and non-differentiable, requiring gradient estimators for expert selection whose design remains a central open problem. We introduce ProbMoE, a probabilistic routing framework that models expert selection as a distribution over cardinality-constrained expert subsets and formulates routing as probabilistic inference in this discrete subset space. We first propose ProbMoE Exact-$k$ routing, which samples $k$-expert subsets in the forward pass, and the backward pass uses gradients through each expert's exact marginal probability as a tractable surrogate for the true gradient. ProbMoE naturally generalizes to a dynamic-$k$ routing setting, where both training and inference constrain the routing cardinality to the same predefined range, allowing adaptive expert allocation per token. Across benchmarks and model backbones, ProbMoE Exact-$k$ achieves strong performance compared to competitive baselines, with improved expert utilization and routing diversity; ProbMoE Dynamic-$k$ achieves comparable performance with fewer activated experts.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

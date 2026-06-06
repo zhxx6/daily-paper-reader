@@ -1,0 +1,55 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-06T21:12:22.900317+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.01509v1",
+      "source": "arxiv",
+      "title": "ProbMoE: Differentiable Probabilistic Routing for Mixture-of-Experts",
+      "abstract": "Mixture-of-Experts (MoE) models scale by activating only a small subset of experts per token. However, training such models remains challenging because top-$k$ routing is discrete and non-differentiable, requiring gradient estimators for expert selection whose design remains a central open problem. We introduce ProbMoE, a probabilistic routing framework that models expert selection as a distribution over cardinality-constrained expert subsets and formulates routing as probabilistic inference in this discrete subset space. We first propose ProbMoE Exact-$k$ routing, which samples $k$-expert subsets in the forward pass, and the backward pass uses gradients through each expert's exact marginal probability as a tractable surrogate for the true gradient. ProbMoE naturally generalizes to a dynamic-$k$ routing setting, where both training and inference constrain the routing cardinality to the same predefined range, allowing adaptive expert allocation per token. Across benchmarks and model backbones, ProbMoE Exact-$k$ achieves strong performance compared to competitive baselines, with improved expert utilization and routing diversity; ProbMoE Dynamic-$k$ achieves comparable performance with fewer activated experts.",
+      "authors": [
+        "Heng Zhao",
+        "Zilei Shao",
+        "Guy Van den Broeck",
+        "Zhe Zeng"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-01T00:16:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.01509v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "proposes probabilistic routing for MoE models",
+      "llm_evidence_cn": "提出MoE的概率路由框架",
+      "llm_evidence": "提出MoE的概率路由框架",
+      "canonical_evidence": "提出MoE的概率路由框架",
+      "llm_tldr_en": "ProbMoE introduces differentiable probabilistic routing for MoE, replacing top-k with exact marginal gradients for better expert selection.",
+      "llm_tldr_cn": "现有MoE训练因离散top-k路由而面临梯度估计困难。本文提出ProbMoE，将专家选择建模为概率推断，通过精确边际概率的梯度替代实现端到端可微。实验表明在多个基准上优于传统路由策略，提升了MoE模型的收敛质量和推理效率。",
+      "llm_tldr": "现有MoE训练因离散top-k路由而面临梯度估计困难。本文提出ProbMoE，将专家选择建模为概率推断，通过精确边际概率的梯度替代实现端到端可微。实验表明在多个基准上优于传统路由策略，提升了MoE模型的收敛质量和推理效率。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

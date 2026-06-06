@@ -6,34 +6,24 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-05
-- 运行时间：2026-06-05 21:47:22 UTC
+- 最新运行日期：2026-06-06
+- 运行时间：2026-06-06 21:13:48 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：2
-- 速读区：2
+- 本次总论文数：1
+- 精读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日聚焦大模型量化与MoE效率优化，两篇高分精读分别提出图引导超低位量化和路由一致量化方案。  
-最值得关注《Minimizing the Hidden Cost of Scales》和《Value-and-Structure Alignment》，它们有效缓解低比特量化与MoE路由中的精度损失。  
-建议普通读者重点关注量化方案的实际部署收益，MoE模型可尝试专家裁剪或最优传输压缩。
-- 详情：[/202606/05/README](/202606/05/README)
+今日精读1篇高分论文《ProbMoE》提出可微分概率路由机制。最值得关注其解决混合专家模型稀疏路由优化难题的思路。后续可尝试将该概率路由框架应用于自己的大规模模型训练。
+- 详情：[/202606/06/README](/202606/06/README)
 
 ### 精读区论文标签
-1. [Minimizing the Hidden Cost of Scales: Graph-Guided Ultra-Low-Bit Quantization for Large Language Models](/202606/05/2606.05429v1-minimizing-the-hidden-cost-of-scales-graph-guided-ultra-low-bit-quantization-for-large-language-models)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：大语言模型的权重量化
-2. [Value-and-Structure Alignment for Routing-Consistent Quantization of Mixture-of-Experts Models](/202606/05/2606.05688v1-value-and-structure-alignment-for-routing-consistent-quantization-of-mixture-of-experts-models)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：面向MoE模型的路由一致量化
+1. [ProbMoE: Differentiable Probabilistic Routing for Mixture-of-Experts](/202606/06/2606.01509v1-probmoe-differentiable-probabilistic-routing-for-mixture-of-experts)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：提出MoE的概率路由框架
 
 ### 速读区论文标签
-1. [Less is MoE: Trimming Experts in Domain-Specialist Language Models](/202606/05/2606.05538v1-less-is-moe-trimming-experts-in-domain-specialist-language-models)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：通过专家裁剪实现高效混合专家推理
-2. [DOT-MoE: Differentiable Optimal Transport for MoEfication](/202606/05/2606.01666v1-dot-moe-differentiable-optimal-transport-for-moefication)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：将稠密大模型转换为稀疏MoE以提升推理效率
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
