@@ -1,0 +1,58 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-07T21:08:58.268636+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.01784v1",
+      "source": "arxiv",
+      "title": "MoRE: A Mixture-of-Experts-Based Task-Adaptive End-to-End Network for Multimodal MRI Reconstruction",
+      "abstract": "Although accelerated MRI reconstruction has advanced rapidly through end-to-end learning, deploying a single unified network that generalizes across diverse anatomies and contrasts under constrained computational resources remains challenging. In this paper, we introduce MoRE, a sparsely activated mixture-of-experts (MoE) module integrated into an end-to-end variational network. MoRE couples a shared encoder with sample-wise, unsupervised routing to activate a minimal subset of expert decoders while strictly preserving physics-based data consistency. Evaluated on the fastMRI multi-coil brain and knee datasets under 8x undersampling, MoRE achieves highly stable SSIM and PSNR performance across multi-contrast datasets. Furthermore, t-SNE visualization of the routing embeddings reveals interpretable, modality-aware expert specialization. The sparse conditional computation mechanism ensures that the architectural overhead remains modest. These results demonstrate that MoE-style capacity scaling can significantly enhance general-purpose MRI reconstruction without requiring proportional increases in computational power.",
+      "authors": [
+        "Yuyang Li",
+        "Yipin Deng",
+        "Wenlei Shang",
+        "Juncen Wu",
+        "Xin Bai",
+        "Zijian Zhou",
+        "Peng Hu"
+      ],
+      "primary_category": "eess.IV",
+      "categories": [
+        "eess.IV"
+      ],
+      "published": "2026-06-01T07:04:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.01784v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Mixture-of-Experts for efficient inference",
+      "llm_evidence_cn": "混合专家模型用于高效推理",
+      "llm_evidence": "混合专家模型用于高效推理",
+      "canonical_evidence": "混合专家模型用于高效推理",
+      "llm_tldr_en": "MoRE introduces a sparsely activated Mixture-of-Experts module in MRI reconstruction, enabling task-adaptive efficient inference with minimal expert activation.",
+      "llm_tldr_cn": "MoRE针对高倍欠采样MRI重建任务，提出稀疏激活的混合专家（MoE）模块集成到端到端变分网络中。通过无监督路由激活最少专家解码器，保持物理一致性。在fastMRI数据集上实现稳定的多对比度重建性能。该方法展示了MoE在医学成像推理中的高效性，对通用MoE推理技术具有借鉴意义。",
+      "llm_tldr": "MoRE针对高倍欠采样MRI重建任务，提出稀疏激活的混合专家（MoE）模块集成到端到端变分网络中。通过无监督路由激活最少专家解码器，保持物理一致性。在fastMRI数据集上实现稳定的多对比度重建性能。该方法展示了MoE在医学成像推理中的高效性，对通用MoE推理技术具有借鉴意义。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

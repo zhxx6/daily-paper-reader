@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-07 <!--dpr-date:20260607-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/07/2606.01784v1-more-a-mixture-of-experts-based-task-adaptive-end-to-end-network-for-multimodal-mri-reconstruction" data-sidebar-item="{&quot;title&quot;: &quot;MoRE: A Mixture-of-Experts-Based Task-Adaptive End-to-End Network for Multimodal MRI Reconstruction&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.01784v1-more-a-mixture-of-experts-based-task-adaptive-end-to-end-network-for-multimodal-mri-reconstruction&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;混合专家模型用于高效推理&quot;}">MoRE: A Mixture-of-Experts-Based Task-Adaptive End-to-End Network for Multimodal MRI Reconstruction</a>
   * 2026-06-06 <!--dpr-date:20260606-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/06/2606.01509v1-probmoe-differentiable-probabilistic-routing-for-mixture-of-experts" data-sidebar-item="{&quot;title&quot;: &quot;ProbMoE: Differentiable Probabilistic Routing for Mixture-of-Experts&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.01509v1-probmoe-differentiable-probabilistic-routing-for-mixture-of-experts&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;提出MoE的概率路由框架&quot;}">ProbMoE: Differentiable Probabilistic Routing for Mixture-of-Experts</a>

@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-07",
+  "date": "2026-06-07",
+  "generated_at": "2026-06-07T21:09:33",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/07/2606.01784v1-more-a-mixture-of-experts-based-task-adaptive-end-to-end-network-for-multimodal-mri-reconstruction",
+      "section": "quick",
+      "title_en": "MoRE: A Mixture-of-Experts-Based Task-Adaptive End-to-End Network for Multimodal MRI Reconstruction",
+      "authors": "Yuyang Li, Yipin Deng, Wenlei Shang, Juncen Wu, Xin Bai, Zijian Zhou, Peng Hu",
+      "date": "2026-06-01",
+      "pdf": "https://arxiv.org/pdf/2606.01784v1",
+      "score": "7.0",
+      "evidence": "混合专家模型用于高效推理",
+      "tldr": "统一端到端网络难以在计算资源受限下泛化不同解剖与对比度的MRI重建。本文提出MoRE，在变分网络中集成稀疏激活的混合专家模块，通过共享编码器和样本级无监督路由激活最少专家解码器，并严格保持数据一致性。在fastMRI脑和膝盖8倍欠采样下，多对比度重建取得稳定高SSIM/PSNR，t-SNE揭示模态感知专家专业化。该方法以适度架构开销显著提升通用重建性能。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Although accelerated MRI reconstruction has advanced rapidly through end-to-end learning, deploying a single unified network that generalizes across diverse anatomies and contrasts under constrained computational resources remains challenging. In this paper, we introduce MoRE, a sparsely activated mixture-of-experts (MoE) module integrated into an end-to-end variational network. MoRE couples a shared encoder with sample-wise, unsupervised routing to activate a minimal subset of expert decoders while strictly preserving physics-based data consistency. Evaluated on the fastMRI multi-coil brain and knee datasets under 8x undersampling, MoRE achieves highly stable SSIM and PSNR performance across multi-contrast datasets. Furthermore, t-SNE visualization of the routing embeddings reveals interpretable, modality-aware expert specialization. The sparse conditional computation mechanism ensures that the architectural overhead remains modest. These results demonstrate that MoE-style capacity scaling can significantly enhance general-purpose MRI reconstruction without requiring proportional increases in computational power.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
