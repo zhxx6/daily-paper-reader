@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-08",
+  "date": "2026-06-08",
+  "generated_at": "2026-06-08T21:51:59",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/08/2606.07414v1-sparsely-gated-tiny-linear-experts",
+      "section": "deep",
+      "title_en": "Sparsely gated tiny linear experts",
+      "authors": "Simon Schug",
+      "date": "2026-06-05",
+      "pdf": "https://arxiv.org/pdf/2606.07414v1",
+      "score": "8.0",
+      "evidence": "提出稀疏门控线性专家以提升MoE推理效率",
+      "tldr": "现有混合专家模型虽已使用稀疏门控，但单个专家仍是大而密集的。本文提出将每个专家缩小为单个线性神经元，并仅激活极少数专家，形成稀疏门控线性神经元网络（sgatlin）。在等计算量下，用sgatlin替换transformer前馈层能提升语言模型困惑度，同时其稀疏线性结构带来可解释性优势。案例研究表明，sgatlin前馈电路形成语义聚类，并参与事实回忆，无需训练替代模型即可解释。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Sparsity allows scaling model parameters without proportionally increasing computational cost. While mixture of experts (MoE) models are made increasingly sparse, individual experts typically remain large and dense. Here, we demonstrate that further increasing sparsity by shrinking each expert to consist of a single neuron and selecting a tiny fraction of many available neurons can improve compute efficiency and interpretability. Counterintuitively, the key to achieving both is removing the nonlinearity typically applied to the experts, resulting in a network of sparsely gated linear neurons (sgatlin). In an isoflop comparison, we find that replacing all transformer feedforward layers with sgatlin improves perplexity in language models across different compute budgets. At the same time, the sparsity and linearity of the resulting feedforward circuits present new opportunities for model interpretability. In a small-scale case study, we demonstrate that feedforward circuits in sgatlin can be interpreted without having to train additional replacement models. We find that they form semantically structured clusters and are causally implicated in factual recall. Our findings paint a possible path towards compute-efficient and interpretable transformer feedforward layers.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/08/2606.03780v1-expert-aware-causal-tracing-of-factual-recall-in-sparse-moe-language-models",
+      "section": "quick",
+      "title_en": "Expert-Aware Causal Tracing of Factual Recall in Sparse MoE Language Models",
+      "authors": "Yuetian Lu, Ali Modarressi, Yihong Liu, Hinrich Schütze",
+      "date": "2026-06-02",
+      "pdf": "https://arxiv.org/pdf/2606.03780v1",
+      "score": "7.0",
+      "evidence": "稀疏MoE语言模型的专家级因果追溯",
+      "tldr": "因果追踪以往主要针对稠密Transformer模型，但稀疏MoE模型提出了新问题：路由的哪个专家贡献了事实回忆？本文提出专家感知的因果追踪方法，通过扰动主题词嵌入并测试干净输出修复效果。在Qwen3-30B模型上成功定位到单个专家L44E069，而在Mixtral-8x7B上信号无法归因于单一专家，需要多专家联合更新。这表明专家级定位依赖于模型和协议，并非普遍适用。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Causal tracing of factual recall has been studied predominantly in dense transformer language models, where interventions localize information flow to layers or feed-forward modules. Sparse mixture-of-experts (MoE) language models introduce a sharper question: when a factual prediction is mediated by a routed MoE block, which routed expert contributions matter? We formulate expert-aware causal tracing for sparse MoE language models. Using CounterFact facts, we first corrupt the model's factual preference by adding noise to subject-token embeddings, and then test whether clean MoE-block outputs or clean expert-level updates restore the true-vs-foil logit contrast. For Qwen3-30B-A3B-Base, a layer sweep selects and validates layer 44, and expert-level tracing identifies L44E069 as an expert repeatedly selected in the clean run whose held-out patch outperforms other active same-layer expert patches. For Mixtral-8x7B-v0.1, layer-level tracing validates a mid-layer signal, but the signal is not localized to the selected singleton expert; a coalition check instead recovers it with routed multi-expert updates. These results suggest that MoE factual tracing can be made expert-aware, while also showing that expert-level localization is model- and protocol-dependent rather than universal.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/08/2606.04284v1-sparse-mixture-of-experts-reward-models-learn-interpretable-and-specialized-experts-for-personalized-preference-modeling",
+      "section": "quick",
+      "title_en": "Sparse Mixture-of-Experts Reward Models Learn Interpretable and Specialized Experts for Personalized Preference Modeling",
+      "authors": "Yifan Wang, Jinyi Mu, Mayank Jobanputra, Yu Wang, Ji-Ung Lee, Soyoung Oh, Isabel Valera, Vera Demberg",
+      "date": "2026-06-02",
+      "pdf": "https://arxiv.org/pdf/2606.04284v1",
+      "score": "6.0",
+      "evidence": "稀疏混合专家奖励模型用于个性化偏好建模",
+      "tldr": "现有偏好建模方法通常假设单一奖励函数，忽略了人类偏好的多样性和异质性。本文提出稀疏混合专家（MoE）奖励模型，通过稀疏路由和专家多样性训练，从二元偏好数据中学习可解释且专业化的专家。实验表明，该方法不仅提升了测试时的个性化效果，还能通过专家权重的后适应变化直观分析模型如何适应个性化偏好。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Preference modeling plays a central role in reinforcement learning from human feedback (RLHF), enabling large language models (LLMs) to align with human values. However, most existing approaches assume a universal reward function, neglecting the diversity and heterogeneity of human preferences. To address this limitation without additional annotation costs, recent work has proposed learning multiple preference components from binary data and combining them to model individual preferences. Nevertheless, these components often fail to capture coherent and disentangled patterns, limiting their interpretability and effectiveness for personalization. In this work, we propose a sparse Mixture-of-Experts (MoE) reward model that encourages sparse routing and expert diversity during training on binary preference data. Across controlled and real-world experiments, sparse MoE learns interpretable routing patterns and specialized experts. It also improves test-time personalization, and post-adaptation shifts in expert weights provide a qualitative lens for analyzing how the model adapts to personalized preferences.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
