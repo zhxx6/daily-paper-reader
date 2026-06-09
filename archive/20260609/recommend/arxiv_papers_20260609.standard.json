@@ -1,0 +1,93 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-09T21:57:22.977559+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.08761v1",
+      "source": "arxiv",
+      "title": "APEX4: Efficient Pure W4A4 LLM Inference via Intra-SM Compute Rebalancing",
+      "abstract": "W4A4 quantization promises full utilization of INT4 Tensor Cores, yet group dequantization overhead on CUDA Cores has driven existing systems to mixed-precision fallbacks. We present the first systematic study of how intra-SM compute balance governs this bottleneck. Through controlled benchmarks across four GPUs from Ampere and Ada architectures, we identify the Tensor Cores to CUDA Cores throughput ratio ($ρ$) as the primary hardware indicator: the W4A4-g128 kernel yields $2.0$--$2.5\\times$ speedup on RTX~3090 ($ρ=16$) yet degrades to $0.43$--$0.47\\times$ on A100 ($ρ=64$) in compute-bond scenarios, establishing W4A4 viability as platform-dependent rather than universally infeasible. Guided by this finding, we build \\textbf{APEX4}, which co-designs pure INT4 GEMM kernels with $ρ$-aware granularity adaptation to mitigate the CUDA Cores dequantization bottleneck. APEX4 achieves perplexity within 0.63 of FP16 on LLaMA-2-70B and outperforms W4Ax Atom-g128 by 4.0\\%--4.4\\% in zero-shot accuracy. Deployed as a drop-in replacement in unmodified vLLM, it delivers up to $1.66\\times$ end-to-end speedup on L40S ($ρ=8$), and $1.78\\times$ on RTX~3090 ($ρ=16$), $2.09\\times$ on A40 ($ρ=16$), while recovering A100 ($ρ=64$) to $1.20$--$1.40\\times$ via the mixed-granularity mode.",
+      "authors": [
+        "Hong Guo",
+        "Nianhui Guo",
+        "Weixing Wang",
+        "Jona Otholt",
+        "Christoph Meinel",
+        "Haojin Yang"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.AI"
+      ],
+      "published": "2026-06-07T18:01:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.08761v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "W4A4 quantization for LLM inference with group dequantization optimization",
+      "llm_evidence_cn": "W4A4量化用于LLM推理，并优化组反量化",
+      "llm_evidence": "W4A4量化用于LLM推理，并优化组反量化",
+      "canonical_evidence": "W4A4量化用于LLM推理，并优化组反量化",
+      "llm_tldr_en": "APEX4 proposes W4A4 pure INT4 LLM inference by rebalancing intra-SM compute, achieving speedups on GPUs with low Tensor Core to CUDA Core ratio.",
+      "llm_tldr_cn": "本文针对W4A4量化在LLM推理中组反量化开销大的问题，提出了APEX4系统。通过分析不同GPU上张量核与CUDA核的吞吐率比值，发现W4A4的可行性依赖于硬件平台。基于此，APEX4协同设计实现了纯W4A4推理，在RTX 3090上获得2倍以上加速，揭示了W4A4并非普遍不可行，而是需要平台感知的优化。",
+      "llm_tldr": "本文针对W4A4量化在LLM推理中组反量化开销大的问题，提出了APEX4系统。通过分析不同GPU上张量核与CUDA核的吞吐率比值，发现W4A4的可行性依赖于硬件平台。基于此，APEX4协同设计实现了纯W4A4推理，在RTX 3090上获得2倍以上加速，揭示了W4A4并非普遍不可行，而是需要平台感知的优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.08535v1",
+      "source": "arxiv",
+      "title": "NGram-MoSE: Efficient Remote Sensing Super-Resolution via N-Gram Context and Mixture-of-Experts",
+      "abstract": "Remote sensing applications for environmental monitoring and disaster management are frequently constrained by a spatial--temporal trade-off: imagery with fine spatial detail is often acquired less frequently, whereas more temporally available observations are typically coarser. Single-image super-resolution provides a practical means to enhance coarse imagery without changing acquisition schedules, yet many Transformer-based SR models remain computationally expensive and can be sensitive to limited or geographically biased training data, which degrades robustness under out-of-distribution conditions. This paper presents NGram-MoSE, a lightweight Transformer architecture designed to improve both efficiency and texture continuity. NGram-MoSE introduces N-Gram Context Injection to strengthen cross-window local consistency and mitigate window-boundary artifacts, and incorporates a Mixture-of-Experts (MoE) feed-forward design to scale capacity through sparse activation without proportional growth in inference cost. Experiments on a geographically disjoint OOD test set show that NGram-MoSE achieves 31.68\\,dB PSNR while reducing FLOPs by \\(14\\times\\) relative to a heavyweight Transformer reference. Downstream evaluation on a landslide segmentation benchmark further demonstrates that restoring degraded inputs to the detector training scale improves performance, yielding a 4.47\\% absolute gain in mAP@50 over bicubic upsampling, and exhibits stronger cross-scale consistency under scale extrapolation. These results indicate that NGram-MoSE provides an effective SR module for resource-constrained remote sensing pipelines requiring robust generalization.",
+      "authors": [
+        "Yun-Hsuan Huang",
+        "Trong-An Bui",
+        "Chih-Hung Chuang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-07T09:30:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.08535v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "MoE-based lightweight Transformer for efficient remote sensing super-resolution",
+      "llm_evidence_cn": "基于MoE的轻量Transformer用于高效遥感超分辨率",
+      "llm_evidence": "基于MoE的轻量Transformer用于高效遥感超分辨率",
+      "canonical_evidence": "基于MoE的轻量Transformer用于高效遥感超分辨率",
+      "llm_tldr_en": "NGram-MoSE presents a lightweight MoE Transformer for efficient remote sensing super-resolution, addressing spatial-temporal trade-offs.",
+      "llm_tldr_cn": "本文针对遥感图像超分辨率中空间与时间分辨率难以兼得的问题，提出NGram-MoSE轻量Transformer架构。该架构融合N-gram上下文和混合专家（MoE），在提高纹理连续性的同时降低计算开销。实验表明其在保持高保真度的前提下显著提升了推理效率，为资源受限场景提供了实用的超分辨率方案。",
+      "llm_tldr": "本文针对遥感图像超分辨率中空间与时间分辨率难以兼得的问题，提出NGram-MoSE轻量Transformer架构。该架构融合N-gram上下文和混合专家（MoE），在提高纹理连续性的同时降低计算开销。实验表明其在保持高保真度的前提下显著提升了推理效率，为资源受限场景提供了实用的超分辨率方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-09",
+  "date": "2026-06-09",
+  "generated_at": "2026-06-09T21:59:13",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/09/2606.08761v1-apex4-efficient-pure-w4a4-llm-inference-via-intra-sm-compute-rebalancing",
+      "section": "deep",
+      "title_en": "APEX4: Efficient Pure W4A4 LLM Inference via Intra-SM Compute Rebalancing",
+      "authors": "Hong Guo, Nianhui Guo, Weixing Wang, Jona Otholt, Christoph Meinel, Haojin Yang",
+      "date": "2026-06-07",
+      "pdf": "https://arxiv.org/pdf/2606.08761v1",
+      "score": "9.0",
+      "evidence": "W4A4量化用于LLM推理，并优化组反量化",
+      "tldr": "W4A4量化虽能利用INT4 Tensor Cores，但group反量化开销导致CUDA Cores瓶颈，现有系统被迫退避为混合精度。研究发现Tensor Cores与CUDA Cores的吞吐量比ρ是硬件关键指标，W4A4-g128在ρ=16的RTX 3090上加速2.0-2.5倍，但在ρ=64的A100上降速至0.43-0.47倍，表明可行性依赖于平台。为此提出APEX4，通过ρ感知的粒度调整设计纯INT4 GEMM核，缓解反量化瓶颈。在LLaMA-2-70B上困惑度仅偏离FP16 0.63，零样本准确率超越W4Ax Atom-g128达4.0-4.4%。作为vLLM的即插即用替换，在L40S、RTX 3090、A40上实现1.66-2.09倍端到端加速，并通过混合粒度模式使A100恢复至1.20-1.40倍。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "W4A4 quantization promises full utilization of INT4 Tensor Cores, yet group dequantization overhead on CUDA Cores has driven existing systems to mixed-precision fallbacks. We present the first systematic study of how intra-SM compute balance governs this bottleneck. Through controlled benchmarks across four GPUs from Ampere and Ada architectures, we identify the Tensor Cores to CUDA Cores throughput ratio ($ρ$) as the primary hardware indicator: the W4A4-g128 kernel yields $2.0$--$2.5\\times$ speedup on RTX~3090 ($ρ=16$) yet degrades to $0.43$--$0.47\\times$ on A100 ($ρ=64$) in compute-bond scenarios, establishing W4A4 viability as platform-dependent rather than universally infeasible. Guided by this finding, we build \\textbf{APEX4}, which co-designs pure INT4 GEMM kernels with $ρ$-aware granularity adaptation to mitigate the CUDA Cores dequantization bottleneck. APEX4 achieves perplexity within 0.63 of FP16 on LLaMA-2-70B and outperforms W4Ax Atom-g128 by 4.0\\%--4.4\\% in zero-shot accuracy. Deployed as a drop-in replacement in unmodified vLLM, it delivers up to $1.66\\times$ end-to-end speedup on L40S ($ρ=8$), and $1.78\\times$ on RTX~3090 ($ρ=16$), $2.09\\times$ on A40 ($ρ=16$), while recovering A100 ($ρ=64$) to $1.20$--$1.40\\times$ via the mixed-granularity mode.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/09/2606.08535v1-ngram-mose-efficient-remote-sensing-super-resolution-via-n-gram-context-and-mixture-of-experts",
+      "section": "quick",
+      "title_en": "NGram-MoSE: Efficient Remote Sensing Super-Resolution via N-Gram Context and Mixture-of-Experts",
+      "authors": "Yun-Hsuan Huang, Trong-An Bui, Chih-Hung Chuang",
+      "date": "2026-06-07",
+      "pdf": "https://arxiv.org/pdf/2606.08535v1",
+      "score": "7.0",
+      "evidence": "基于MoE的轻量Transformer用于高效遥感超分辨率",
+      "tldr": "遥感影像受限于时空分辨率权衡，单图超分可提升粗分辨率影像质量，但现有Transformer模型计算昂贵且对分布外数据鲁棒性差。提出NGram-MoSE轻量Transformer，通过N-Gram上下文注入增强跨窗口纹理连续性，并采用混合专家前馈实现稀疏激活降低计算。在空间不重叠测试集上PSNR达31.68 dB，FLOPs降低14倍；下游滑坡分割任务mAP@50提升4.47%，展示高效鲁棒超分能力。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Remote sensing applications for environmental monitoring and disaster management are frequently constrained by a spatial--temporal trade-off: imagery with fine spatial detail is often acquired less frequently, whereas more temporally available observations are typically coarser. Single-image super-resolution provides a practical means to enhance coarse imagery without changing acquisition schedules, yet many Transformer-based SR models remain computationally expensive and can be sensitive to limited or geographically biased training data, which degrades robustness under out-of-distribution conditions. This paper presents NGram-MoSE, a lightweight Transformer architecture designed to improve both efficiency and texture continuity. NGram-MoSE introduces N-Gram Context Injection to strengthen cross-window local consistency and mitigate window-boundary artifacts, and incorporates a Mixture-of-Experts (MoE) feed-forward design to scale capacity through sparse activation without proportional growth in inference cost. Experiments on a geographically disjoint OOD test set show that NGram-MoSE achieves 31.68\\,dB PSNR while reducing FLOPs by \\(14\\times\\) relative to a heavyweight Transformer reference. Downstream evaluation on a landslide segmentation benchmark further demonstrates that restoring degraded inputs to the detector training scale improves performance, yielding a 4.47\\% absolute gain in mAP@50 over bicubic upsampling, and exhibits stronger cross-scale consistency under scale extrapolation. These results indicate that NGram-MoSE provides an effective SR module for resource-constrained remote sensing pipelines requiring robust generalization.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
