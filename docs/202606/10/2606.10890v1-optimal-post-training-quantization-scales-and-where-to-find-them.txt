@@ -1,0 +1,1496 @@
+Title: Optimal Post-Training Quantization Scales and Where to Find Them
+
+URL Source: https://arxiv.org/pdf/2606.10890v1
+
+Published Time: Wed, 10 Jun 2026 01:05:30 GMT
+
+Number of Pages: 27
+
+Markdown Content:
+# Optimal Post-Training Quantization Scales and Where to Find Them 
+
+Juan Amboage ∗
+
+AMD 
+
+JuanP.GarciaAmboage@amd.com 
+
+Pablo Monteagudo-Lago ∗
+
+AMD 
+
+Pablo.MonteagudoLago@amd.com 
+
+Ian Colbert 
+
+AMD 
+
+Ian.Colbert@amd.com 
+
+Giuseppe Franco 
+
+AMD 
+
+Giuseppe.Franco@amd.com 
+
+Nicholas Fraser 
+
+AMD 
+
+nicholas.fraser@amd.com 
+
+## Abstract 
+
+Post-training quantization (PTQ) compresses large language models by mapping weights to low-bit representations. The scaling factor that defines the quantization grid is typically chosen using simple, data-free heuristics. In this work, we present PiSO (Piecewise Scale Optimization), an algorithm that leverages calibration data to compute the optimal channel-wise weight scales exactly and efficiently under round-to-nearest quantization. PiSO partitions the scale search space into finitely many intervals on which the objective admits a closed-form minimizer. We extend PiSO to group-wise quantization via principled heuristics and propose effective strategies for interleaving scale optimization with error correction. Experiments on Llama and Qwen models across multiple model sizes and target weight bit-widths demonstrate consistent improvements in perplexity and downstream zero-shot accuracy, both standalone and combined with error correction. In particular, we observe increased benefits as the target bit-width narrows and quantization becomes more challenging. 
+
+## 1 Introduction 
+
+Large language models incur significant memory and compute costs that hinder deployment on resource-constrained hardware. Post-training quantization (PTQ) addresses this by mapping weights (and sometimes activations) to low-bit representations without retraining. Because quantization is inherently lossy, PTQ methods seek to minimize the resulting accuracy degradation. PTQ methods map each weight onto a quantization grid, a discrete set of representable values determined by the target low-precision format, a scaling factor, and (optionally) a zero point. Among existing PTQ techniques, greedy error correction algorithms such as OPTQ/GPTQ [ 1 ], and more recently GPTAQ [ 2] or Qronos [ 3], have emerged as the dominant approach for minimizing accuracy degradation. Crucially, these methods operate on fixed quantization grids, so the scaling factors are selected beforehand and held fixed during error correction. In PTQ pipelines, the scaling factor, or simply the scale, is typically chosen with simple heuristics: either mapping the maximum absolute weight value to the extreme grid point (the so-called absmax scale), or searching for the scale with lowest weight reconstruction error over a finite set of candidates between zero and absmax [ 3–5 ]. Both approaches are data-free : they ignore how input activations amplify different weight errors at the layer output. While some recent data-aware methods [ 6– 8]have begun to address this, they remain limited (see Section 2). 
+
+> ∗Equal contribution Preprint.
+> arXiv:2606.10890v1 [cs.LG] 9 Jun 2026
+
+This motivates two questions: (1) can the optimal channel-wise scales be computed exactly and 
+
+efficiently for round-to-nearest (RTN) quantizers under a data-aware reconstruction objective; and (2) can such an optimization be interleaved with established error correction algorithms such as GPTQ to jointly refine scales and weight-to-grid assignments? We answer both questions affirmatively. 
+
+Contributions. Our main contributions are: (1) PiSO, an algorithm that efficiently computes the optimal scales for channel-wise weight quantization with respect to a data-aware layer output reconstruction objective under RTN quantization; (2) an extension of PiSO to group-wise quantiza-tion via two complementary approximations, one of which captures cross-group interactions; and (3) practical strategies for integrating PiSO with error correction methods such as GPTQ, where the RTN assumption no longer holds, by interleaving scale optimization with weight-to-grid assignments. We validate all contributions with comprehensive experiments on Llama and Qwen models across multiple model sizes and target weight bit-widths. Our results show consistent improvements in perplexity and downstream zero-shot accuracy from the use of PiSO, both standalone and combined with GPTQ and Qronos. In particular, we observe increased benefits as the target bit-width narrows and quantization becomes more challenging. Moreover, our results also suggest that PiSO reduces the calibration data required for accurate quantization, both when used with RTN and when combined with GPTQ. 
+
+## 2 Background and Related Work 
+
+Notation. Throughout the paper, W ∈ RD×M denotes the weight matrix of a single layer with D
+
+input dimensions and M output channels, and wj := W:,j ∈ RD is the weight vector of channel j.
+
+˜W denotes the quantized (and possibly error-corrected) weight matrix. X ∈ RN ×D denotes the input activation matrix of a given layer of the high-precision model, while ˜X ∈ RN ×D is the input activation matrix produced by the (partially) quantized model. Given a finite, ordered grid G = {g1 < g 2 < · · · < g L} ⊂ R, and a scaling factor (or simply scale )
+
+s ∈ R+, we define the symmetric quantizer as 
+
+Q(x; s) := s · q(x; s), where q(x; s) :=  xs
+
+ 
+
+> G
+
+(1) is the unscaled grid assignment .Here ⌊·⌉ G denotes the round-to-nearest (RTN) operator on the grid: ⌊y⌉G := arg min g∈G |g − y|,with ties broken by rounding up. For the standard B-bit signed integer format one has that G = {− 2B−1, −2B−1 +1 , . . . , 2B−1 −1}.The scale s is shared across multiple weights: in channel-wise quantization, each output channel has its own scale; in group-wise quantization, each channel is further partitioned into groups of contiguous weights, each with an independent scale. Concretely, given a channel w ∈ RD and a group size G, w is partitioned into K = ⌈D/G ⌉ groups w{1}, . . . , w{K} ∈ RG.The activation matrices are partitioned column-wise according to the same grouping. We write 
+
+X{k} for the columns of X associated with group k. Subscripts {≤ k} and {< k } denote prefix concatenation over groups, e.g., w{≤ k} := [ w{1}, . . . , w{k}]⊤ where, unless stated otherwise, concatenation is along the column dimension. 
+
+Post-training quantization. PTQ algorithms can be subdivided into two categories, depending on the stage of the quantization pipeline that they target [ 3]: (1) transform , and (2) round . Transform methods modify weights and/or activations to make them more amenable to quantization (e.g., by applying rotations that reduce outliers [ 9, 10 ]), whereas round methods focus on mapping (possibly transformed) weights onto a quantization grid, aiming to minimize a layer-wise reconstruction objective such as: 
+
+EGPTQ ( ˜W) = ˜XW − ˜X ˜ W 2 
+
+> F
+
+or E( ˜W) = XW − ˜X ˜ W 2 
+
+> F
+
+. (2) The second objective explicitly accounts for activation drift introduced by quantizing previous layers. 2
+
+Round algorithms can be further subdivided based on their optimization approach:    
+
+> 2The first objective is widely adopted as it is used in GPTQ [ 1] and many others [ 6–8,11 ], while methods like GPFQ [ 12 ], GPTAQ [2] and Qronos [3] adopt the second.
+
+2Gradient-based rounding. These algorithms use backpropagation to learn rounding decisions and, in some cases, quantization parameters [ 13 – 17 ]. However, their high computational costs make them difficult to scale to LLMs [ 16 ], they require careful hyperparameter tuning, and they risk overfitting to the calibration set [14, 15]. 
+
+Greedy rounding. These algorithms typically assume a fixed quantization grid and process weights sequentially in a given layer: each weight is assigned to a grid point, and the resulting quantization error is compensated for in the remaining unquantized weights so as to minimize the layer output error. OBC [ 11 ] introduced this framework by adapting Optimal Brain Surgeon [ 18 ] to layer-wise PTQ, and GPTQ [ 1] scaled it to LLMs through an efficient implementation. Qronos [ 3 ] and GPTAQ [ 2] are recent improvements on GPTQ whose objective accounts for the quantization error propagated from previously quantized layers. 
+
+Scale selection. Although greedy rounding algorithms operate on a fixed grid, the choice of scale directly determines the rounding errors they must compensate [ 1]. The dominant choice in PTQ pipelines remains data-free : either absmax, which maps the largest-magnitude weight to the extreme grid point, or grid-search over a finite set of candidates in (0 , s absmax ] that minimizes the per-channel weight reconstruction error [ 3– 5]. Both ignore how input activations amplify weight errors at the layer output, and both implicitly cap s at sabsmax , a restriction that can be suboptimal (as exemplified in Figure 4 in Appendix D). The literature on data-aware scale selection for gradient-free PTQ is limited and, to the best of our knowledge, restricted to three works that propose it alongside coordinate-descent procedures for the weight-to-grid assignments: CDQuant [ 6], COMQ [ 7 ], and Beacon [ 8]. They differ in how the two are coupled. CDQuant decouples them, optimizing the scale by grid-search on the layer output error before rounding; this inherits the suboptimal s ≤ sabsmax 
+
+constraint and the discrete granularity of the search. COMQ and Beacon instead jointly refine scales and grid assignments, an NP-hard problem on which their iterative procedures converge but offer no global-optimality guarantees. Moreover, all three methods are further limited in the group-wise setting: COMQ and Beacon are restricted to channel-wise quantization, while CDQuant’s group-wise variant treats groups independently, ignoring cross-group interactions through the activations. A complementary line of work focuses on scale selection, in quantization-aware training (QAT) [ 19 , 20 ]or gradient-based PTQ [ 13 , 16 , 17 ]; both require differentiation and lie outside the scope of this gradient-free work. 
+
+## 3 Methods 
+
+In this section we introduce PiSO (Piecewise Scale Optimization), an algorithm that computes provably optimal channel-wise weight scales under RTN quantization (i.e., each weight is mapped to its nearest grid point, with no error-correction reassignment). We then extend PiSO to two settings in which the optimality guarantee no longer holds: (1) we adapt it to group-wise quantization via two principled approximations; and (2) we integrate it with greedy error correction methods such as GPTQ via three strategies. We start by restricting ourselves to the RTN setting and study the optimization of the scaling parameters under this constraint. Therefore, we express the layer output reconstruction objective (Equation 2) as a function of the scaling factors of the quantizer (Equation1): 
+
+E(s) = XW − ˜X Q(W; s) 2 
+
+> F
+
+, Q(W; s) := s ·
+
+ Ws
+
+
+
+> G
+
+, (3) This restriction is principled: for weight MSE minimization (data-free), the optimal grid assignments are directly determined by the scales and achieved by RTN (Proposition C.1). Despite the non-convexity of the error in Equation 3, we show that the channel-wise scales, s = ( s1, . . . , s M ),minimizing this error can be computed exactly in polynomial time. Our proposed algorithm rests on three observations: (1) separability across output channels [ 8 ]; (2) closed-form optimum for a fixed grid assignment [ 7 , 8]; and (3) our key insight : since q(w; s) is piecewise constant in s, the real line (search space of s) can be partitioned into finitely many intervals in which the error has a closed-form minimizer. Sweeping these intervals with efficient incremental updates yields the global optimal scale for each channel. 3Figure 1: Overview of PiSO. The grid assignment q(w; s) is piecewise constant in the scale s,partitioning the real line into intervals within each of which the objective in Equation 3 simplifies to a quadratic. PiSO sweeps through these intervals, evaluates the closed-form minimizer, and returns the scale achieving the lowest error globally. 
+
+3.1 Optimal Scale Algorithm for Channel-wise Quantization 
+
+We now formalize the previous three observations and combine them to propose the scale optimization algorithm PiSO (Algorithm 1 in Appendix A). 
+
+Channel-wise separability. Writing W = [ w1, . . . , wM ] as a collection of column vectors, each quantized with its own scale sj , the objective in Equations 2 and 3 separates into M independent channel-wise problems (Lemma C.4, Appendix C): 
+
+E(s) = 
+
+> M
+
+X
+
+> j=1
+
+Xw j − ˜X Q(wj ; sj ) 2 =
+
+> M
+
+X
+
+> j=1
+
+Ej (sj ). (4) Each sj can therefore be optimized independently. In what follows, we drop the subscript j and focus on finding the optimal scale s for a single output channel with weight vector w ∈ RD .
+
+Closed-form solution for fixed grid assignments. Using Q(w; s) = s q (w; s) from Equation 1, the channel-wise error reads 
+
+E(s) = ∥Xw − s ˜X q(w; s)∥2, (5) which is non-convex through the rounding operator in q(·). Yet, for any fixed grid assignment q, E(s)
+
+is convex in s with a closed-form minimizer (Lemma C.5, Appendix C). Defining 
+
+H := ˜X⊤ ˜X, G := ˜X⊤X ∈ RD×D, α(q) := q⊤G w , β(q) := q⊤H q , (6) the optimal scale for a fixed q and its associated error (up to a s-independent constant c) are 
+
+s∗(q) = α(q)
+
+β(q) , and E(s | q) = c − 2s α (q) + s2 β(q) (7) as it is shown in Appendix C (Remark C.6). Equation 5 accommodates several layer-wise reconstruc-tion objectives depending on the choice of X and ˜X: (1) cross-activation reconstruction (X̸ = ˜X) as in the objective of Qronos and GPTAQ; (2) self-activation reconstruction (replacing X by ˜X), as in the GPTQ objective; and (3) data-free reconstruction (setting X and ˜X to the identity matrix I). Our algorithm is applicable for any of these choices. 
+
+Piecewise-constant structure. The closed-form solution (Equation 7) assumes a fixed grid assign-ment q. Our key observation is that, while q(w; s) is not really constant in s, it is piecewise constant 
+
+in s, with the breakpoints admitting a closed form. For example, for a positive scalar weight wi, as s
+
+decreases from +∞ toward 0 the ratio wi/s grows and the assignment qi = ⌊wi/s ⌉G walks through 
+
+G, jumping from gℓ to gℓ+1 exactly when wi/s crosses their midpoint (Corollary C.9, Appendix C). This yields at most |G| − 1 transition scales per weight, and D(|G| − 1) for the full vector w ∈ RD
+
+that follow the form: 
+
+ti,ℓ = 2 wi
+
+gℓ + gℓ+1 
+
+, i = 1 , . . . , D, ℓ = 1 , . . . , |G| − 1. (8) 4Crucially, each ti,ℓ is associated with a single weight index i: when s crosses ti,ℓ , only qi changes while all other entries stay put (the exception of coinciding transitions is handled in Appendix A). Sorting all the transitions in decreasing order τ1 > · · · > τ T partitions (0 , +∞) into O(D|G|)
+
+intervals on which q is constant. We restrict the exposition to s > 0, as is standard for grids that are symmetric around zero; the signed extension is detailed in Appendix A. 
+
+Sweeping with incremental updates. Within each non-degenerate interval (τj , τ j−1), q is constant and E(s) is quadratic in s with minimizer s∗ 
+
+> j
+
+= clamp( α/β, τ j , τ j−1) and associated error ϕj =(s∗ 
+
+> j
+
+)2 β − 2 s∗ 
+
+> j
+
+α (see Equations 6 and 7). 3 The globally optimal scale is the one achieving the lowest 
+
+ϕj across all intervals (Proposition C.10, Appendix C). A naive sweep would recompute q, α, and 
+
+β from scratch at each interval, costing O(D2) per interval and O(D3|G|) in total. To reduce the algorithm cost, we exploit that at each transition boundary one known entry of q changes: letting i
+
+be that index and δ := qnew  
+
+> i
+
+− qold  
+
+> i
+
+, we maintain the running scalars α, β and the auxiliary vector 
+
+h := H q via 
+
+α ← α + δ · (Gw )i, β ← β + 2 δ · hi + δ2 · Hii , h ← h + δ · Hi, :. (9) The vector Gw is precomputed once before the sweep. The first two updates in Equation 9 cost O(1) 
+
+while the third one costs O(D), reducing the overall per-channel complexity of PiSO to O(D2|G|)
+
+(Proposition C.11, Appendix C). 
+
+Algorithm analysis. The cost per-channel drops further when H is diagonal: h = Hq does not need to be maintained explicitly since hi = Hii qi, and the update of β in Equation 9 simplifies to β ← β + Hii (2 qold  
+
+> i
+
+δ + δ2), with O(1) cost. This reduces the total complexity of sweeping the intervals to O(D|G|) per channel, linear in weight dimension. This diagonal case covers two special settings: (1) the data-free regime : X = ˜X = I, and (2) restricting H and G (Equation 6) to their diagonals, which trades a loss of fidelity for a factor-D speedup. Finally, since the objective in Equation 4 is separable across channels and each sweep requires only read-only access to H, G, and 
+
+G, the M channel problems are embarrassingly parallel 
+
+3.2 Group-wise Quantization 
+
+In group-wise quantization with group size G and K = D/G groups (see Section 2) the channel-wise objective (Equation 5) becomes 
+
+E(s1, . . . , s K ) = Xw − ˜X s1q(w{1}, s 1), . . . , s K q(w{K}, s K )⊤ 2
+
+. (10) Directly extending PiSO, as derived in Section 3, to the group-wise setting is intractable: instead of solving O(D|G|) closed-form subproblems on intervals of the real line, an exact solution would require solving O(( G|G|)K ) subproblems on hyper-intervals of RK .4 Given the increasing relevance of group-wise quantization, we propose two approximations to adapt PiSO to this setting. 
+
+Independent groups. The simplest approach treats each group independently, as it is done by Nair and Suggala [6] , replacing the full objective (Equation 10) by the following sum, which discards all cross-group interactions induced by the activations: 
+
+Eind (s1, . . . , s K ) := 
+
+> K
+
+X
+
+> k=1
+
+X{k}w{k} − sk ˜X{k} q(w{k}; sk) 2, (11) This alternative objective is separable in the K scales, so each group reduces to a channel-wise sweep on G weights (Equations 5, 6) with Hkk = ˜X⊤{k} ˜X{k} and Gkk = ˜X⊤{k}X{k}. Each group sweep costs O(G2|G|), for a total per-channel cost of O(DG |G|) that parallelizes trivially across both groups and channels. The gap between the exact objective and Eind is controlled by the spectral norms of the discarded off-diagonal blocks of the full H and G matrices which encode interactions across groups through the activations (Proposition C.12, Appendix C).             
+
+> 3The clamping is needed as the unconstrained minimizer α/β may fall outside [τj, τ j−1].
+> 4Each scale skhas its own set of transition points, and the joint assignment (q1, . . . , qK)is constant only on the intersection of intervals across all Kaxes.
+
+5Sequential groups. An alternative that accounts for cross-group interactions processes groups one at a time. After fixing the scales s∗
+
+> 1
+
+, ..., s ∗ 
+
+> k−1
+
+for the first k − 1 groups, sk is chosen to minimize the reconstruction error in which the already quantized weights (and their scale) are fixed. More precisely, 
+
+Eseq (sk) := X{≤ k} w{≤ k} − ˜X{<k } ˜w{<k } − sk ˜X{k} q(w{k}, s k) 2, (12) where ˜w{i} := s∗ 
+
+> i
+
+q(w{i}; s∗ 
+
+> i
+
+) for i < k . The quantization error of all preceding groups thereby shifts the target against which group k is optimized. The procedure provides a middle ground between the independent variant and a full joint optimization but remains suboptimal as later groups cannot influence earlier ones. Mirroring the column reordering commonly used in GPTQ implementa-tions [ 21 , 22 ], we process groups by aggregated Hessian importance (more details in Appendix A). Each group sweep costs O(G2|G|), for a total per-channel cost of O(DG |G|).
+
+3.3 Integration with Existing PTQ Methods 
+
+Integration with the transform stage of the PTQ pipeline (Section 2) is immediate: one can just apply PiSO to the transformed weights produced by methods such as rotation-based equalization [ 9 , 10 ]before moving into the round stage. Integration with error correction methods such as GPTQ [ 1] and Qronos [ 3] is more delicate: these algorithms operate with a fixed scale and reassign weights away from their nearest grid point in order to compensate for errors propagated from previously quantized weights in the same channel. This conflicts with the RTN assumption underlying PiSO. Nevertheless, given the effectiveness of error correction methods, we propose three strategies to integrate them with PiSO. We focus our exposition on GPTQ, but the strategies transfer directly to other layer-wise error correction methods such as Qronos. 
+
+Decoupled optimization. The scales of all layers are optimized first, using the ˜X produced by RTN-quantizing preceding layers with their optimized scales; error correction is then applied with the scales held fixed. The two stages are fully decoupled, but there is a mismatch between the ˜X used for optimizing the scale of a given layer and the activations that the layer actually receives when error correction is being applied, since error correction modifies first the weights of its preceding layers. 
+
+Interleaved layer-wise optimization. Scale optimization and error correction alternate at the layer level: the scales of a given layer are optimized immediately before its error correction step. Since all preceding layers have been fully processed (scales optimized and error corrected), the ˜X used during scale optimization now matches the activations the current layer receives for error correction or at inference. Error correction itself is unchanged, as it still operates on a fixed grid. 
+
+Interleaved group-wise optimization. In group-wise quantization, the coupling can be pushed further by optimizing the scale of each group just before error correction quantizes its weights, so that the scale is fitted on weights that already incorporate the error-diffusion updates from earlier groups in the same channel. 5 As in the layer-wise strategy, the ˜X used during scale optimization matches the activations the layer actually receives. While the weights of the group will not be quantized by RTN once the scale is fixed, the deviations from RTN are expected to be small, since each weight only needs to compensate for the error of its predecessors within the same group rather than the entire layer. This integration constrains the column processing order: error correction methods such as GPTQ typically traverse columns by decreasing diagonal-Hessian magnitude, but here all weights of a group must be processed contiguously. We therefore adopt a group-aware importance ordering: columns are sorted by Hessian importance within each group, and groups are sorted by aggregate importance (more details in Appendix A). 
+
+## 4 Experiments 
+
+We conduct experiments to evaluate PiSO with a focus on investigating (1) the relative performance improvement that the provably optimal channel-wise scales yield over the absmax, and data-free 
+
+heuristics in the RTN setting; (2) the effectiveness of the independent and sequential approximations 
+
+> 5This optimization can use either the independent or sequential variant of Section 3.2; in the sequential case the objective is adjusted to account for the error already diffused across groups (see Appendix B).
+
+6(a) WikiText-2 perplexity ( ↓) (b) Zero-shot accuracy ( ↑)
+
+Figure 2: Effect of calibration set size on Llama-3.2-1B with 3-bit integer channel-wise weight quantization. Each sample is a 2048 token sequence. PiSO remains stable even with a single calibration sample, whereas GPTQ with absmax requires ≥64 samples to converge. Combined with GPTQ, PiSO achieves the best perplexity and accuracy across all calibration sizes. Table 1: Channel-wise 2-bit weight-only quantization results on Llama-3 and Qwen-2.5 models, reporting WikiText-2 perplexity ( ↓) and average zero-shot accuracy ( ↑). For error correction with PiSO, +/⊙ denote decoupled/interleaved (Section 3.3). PiSO-optimized scales reduce absmax perplexity by orders of magnitude; the interleaved variant achieves the best results in nearly all configurations.                                                                                                                                            
+
+> 2-bit Llama 2-bit Qwen
+> WikiText2 ( ↓)0-shot ( ↑)WikiText2 ( ↓)0-shot ( ↑)1B 3B 8B 1B 3B 8B 1.5B 3B 7B 1.5B 3B 7B BF16 8.97 7.14 5.89 52.6 62.0 68.6 8.89 7.88 6.92 54.9 56.5 57.7 RTN + absmax 2e5 4e5 4e5 33.0 32.5 33.4 7e6 6e6 1e5 31.8 32.9 32.3 RTN + PiSO 3e3 3e3 3e3 32.3 31.6 32.0 2e3 2e3 4e3 31.8 32.7 32.2 Beacon 52.8 72.4 25.5 33.8 33.3 36.8 1e3 33.2 21.9 32.5 32.4 33.9 GPTQ + absmax 3e3 415 331 31.6 31.9 31.5 675 596 72.7 33.0 32.8 32.1 GPTQ + PiSO 92.5 47.5 32.5 33.1 33.2 34.7 39.2 32.7 15.6 34.4 32.9 37.1 GPTQ ⊙PiSO 54.7 29.5 22.3 35.5 36.3 40.2 44.7 30.6 17.0 33.7 34.4 34.9 Qronos + absmax 197 68.9 49.5 31.6 32.7 33.5 111 35.8 2e4 32.1 32.5 32.1 Qronos + PiSO 216 84.8 76.0 32.1 33.3 33.0 196 27.4 24.5 32.3 32.9 36.1 Qronos ⊙PiSO 27.9 18.9 16.6 37.5 41.4 44.0 131 17.2 16.3 32.7 34.8 38.1
+
+for optimizing the scale in group-wise quantization; and (3) how the different integration strategies of PiSO with error correction methods improve the performance of GPTQ or Qronos. 
+
+Experimental Setup. Our experiments are conducted on Llama-3 [ 23 ] and Qwen-2.5 Instruct [ 24 ], using the publicly released implementations and instruction-tuned checkpoints available through HuggingFace [ 25 ]. For calibration, we sample 128 sequences of 2048 tokens from the WikiText2 [ 26 ]training split. We focus on weight-only quantization, which, not only is a relevant setting by itself, but also allows us to decouple the evaluation from the choice of any specific activation-quantization scheme. We quantize weights to 2- and 3-bits, where quantization remains most challenging and a careful choice of PTQ algorithms is critical, and also to 4-bits. All scales are stored in BF16. 
+
+Metrics. We report perplexity on the WikiText2 [ 26 ] validation split, and zero-shot performance on downstream reasoning benchmarks. Specifically, we evaluate zero-shot performance on ARC-Easy [27], ARC-Challenge [27], and HellaSwag [28] using LightEval [29]. 
+
+Baselines. We compare PiSO against three scale selection strategies: (1) absmax : the scale maps the largest-magnitude weight to the extreme grid point; (2) data-free : We leverage the simplified version of PiSO to optimize the activation-independent objective ∥w − s q (w, s )∥2. This serves as 7Table 2: Channel-wise 3-bit and 4-bit quantization results on Llama-3 models, reporting WikiText-2 perplexity ( ↓) and average zero-shot accuracy ( ↑). For error correction with PiSO, +/⊙ denote decoupled/interleaved (Section 3.3). The gap between absmax and PiSO-optimized scales widens at lower bit-widths, and PiSO consistently achieves the best result in every configuration.                                                                                                                                            
+
+> 3-bit 4-bit
+> WikiText2 ( ↓)0-shot ( ↑)WikiText2 ( ↓)0-shot ( ↑)1B 3B 8B 1B 3B 8B 1B 3B 8B 1B 3B 8B BF16 8.97 7.14 5.89 52.6 62.0 68.6 8.97 7.14 5.89 52.6 62.0 68.6 RTN + absmax 2e3 436 1e3 32.8 35.7 38.0 22.3 9.61 7.83 46.3 55.6 64.7 RTN + PiSO 19.5 10.6 8.99 44.2 52.1 59.9 11.0 7.92 6.64 50.0 60.4 67.3 Beacon 19.1 33.7 9.35 42.4 40.1 53.5 13.6 25.1 7.53 46.1 46.3 59.7 GPTQ + absmax 19.6 11.3 9.23 39.6 49.8 55.1 10.4 7.79 6.49 49.3 59.4 65.6 GPTQ + PiSO 12.9 9.19 7.42 47.5 54.6 63.0 9.94 7.63 6.32 52.0 60.2 68.3
+> GPTQ ⊙PiSO 12.8 9.08 7.41 47.0 55.9 62.6 9.91 7.65 6.32 51.3 60.0 68.1 Qronos + absmax 15.0 9.83 8.27 40.6 51.4 57.9 10.0 7.64 6.36 50.2 60.1 65.2 Qronos + PiSO 11.6 8.42 7.01 48.6 55.5 61.4 9.61 7.44 6.19 51.5 61.2 67.4 Qronos ⊙PiSO 11.6 8.41 6.98 48.0 55.6 62.7 9.59 7.44 6.18 51.1 60.5 67.0
+
+Table 3: Group-wise quantization results on Llama-3 3B and Qwen-2.5 3B with group sizes 16 and 32 (G16/G32), reporting WikiText-2 perplexity ( ↓). The subscripts I/S denote the independent/sequential heuristics for PiSO (Section 3.2); entries without subscript report the best of the two heuristics. For error correction with PiSO, +/⊙ denote decoupled/interleaved and the superscripts ∗/† denote the layer-wise/group-wise integration (Section 3.3).                                                                                                                                               
+
+> 2-bit 3-bit 4-bit
+> Llama Qwen Llama Qwen Llama Qwen G16 G32 G16 G32 G16 G32 G16 G32 G16 G32 G16 G32 BF16 7.14 7.14 7.88 7.88 7.14 7.14 7.88 7.88 7.14 7.14 7.88 7.88 RTN + absmax 8e5 8e5 3e8 2e8 4e3 11.7 21.0 102 7.69 7.72 8.78 8.91 RTN + data-free 2e6 2e6 33.0 32.9 16.4 23.3 45.7 43.0 9.81 10.2 51.3 52.0 RTN + PiSO I2e4 2e4 388 758 8.21 8.62 8.85 9.13 7.33 7.42 8.08 8.18 RTN + PiSO S19.4 28.7 17.1 25.9 7.86 8.17 8.58 8.92 7.26 7.33 8.00 8.04 GPTQ + absmax 30.3 26.4 34.8 30.4 8.41 8.29 8.86 8.91 7.35 7.38 8.06 8.03 GPTQ + data-free 34.8 47.0 35.8 34.5 10.7 11.1 49.4 48.6 9.25 9.34 52.5 52.7 GPTQ + PiSO 21.5 25.2 15.5 18.1 8.12 8.50 8.55 8.79 7.30 7.37 8.01 8.03 GPTQ ⊙PiSO ∗20.7 24.0 15.3 18.1 8.11 8.44 8.52 8.72 7.30 7.36 8.01 8.03 GPTQ ⊙PiSO †17.0 21.3 14.3 16.6 7.92 8.29 8.48 8.68 7.27 7.34 7.98 8.02
+
+a stronger version of the grid-search heuristic commonly used in PTQ pipelines, both because the search is not restricted to [0 , s absmax ] and because it is exact rather than discrete; and (3) Beacon [ 8], which jointly optimizes channel-wise scales and grid assignments via coordinate descent (Section 2). Among the three data-aware scale selection methods reviewed in Section 2 (CDQuant, COMQ, Beacon), none has publicly available code and none appears to be more widely adopted than the others; we select Beacon as the most recent representative, noting that it is methodologically very close to COMQ. Throughout this section, unless stated otherwise, PiSO combined with RTN is configured to minimize the cross-activation objective in Equation 2; when combined with GPTQ or Qronos, it minimizes the same objective as the error-correction algorithm (see Equation 2). 
+
+Channel-wise Quantization Results. Table 1 summarizes the channel-wise results for 2-bit quan-tization. We observe that RTN is catastrophic regardless of the scale selection procedure. PiSO combined with error correction (GPTQ/Qronos) consistently improves over absmax and Beacon. Moreover, the interleaved per-layer integration (GPTQ/Qronos ⊙ PiSO) outperforms the simpler decoupled composition (GPTQ/Qronos + PiSO) in most configurations. The best overall results are 8obtained by Qronos ⊙ PiSO. The 3-bit and 4-bit results for the Llama models are displayed in Table 2, the results for Qwen are analogous, and are deferred to Appendix D (Table 9). For these bit widths we again observe that the combination of error correction and PiSO yields the best results in most settings. Notably, at 3-bit, RTN + PiSO already produces competitive perplexities, even surpassing GPTQ + absmax for multiple model sizes. The benefits of PiSO remain pronounced at 3-bit, while at 4-bit the finer grid narrows the gap. Yet, even for 4-bit, PiSO clearly outperforms absmax in the RTN regime where its optimality guarantees apply. The data-free variant yielded substantially degraded results in these settings; for clarity we defer those numbers to Appendix D (Table 10). 
+
+Group-wise Quantization Results. Table 3 reports group-wise results on Llama-3.2-3B and Qwen2.5-3B at group sizes 16 and 32. Within the RTN regime, the sequential heuristic consistently outperforms the independent one, even by an order of magnitude at 2-bit, confirming the importance of accounting for cross-group interactions. When combined with GPTQ, the most tightly coupled integration (GPTQ ⊙ PiSO †) achieves the best 2-bit perplexities and also performs strongly at 3-bit and 4-bit. Strikingly, at 3-bit and 4-bit, RTN + PiSO S is already competitive with GPTQ-based variants and even achieves the best Llama perplexities. To keep the results compact—given that we already evaluate two group-wise heuristics, three integration variants, and two group sizes— we restricted the error-correction comparison to GPTQ. Results for other model sizes and the corresponding zero-shot accuracies are reported in Appendix D (Tables 12, 13). 
+
+Calibration size sensitivity. The number of calibration samples needed by PTQ algorithms is usually overlooked. In channel-wise quantization, PiSO combined with RTN optimizes only one parameter per channel while GPTQ has to optimize all the weight-to-grid assignments. Therefore, we expect the former to be more data-efficient. To test this we sweep the calibration size on Llama-3.2-1B at 3-bit channel-wise quantization, comparing RTN + PiSO, GPTQ + absmax, and GPTQ ⊙ PiSO, with RTN + absmax included as a calibration-independent reference. The results are reported in Figure 2. As expected, RTN + PiSO is highly robust: a single calibration sample (sequence of 2048 tokens) already suffices to recover near-asymptotic perplexity and accuracy, while GPTQ + absmax requires tens of samples to stabilize. Somewhat surprisingly, GPTQ ⊙ PiSO is also more data-efficient than GPTQ + absmax despite optimizing the same number of weight assignments, plus the channel scales, suggesting that providing GPTQ with a well-calibrated grid can potentially reduce its dependence on calibration size. We leave a deeper analysis of this phenomenon, together with a broader empirical study across models, bit-widths, and PTQ methods, to future work. 
+
+Additional experiments: rotations, ablations, and runtime. In Appendix D we evaluate the composition of PiSO with the transform stage algorithm (see Section 2) QuaRot [ 9 ]. Appendix D results also include ablations on the different PiSO-supported objectives, and quantization to non-integer grids (FP4). We also report wall-clock runtimes and overhead with respect to GPTQ (Table 4). Results show minimal overhead. 
+
+## 5 Conclusion 
+
+We revisited an often overlooked component of PTQ: the choice of the scaling factor. We introduced PiSO (Piecewise Scale Optimization), which, for channel-wise RTN weight quantization, exactly minimizes a data-aware layer-wise objective in O(D2|G|) time per channel. On top of this exact channel-wise solver we proposed two approximations for group-wise quantization and three integra-tion strategies that interleave PiSO with GPTQ/Qronos, showing that PiSO can also be leveraged outside the RTN regime, despite the optimality guarantees not carrying over. Across Llama and Qwen models, PiSO consistently improves perplexity and zero-shot accuracy over absmax, data-free heuris-tics, and Beacon, with gains widening as the bit-width narrows. Beyond accuracy, our calibration-size study (Figure 2) reveals that RTN + PiSO reaches near-asymptotic quality from a single 2048-token calibration sequence, and that GPTQ improves its data efficiency when combined with PiSO scales. We hope that our theoretical framework, and in particular PiSO, provide a foundation for treating the scale with the same algorithmic care that has been devoted to rounding decisions. 
+
+Limitations and future work. PiSO’s exact optimality is, by construction, tied to the channel-wise RTN regime: the group-wise variants are approximations and the interleaved integration with GPTQ/Qronos breaks the RTN assumption by design. However in practice, our extensive experiments 9show that PiSO remains the strongest scale-selection strategy in both settings, and that the tightest coupling with error correction yields the best end-to-end results. Tightening the theoretical analysis of these approximations, together with a deeper empirical study of the data-efficiency phenomenon observed in Figure 2, are natural next steps. We focused on unconstrained BF16 scales; hardware formats such as MX [ 30 ] and NVFP4 [ 31 ] impose additional constraints (e.g., low-bit or hierarchical scales) that fall outside the scope of this work, and we plan to extend our framework and PiSO to such restricted-scale settings, as well as to asymmetric quantization, in future work. 
+
+## References 
+
+[1] Elias Frantar, Saleh Ashkboos, Torsten Hoefler, and Dan Alistarh. OPTQ: Accurate post-training quantization for generative pre-trained transformers. In The Eleventh International Conference on Learning Representations , 2023. [2] Yuhang Li, Ruokai Yin, Donghyun Lee, Shiting Xiao, and Priyadarshini Panda. GPTAQ: Efficient finetuning-free quantization for asymmetric calibration. In Forty-second International Conference on Machine Learning , 2025. [3] Shihao Zhang, Haoyu Zhang, Ian Colbert, and Rayan Saab. Qronos: Correcting the past by shaping the future... in post-training quantization. In The Fourteenth International Conference on Learning Representations , 2026. [4] Vage Egiazarian, Roberto L. Castro, Denis Kuznedelev, Andrei Panferov, Eldar Kurtic, Shubhra Pandit, Alexandre Noll Marques, Mark Kurtz, Saleh Ashkboos, Torsten Hoefler, and Dan Alistarh. Bridging the gap between promise and performance for microscaling FP4 quantization. In The Fourteenth International Conference on Learning Representations , 2026. [5] Sai Sanjeet, Ian Colbert, Pablo Monteagudo-Lago, Giuseppe Franco, Yaman Umuroglu, and Nicholas J Fraser. MixQuant: Pushing the limits of block rotations in post-training quantization. 
+
+arXiv preprint arXiv:2601.22347 , 2026. [6] Pranav Ajit Nair and Arun Sai Suggala. CDQuant: Accurate post-training weight quantization of large pre-trained models using greedy coordinate descent. CoRR , abs/2406.17542, 2024. [7] Aozhong Zhang, Zi Yang, Naigang Wang, Yingyong Qi, Jack Xin, Xin Li, and Penghang Yin. COMQ: A backpropagation-free algorithm for post-training quantization. IEEE Access , 2025. [8] Shihao Zhang and Rayan Saab. Beacon: Post-training quantization with integrated grid selection. 
+
+IEEE Signal Processing Letters , 2026. [9] Saleh Ashkboos, Amirkeivan Mohtashami, Maximilian L. Croci, Bo Li, Pashmina Cameron, Martin Jaggi, Dan Alistarh, Torsten Hoefler, and James Hensman. QuaRot: Outlier-free 4-bit inference in rotated LLMs. In The Thirty-eighth Annual Conference on Neural Information Processing Systems , 2024. [10] Zechun Liu, Changsheng Zhao, Igor Fedorov, Bilge Soran, Dhruv Choudhary, Raghuraman Krishnamoorthi, Vikas Chandra, Yuandong Tian, and Tijmen Blankevoort. SpinQuant: LLM quantization with learned rotations. In The Thirteenth International Conference on Learning Representations , 2025. [11] Elias Frantar and Dan Alistarh. Optimal brain compression: A framework for accurate post-training quantization and pruning. Advances in Neural Information Processing Systems , 35: 4475–4488, 2022. [12] Eric Lybrand and Rayan Saab. A greedy algorithm for quantizing neural networks. Journal of Machine Learning Research , 22(156):1–38, 2021. [13] Markus Nagel, Rana Ali Amjad, Mart Van Baalen, Christos Louizos, and Tijmen Blankevoort. Up or down? Adaptive rounding for post-training quantization. In International conference on machine learning , pages 7197–7206. PMLR, 2020. [14] Yuhang Li, Ruihao Gong, Xu Tan, Yang Yang, Peng Hu, Qi Zhang, Fengwei Yu, Wei Wang, and Shi Gu. BRECQ: Pushing the limit of post-training quantization by block reconstruction. In International Conference on Learning Representations , 2021. 10 [15] Itay Hubara, Yury Nahshan, Yair Hanani, Ron Banner, and Daniel Soudry. Accurate post training quantization with small calibration sets. In International conference on machine learning , pages 4466–4475. PMLR, 2021. [16] Wenhua Cheng, Weiwei Zhang, Haihao Shen, Yiyang Cai, Xin He, Lv Kaokao, and Yi Liu. Optimize weight rounding via signed gradient descent for the quantization of llms. In Findings of the Association for Computational Linguistics: EMNLP 2024 , pages 11332–11350, 2024. [17] Wenqi Shao, Mengzhao Chen, Zhaoyang Zhang, Peng Xu, Lirui Zhao, Zhiqian Li, Kaipeng Zhang, Peng Gao, Yu Qiao, and Ping Luo. OmniQuant: Omnidirectionally calibrated quan-tization for large language models. In The Twelfth International Conference on Learning Representations , 2024. [18] Babak Hassibi, David G Stork, and Gregory J Wolff. Optimal brain surgeon and general network pruning. In IEEE international conference on neural networks , pages 293–299. IEEE, 1993. [19] Steven K. Esser, Jeffrey L. McKinstry, Deepika Bablani, Rathinakumar Appuswamy, and Dharmendra S. Modha. Learned step size quantization. In International Conference on Learning Representations , 2020. [20] Zechun Liu, Changsheng Zhao, Hanxian Huang, Sijia Chen, Jing Zhang, Jiawei Zhao, Scott Roy, Lisa Jin, Yunyang Xiong, Yangyang Shi, Lin Xiao, Yuandong Tian, Bilge Soran, Raghuraman Krishnamoorthi, Tijmen Blankevoort, and Vikas Chandra. ParetoQ: Improving scaling laws in extremely low-bit LLM quantization. In The Thirty-ninth Annual Conference on Neural Information Processing Systems , 2026. [21] IST-DASLab. GPTQ, 2022. URL https://github.com/ist-daslab/gptq .[22] Alessandro Pappalardo, Giuseppe Franco, Ian Colbert, Fabian Grob, Timothy Costigan, Oscar Savolainen, Andrei Stoian, Anton Gerdelan, Yaman Umuroglu, Tim Paine, et al. Xilinx/brevitas: Release v0. 12.0, 2025. [23] Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, et al. The llama 3 herd of models. arXiv preprint arXiv:2407.21783 , 2024. [24] Qwen Team, An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, Huan Lin, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang, Jingren Zhou, Junyang Lin, Kai Dang, Keming Lu, Keqin Bao, Kexin Yang, Le Yu, Mei Li, Mingfeng Xue, Pei Zhang, Qin Zhu, Rui Men, Runji Lin, Tianhao Li, Tianyi Tang, Tingyu Xia, Xingzhang Ren, Xuancheng Ren, Yang Fan, Yang Su, Yichang Zhang, Yu Wan, Yuqiong Liu, Zeyu Cui, Zhenru Zhang, and Zihan Qiu. Qwen2.5 Technical Report, 2025. [25] Thomas Wolf, Lysandre Debut, Victor Sanh, Julien Chaumond, Clement Delangue, Anthony Moi, Pierric Cistac, Tim Rault, Rémi Louf, Morgan Funtowicz, et al. Transformers: State-of-the-art natural language processing. In Proceedings of the 2020 conference on empirical methods in natural language processing: system demonstrations , pages 38–45, 2020. [26] Stephen Merity, Caiming Xiong, James Bradbury, and Richard Socher. Pointer sentinel mixture models. In International Conference on Learning Representations , 2017. [27] Peter Clark, Isaac Cowhey, Oren Etzioni, Tushar Khot, Ashish Sabharwal, Carissa Schoenick, and Oyvind Tafjord. Think you have solved question answering? try ARC, the AI2 reasoning challenge. arXiv preprint arXiv:1803.05457 , 2018. [28] Rowan Zellers, Ari Holtzman, Yonatan Bisk, Ali Farhadi, and Yejin Choi. Hellaswag: Can a machine really finish your sentence? In Proceedings of the 57th annual meeting of the association for computational linguistics , pages 4791–4800, 2019. [29] Nathan Habib, Clémentine Fourrier, Hynek Kydlíˇ cek, Thomas Wolf, and Lewis Tunstall. LightEval: A lightweight framework for llm evaluation, 2023. URL https://github.com/ huggingface/lighteval .11 [30] Bita Darvish Rouhani, Nitin Garegrat, Tom Savell, Ankit More, Kyung-Nam Han, Ritchie Zhao, Mathew Hall, Jasmine Klar, Eric Chung, Yuan Yu, et al. OCP microscaling formats (MX) specification. Open Compute Project , 2023. [31] Eduardo Alvarez, Omri Almog, Eric Chung, Simon Layton, Dusan Stosic, Ronny Krashinsky, and Kyle Aubrey. Introducing NVFP4 for efficient and accurate low-precision inference, June 2025. NVIDIA Developer Blog. [32] Jason Ansel, Edward Yang, Horace He, Natalia Gimelshein, Animesh Jain, Michael Voznesen-sky, Bin Bao, Peter Bell, David Berard, Evgeni Burovski, Geeta Chauhan, Anjali Chourdia, Will Constable, Alban Desmaison, Zachary DeVito, Elias Ellison, Will Feng, Jiong Gong, Michael Gschwind, Brian Hirsh, Sherlock Huang, Kshiteej Kalambarkar, Laurent Kirsch, Michael Lazos, Mario Lezcano, Yanbo Liang, Jason Liang, Yinghai Lu, CK Luk, Bert Maher, Yunjie Pan, Christian Puhrsch, Matthias Reso, Mark Saroufim, Marcos Yukio Siraichi, Helen Suk, Michael Suo, Phil Tillet, Eikan Wang, Xiaodong Wang, William Wen, Shunting Zhang, Xu Zhao, Keren Zhou, Richard Zou, Ajit Mathews, Gregory Chanan, Peng Wu, and Soumith Chintala. PyTorch 2: Faster Machine Learning Through Dynamic Python Bytecode Transformation and Graph Compilation. In 29th ACM International Conference on Architectural Support for Program-ming Languages and Operating Systems, Volume 2 (ASPLOS ’24) . ACM, April 2024. doi: 10.1145/3620665.3640366. [33] Babak Hassibi and Haris Vikalo. On the expected complexity of integer least-squares problems. In 2002 IEEE International Conference on Acoustics, Speech, and Signal Processing , volume 2, pages II–1497. IEEE, 2002. [34] Haoyu Zhang, Shihao Zhang, Ian Colbert, and Rayan Saab. Provable post-training quantization: Theoretical analysis of OPTQ and Qronos. arXiv preprint arXiv:2508.04853 , 2025. 12 Algorithm 1 PiSO: Piecewise Scale Optimization 
+
+Require: Weight vector w ∈ RD , matrices H ∈ RD×D, G ∈ RD×D, sorted grid G = {g1, . . . , g L}
+
+Ensure: Optimal scale ˆs 
+
+> 1:
+
+Compute transition scales ti,ℓ ← 2wi 
+
+> gℓ+gℓ+1
+
+for all i ∈ [D], ℓ ∈ [L−1]  
+
+> 2:
+
+Sort all transitions in decreasing order: τ1 > · · · > τ T , recording which (i, ℓ ) each corresponds to  
+
+> 3:
+
+p ← Gw {Precompute; does not change during sweep}  
+
+> 4:
+
+α ← 0, β ← 0, h ← 0 {α = w⊤G⊤q, β = q⊤Hq, h = Hq} 
+
+> 5:
+
+ˆs ← undef , ˆϕ ← +∞ 
+
+> 6:
+
+Precompute sign-change transition values (αtr , β tr , htr ) 
+
+> 7:
+
+for j = 1 , . . . , T do  
+
+> 8:
+
+if first negative-scale interval then  
+
+> 9:
+
+α ← αtr , β ← βtr , h ← htr {Sign change at s = 0 } 
+
+> 10:
+
+end if  
+
+> 11:
+
+Let i be the index whose qi changes by δ = qnew  
+
+> i
+
+− qold  
+
+> i
+> 12:
+
+α ← α + δ · pi {O(1) } 
+
+> 13:
+
+β ← β + 2 δ · hi + δ2 · Hii {O(1) } 
+
+> 14:
+
+h ← h + δ · Hi, : {O(D); omitted if H is diagonal}  
+
+> 15:
+
+s∗ 
+
+> j
+
+← clamp  α/β, τ j , τ j−1
+
+ 
+
+> 16:
+
+ϕj ← (s∗ 
+
+> j
+
+)2 β − 2 s∗ 
+
+> j
+
+α 
+
+> 17:
+
+if ϕj < ˆϕ and |τj−1 − τj | > ε then  
+
+> 18:
+
+ˆs ← s∗ 
+
+> j
+
+, ˆϕ ← ϕj {Skip degenerate intervals}  
+
+> 19:
+
+end if  
+
+> 20:
+
+end for  
+
+> 21:
+
+return ˆs
+
+## A Implementation Details 
+
+Algorithm 1 summarizes the optimization procedure described in Section 3 for a single channel. In this implementation the sweep proceeds from large to small |s| (right to left), processing positive scales first and then negative scales, if permitted. We implemented PiSO using PyTorch 2.8 [ 32 ], and benefited from batched operations to parallelize it in GPU across channels in a given layer, and simultaneously across groups for the independent approximation (see Section 3.2). In the following, we provide additional details on how corner cases arising in the scale optimization are handled. 
+
+Degenerate Intervals. Two transition scales coincide ( ti,ℓ = tj,ℓ ′ ) whenever wi/w j = mℓ′ /m ℓ
+
+for grid midpoints mℓ, m ℓ′ . When this happens, the interval between them has zero length. At such a point several entries of q attempt to change simultaneously, but since our sweep processes them one at a time, the intermediate state does not correspond to any realizable rounding. We detect these degenerate intervals by checking |τj−1 − τj | < ε and skip the error update on them. 
+
+Handling the scale sign change. For quantization grids that are symmetric around zero, i.e. they verify the property that if q ∈ G ⇒ − q ∈ G, only positive scales s > 0 need to be considered to guarantee optimality. This holds since s · q(w; s) = ( −s) · q(w; −s). However, for asymmetric quantization grids, such as those of integer datatypes, the optimal scale may be negative. If one wants to allow for such negative scales, the algorithm needs to handle the sign change at s = 0 , to account for the simultaneous changes in the unscaled grid assignments. Precisely, when the sweep crosses from positive to negative scales, the ratio wi/s flips sign for every weight simultaneously. Indeed, this is the only point where more than one entry of q changes at once, and incremental updates do not apply. We handle it by precomputing a transition vector qtr that assigns each weight to the extreme grid point matching its sign 
+
+qtr  
+
+> i
+
+=
+
+gL if wi < 0,g1 if wi ≥ 0,
+
+13 Figure 3: Overview of the three integration strategies of PiSO with error correction algorithms (e.g., GPTQ). The strategies differ in how tightly scale optimization and error correction are interleaved: 
+
+decoupled optimizes all scales first, interleaved alternates scale and error-correction updates within each layer, and fully coupled re-optimizes scales after each error-correction step. together with the corresponding αtr , βtr , and htr . When the sweep first enters a negative-scale interval, the running state is replaced by these precomputed values, after which incremental updates resume normally for s < 0.
+
+Group processing order. Error-correction methods typically process the weights of a given layer in descending order of the diagonal entries of H := ˜X⊤ ˜X [3, 21 , 22 ]: for a weight vector w ∈ RD ,the entry wi is quantized earlier the larger its associated diagonal element Hii . As mentioned in Section 3.2, in sequential-groups variant of PiSO the order in which the groups are processed matters, since later groups cannot influence earlier ones. We adopt a natural group-wise analogue of the standard weight-level rule: the importance of group k is P
+
+> i∈I Gk
+
+Hii , the sum of the diagonal Hessian entries of its weights, and groups are processed in descending order of this score. When applying PiSO using the group-wise interleaved integration with error correction described in the Interleaved group-wise optimization strategy (Section 3.3), the scale of each group must be optimized just before error correction quantizes its weights, which forces all weights of a given group to be processed, before any weight of a different group. The standard H-based ordering used in GPTQ implementations breaks this contiguity. To overcome this we use a group-aware reordering: groups are sorted in descending order of their aggregated importance P
+
+> i∈I Gk
+
+Hii defined above, and within each group columns are sorted in the usual way by Hii . We impose this constraint in the reordering only whenever PiSO is combined with GPTQ at the tightest integration level (GPTQ ⊙ PiSO † in the relevant Tables). 
+
+## B Integration with Greedy Error Correction Algorithms 
+
+Greedy error correction algorithms such as GPTQ [ 1] and Qronos [ 3] process the D weights se-quentially in two alternating steps: error correction and error diffusion. Following the formulation in Zhang et al. [3], let ˜wt denote the partially quantized state after step t, with 
+
+˜wt =  q{≤ t}, wt
+
+> {>t }
+
+, ˜w0 = w, t ∈ { 0, . . . , D }
+
+where q{≤ t} = [ q1, . . . , q t] and wt 
+
+> {>t }
+
+= [ wtt+1 , . . . , w tD ]. At step t, error correction selects qt while holding the other coordinates fixed, and error diffusion updates the remaining weights: 
+
+qt = arg min 
+
+> p∈G
+
+12 Xw −
+
+> t−1
+
+X
+
+> j=1
+
+s⌈j/G ⌉qj ˜Xj − s⌈t/G ⌉p ˜Xt −
+
+> D
+
+X
+
+> j=t+1
+
+wt−1 
+
+> j
+
+˜Xj
+
+> 2
+
+, (13) 
+
+wt 
+
+> {>t }
+
+= arg min 
+
+> v∈RD−t
+
+12 Xw −
+
+> t
+
+X
+
+> j=1
+
+s⌈j/G ⌉qj ˜Xj −
+
+> D
+
+X
+
+> j=t+1
+
+vj ˜Xj
+
+> 2
+
+. (14) These subproblems admit closed forms: error correction (Equation 13) is a scalar projection onto G,and error diffusion (Equation 14) is a least-squares update over the remaining weights. 14 In group-wise quantization, PiSO can be run each time the error correction process reaches a group boundary. Let t = ( k−1) G + 1 be the first index of group k in the processing order. Before the weights of group k are quantized, PiSO optimizes sk using the current partially quantized state ˜wt−1.The form of this optimization depends on the group-wise heuristic: 
+
+Independent groups interleaved with error correction. Cross-group interactions are discarded and the scale of group k is optimized in isolation, analogously to what is proposed in Equation 11. The key difference is that the weight vector has been modified by error diffusion from preceding groups 
+
+s∗ 
+
+> k
+
+= arg min 
+
+> sk
+
+12 X{k} ˜wt 
+
+> {k}
+
+− sk ˜X{k} q(wt
+
+> {k}
+
+; sk) 2
+
+.
+
+Sequential groups interleaved with error correction. The scale of group k is optimized under the layer-wise output reconstruction objective, accounting for the quantization error of the preceding groups, analogously to Equation 12. The key difference is that, under interleaving, the preceding groups i < k have been quantized by error correction rather than by round-to-nearest, and the remaining groups i > k have received the error diffusion updates 
+
+s∗ 
+
+> k
+
+= arg min 
+
+> sk
+
+X w − ˜X
+
+h
+
+˜wt
+
+> {1}
+
+, . . . , s k q(wt
+
+> {k}
+
+; sk), . . . , wt
+
+> {K}
+
+i⊤ 2
+
+.
+
+In Figure 3 we provide a graphic summary of the three integration strategies of PiSO with error correction algorithms proposed in the main text (Section 3.3). 
+
+## C Proofs 
+
+This appendix collects the formal statements and proofs of results referenced in the main text. We begin by deriving the optimal functional form of the unscaled assignment q, as a function of the scaling factor s ∈ R \ { 0}, in the sense of weight mean-squared error minimization: 
+
+Proposition C.1 (Weight mean-squared error minimization) . Let w ∈ RD denote a weight vector, and assume that the scaling factor s ∈ R \ { 0} is shared for all the weights in the vector. Then, the optimal assignment to the grid can be recovered by minimizing 6
+
+min 
+
+> s∈R\{ 0}
+> q∈GD
+
+∥w − s q∥2 = min  
+
+> s∈R\{ 0}
+
+∥w − s q (w; s)∥2 , q(w; s) := 
+
+j w
+
+s
+
+m
+
+> G
+
+.
+
+Proof. First, note that, for fixed s ∈ R \ { 0}, the objective min q∈GD ∥w − s q∥2 is separable in each individual weight 
+
+∥w − s q∥2 =
+
+> D
+
+X
+
+> i=1
+
+|wi − s q i|2.
+
+For each variable, the problem min qi∈G |wi − sq i|2 is a constrained scalar quadratic problem, whose solution is the projection of the unconstrained optimum onto the feasible set: 
+
+min  
+
+> qi∈G
+
+|wi − s q i|2 = min  
+
+> qi∈G
+
+|qi − min  
+
+> p∈R
+
+|wi − s p |2| = min  
+
+> qi∈G
+
+|qi − wi/s | =
+
+j wi
+
+s
+
+m
+
+> G
+
+.
+
+Consequently, the optimal assignment of the weights to the discrete grid can be recovered by optimizing the scaling factor for the objective: 
+
+min  
+
+> s∈R\{ 0}
+
+∥w − s q (w; s)∥2 , q(w; s) := 
+
+j w
+
+s
+
+m
+
+> G
+
+.
+
+The preceding result justifies the use of the round-to-nearest quantizer for fixed scale s. However, once calibration data enters the picture, the situation changes: 
+
+> 6We do not claim novelty for this result, although we could not find it explicitly stated as such in prior literature. We include the proof here for completeness.
+
+15 Remark C.2 . Proposition C.1 does not extend to the data-aware objective 
+
+min 
+
+> s∈R\{ 0}
+> q∈GD
+
+Xw − s ˜Xq 2
+
+,
+
+which corresponds to an integer least -squares problem, a class of problems that is NP -hard [ 33 ]. Precisely, when the scaling factor s ∈ R \ { 0} is fixed, the optimal solution q∗ is not necessarily 
+
+q(w; s) := ⌊w/s ⌉G.We next analyze the expected layer-wise reconstruction error. Although Remark C.2 shows that RTN is not optimal for the data-aware objective in general, the following decomposition reveals that the expected error on unseen data is bounded by a term involving the parameter mismatch 
+
+∥w−qX∥2. Thus, for a given scale, this quantity is minimized by the RTN quantizer (Proposition C.1). Consequently, restricting the grid assignments to those produced by round-to-nearest controls one of the three factors in the generalization bound and provides a principled prior on the solution space of the data-aware reconstruction objective. 
+
+Remark C.3 (Layer-wise error decomposition) . Let z ∼ X be a random activation from the test distribution, and let ˜z denote the activation obtained after passing through previously quantized layers. Let X be a calibration dataset, and suppose qX denotes the quantization assignments calibrated on 
+
+X. Then, for an unseen random activation z, the expected layer-wise error can be decomposed as follows: 
+
+Ez∼X 
+
+h
+
+z⊤w − ˜z⊤qX
+
+> 2
+
+i
+
+= Ez∼X 
+
+h
+
+z⊤(w − qX) 2
+
+| {z }
+
+> (1)
+
++ 2 z⊤(w − qX), (z − ˜z)⊤qX
+
+| {z }
+
+> (2)
+
++ (z − ˜z)⊤qX
+
+> 2
+
+| {z }
+
+> (3)
+
+i
+
+,
+
+Assuming ˜z ≈ z, terms (2) and (3) vanish, and, from [ 34 , Remark 3.8], term (1) can be rewritten and bounded as 
+
+Ez∼X 
+
+h
+
+z⊤(w − qX) 2i
+
+= 1
+
+N ∥X(w − qX)∥2 + ( w − qX)⊤
+
+
+
+Ez∼X 
+
+zz ⊤ − 1
+
+N X⊤X
+
+
+
+(w − qX)
+
+≤ 1
+
+N ∥X(w − qX)∥2
+
+| {z }
+
+> (1) calibration fit
+
++ Ez∼X 
+
+zz ⊤ − 1
+
+N X⊤X
+
+> op
+
+| {z }
+
+> (2) covariance deviation
+
+· w − qX
+
+> 2
+
+| {z }
+
+> (3) parameter mismatch
+
+.
+
+The bound highlights three factors governing generalization error [ 34 ]: (1) calibration fit on X,(2) second-moment estimation error; and (3) proximity between w and qX.The following sequence of results (Lemma C.4, Lemma C.5, Lemma C.7, Corollary C.8 and Proposi-tion C.10) establishes the theoretical foundation for the algorithm presented in Section 3, proving that it is guaranteed to return the globally optimal channel - wise scale under round - to -nearest quantization. 
+
+Lemma C.4 (Channel-wise separability) . Writing W = [ w1, . . . , wM ] and assigning an independent scale sj to each column, the matrix products decompose column-wise as 
+
+XW = [ Xw 1, . . . , Xw M ], ˜X Q(W; s) = [ ˜X Q(w1; s1), . . . , ˜X Q(wM ; sM )] .
+
+Since ∥A∥2 
+
+> F
+
+= PMj=1 ∥aj ∥2, the objective in Equation 2 decomposes as 
+
+E(s) = 
+
+> M
+
+X
+
+> j=1
+
+Xw j − ˜X Q(wj ; sj ) 2. (15) 
+
+Hence, the objective in Equation 15 separates into M independent channel-wise problems, thus each 
+
+sj can therefore be optimized independently. 
+
+16 Lemma C.5 (Closed-form for grid assignments) . The following result is standard and appears, e.g., as in [ 8, Proposition 2.1]; we restate it here for completeness. For fixed q ∈ GD with ˜X q ̸ = 0, the objective 
+
+E(s) = ∥Xw − s ˜X q ∥2 (16) 
+
+is a strictly convex quadratic in s, uniquely minimized at 
+
+s∗ = ⟨ ˜Xq , Xw ⟩∥ ˜X q ∥2 .
+
+Proof. Expanding the squared norm: 
+
+E(s) = ∥Xw ∥2 − 2s ⟨Xw , ˜X q ⟩ + s2∥ ˜X q ∥2.
+
+Since ∥ ˜X q ∥2 > 0, this is a strictly convex quadratic in s. Setting the derivative to zero: 
+
+dE ds (s∗) = 0 ⇐⇒ − 2 ⟨Xw , ˜X q ⟩ + 2 s∗∥ ˜X q ∥2 = 0 
+
+⇐⇒ s∗ = ⟨ ˜Xq , Xw ⟩∥ ˜X q ∥2 ,
+
+which is the unique global minimizer. 
+
+Remark C.6 (Connection to α/β notation) . The closed-form minimizer s∗ = ⟨ ˜Xq , Xw ⟩/∥ ˜Xq ∥2
+
+can be expressed in terms of the matrices H = ˜X⊤ ˜X and G = ˜X⊤X defined in Equation 6. Indeed, 
+
+α(q) := ⟨ ˜Xq , Xw ⟩ = ( ˜Xq )⊤(Xw ) = q⊤ ˜X⊤X w = q⊤G w ,
+
+and 
+
+β(q) := ∥ ˜Xq ∥2 = ( ˜Xq )⊤( ˜Xq ) = q⊤ ˜X⊤ ˜X q = q⊤H q ,
+
+recovering the definitions in Equation 6 and the closed form s∗(q) = α(q)/β (q) in Equation 7. Similarly, Equation 16 can be expressed in terms of α, β and a constant term, c := ∥Xw ∥2,independent of s:
+
+E(s | q) = ∥Xw ∥2 − 2s ⟨Xw , ˜X q ⟩ + s2∥ ˜X q ∥2 = c − 2s α (q) + s2 β(q).
+
+Lemma C.7 (Decision regions of round-to-nearest) . Let G = {g1 < g 2 < · · · < g L} ⊂ R be a finite grid and define midpoints 
+
+mℓ := gℓ + gℓ+1 
+
+2 , ℓ = 1 , . . . , L − 1.
+
+Let ⌊·⌉ G denote round-to-nearest on G with ties broken by rounding up. Define the intervals 
+
+I1 := ( −∞ , m 1), Iℓ := [ mℓ−1, m ℓ) (2 ≤ ℓ ≤ L − 1) , IL := [ mL−1, +∞).
+
+Then, for all y ∈ R and ℓ ∈ { 1, . . . , L },
+
+⌊y⌉G = gℓ ⇐⇒ y ∈ Iℓ.
+
+Proof. Fix ℓ ∈ { 2, . . . , L − 1}. We first compare the distances from y to the neighboring grid points. Since gℓ−1 < g ℓ, we have 
+
+|y − gℓ| ≤ | y − gℓ−1| ⇐⇒ y − gℓ ≥ − (y − gℓ−1) (since gℓ−1 < g ℓ)
+
+⇐⇒ 2y ≥ gℓ + gℓ−1
+
+⇐⇒ y ≥ gℓ−1 + gℓ
+
+2 = mℓ−1.
+
+Similarly, 
+
+|y − gℓ| < |y − gℓ+1 | ⇐⇒ y − gℓ < −(y − gℓ+1 ) (since gℓ < g ℓ+1 )
+
+⇐⇒ 2y < g ℓ + gℓ+1 
+
+⇐⇒ y < gℓ + gℓ+1 
+
+2 = mℓ.
+
+17 Therefore, 
+
+y ∈ [mℓ−1, m ℓ) ⇐⇒  |y − gℓ| ≤ | y − gℓ−1| ∧  |y − gℓ| < |y − gℓ+1 |. (⋆)Now let y ∈ [mℓ−1, m ℓ). For any j ≤ ℓ − 1, since gj ≤ gℓ−1 ≤ y,
+
+|y − gj | = y − gj ≥ y − gℓ−1 ≥ | y − gℓ|.
+
+For any j ≥ ℓ + 1 , since y < m ℓ < g ℓ+1 ≤ gj ,
+
+|y − gj | = gj − y ≥ gℓ+1 − y > |y − gℓ|.
+
+Hence gℓ uniquely minimizes |y − g| over g ∈ G, and thus ⌊y⌉G = gℓ.The endpoint cases ℓ = 1 and ℓ = L follow analogously. The half -open interval convention is consistent with ties rounded up: if y = mℓ, then |y − gℓ| = |y − gℓ+1 | and the rule selects gℓ+1 .
+
+Corollary C.8 (Step-wise structure) . Let G = {g1 < · · · < g L} be a finite grid with midpoints 
+
+mℓ = ( gℓ + gℓ+1 )/2, and let the decision regions be 
+
+I1 := ( −∞ , m 1), Iℓ := [ mℓ−1, m ℓ) (2 ≤ ℓ ≤ L − 1) , IL := [ mL−1, +∞).
+
+For any w̸ = 0 , define q(s) := ⌊w/s ⌉G for s > 0. Then, for every ℓ ∈ { 1, . . . , L },
+
+q(s) = gℓ ⇐⇒ ws ∈ Iℓ
+
+Consequently, q(s) is piecewise constant on (0 , ∞), with jumps occurring only at the interval boundaries tℓ := w/m ℓ, ℓ = 1 , . . . , L − 1.Proof. For w̸ = 0 , the map s 7 → w/s is continuous and strictly monotone on (0 , ∞). From Lemma C.7, ⌊y⌉G = gℓ if and only if y ∈ Iℓ. Substituting y = w/s yields the stated equivalence. Monotonicity implies that the preimages of the intervals Iℓ under s 7 → w/s form a partition of (0 , ∞),with boundaries given by the solutions of w/s = mℓ, i.e., at the transition scales tℓ = w/m ℓ.
+
+Corollary C.9 (Piecewise-constant structure for the full weight vector) . Let G = {g1 < · · · < g L}
+
+be a finite grid with midpoints mℓ = ( gℓ + gℓ+1 )/2, and let w ∈ RD with wi̸ = 0 for all i. For each weight wi, Corollary C.8 provides L − 1 transition scales ti,ℓ = wi/m ℓ, ℓ = 1 , . . . , L − 1. Collect all T positive transition scales ( T ≤ D(L − 1) ) and, assuming they are distinct (the degenerate case is treated in Appendix A), sort them in decreasing order 
+
+τ1 > τ 2 > · · · > τ T .
+
+Define the half-open intervals 
+
+J0 := ( τ1, +∞), Jj := [ τj , τ j−1) ( j = 1 , . . . , T ), JT +1 := (0 , τ T ).
+
+Then the vector-valued assignment q(s) := ⌊w/s ⌉G is constant on each Jj , j = 0 , . . . , T + 1 .Moreover, at each transition τj exactly one component of q changes: if τj = ti,ℓ , then only qi jumps (from gℓ to gℓ+1 or vice versa) while all other entries remain fixed. Proof. By Corollary C.8, each component qi(s) = ⌊wi/s ⌉G is piecewise constant on (0 , ∞) with jumps only at {ti,ℓ }L−1 
+
+> ℓ=1
+
+. The full vector q(s) can therefore change only when some component 
+
+qi changes, which occurs only at a transition scale τj ∈ { ti,ℓ : i ∈ [D], ℓ ∈ [L−1] }. Between consecutive transition scales (i.e., for s ∈ [τj , τ j−1)), no component crosses a midpoint, so every 
+
+qi(s) is constant, and hence q(s) is constant on Jj .Since all transition scales are assumed distinct, each τj corresponds to a unique pair (i, ℓ ). The only component that crosses a midpoint at s = τj is qi (moving from gℓ to gℓ+1 , or the reverse, depending on the sign of wi and the sweep direction). All other components qk, k̸ = i, have their nearest transition scales at values different from τj and thus remain unchanged. 
+
+Proposition C.10 (Global optimality of the piecewise-quadratic sweep) . Under the setting and notation of Corollary C.9, let H = ˜X⊤ ˜X ⪰ 0 and G = ˜X⊤X, and consider the channel-wise error 
+
+E(s) := ∥Xw − s ˜X q(w; s)∥2, s > 0.
+
+Write qj for the constant value of q(s) on Jj , and define 
+
+αj := q⊤ 
+
+> j
+
+G w , βj := q⊤ 
+
+> j
+
+H q j , φj (s) := s2βj − 2s α j + c, 
+
+where c := ∥Xw ∥2 is a constant independent of s. Then: 
+
+18 1. φj is a convex quadratic that coincides with E on Jj , i.e., E(s) = φj (s) for all s ∈ Jj ;2. inf 
+
+> s∈Jj
+
+E(s) = min 
+
+> s∈Jj
+
+φj (s) = φj (s∗ 
+
+> j
+
+), where s∗ 
+
+> j
+
+:= clamp( αj /β j , τ j , τ j−1);3. inf  
+
+> s> 0
+
+E(s) = min   
+
+> j∈{ 0,...,T +1 }
+
+φj (s∗ 
+
+> j
+
+), and this infimum is attained. Proof. Part (i). On Jj the assignment q(s) ≡ qj is constant by Corollary C.9. Expanding the squared norm gives 
+
+E(s) = ∥Xw ∥2 − 2s q⊤ 
+
+> j
+
+G w + s2 q⊤ 
+
+> j
+
+H q j = φj (s).
+
+Since H ⪰ 0, we have βj = q⊤ 
+
+> j
+
+H q j = ∥ ˜X q j ∥2 ≥ 0, so φj is convex. 
+
+Part (ii). The polynomial φj coincides with E on Jj but is defined and continuous on all of R. In particular, φj is continuous on the compact interval Jj = [ τj , τ j−1], so 
+
+inf 
+
+> s∈Jj
+
+E(s) = inf   
+
+> s∈[τj, τ j−1)
+
+φj (s) = min   
+
+> s∈[τj, τ j−1]
+
+φj (s),
+
+where the second equality holds because the infimum of a continuous function on a half-open interval equals the minimum over its closure. The unconstrained minimizer of the convex quadratic φj is sunc = αj /β j . Since φj is non-increasing on (−∞ , s unc ] and non-decreasing on [sunc , +∞), the minimum of φj on [τj , τ j−1] is attained at the projection of sunc onto this interval: 
+
+s∗ 
+
+> j
+
+= clamp( sunc , τ j , τ j−1) = 
+
+
+
+τj if sunc < τ j ,sunc if τj ≤ sunc ≤ τj−1,τj−1 if sunc > τ j−1.
+
+Note that when s∗ 
+
+> j
+
+= τj−1, this point lies outside Jj = [ τj , τ j−1), and E(τj−1)̸ = φj (τj−1) in general (since the assignment changes at τj−1). This does not affect the result: φj (s∗ 
+
+> j
+
+) equals the infimum of E over Jj (as established above), regardless of the value of E at τj−1 itself. An analogous argument applies to the unbounded intervals J0 and JT +1 , where clamping reduces to one-sided projection. 
+
+Part (iii). The half-open intervals {Jj }T +1  
+
+> j=0
+
+are pairwise disjoint and their union is (0 , +∞). Therefore 
+
+inf  
+
+> s> 0
+
+E(s) = min   
+
+> j∈{ 0,...,T +1 }
+
+inf 
+
+> s∈Jj
+
+E(s) = min  
+
+> j
+
+φj (s∗ 
+
+> j
+
+),
+
+where the second equality uses Part (ii). It remains to show the infimum is attained, i.e., that there exists ˆs ∈ (0 , +∞) with E(ˆ s) = min j φj (s∗ 
+
+> j
+
+). Let j∗ be an index achieving the outer minimum. We distinguish two cases for 
+
+s∗ 
+
+> j∗
+
+:
+
+Case 1: s∗ 
+
+> j∗
+
+∈ Jj∗ . Then E(s∗ 
+
+> j∗
+
+) = φj∗ (s∗ 
+
+> j∗
+
+), so the infimum is realized at ˆs = s∗ 
+
+> j∗
+
+.
+
+Case 2: s∗ 
+
+> j∗
+
+= τj∗−1. The point τj∗−1 lies outside Jj∗ , so we cannot evaluate E there using φj∗ .However, τj∗−1 is the left endpoint of Jj∗−1, and therefore τj∗−1 ∈ Jj∗−1. Since s∗ 
+
+> j∗−1
+
+minimizes 
+
+φj∗−1 on Jj∗−1 and τj∗−1 ∈ Jj∗−1,
+
+φj∗−1(s∗
+
+> j∗−1
+
+) ≤ φj∗−1(τj∗−1) = E(τj∗−1).
+
+Moreover, since j∗ achieves the global minimum, φj∗ (s∗ 
+
+> j∗
+
+) ≤ φj∗−1(s∗
+
+> j∗−1
+
+). Combining: 
+
+inf  
+
+> s> 0
+
+E(s) = φj∗ (s∗ 
+
+> j∗
+
+) ≤ φj∗−1(s∗
+
+> j∗−1
+
+) ≤ E(τj∗−1).
+
+Since E(τj∗−1) ≥ inf s> 0 E(s) trivially, all inequalities are equalities. In particular, φj∗−1(s∗
+
+> j∗−1
+
+) = 
+
+φj∗ (s∗ 
+
+> j∗
+
+) = inf s> 0 E(s), so j∗ − 1 also achieves the global minimum. If s∗ 
+
+> j∗−1
+
+falls in Case 1 for the interval Jj∗−1, attainment follows. Otherwise s∗ 
+
+> j∗−1
+
+is again at the open right endpoint of Jj∗−1, and we repeat the argument with j∗ − 2. Since there are finitely many intervals and each step decreases the index, this process terminates in at most T + 2 steps at an interval whose minimizer is interior or at a closed endpoint, establishing attainment. 19 Proposition C.10 guarantees that the global optimum is found by enumerating all T ≤ D(|G|− 1) 
+
+intervals, but a naive implementation that recomputes α, β from scratch at each transition would cost O(D2) per interval, yielding O(D3|G|) per channel. The following result shows that, because exactly one component of q changes at each transition (Corollary C.9), the quantities α, β, and the auxiliary vector h = Hq can be maintained incrementally: α and β update in O(1) , while h updates in O(D), reducing the channel-wise cost of the sweep to O(D2|G|) with a dense Hessian and to 
+
+O(D|G|) when H is diagonal. 
+
+Proposition C.11 (Correctness of incremental updates) . Define 
+
+α := α(q) = q⊤G w ,
+
+h := h(q) = H q ,β := β(q) = q⊤h(q),
+
+where q ∈ GD is the current grid assignment. Suppose entry i of q changes from qold  
+
+> i
+
+to qnew  
+
+> i
+
+=
+
+qold  
+
+> i
+
++ δ, while all other entries remain unchanged. Writing q′ = q + δ ei for the updated assignment (where ei is the i-th standard basis vector), the updated quantities 
+
+α′ = α + δ · (Gw )i,
+
+h′ = h + δ · H:,i 
+
+β′ = β + 2 δ · hi + δ2 · Hii ,
+
+satisfy α′ = α(q′), β′ = β(q′), and h′ = h(q′).Proof. Since q′ = q + δ ei, we have: 
+
+Update for α: α(q′) = ( q′)⊤G w = ( q+δ ei)⊤G w = q⊤G w +δ e⊤ 
+
+> i
+
+G w = α+δ ·(Gw )i = α′.
+
+Update for h: h′ = H q ′ = H(q + δ ei) = Hq + δ He i = h + δ · H:,i .
+
+Update for β:
+
+β′ = ( q′)⊤H q ′ = ( q + δ ei)⊤H (q + δ ei)= q⊤Hq + 2 δ e⊤ 
+
+> i
+
+Hq + δ2 e⊤ 
+
+> i
+
+He i
+
+= β + 2 δ (Hq )i + δ2 Hii = β + 2 δ · hi + δ2 · Hii .
+
+The remaining results concern the group-wise heuristics (Section 3.2). Proposition C.12 bounds the error introduced by the block-diagonal (independent groups) approximation, while Proposition C.13 shows that, under the self-activation assumption ( X = ˜X), the sequential group-wise objective coincides with the layer-wise reconstruction objective. 
+
+Proposition C.12 (Block-diagonal approximation error) . Let s = ( s1, . . . , s K ) and define the stacked vectors 
+
+w := w{1}, . . . , w{K}
+
+⊤ q(s) := q(W; s) = q{1}, . . . , q{K}
+
+⊤ q{k} := q(w{k}; sk) ,
+
+and the block-wise matrices Gij := ( X{i})⊤ ˜X{j} and Hij := ( ˜X{i})⊤ ˜X{j}. Let S(s) := blkdiag( s1I, . . . , s K I) (with I matching the group dimension), and define the block matrices 
+
+G := Gij 
+
+Ki,j =1 , H := Hij 
+
+Ki,j =1 ,
+
+together with their block-diagonal parts 
+
+Gind := blkdiag( G11 , . . . , GKK ), Hind := blkdiag( H11 , . . . , HKK ),
+
+and off-diagonal parts Goff := G − Gind , Hoff := H − Hind .With these definitions, the objective 
+
+E(s) = ∥X W − ˜X Q(W; s)∥2
+
+20 can be expressed as 
+
+E(s) = const . − 2 w⊤G S (s)q(s) +  S(s)q(s)⊤H  S(s)q(s),
+
+and its block-diagonal approximation 
+
+Eind (s) = const . − 2 w⊤Gind S(s)q(s) +  S(s)q(s)⊤Hind 
+
+ S(s)q(s).
+
+Then, defining 
+
+∆( s) := 2 ∥w∥2 ∥Goff ∥2 ∥S(s)q(s)∥2 + ∥Hoff ∥2 ∥S(s)q(s)∥22,
+
+and the minimizers s∗ 
+
+> ind
+
+= arg min s Eind (s) and s∗ = arg min s E(s), it is verified that 
+
+|E(s∗
+
+> ind
+
+) − E(s∗)| ≤ ∆( s∗
+
+> ind
+
+) + ∆( s∗).
+
+Proof. Write z(s) := S(s)q(s). Then 
+
+E(s) − Eind (s) = −2 w⊤Goff z(s) + z(s)⊤Hoff z(s).
+
+Taking absolute values and applying Cauchy–Schwarz and submultiplicativity of the operator norm gives 
+
+E(s) − Eind (s) ≤ 2 ∥w∥2 ∥Goff ∥2 ∥z(s)∥2 + ∥Hoff ∥2 ∥z(s)∥22 =: ∆( s). (17) Therefore, the following chain of inequalities is verified: 
+
+E(s∗
+
+> ind
+
+) ≤ Eind (s∗
+
+> ind
+
+) + ∆( s∗) from Equation 17 
+
+≤ Eind (s∗) + ∆( s∗
+
+> ind
+
+) optimality of s∗ 
+
+> ind
+
+for Eind 
+
+≤ E(s∗) + ∆( s∗) + ∆( s∗
+
+> ind
+
+) from Equation 17. Therefore 
+
+|E(s∗
+
+> ind
+
+) − E(s∗)| ≤ ∆( s∗
+
+> ind
+
+) + ∆( s∗),
+
+concluding the proof. 
+
+Proposition C.13 (Equivalence of the sequential objective) . Let w = [ w{1}, . . . , w{K}]⊤ be parti-tioned into K groups. Define the partially quantized vector 
+
+˜w(sk) := [ ˜ w{1}, . . . , ˜w{k−1}, s k q(w{k}, s k), w{k+1 }, . . . , w{K}]⊤,
+
+where ˜w{i} = s∗ 
+
+> i
+
+q(w{i}, s ∗ 
+
+> i
+
+), i ∈ [k − 1] , with the scales s∗
+
+> 1
+
+, . . . , s ∗ 
+
+> k−1
+
+fixed for the first k − 1 groups. Consider the objectives 
+
+Eseq (sk) := X w − ˜X ˜w(sk) 2, (18) 
+
+Eseq (sk) := X{≤ k} w{≤ k} − ˜X{<k } ˜w{<k } − sk ˜X{k} q(w{k}, s k) 2. (19) 
+
+In the self-activation case ( X = ˜X), the two are equivalent, and share the same minimizer: 
+
+arg min sk Eseq (sk) = arg min sk Eseq (sk).Proof. Write q{k} := q(w{k}, s k) for brevity. Decomposing column-wise: 
+
+X w = X{≤ k} w{≤ k} + X{>k } w{>k },
+
+˜X ˜w(sk) = ˜X{<k } ˜w{<k } + sk ˜X{k} q{k} + ˜X{>k } w{>k }.
+
+Subtracting and defining 
+
+A(sk) := X{≤ k} w{≤ k} − ˜X{<k } ˜w{<k } − sk ˜X{k} q{k},B := 
+
+
+
+X{>k } − ˜X{>k }
+
+
+
+w{>k },
+
+we obtain 
+
+X w − ˜X ˜w(sk) = A(sk) + B. 
+
+Note that Eseq (sk) = ∥A(sk)∥2. Expanding Eseq :
+
+Eseq (sk) = ∥A(sk) + B∥2 = ∥A(sk)∥2
+
+| {z } 
+
+> =Eseq (sk)
+
++2 ⟨A(sk), B ⟩ + ∥B∥2
+
+| {z }  
+
+> const. in sk
+
+. (20) Then, if X = ˜X, then X{>k } − ˜X{>k } = 0, so B = 0. Hence, Equation 20 reduces to Eseq (sk) = 
+
+Eseq (sk) + 2 ⟨A(sk), 0⟩ + ∥0∥2 = Eseq (sk), so the two objectives coincide, thus sharing the same minimizer. 21 0.0 0.2 0.4 0.6 0.8 1.0 1.2                      
+
+> s/ absmax
+> 0
+> 2
+> 4
+> 6
+> 8
+> Density
+> Data-free / absmax s∗= arg min s∥w−s q (w;s)∥20.0 0.2 0.4 0.6 0.8 1.0 1.2
+> s/ absmax
+> 0
+> 2
+> 4
+> 6
+> 8
+> PiSO / absmax s∗= arg min s∥Xw −s˜Xq(w;s)∥2
+
+Figure 4: Optimal scale distributions for the data -free (left) and cross-activation (right) objectives, normalized by the absmax scales, for the 2048 output channels of the third down -projection layer of Llama-3.2-1B. 
+
+## D Complementary Results 
+
+This appendix presents the complete quantization results summarized in the main text. The results are organized by quantization granularity: channel-wise without rotations, group-wise, and channel-wise with rotations. 
+
+Compute Setup. Baseline PTQ algorithms were run using the Brevitas quantization library [ 22 ], with the exception of Beacon, whose implementation was not publicly available and was therefore implemented by us. Experiments were run in an internal cluster equipped with AMD Instinct™ MI210 (64 GB) and MI300 (192 GB) GPUs; each model was quantized and evaluated on a single GPU. Running the experiments required an estimated total of ∼ 1100 GPU hours. Ideation, development and debugging were run in small examples so their impact in the total compute time was negligible. 
+
+Runtime analysis. Table 4 reports the wall-clock runtimes of GPTQ with PiSO on two Llama 3 models (1B and 3B) at 2-bit and 3-bit weight quantization. GPTQ ⊙ PiSO introduces negligible overhead (between 0.99 × and 1.13 × the baseline GPTQ runtime), while GPTQ + PiSO incurs a 
+
+1.25 –1.37 × overhead due to the additional forward passes over the calibration data. Table 4: Wall-clock absolute (in minutes) and relative (compared to GPTQ) runtimes of GPTQ with PiSO scale optimization. +/⊙ denote decoupled/interleaved optimization (see Section 3.3). GPTQ GPTQ + PiSO GPTQ ⊙ PiSO Model Bits min min × min ×
+
+Llama-3.2-1B 2 35.3 48.3 1.37 36.4 1.03 
+
+Llama-3.2-1B 3 35.9 44.7 1.25 35.5 0.99 
+
+Llama-3.2-3B 2 77.0 104.8 1.36 85.9 1.11 
+
+Llama-3.2-3B 3 78.1 105.1 1.34 88.3 1.13 
+
+Scale Distribution. Figure 4 shows the optimal channel-wise scale distributions, normalized by the absmax scale, for the data -free ( X = ˜X = I) and cross - activation ( X̸ = ˜X) objectives in third down - projection layer of Llama -3.2 - 1B. One can clearly observe how the distribution of the scales varies depending on the objective with respect to which they are optimized. Notably, the distribution of optimal scales under the cross-activation objective exhibits a larger spread, with a non-negligible fraction exceeding the absmax value (ratios greater than 1). This behavior highlights one of the limitations of grid - search–based methods such as CDQuant [ 6], which restrict the search space to the interval (0 , s absmax ].22 Channel-wise Quantization. Tables 7–9 report channel-wise weight-only quantization results at 2, 3, and 4 bits on Llama-3 and Qwen-2.5 Instruct models using the standard integer grid, unpacking the scale optimization objectives and integration strategies with error correction methods that are aggregated in Tables 1 and 2. Table 10 demonstrates the catastrophic quality degradation of data-free scale selection strategies in channel-wise low-bit quantization. Table 11 evaluates PiSO on the non-uniform E2M1 (4-bit floating-point) grid, demonstrating that the algorithm applies to arbitrary quantization grids beyond integer formats. 
+
+Channel-wise Quantization with Rotations. Tables 5 and 6 report channel-wise quantization results when rotations [ 9 ] are applied prior to quantization on Llama 3 and Qwen 2.5 Instruct models. Table 5: Channel-wise quantization results on Llama-3 and Qwen-2.5 models with rotation-based equalization [ 9], reporting WikiText-2 perplexity ( ↓). For PiSO with GPTQ, +/⊙ denote decou-pled/interleaved optimization (see Section 3.3).                                                                                                                                 
+
+> 2-bit 3-bit 4-bit
+> Llama Qwen Llama Qwen Llama Qwen 1B 3B 1.5B 3B 1B 3B 1.5B 3B 1B 3B 1.5B 3B BF16 8.97 7.14 8.89 7.88 8.97 7.14 8.89 7.88 8.97 7.14 8.89 7.88 RTN + absmax 3e5 3e5 3e5 5e5 5e3 1e3 87.0 93.4 15.8 11.7 12.4 10.1 RTN + grid search 8e5 7e5 8e7 2e9 70.2 55.8 31.1 15.7 12.2 8.92 10.8 9.27 RTN + data-free 7e5 7e5 5e7 2e9 64.1 73.9 27.4 15.9 12.0 8.81 10.8 9.25 RTN + PiSO 801 528 1e3 238 15.2 9.91 13.4 10.5 10.2 7.77 9.64 8.54 GPTQ + absmax 1e3 182 464 213 15.7 10.5 12.1 10.0 10.0 7.72 9.46 8.30 GPTQ + data-free 50.4 44.1 61.1 20.8 11.8 8.70 10.5 8.92 9.61 7.49 9.23 8.14 GPTQ + PiSO 57.4 43.5 33.3 17.7 11.9 8.77 10.5 8.93 9.60 7.51 9.23 8.13 GPTQ ⊙PiSO 52.7 34.5 28.7 19.4 12.0 8.78 10.6 8.92 9.66 7.48 9.29 8.12
+
+Table 6: Channel-wise quantization results on Llama-3 and Qwen-2.5 models with rotation-based equalization [ 9 ], reporting average zero-shot accuracy ( ↑). For PiSO with GPTQ, +/⊙ denote decoupled/interleaved optimization (see Section 3.3).                                                                                                                                 
+
+> 2-bit 3-bit 4-bit
+> Llama Qwen Llama Qwen Llama Qwen 1B 3B 1.5B 3B 1B 3B 1.5B 3B 1B 3B 1.5B 3B BF16 52.6 62.0 54.9 56.5 52.6 62.0 54.9 56.5 52.6 62.0 54.9 56.5 RTN + absmax 31.8 32.0 31.5 32.4 33.2 31.6 36.0 35.0 45.4 51.1 50.3 51.8 RTN + grid search 33.0 32.3 32.0 32.7 36.9 35.6 38.0 44.2 48.1 58.3 52.8 51.2 RTN + data-free 33.1 32.3 30.5 32.6 36.9 34.7 40.0 44.0 49.3 58.8 54.0 53.2 RTN + PiSO 32.1 31.8 32.6 31.5 45.7 55.3 45.8 49.6 50.1 59.9 55.1 55.1 GPTQ + absmax 32.5 32.3 32.1 32.1 42.6 50.7 44.5 45.9 50.0 60.6 52.8 54.2 GPTQ + data-free 35.3 35.1 32.5 34.9 48.4 55.7 49.3 53.8 50.5 62.1 54.4 56.7
+> GPTQ + PiSO 35.1 34.7 32.3 36.8 47.0 58.2 51.6 53.6 51.2 61.6 54.8 55.9 GPTQ ⊙PiSO 34.4 36.2 34.3 40.6 47.8 57.2 50.3 51.4 50.6 61.5 54.5 54.7
+
+Group-wise Quantization. Tables 12 and 13 report group-wise quantization results, with group sizes 16 and 32, on Llama-3.2-3B and Qwen-2.5-3B, covering all combinations of indepen-dent/sequential heuristics and decoupled/interleaved integration strategies (Sections 3.2 and 3.3) that are aggregated in the main text (Table 3). Table 14 shows the group-wise quantization results for Llama-3.1-8B and Qwen-2.5-7B for group size 16. 23 Table 7: Channel-wise 2-bit quantization results on Llama-3 and Qwen-2.5 models, reporting WikiText-2 perplexity ( ↓) and average zero-shot accuracy ( ↑). The “Obj.” column denotes the scale optimization objective (see Equation 2): X-X (float activations), ˜X- ˜X (self-activation), or 
+
+X- ˜X (cross-activation); blank where not applicable (absmax, Beacon). For PiSO, +/⊙ denote decoupled/interleaved optimization (see Section 3.3). 
+
+2-bit Llama 2-bit Qwen 
+
+WikiText2 ( ↓) 0-shot ( ↑) WikiText2 ( ↓) 0-shot ( ↑)Obj. 1B 3B 8B 1B 3B 8B 1.5B 3B 7B 1.5B 3B 7B BF16 8.97 7.14 5.89 52.6 62.0 68.6 8.89 7.88 6.92 54.9 56.5 57.7 RTN + absmax 2e5 4e5 4e5 33.0 32.5 33.4 7e6 6e6 1e5 31.8 32.9 32.3 RTN + PiSO X-X 1e5 4e4 2e5 32.0 31.6 32.5 1e4 2e4 9e3 31.8 32.2 32.3 RTN + PiSO ˜X- ˜X 2e4 2e4 8e4 31.9 32.2 32.7 3e3 3e3 7e3 32.4 31.6 31.8 RTN + PiSO X- ˜X 3e3 3e3 3e3 32.3 31.6 32.0 2e3 2e3 4e3 31.8 32.7 32.2 Beacon 52.8 72.4 25.5 33.8 33.3 36.8 1e3 33.2 21.9 32.5 32.4 33.9 GPTQ + absmax 3e3 415 331 31.6 31.9 31.5 675 596 72.7 33.0 32.8 32.1 GPTQ + PiSO X-X 116 69.7 59.1 32.6 33.1 33.3 45.3 32.7 15.6 33.3 32.9 37.1 GPTQ + PiSO ˜X- ˜X 92.5 47.5 32.5 33.1 33.2 34.7 39.2 38.5 15.9 34.4 33.6 34.9 GPTQ ⊙ PiSO ˜X- ˜X 54.7 29.5 22.3 35.5 36.3 40.2 44.7 30.6 17.0 33.7 34.4 34.9 Qronos + absmax 197 68.9 49.5 31.6 32.7 33.5 111 35.8 2e4 32.1 32.5 32.1 Qronos + PiSO X- ˜X 216 84.8 76.0 32.1 33.3 33.0 196 27.4 24.5 32.3 32.9 36.1 Qronos ⊙ PiSO X- ˜X 27.9 18.9 16.6 37.5 41.4 44.0 131 17.2 16.3 32.7 34.8 38.1 
+
+Table 8: Channel-wise 3-bit and 4-bit quantization results on Llama-3 models, reporting WikiText-2 perplexity ( ↓) and average zero-shot accuracy ( ↑). The “Obj.” column denotes the scale optimization objective (see Equation 2): X-X (float activations), ˜X- ˜X (self-activation), or X- ˜X (cross-activation); blank where not applicable (absmax, Beacon). For PiSO, +/⊙ denote decoupled/interleaved opti-mization (see Section 3.3). 
+
+3-bit 4-bit 
+
+WikiText2 ( ↓) 0-shot ( ↑) WikiText2 ( ↓) 0-shot ( ↑)Obj. 1B 3B 8B 1B 3B 8B 1B 3B 8B 1B 3B 8B BF16 8.97 7.14 5.89 52.6 62.0 68.6 8.97 7.14 5.89 52.6 62.0 68.6 RTN + absmax 2e3 436 1e3 32.8 35.7 38.0 22.3 9.61 7.83 46.3 55.6 64.7 RTN + PiSO X-X 27.7 11.4 9.69 42.5 50.4 59.3 11.3 8.03 6.72 50.7 59.9 67.2 RTN + PiSO ˜X- ˜X 29.7 11.5 9.96 41.3 49.2 59.1 11.5 8.04 6.74 49.2 60.2 66.7 RTN + PiSO X- ˜X 19.5 10.6 8.99 44.2 52.1 59.9 11.0 7.92 6.64 50.0 60.4 67.3 Beacon 19.1 33.7 9.35 42.4 40.1 53.5 13.6 25.1 7.53 46.1 46.3 59.7 GPTQ + absmax 19.6 11.3 9.23 39.6 49.8 55.1 10.4 7.79 6.49 49.3 59.4 65.6 GPTQ + PiSO X-X 12.9 9.19 7.42 47.5 54.6 63.0 9.94 7.63 6.32 52.0 60.2 68.3 
+
+GPTQ + PiSO ˜X- ˜X 13.0 9.20 7.51 46.1 53.5 62.4 9.94 7.64 6.32 50.9 59.7 67.5 GPTQ ⊙ PiSO ˜X- ˜X 12.8 9.08 7.41 47.0 55.9 62.6 9.91 7.65 6.32 51.3 60.0 68.1 Qronos + absmax 15.0 9.83 8.27 40.6 51.4 57.9 10.0 7.64 6.36 50.2 60.1 65.2 Qronos + PiSO X- ˜X 11.6 8.42 7.01 48.6 55.5 61.4 9.61 7.44 6.19 51.5 61.2 67.4 Qronos ⊙ PiSO X- ˜X 11.6 8.41 6.98 48.0 55.6 62.7 9.59 7.44 6.18 51.1 60.5 67.0 24 Table 9: Channel-wise 3-bit and 4-bit quantization results on Qwen-2.5 models reporting WikiText-2 perplexity ( ↓) and average zero-shot accuracy ( ↑). The “Obj.” column denotes the scale optimization objective (see Equation 2): X-X (float activations), ˜X- ˜X (self-activation), or X- ˜X (cross-activation); blank where not applicable (absmax, Beacon). For PiSO, +/⊙ denote decoupled/interleaved opti-mization (see Section 3.3).                                                                                                                                                                                               
+
+> 3-bit 4-bit
+> WikiText2 ( ↓)0-shot ( ↑)WikiText2 ( ↓)0-shot ( ↑)Obj. 1.5B 3B 7B 1.5B 3B 7B 1.5B 3B 7B 1.5B 3B 7B BF16 8.89 7.88 6.92 54.9 56.5 57.7 8.89 7.88 6.92 54.9 56.5 57.7 RTN + absmax 861 5e5 9e7 33.7 32.1 32.7 13.9 1e4 9.13 49.5 31.6 53.5 RTN + PiSO X-X16.9 11.9 9.88 46.8 48.1 54.6 10.0 8.60 7.55 54.7 54.6 58.7 RTN + PiSO ˜X-˜X16.8 12.0 10.0 44.6 46.8 53.2 10.0 8.60 7.56 54.5 55.2 58.0 RTN + PiSO X-˜X14.9 11.5 9.50 46.9 50.8 51.8 10.00 8.67 7.51 54.0 55.1 57.6 Beacon 380 12.3 12.6 31.6 39.9 40.4 142 10.2 10.8 33.6 44.8 43.2 GPTQ + absmax 14.1 11.5 9.23 41.1 42.0 44.6 9.76 8.54 7.34 53.2 54.7 55.0 GPTQ + PiSO X-X11.5 9.43 7.90 48.2 55.0 56.5 9.50 8.26 7.17 55.2 55.7 59.0 GPTQ + PiSO ˜X-˜X11.6 9.45 7.91 47.0 53.3 55.7 9.49 8.25 7.18 53.5 57.8 59.5
+> GPTQ ⊙PiSO ˜X-˜X11.4 9.41 7.82 50.6 52.0 57.0 9.47 8.26 7.15 54.7 56.9 58.5 Qronos + absmax 16.7 10.4 8.86 35.3 41.9 52.2 9.66 8.42 7.30 51.4 54.2 55.6 Qronos + PiSO X-˜X11.8 9.10 7.73 43.8 53.5 58.3 9.36 8.19 7.12 52.0 56.8 58.1 Qronos ⊙PiSO X-˜X12.0 9.10 7.73 39.9 53.8 57.5 9.34 8.20 7.11 52.5 54.7 58.1
+
+Table 10: Channel-wise quantization results on Llama-3 models, reporting WikiText-2 perplexity ( ↓)and average zero-shot accuracy ( ↑). None of these scale selection methods requires calibration data: the grid search of the Brevitas library [ 22 ] approximates the minimizer of the weight reconstruction objective by evaluating a uniform grid of candidates; while data-free optimizes this objective analyti-cally.                                                                               
+
+> 2-bit 3-bit 4-bit
+> WikiText2 ( ↓)0-shot ( ↑)WikiText2 ( ↓)0-shot ( ↑)WikiText2 ( ↓)0-shot ( ↑)1B 3B 1B 3B 1B 3B 1B 3B 1B 3B 1B 3B BF16 8.97 7.14 52.6 62.0 8.97 7.14 52.6 62.0 8.97 7.14 52.6 62.0 RTN + grid search 2e6 8e5 32.9 32.3 4e3 1e5 32.0 31.7 108 4e3 35.0 32.3
+> RTN + data-free 2e6 8e5 32.8 32.3 9e3 6e4 31.9 32.4 136 8e3 33.8 31.8 GPTQ + grid search 4e3 7e3 32.3 32.5 452 9e3 32.8 32.4 258 8e3 35.1 31.8 GPTQ + data-free 5e3 8e3 31.8 32.4 390 1e4 33.3 32.1 300 9e3 34.6 31.8
+
+Table 11: Channel-wise 4-bit quantization results using the E2M1 (FP4 ) floating-point format on Llama-3 models, reporting WikiText-2 perplexity ( ↓) and average zero-shot accuracy ( ↑). The “Obj.” column specifies the scale-optimization objective (see Equation 2): X-X (float activations), 
+
+˜X- ˜X (self-activation), or X- ˜X (cross-activation); blank where not applicable (absmax). WikiText2 ( ↓) 0-shot ( ↑)Obj. 1B 3B 1B 3B BF16 8.97 7.14 52.6 62.0 RTN + absmax 12.6 8.39 49.2 59.5 RTN + PiSO X-X 10.4 7.75 50.7 60.5 RTN + PiSO ˜X- ˜X 10.4 7.75 50.5 61.0 RTN + PiSO X- ˜X 10.3 7.69 50.6 59.8 GPTQ + absmax 9.78 7.52 50.8 60.1 GPTQ + PiSO X-X 9.67 7.52 51.1 62.1 
+
+GPTQ + PiSO ˜X- ˜X 9.67 7.52 50.5 60.8 GPTQ ⊙ PiSO ˜X- ˜X 9.69 7.52 50.5 60.7 25 Table 12: WikiText-2 perplexity ( ↓) results for group-wise quantization on Llama-3.2-3B and Qwen-2.5-3B with group sizes 16 and 32 (G16/G32). The “Obj.” column denotes the scale optimization objective (see Equation 2): X-X (float activations), ˜X- ˜X (self-activation), or X- ˜X (cross-activation); blank where not applicable (absmax). For PiSO with GPTQ, +/⊙ denote decoupled/interleaved, and ∗/† layer-wise/group-wise interleaving strategies (see Section 3.3). In the “Var.” column, I/S
+
+denotes independent/sequential group-wise heuristics (see Section 3.2). 
+
+2-bit 3-bit 4-bit 
+
+Var. Obj. Llama 3B Qwen 3B Llama 3B Qwen 3B Llama 3B Qwen 3B G16 G32 G16 G32 G16 G32 G16 G32 G16 G32 G16 G32 BF16 7.14 7.14 7.88 7.88 7.14 7.14 7.88 7.88 7.14 7.14 7.88 7.88 RTN + absmax 8e5 8e5 3e8 2e8 4e3 11.7 21.0 102 7.69 7.72 8.78 8.91 RTN + data-free I-I 8e5 8e5 3e8 3e8 10.1 13.0 38.0 76.1 7.49 7.65 9.30 8.69 RTN + PiSO I ˜X- ˜X 6e4 5e4 388 758 8.38 8.95 8.98 9.37 7.35 7.46 8.08 8.18 RTN + PiSO S ˜X- ˜X 21.5 32.6 18.0 29.4 8.01 8.44 8.63 9.01 7.28 7.37 8.00 8.05 RTN + PiSO I X- ˜X 2e4 2e4 612 774 8.21 8.62 8.85 9.13 7.33 7.42 8.09 8.18 RTN + PiSO S X- ˜X 19.4 28.7 17.1 25.9 7.86 8.17 8.58 8.92 7.26 7.33 8.00 8.04 GPTQ + absmax 30.3 26.4 34.8 30.4 8.41 8.29 8.86 8.91 7.35 7.38 8.06 8.03 GPTQ + data-free I-I 22.1 25.8 17.3 26.4 8.05 8.31 8.54 8.84 7.29 7.33 8.00 8.01 
+
+GPTQ ⊙ data-free † I-I 20.7 28.5 14.5 17.0 7.92 8.22 8.50 8.72 7.27 7.31 8.00 8.03 GPTQ + PiSO I ˜X- ˜X 28.8 32.0 16.6 19.6 8.13 8.53 8.55 8.79 7.30 7.37 8.02 8.03 GPTQ + PiSO S ˜X- ˜X 21.5 25.2 15.5 18.1 8.12 8.50 8.56 8.82 7.30 7.37 8.01 8.04 GPTQ ⊙ PiSO ∗ I ˜X- ˜X 23.9 29.9 16.0 19.2 8.11 8.50 8.52 8.72 7.30 7.37 8.01 8.03 GPTQ ⊙ PiSO ∗ S ˜X- ˜X 20.7 24.0 15.3 18.1 8.12 8.44 8.53 8.74 7.30 7.36 8.01 8.04 GPTQ ⊙ PiSO † I ˜X- ˜X 17.4 21.3 14.3 16.9 7.92 8.30 8.48 8.68 7.27 7.34 7.98 8.03 GPTQ ⊙ PiSO † S ˜X- ˜X 17.0 22.3 14.3 16.6 7.92 8.29 8.50 8.70 7.27 7.34 7.98 8.02 Table 13: Average zero-shot accuracy ( ↑) results for group-wise quantization on Llama-3.2-3B and Qwen-2.5-3B with group sizes 16 and 32 (G16/G32). The “Obj.” column denotes the scale optimization objective (see Equation 2): X-X (float activations), ˜X- ˜X (self-activation), or X- ˜X
+
+(cross-activation); blank where not applicable (absmax). For PiSO with GPTQ, +/⊙ denote decou-pled/interleaved, and ∗/† layer-wise/group-wise interleaving strategies (see Section 3.3). In the “Var.” column, I/S denotes independent/sequential group-wise heuristics (see Section 3.2). 
+
+2-bit 3-bit 4-bit 
+
+Var. Obj. Llama 3B Qwen 3B Llama 3B Qwen 3B Llama 3B Qwen 3B G16 G32 G16 G32 G16 G32 G16 G32 G16 G32 G16 G32 BF16 62.0 62.0 56.5 56.5 62.0 62.0 56.5 56.5 62.0 62.0 56.5 56.5 RTN + absmax 32.3 32.2 31.1 31.5 50.7 52.0 46.2 31.6 60.3 59.3 56.2 55.0 RTN + data-free I-I 32.2 32.3 31.2 31.3 54.7 51.5 37.7 38.5 61.2 61.0 54.4 54.3 RTN + PiSO I ˜X- ˜X 32.5 32.1 32.6 32.7 58.2 57.2 54.3 54.4 61.2 60.8 55.5 55.2 RTN + PiSO S ˜X- ˜X 44.3 40.5 38.5 37.1 59.8 57.6 54.8 52.8 61.9 61.6 55.6 56.2 RTN + PiSO I X- ˜X 33.1 33.4 31.3 32.7 58.9 58.4 54.6 54.8 60.7 60.8 55.8 54.9 RTN + PiSO S X- ˜X 42.3 40.0 39.8 38.7 59.1 57.1 56.3 53.3 61.3 61.3 56.5 56.1 GPTQ + absmax 39.5 37.9 34.1 33.1 57.8 57.6 53.6 51.7 60.2 60.5 56.2 57.1 
+
+GPTQ + data-free I-I 40.3 37.9 40.9 34.8 59.5 57.5 55.4 54.1 61.8 62.3 55.6 54.9 GPTQ ⊙ data-free † I-I 44.0 40.3 33.8 39.2 59.7 58.1 55.5 53.0 60.8 60.5 54.9 55.5 GPTQ + PiSO I ˜X- ˜X 37.6 37.6 41.1 39.2 57.8 57.7 54.5 54.6 61.7 61.1 56.5 56.6 GPTQ + PiSO S ˜X- ˜X 40.3 38.4 39.6 34.5 59.4 57.2 52.9 51.3 61.7 61.2 55.6 55.9 GPTQ ⊙ PiSO ∗ I ˜X- ˜X 39.7 37.5 38.2 38.3 58.1 57.7 55.3 55.5 61.6 61.1 55.9 55.6 GPTQ ⊙ PiSO ∗ S ˜X- ˜X 40.9 38.5 40.0 34.9 57.9 55.9 54.1 56.8 61.1 61.0 56.1 56.0 GPTQ ⊙ PiSO † I ˜X- ˜X 45.6 40.4 42.2 37.2 58.8 58.2 54.2 55.9 62.2 61.0 56.2 56.9 GPTQ ⊙ PiSO † S ˜X- ˜X 44.0 41.1 39.0 37.5 59.5 58.8 54.5 55.4 62.2 61.2 56.1 56.4 26 Table 14: Group-wise quantization results on Llama 3.1-8B and Qwen-2.5-7B Instruct with group size 16, reporting WikiText-2 perplexity ( ↓) and average zero-shot accuracy ( ↑). The “Obj.” column de-notes the scale optimization objective (see Equation 2): X-X (float activations), ˜X- ˜X (self-activation), or X- ˜X (cross-activation); blank where not applicable (absmax). For PiSO with GPTQ, +/⊙ denote decoupled/interleaved, and ∗/† layer-wise/group-wise interleaving strategies (see Section 3.3). In the “Var.” column, I/S denotes independent/sequential group-wise heuristics (see Section 3.2). 
+
+2-bit 3-bit 4-bit 
+
+WikiText2 ( ↓) 0-shot ( ↑) WikiText2 ( ↓) 0-shot ( ↑) WikiText2 ( ↓) 0-shot ( ↑)Var. Obj. 8B 7B 8B 7B 8B 7B 8B 7B 8B 7B 8B 7B BF16 5.89 6.92 68.6 57.7 5.89 6.92 68.6 57.7 5.89 6.92 68.6 57.7 RTN + absmax 2e6 6e6 31.9 32.3 2e6 4e6 33.4 32.9 6.38 7.34 67.0 58.3 RTN + data-free I-I 2e6 6e6 32.1 32.3 7.67 8.14 62.7 54.9 6.17 7.13 67.9 57.8 RTN + PiSO I ˜X- ˜X 1e6 980 32.0 31.8 6.84 7.44 65.3 56.8 6.05 7.00 68.1 58.0 RTN + PiSO S ˜X- ˜X 20.4 12.4 35.1 50.1 6.60 7.26 65.3 56.3 6.02 6.98 68.4 57.3 RTN + PiSO I X- ˜X 3e5 308 31.9 32.6 6.74 7.40 65.0 55.7 6.05 7.03 67.9 57.9 RTN + PiSO S X- ˜X 14.6 10.8 43.7 50.6 6.49 7.26 65.1 55.8 6.00 6.98 68.2 57.4 GPTQ + absmax 22.9 12.7 43.2 36.0 6.79 7.44 65.8 56.5 6.08 7.04 67.8 58.7 
+
+GPTQ + data-free I-I 20.4 10.8 38.0 46.9 6.59 7.27 66.2 56.8 6.02 6.98 67.6 57.1 GPTQ ⊙ data-free † I-I 14.7 9.74 36.8 52.2 6.53 7.24 64.7 56.6 6.02 6.97 67.9 58.1 GPTQ + PiSO I ˜X- ˜X 20.2 11.3 45.1 49.6 6.63 7.25 66.6 56.4 6.02 6.98 67.4 58.2 GPTQ + PiSO S ˜X- ˜X 14.8 10.7 46.2 53.4 6.63 7.25 66.5 56.8 6.04 6.98 67.7 57.2 GPTQ ⊙ PiSO ∗ I ˜X- ˜X 17.5 11.6 46.3 32.4 6.59 7.25 66.9 55.4 6.02 6.98 67.7 58.0 GPTQ ⊙ PiSO ∗ S ˜X- ˜X 15.7 10.6 48.2 52.3 6.64 7.27 65.8 56.2 6.03 6.98 68.7 56.3 GPTQ ⊙ PiSO † I ˜X- ˜X 15.7 10.1 38.3 52.9 6.51 7.22 66.1 56.9 6.01 6.97 68.4 57.7 GPTQ ⊙ PiSO † S ˜X- ˜X 15.6 10.1 44.5 52.3 6.52 7.23 65.8 55.7 6.01 6.97 68.4 57.4 27

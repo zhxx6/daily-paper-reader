@@ -1,0 +1,205 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-10T22:30:05.931673+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.10890v1",
+      "source": "arxiv",
+      "title": "Optimal Post-Training Quantization Scales and Where to Find Them",
+      "abstract": "Post-training quantization (PTQ) compresses large language models by mapping weights to low-bit representations. The scaling factor that defines the quantization grid is typically chosen using simple, data-free heuristics. In this work, we present PiSO (Piecewise Scale Optimization), an algorithm that leverages calibration data to compute the optimal channel-wise weight scales exactly and efficiently under round-to-nearest quantization. PiSO partitions the scale search space into finitely many intervals on which the objective admits a closed-form minimizer. We extend PiSO to group-wise quantization via principled heuristics and propose effective strategies for interleaving scale optimization with error correction. Experiments on Llama and Qwen models across multiple model sizes and target weight bit-widths demonstrate consistent improvements in perplexity and downstream zero-shot accuracy, both standalone and combined with error correction. In particular, we observe increased benefits as the target bit-width narrows and quantization becomes more challenging.",
+      "authors": [
+        "Juan Amboage",
+        "Pablo Monteagudo-Lago",
+        "Ian Colbert",
+        "Giuseppe Franco",
+        "Nicholas Fraser"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-09T14:03:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.10890v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "weight quantization for LLMs with optimal scales",
+      "llm_evidence_cn": "大语言模型权重量化的优化缩放因子",
+      "llm_evidence": "大语言模型权重量化的优化缩放因子",
+      "canonical_evidence": "大语言模型权重量化的优化缩放因子",
+      "llm_tldr_en": "PiSO computes optimal channel-wise weight scales for post-training quantization efficiently, extending to group-wise quantization with error correction.",
+      "llm_tldr_cn": "后训练量化中缩放因子通常用简单启发式选择，次优。本文提出PiSO算法，利用校准数据精确高效地计算最优通道级权重缩放因子，并扩展到分组量化。在Llama和Qwen模型上实验表明，PiSO显著降低量化误差，提升低比特精度。该方法直接支持LLM的高效量化推理。",
+      "llm_tldr": "后训练量化中缩放因子通常用简单启发式选择，次优。本文提出PiSO算法，利用校准数据精确高效地计算最优通道级权重缩放因子，并扩展到分组量化。在Llama和Qwen模型上实验表明，PiSO显著降低量化误差，提升低比特精度。该方法直接支持LLM的高效量化推理。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09886v1",
+      "source": "arxiv",
+      "title": "SHAPE: Coalition-Aware Expert Pruning for Sparse Mixture-of-Experts LLMs",
+      "abstract": "Sparse Mixture-of-Experts (MoE) large language models achieve strong quality with low per-token compute, yet their deployment is often limited by the memory wall: the full expert pool must remain resident to support token-dependent routing. Expert pruning is a direct remedy, but prior criteria typically score experts independently and overlook that MoE inference is inherently \\emph{coalitional}, where outputs arise from routed top-$k$ expert combinations. We propose \\textbf{SHAPE}, a task-driven pruning framework that explicitly models \\emph{intra-layer} expert cooperation. SHAPE formulates routing traces on a small calibration set as an empirical cooperative game and assigns interaction-aware expert values via a Shapley-style attribution over observed top-$k$ coalitions, enabling the identification of experts that are essential for high-utility collaborations rather than merely frequent. To preserve MoE topology under a global pruning budget, SHAPE further introduces a \\emph{quality-coverage} selection rule that retains, in each layer, the minimal expert subset covering an $α$ fraction of non-negative Shapley mass, while using bisection to match a target keep rate. Experiments on three modern MoE backbones (Qwen3-30B-A3B, GPT-OSS-20B, and DeepSeek-V2-Lite) across diverse benchmarks show that SHAPE consistently improves robustness over global and layer-wise pruning variants, maintaining competitive accuracy under 20\\% and 40\\% expert pruning without additional training and delivering clear reductions in peak GPU memory footprint. The open-source code is available at https://github.com/Alizen-1009/Shapley-Moe.",
+      "authors": [
+        "Yuhao Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-03T08:41:48+00:00",
+      "link": "https://arxiv.org/pdf/2606.09886v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Coalition-aware expert pruning for efficient MoE inference",
+      "llm_evidence_cn": "联盟感知的专家剪枝实现高效MoE推理",
+      "llm_evidence": "联盟感知的专家剪枝实现高效MoE推理",
+      "canonical_evidence": "联盟感知的专家剪枝实现高效MoE推理",
+      "llm_tldr_en": "MoE LLMs suffer memory wall from full expert residency. SHAPE uses cooperative game theory to model intra-layer expert cooperation, assigning interaction-aware importance via Shapley values, enabling effective expert pruning that reduces memory without significant quality loss.",
+      "llm_tldr_cn": "稀疏MoE大语言模型部署受限于内存墙：所有专家必须常驻显存以支持动态路由。现有专家剪枝方法独立评分，忽略专家之间的合作效应。本文提出SHAPE框架，将路由轨迹建模为合作博弈，通过沙普利值量化专家在组合中的交互价值，实现任务驱动的剪枝。实验表明该方法在保持模型质量的同时显著减少内存占用。",
+      "llm_tldr": "稀疏MoE大语言模型部署受限于内存墙：所有专家必须常驻显存以支持动态路由。现有专家剪枝方法独立评分，忽略专家之间的合作效应。本文提出SHAPE框架，将路由轨迹建模为合作博弈，通过沙普利值量化专家在组合中的交互价值，实现任务驱动的剪枝。实验表明该方法在保持模型质量的同时显著减少内存占用。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10493v1",
+      "source": "arxiv",
+      "title": "Achieving Cloud-Grade SLOs for Local Mixture-of-Experts Inference through CPU-GPU Hybrid Design",
+      "abstract": "Local deployment of large Mixture-of-Experts (MoE) models falls short of the service quality achieved in cloud-scale environments, even under low-concurrency workloads. We identify four key gaps in local MoE inference: reliance on capacity-reduced models (quantized, distilled, rerouted), inability to meet 30-second TTFT for long prefills (more than 12K), sub-baseline decode throughput (under 20 tokens/s), and poor concurrency under mixed prefill-decode and batched decode workloads. We present a CPU-GPU hybrid system that achieves cloud-level SLOs on dual-socket commodity CPUs and consumer GPUs by (1) stream-loading prefill (SLP), boosting prefill throughput to 1,200 tokens/s and enabling 32K prompts within 30 seconds; (2) distributed SLP (DSLP) with SmallEP expert parallelism, reaching 1,800 tokens/s and 45K prompts in 30 seconds on two RTX 5090s; (3) intra-node prefill-decode disaggregation with zero-copy shared weights and a dual-batch attention-MoE overlap scheme, sustaining concurrency with under 15 percent latency increase and 50 percent throughput gains; (4) an AVX-512-optimized FP8 GEMV kernel, enabling native CPU FP8 inference while delivering 4-5x lower CPU latency; and (5) fine-grained CPU parallelism that attains 28 tokens/s on INT4 DeepSeek-V3 and 21.5 tokens/s on intact FP8 V3. Evaluations show our system delivers cloud-level QoS for flagship MoE models on consumer CPU-GPU platforms, reshaping local deployment with intact, original-precision inference and enabling high-quality, cost-effective access without datacenter infrastructure.",
+      "authors": [
+        "Wenxin Wang",
+        "Yule Hou",
+        "Yu Ji",
+        "Peng Qu",
+        "Youhui Zhang"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.AI",
+        "cs.LG",
+        "cs.NE"
+      ],
+      "published": "2026-06-09T07:17:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.10493v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "efficient MoE inference with CPU-GPU hybrid and quantization",
+      "llm_evidence_cn": "使用CPU-GPU混合和量化的高效MoE推理",
+      "llm_evidence": "使用CPU-GPU混合和量化的高效MoE推理",
+      "canonical_evidence": "使用CPU-GPU混合和量化的高效MoE推理",
+      "llm_tldr_en": "Proposes a CPU-GPU hybrid system for local MoE inference that achieves cloud-grade SLOs by stream-loading prefill and distributed attention, addressing quantization and throughput gaps.",
+      "llm_tldr_cn": "针对本地部署的大规模混合专家（MoE）模型推理无法达到云级服务质量的问题，本文提出了一种CPU-GPU混合系统。该系统通过流式加载预填充（SLP）和分布式注意力机制，提升了预填充和解码吞吐量，并利用量化技术降低模型容量需求。实验表明，该系统在消费级硬件上实现了30秒内处理32K提示词，解码吞吐量超过20 tokens/s，满足了云级服务水平目标。该工作为本地高效MoE推理提供了实用方案。",
+      "llm_tldr": "针对本地部署的大规模混合专家（MoE）模型推理无法达到云级服务质量的问题，本文提出了一种CPU-GPU混合系统。该系统通过流式加载预填充（SLP）和分布式注意力机制，提升了预填充和解码吞吐量，并利用量化技术降低模型容量需求。实验表明，该系统在消费级硬件上实现了30秒内处理32K提示词，解码吞吐量超过20 tokens/s，满足了云级服务水平目标。该工作为本地高效MoE推理提供了实用方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.08814v1",
+      "source": "arxiv",
+      "title": "STAR: Rethinking MoE Routing as Structure-Aware Subspace Learning",
+      "abstract": "Mixture-of-Experts (MoE) scales model capacity efficiently by selectively routing inputs to a specialized subset of experts. However, input-expert specialization, the core motivation of MoE, critically depends on whether the router is actually aware of input structure. In practice, MoE routing is typically implemented as a shallow linear projection with limited awareness of input representation, which often leads to unstable routing. We propose STAR, a Structure Aware Routing that rethinks MoE routing as a subspace learning problem by augmenting standard learnable routing with an evolving principal subspace that tracks dominant input structure via Generalized Hebbian Algorithm (GHA). By aligning routing decisions directly with input structure, STAR enables stable expert specialization. We evaluate STAR on controlled synthetic setup and large-scale language and vision tasks, where it consistently improves routing quality and downstream performance over strong MoE baselines. Moreover, optional test-time subspace updates further enhance routing robustness and generalization under input distribution shifts.",
+      "authors": [
+        "Sumin Park",
+        "Noseong Park"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-07T20:07:24+00:00",
+      "link": "https://arxiv.org/pdf/2606.08814v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "MoE routing optimization for efficient inference",
+      "llm_evidence_cn": "混合专家路由优化提升推理效率",
+      "llm_evidence": "混合专家路由优化提升推理效率",
+      "canonical_evidence": "混合专家路由优化提升推理效率",
+      "llm_tldr_en": "STAR improves MoE routing by structure-aware subspace learning, enabling more stable input-expert specialization and potentially more efficient inference.",
+      "llm_tldr_cn": "现有MoE路由仅用浅层线性投影，缺乏对输入结构的感知，导致路由不稳定。本文提出STAR，将路由视为子空间学习问题，通过广义Hebbian算法跟踪输入主结构，使路由决策与输入结构对齐。实验表明STAR提升了专家专业化程度和模型性能，从而间接支持高效MoE推理。",
+      "llm_tldr": "现有MoE路由仅用浅层线性投影，缺乏对输入结构的感知，导致路由不稳定。本文提出STAR，将路由视为子空间学习问题，通过广义Hebbian算法跟踪输入主结构，使路由决策与输入结构对齐。实验表明STAR提升了专家专业化程度和模型性能，从而间接支持高效MoE推理。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09885v1",
+      "source": "arxiv",
+      "title": "TENP: Trapezoidal Expert Neuron Pruning For Mixture-of-Experts",
+      "abstract": "Mixture-of-Experts large language models (LLMs) scale efficiently through sparse activation, yet their deployment is fundamentally constrained by the large static parameter footprint of experts. Existing compression approaches either remove entire experts, disrupting routing topology and harming performance, or rely on unstructured weight pruning with limited practical efficiency. To address the limitations, we propose TENP, a structured Trapezoidal ExpertNeuron Pruning framework. Using a few samples, we identify and retain important experts, while applying expert neuron pruning (ENP) to less important experts, reserving model parameters in a trapezoidal pattern from shallow to deep layers. When evaluating expert importance, we jointly consider both the magnitude of the expert output and its ability to change the direction of the input vector. For ENP, we measure each neuron's projected contribution to the expert output to identify and retain important neurons. We conduct extensive experiments on the Qwen and DeepSeek models. Under a routing expert sparsity of 40% and an average of 63.76% activated expert parameters, the DeepSeek model suffers only a 1-point drop in accuracy compared to the full-parameter model. Moreover, it outperforms the full-parameter model by 10% on code generation tasks.",
+      "authors": [
+        "Jiangyang He",
+        "Shaolin Zhu",
+        "Deyi Xiong"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "published": "2026-06-03T07:49:31+00:00",
+      "link": "https://arxiv.org/pdf/2606.09885v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "structured expert neuron pruning for efficient MoE inference",
+      "llm_evidence_cn": "结构化专家神经元剪枝提升MoE推理效率",
+      "llm_evidence": "结构化专家神经元剪枝提升MoE推理效率",
+      "canonical_evidence": "结构化专家神经元剪枝提升MoE推理效率",
+      "llm_tldr_en": "TENP proposes structured trapezoidal expert neuron pruning for MoE retaining important experts while pruning less important ones to reduce parameter count and enable efficient inference.",
+      "llm_tldr_cn": "混合专家模型（MoE）因静态参数过大而部署困难。现有方法要么移除整个专家破坏路由要么使用非结构化剪枝效率低。本文提出TENP一种结构化梯形专家神经元剪枝框架：通过样本估计专家重要性保留重要专家对不重要专家进行神经元剪枝并在浅至深层保留梯形参数模式。实验表明TENP在保持模型性能的同时显著减少参数为MoE高效推理提供了实用压缩方案。",
+      "llm_tldr": "混合专家模型（MoE）因静态参数过大而部署困难。现有方法要么移除整个专家破坏路由要么使用非结构化剪枝效率低。本文提出TENP一种结构化梯形专家神经元剪枝框架：通过样本估计专家重要性保留重要专家对不重要专家进行神经元剪枝并在浅至深层保留梯形参数模式。实验表明TENP在保持模型性能的同时显著减少参数为MoE高效推理提供了实用压缩方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
