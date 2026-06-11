@@ -1,0 +1,3168 @@
+Title: ASH: Asymmetric Scalar Hashing With Learned Dimensionality Reduction for High-Fidelity Vector Quantization
+
+URL Source: https://arxiv.org/pdf/2606.07870v1
+
+Published Time: Tue, 09 Jun 2026 00:25:54 GMT
+
+Number of Pages: 27
+
+Markdown Content:
+# ASH: Asymmetric Scalar Hashing With Learned Dimensionality Reduction for High-Fidelity Vector Quantization 
+
+Mariano Tepper Elastic 
+
+mariano.tepper@elastic.co 
+
+Theodore Willke IBM WatsonX 
+
+ted.willke@ibm.com 
+
+Abstract 
+
+For a long time, additive quantizers, such as product quantization, have been considered the gold standard in terms of accuracy and efficiency. Recently, scalar quantization has re-emerged from the depths of history with a new wave of data-agnostic techniques. Inscribed in this general framework, we turn our attention to data-driven methods, showing that new highs in recall and speed can be achieved by reducing the number of dimensions while increasing the bitrate per dimension. Critically, this dimensionality reduction needs to be learned from data to be successful. We present ASH (Asymmetric Scalar Hashing), a data-driven encoder-decoder framework that applies dimensionality reduction to database vectors via a learned orthonormal projection, followed by scalar quantization, while keeping queries in their original form. This asymmetric design enables higher accuracy than the best additive and scalar quantizers at iso-compression, while admitting highly efficient similarity computations via SIMD operations. ASH has short learning and encoding times, making it attractive for real-world deployment. Extensive experiments on a variety of datasets demonstrate that ASH achieves state-of-the-art ANN recall and speeds across all compression regimes. 
+
+## 1 Introduction 
+
+Approximate nearest neighbors (ANN), defined as the optimization problem of finding the vector in a given set that is most similar to a given query vector, has a long history and has recently become a critical component of AI infrastructure (e.g., in retrieval-augmented generation (RAG) [45]). The ANN literature evolves quickly, trying to keep up with ever-increasing requirements: more vectors with higher dimensionality, higher speeds, and lower deployment costs, all while maintaining high accuracy. In particular, the literature is rich in parsimonious vector representations equipped with computationally efficient similarity computations. In the 2000s, the dominating paradigm for ANN used a symmetric vector representation, where the similarity between the query q ∈ RD and the indexed vector x ∈ RD is approximated as 
+
+⟨q, x⟩ ≈ ⟨ quant( q), quant( x)⟩. (1) Here, both q and x are encoded using the same quantizer, i.e., they are quantized symmetrically . Hashing [37] is perhaps the most iconic representative of this approach. There, the input vectors are represented as low-dimensional binary vectors quant( x) ∈ { 0, 1}d, i.e., D > d . This representation enables computing similarities by counting the number of ones of quant( q) ∧ quant( x), where ∧ is the bitwise logical conjunction operator; in an era when compute was still scarce, the efficiency of this operation was critical to the success of hashing. Different forms of hashing have been proposed over the years, encompassing both data-agnostic [e.g., 5, 14, 19, 20, 38] and data-driven [e.g., 13, 18, 26, 44, 48, 66] approaches. In the 2010s, the seminal product quantization (PQ) [43] introduced asymmetric similarity computations, 
+
+⟨q, x⟩ ≈ ⟨ q, quant( x)⟩, (2) where the query retains its original form and only the indexed vector is quantized. Additionally, the PQ quantizer takes an additive form that leads to a simple and fast algorithm for learning its parameters from the indexed vectors. The combination of these two innovations proved to be very successful, yielding much 1
+
+> arXiv:2606.07870v1 [cs.IR] 5 Jun 2026
+
+higher accuracy than hashing at iso-compression. This success had two main consequences: (1) a plethora of additive quantizers were proposed in the subsequent years [e.g., 9, 10, 25, 36, 44, 50], and (2) the belief that other forms of quantization cannot compete with additive quantization was established in the literature [e.g., 10, 50]. Additionally, very fast approaches to compute PQ similarities have subsequently been introduced [6–8], further cementing the popularity and empirical success of PQ. In recent years, new research [2, 23, 24, 59, 68] has shown that when extreme levels of compression are not needed, other forms of quantization, such as scalar quantization or hashing, can outperform additive quantization when used in an asymmetric fashion. Additionally, scalar quantization and hashing lead to faster similarity computations than additive quantizers. These exciting lines of research have focused mainly on the data-agnostic regime, where the quantizer is chosen independently of the data to be quantized. In this work, we show that data-driven asymmetric scalar quantization combines the best of both worlds: it comes with speedy similarity computations while further boosting the accuracy of the approximation. To this effect, we present ASH (Asymmetric Scalar Hashing), a new quantization method where the parameters are learned from the indexed vectors. Critically, ASH relies on combining dimensionality reduction with scalar quantization to achieve higher accuracy than the best additive and scalar quantizers at iso-compression .Our use of scalar quantization leads to highly efficient computations of the asymmetric similarity in Equation (2). Furthermore, ASH has short learning and encoding times, comparable to those of state-of-the-art data-agnostic quantizers. Our full list of contributions is: 
+
+• We present ASH, an encoder-decoder framework to generate asymmetric scalar-quantized vector repre-sentations (Section 2). ASH enables fast similarity computations with efficient SIMD and cache-friendly implementations for the sequential and random access patterns that arise when traversing inverted and graph indices, respectively. Critically, given a fixed payload per vector, we show that applying dimen-sionality reduction while increasing the bitrate per dimension gives access to new configurations that are faster and more accurate. 
+
+• We present an algorithm (Section 3) to efficiently learn ASH representations from data by minimizing the reconstruction error. The proposed learning technique clearly outperforms sensible data-agnostic alternatives. 
+
+• We include a detailed comparative analysis with PQ, LOPQ, EDEN, RaBitQ, TurboQuant, and LeanVec in terms of accuracy and efficiency (Section 4). 
+
+• We show with extensive experimental results (Section 5) that ASH achieves state-of-the-art ANN accuracy and speed at iso-footprint in all compression regimes (high, medium, and low compression). 
+
+Notation. We denote vectors/matrices by lowercase/uppercase bold letters, e.g., v ∈ Rn and A ∈ Rm×n.The unit d-dimensional hypersphere is defined as Sd−1 := x ∈ Rd | ∥ x∥2 = 1 . The Stiefel manifold (i.e., the set of row-orthonormal matrices) is defined as St( d, D ) := {U ∈ Rd×D | UU ⊤ = I} and the special orthogonal group (i.e., the set of rotation matrices) is defined as SO( d) := {U ∈ Rd×d | U⊤U = UU ⊤ = I}.
+
+Related work 
+
+Binary hashing [38, 48, 65] has been extensively studied. Locality-sensitive hashing (LSH) [14, 19, 20, 37] is one of the few ANN approaches with approximation certificates [e.g., 5]. Additionally, when compute was still scarce, the efficiency of implementing similarities as bit-wise in-register operations was very appealing. Many approaches [e.g., 13, 18, 26, 44, 66, 67, 70] improve accuracy over data-agnostic methods by learning the linear quantizer from data. With the rise of neural networks, many architectures have been proposed to create a deep non-linear quantizer [48]. Product Quantization (PQ) [43] is perhaps the most successful vector representation to date because of its attractive combination of accuracy, speed, footprint, and ease of implementation. Many derived methods appeared over the years, in general improving accuracy at the cost of efficiency [25, 44]. QuickerADC [6] is an accelerated SIMD approach to compute PQ similarities in bulk, becoming the de facto standard. SCANN improves the quantization error in PQ by treating it as an anisotropic distribution [36]. Additive Quantization (AQ) [9, 10, 50, 69] is a generalization of PQ with significantly improved accuracy. Residual Quantization (RQ) [16, 41, 46], although older than AQ, can be interpreted as a form of AQ with stage-wise training. While AQ and RQ provide much better representations than PQ, their training times skyrocket 2in higher dimensions (in the thousands with modern embedding models), rendering them prohibitive in real-world scenarios. Using an asymmetric representation with binary or scalar hashing, although not new [28], has recently become popular [2, 23, 24, 59, 63, 68] and can increase search accuracy with respect to symmetric hashing and PQ. However, the technique in [28] is unable to improve the accuracy of PQ, only matching it. The approaches in [23, 24, 63] do not learn the quantizer from data. The technique in [59] performs dimensionality reduction without considering the quantizer, only applying it at the end as a heuristic. Our work can be regarded as a spiritual successor that unleashes the full potential of asymmetric scalar hashing by learning it from data. For completeness, we also mention the data structures that are commonly used to index these vector representations. The most relevant types of indices are trees [e.g., 11, 12], inverted indices [e.g., 39, 52], and graphs [e.g., 49, 58]. 
+
+## 2 Hashing with asymmetric similarity computations 
+
+In this work, we seek to represent a vector zi ∈ SD−1 using the lossy approximation 
+
+z ≈ ˆz = ∥v∥−12 W⊤v (3) for W ∈ St( d, D ) and v ∈ V db , where Vdb is the Cartesian power of 
+
+Vb = 2c − 2b + 1 | c = 0 , . . . , 2b − 1 . (4) The parameter b indicates the bitrate per dimension. For example, V1 = {− 1, 1} for b = 1 and V2 =
+
+{− 3, −1, 1, 3} for b = 2. In general, for v ∈ V db , ∥v∥2̸ = 1. Thus, the normalization and the constraint 
+
+W ∈ St( d, D ) ensure that ˆ z ∈ SD−1.We learn our representation from data {zi ∈ SD−1}ni=1 by solving the optimization problem min 
+
+{vi∈V db }ni=1 
+
+> W∈St( d,D )12
+> n
+
+X
+
+> i=1
+
+zi − ∥ vi∥−12 W⊤vi
+
+> 22
+
+(5) that minimizes the average reconstruction error. The parameter W is learned from Equation (5) during indexing, as described in Section 3, and stored as a global index parameter. For the subproblem of finding 
+
+vi with W fixed, we have the following result. 
+
+Proposition 1. For z ∈ SD−1, we have 
+
+argmin  
+
+> v∈V db
+> 12
+
+z − ∥ v∥−12 W⊤v 22
+
+= quant b (Wz ) (6) 
+
+where quant b is defined by 
+
+quant b(u) := argmax 
+
+> v∈V db
+
+cosSim ( v, u) . (7) The proof follows directly from developing the norm and dropping the constant terms, i.e., argmin  
+
+> v∈V db
+> 12
+
+z − ∥ v∥−12 W⊤v 22
+
+= argmax 
+
+> v∈V db
+
+∥v∥−12 ⟨Wz , v⟩ . (8) This result indicates that the approximation can be interpreted as an encoder-decoder architecture [4], 
+
+z ≈ f (g(z; W); W), (9) where the encoder g reduces the dimensionality from D to d dimensions and performs quantization while the decoder f expands it back. Here, the encoder g : SD−1 → V db and the decoder f : Vdb → SD−1 take the forms 
+
+g(z; W) := quant b (Wz ) , (10) 
+
+f (z; W) := ∥z∥−12 W⊤z. (11) 3By construction, the reconstruction error in our architecture is purely angular, in contrast to other quantizers that carry angular and norm errors [36]. Since our architecture works in SD−1, we need to normalize the encoder inputs. Let X = {xi}ni=1 be the set of vectors to quantize and let {μc}Cc=1 be a set of landmark vectors. For any vector xi ∈ X , we use ˜ xi as the input to the encoder g, where ˜xi := ( xi − μ∗ 
+
+> i
+
+)/ ∥xi − μ∗ 
+
+> i
+
+∥2 (12) and 
+
+μ∗ 
+
+> i
+
+= argmin 
+
+> {μc}Cc=1
+
+∥xi − μc∥2 . (13) The landmark set {μc}Cc=1 can be learned stage-wise using k-means clustering (the approach followed in this work) or learned jointly with the other parameters of the autoencoder as in VQ-VAE [61]. In the case of an inverted index (IVF) [39], the landmarks can be defined as the centroids of the IVF clusters. If C = 1, μ1
+
+can be the dataset mean or a robust statistic, such as the median. We point out that RaBitQ [23] and extended RaBitQ [24] are particular instantiations of our model with 
+
+D = d, C = 1, and W = R for a random orthogonal matrix R ∈ RD×D. In this configuration, RaBitQ and extended RaBitQ support b = 1 and b ≥ 1, respectively. 
+
+2.1 Analysis of the ASH error 
+
+Let X be a random variable on the D − 1-dimensional hypersphere. We are interested in studying 
+
+ϵ := E
+
+h
+
+∥X − f (g(X; W); W)∥22
+
+i
+
+. (14) The quantization error can be modeled by a d-dimensional random variable E,
+
+ϵ = E
+
+
+
+X − ∥ WX∥−12 W⊤ (WX + E) 22
+
+
+
+. (15) A few algebraic manipulations yield 
+
+ϵ = E
+
+"
+
+∥X∥22 − 2 ∥WX∥2 + 2 ∥E∥22
+
+∥WX∥22
+
+#
+
+. (16) Naturally, as the bitrate b increases, ∥E∥2 decreases. Thus, at higher bitrates, the term involving E vanishes as ∥WX∥22 dominates. In this regime, the total expected error is mainly determined by the dimensionality reduction error ∥X∥22 − 2 ∥WX∥2. Thus, at higher bitrates, reducing the dimensionality becomes the main source of error. At lower bitrates, the tradeoff between quantization and dimensionality reduction error is more nuanced. Our experiments in Section 5 show that interesting gains are obtained by reducing the number of dimensions and using a slightly higher bitrate. 
+
+2.2 Efficient asymmetric dot products 
+
+We now show how our representation leads to computationally efficient dot product calculations. We start by manipulating the dot product ⟨q, xi⟩ between a query q and a vector xi ∈ X to work with our centered and normalized vector ˜ xi,
+
+⟨q, xi⟩ = ⟨q − μ∗ 
+
+> i
+
+, xi − μ∗ 
+
+> i
+
+⟩ + ⟨q, μ∗ 
+
+> i
+
+⟩ + ⟨xi, μ∗ 
+
+> i
+
+⟩ − ∥ μ∗ 
+
+> i
+
+∥22
+
+= ∥xi − μ∗ 
+
+> i
+
+∥2 ⟨q − μ∗ 
+
+> i
+
+, ˜xi⟩ + ⟨q, μ∗ 
+
+> i
+
+⟩ + ⟨xi, μ∗ 
+
+> i
+
+⟩ − ∥ μ∗ 
+
+> i
+
+∥22 . (17) The dot product ⟨q − μ∗ 
+
+> i
+
+, ˜xi⟩ is the main quantity of interest as the remaining terms can be pre-computed. Applying the approximation in Equation (9) to ˜ xi, we get 
+
+⟨q − μ∗ 
+
+> i
+
+, ˜xi⟩ ≈ ∥ g(˜ xi)∥−12
+
+D
+
+q − μ∗ 
+
+> i
+
+, W⊤g(˜ xi)
+
+E
+
+= ∥g(˜ xi)∥−12 (⟨˘q, g (˜ xi)⟩ − ⟨ Wμ∗ 
+
+> i
+
+, g (˜ xi)⟩) (18) 4Table 1: The payload of an ASH vector representation ( c∗ 
+
+> i
+
+and μ∗ 
+
+> i
+
+are defined in Equation (13)). To obtain a B-bit representation, we subtract the header payload to obtain the target dimensionality, d =
+
+⌊(B − 2 · 16 − ⌈ log 2 C⌉)/b ⌋.
+
+Header Body 
+
+∥xi−μ∗ 
+
+> i
+
+∥2
+
+> ∥quant b(˜ xi)∥2
+
+⟨xi, μ∗ 
+
+> i
+
+⟩ − ∥xi−μ∗ 
+
+> i
+
+∥2
+
+> ∥quant b(˜ xi)∥2
+
+⟨Wμ∗ 
+
+> i
+
+, quant b(˜ xi)⟩ − ∥ μ∗ 
+
+> i
+
+∥22 c∗ 
+
+> i
+
+quant b(˜ xi)
+
+R R N ∩ [1 , C ] Vdb
+
+16 bits 16 bits ⌈log 2 C⌉ bits B bits 
+
+where ˘q = Wq . (19) Let vi = quant b(W˜xi). Plugging Equation (18) into Equation (17), we get the desired approximation, 
+
+⟨q, xi⟩ ≈ ∥ vi∥−12 ∥xi − μ∗ 
+
+> i
+
+∥2
+
+| {z }
+
+> scale
+
+⟨˘q, vi⟩
+
+| {z } 
+
+> dot-prod
+
++ ⟨q, μ∗ 
+
+> i
+
+⟩
+
+| {z } 
+
+> query-compute
+
++ ⟨xi, μ∗ 
+
+> i
+
+⟩ − ∥ vi∥−12 ∥xi − μ∗ 
+
+> i
+
+∥2 ⟨Wμ∗ 
+
+> i
+
+, vi⟩ − ∥ μ∗ 
+
+> i
+
+∥22
+
+| {z }
+
+> offset
+
+.
+
+(20) The importance of a simple linear decoder becomes clearer now as it enables the one-time application of W
+
+as an encoder for the query instead of applying W⊤ as a decoder once per dot product ⟨q, x⟩. This yields significant savings, as thousands of dot products are performed for each query in state-of-the-art vector search indices [15, 49, 58]. Moreover, the transformation reduces the dimensionality of the query, accelerating the computation of ⟨˘q, vi⟩.
+
+2.3 Payload 
+
+The encoder g transforms the input vectors in SD−1 to Vdb . As |V db | = 2 bd , ASH reduces the footprint by a factor of 32 D/ (bd ) for vectors encoded in single-precision format (float32). For each vector xi, we store the d-dimensional vector g(˜ xi) as a bit string of length bd . Along with it, we store the values of the terms scale and offset in Equation (20) in a 16-bit format (FP16 or BF16). The integer c∗ 
+
+> i
+
+∈ [0 , C ) is encoded using ⌈log 2 C⌉ bits. Thus, to encode a vector using B total bits at a bitrate of 
+
+b bits, we set d = ⌊(B − 2 · 16 − ⌈ log 2 C⌉)/b ⌋. We include a summary in Table 1. 
+
+2.4 Efficiency 
+
+Let us analyze the terms in Equation (20). For each query q ∈ RD , we first compute ˘ q and {⟨ q, μc⟩} Cc=1 once per query. Hence, computing the term query-compute only requires fetching from the latter sets. The terms scale and offset are stored with the quantized vector. The term dot-prod can be implemented as a fused multiply-add (FMA) [31]. Combined with special memory layouts [1, 3], these operations become extremely efficient. An example implementation using AVX-512 instructions is provided in Code 1. We point out that there are computational schemes that are more efficient than Code 1 while being more involved; we include a simple example as an illustration. Alternatively, for sequential scans, ASH can be implemented using a FastScan-style [6] lookup table rather. The quantized code is packed into 4-bit groups: for b = 1, b = 2, b = 4, each group stores four, two and one binary coordinates, respectively. For a query q, we first compute the projected query Wq .Then, for each 4-bit group, we precompute a 16-entry table containing the contribution ⟨(Wq )(m), v (m)⟩
+
+for each possible codeword value in that group. Scoring an indexed vector reduces to reading its packed 4-bit codes and summing the corresponding table entries, followed by the scalar scale and offset correction in Equation (20). 
+
+2.5 The 1-bit case 
+
+The scenario where b = 1 presents further optimization opportunities. In this case, V1 = {− 1, 1} and quant b(u) := sign ( Wu ), where sign( x) = 1 if x ≥ 0, and sign( x) = −1 otherwise. Trivially, ∥quant 1(·)∥2 =5Code 1: Basic implementation of the ASH dot product approximation in Equation (20) using AVX-512 for 
+
+b = 2. The lengths of the query and binary vectors are d and d/ 16, respectively (we assume that d is a multiple of 16). The parameters scale and offset summarize the multiplicative and additive components of the terms scale , query-compute , and offset in Equation (20).                                                                                  
+
+> float as h_dot_product_2bit ( const float * query , const uint16_t * low_bits , const uint16_t * high_bits , uint32_t d , float scale , float offset ) {__m512 vec_low =_mm512_setzero_ps () ; __m512 vec_high =_mm512_setzero_ps () ; for ( uint32_t i=0 , j=0; j<d ; i ++ , j+= 16) {__mmask16 mask_low =_load_mask16 (( __mmask16 * ) ( low_bits +i ) ) ; __mmask16 mask_high =_load_mask16 (( __mmask16 * ) ( high_bits +i ) ) ; __m512 q_low =_mm512_maskz_load_ps ( mask_low , ( void const * ) ( query +j ) ) ; __m512 q_high =_mm512_maskz_load_ps ( mask_high , ( void const * ) ( query +j ) ) ; vec_low =_mm512_add_ps ( vec_low , q_low ) ; vec_high =_mm512_add_ps ( vec_high , q_high ) ; }float result =_mm512_reduce_add_ps ( vec_low ) +2.0 f *_mm512_reduce_add_ps ( vec_high ) ; return scale *result +offset ; }
+
+√d. With this specialization, further expanding Equation (18) yields 
+
+⟨q − μ∗ 
+
+> i
+
+, ˜xi⟩ ≈ d−1/2
+
+2 ⟨˘q, bin ( W˜xi)⟩ − ⟨ Wμ∗ 
+
+> i
+
+, 2 bin ( W˜xi) − 1⟩ − ⟨ ˘q, 1⟩
+
+
+
+, (21) where bin( ·) ∈ { 0, 1}d is defined as bin( z) := (sign( z) + 1) /2. Finally, plugging Equation (21) into Equa-tion (17), we get 
+
+⟨q, xi⟩ ≈ 2d−1/2 ∥xi − μ∗ 
+
+> i
+
+∥2
+
+| {z }
+
+> scale
+
+⟨˘q, bi⟩
+
+| {z } 
+
+> masked-add
+
+− 2d−1/2 ∥xi − μ∗ 
+
+> i
+
+∥2
+
+| {z }
+
+> scale
+
+⟨˘q, 1⟩ + ⟨q, μ∗ 
+
+> i
+
+⟩
+
+| {z }
+
+> query-compute
+
+++ ⟨xi, μ∗ 
+
+> i
+
+⟩ − d−1/2 ∥xi − μ∗ 
+
+> i
+
+∥2 ⟨Wμ∗ 
+
+> i
+
+, 2bi − 1⟩ − ∥ μ∗ 
+
+> i
+
+∥22
+
+| {z }
+
+> offset
+
+. (22) where bi = bin ( W˜xi). Let us compare the terms in Equation (22) with those in Equation (20). For each query q ∈ RD , we additionally compute the set {⟨ ˘qc, 1⟩} Cc=1 once per query. The term scale now appears twice. The term masked-add can be implemented efficiently for ˘ q ∈ Rd and b ∈ { 0, 1}d as 
+
+⟨˘q, b⟩ =
+
+> d
+
+X
+
+> j=1
+
+1[bj =1] · ˘qj , (23) where bj is the j-th element of b. This operation can be written as a masked-load instruction [34] followed by a horizontal add, see Table 2. Once this computation occurs, only a handful of scalar multiplications and additions remain in Equation (20). 
+
+## 3 Learning ASH representations 
+
+We now proceed to present our algorithm to learn the ASH parameters from data. Following [26], we parametrize W as W = RP , where P ∈ St( d, D ) and R ∈ SO( d) is a rotation matrix. The matrix P⊤ is given by the top d eigenvectors of Pni=1 ˜xi ˜x⊤ 
+
+> i
+
+(we assume that n > d throughout this section so that the involved matrices are not rank deficient). Plugging this form for W into Equation (5) and simplifying the constant terms, we obtain the new problem max 
+
+{vi∈V db }ni=1 
+
+> R∈SO( d)
+> n
+
+X
+
+> i=1
+
+∥vi∥−12
+
+D
+
+P˜xi, R⊤vi
+
+E
+
+. (24) 6Table 2: The dot product ⟨x, y⟩ can be efficiently computed when one of the operands is binary, see Code 1. A reference implementation of the dot product between unquantized vectors can be found in Appendix C. Latency and throughput are measured in CPU cycles and CPU cycles per instruction, respectively. One horizontal sum [35] across the 16 float32 elements completes the calculation after the FMA or the masked load.                            
+
+> Operands Instructions # of calls Latency Throughput
+> x,y∈R16 Load [33] 280.5 FMA [31] 140.5
+> x∈ { 0,1}16
+> y∈R16
+> Load mask [29] 2-1Masked load [34] 280.5 Add [30] 240.5
+
+We solve this problem by alternate minimization. Let cosSim be the cosine similarity between two vectors. The solution for an individual vi with R fixed is argmax 
+
+> v∈V db
+
+cosSim ( v, RP ˜xi) . (25) This matches exactly our definition of quant b, obtaining a formal derivation for the definition in Equation (7). The problem for R with {vi}ni=1 fixed is max  
+
+> R∈SO( d)
+
+Tr( RM ) . (26) where M = P
+
+Pni=1 ∥vi∥−12 · ˜xivi⊤
+
+
+
+. This corresponds to an orthogonal Procrustes problem, whose solution is UV ⊤ where USV ⊤ is the singular value decomposition of M. Alternatively, the iterative Newton-Schulz method can be used to solve this problem and has gained popularity for deep learning using GPUs [40, 54]. We proceed in an alternating fashion, applying the steps: 1. ( ∀i) compute v(t) 
+
+> i
+
+← quant b
+
+
+
+R(t)P˜xi
+
+
+
+;2. R(t+1) := UV ⊤ where USV ⊤ is the singular value decomposition of P
+
+Pni=1 ∥vi∥−12 · ˜xivi⊤
+
+
+
+.The matrix R(0) is initialized as U′V′⊤ where U′S′V′⊤ is the singular value decomposition of a random 
+
+d × d matrix with entries sampled from a standard normal distribution. The iterations converge to a local minimum since each minimization step decreases the objective function of the corresponding subproblem. Finally, after T iterations, we set W = R(T )P.Note that for binary quantization ( b = 1), we recover the seminal ITQ learning algorithm [26, 27] as argmax 
+
+> v∈V d
+> 1
+
+cosSim ( v, RP ˜xi) = sign ( RP ˜xi) . (27) Although lightweight, the proposed learning algorithm involves multiple passes over the training data. As M in Equation (26) is essentially a cross covariance matrix, it will quickly converge to its expected value as the number of samples grows. Thus, throughout our experiments, we only use 10 D training vectors, ensuring an oversampling of 10 ×.
+
+## 4 Comparison with other quantizers 
+
+In this section, we present detailed comparisons of the similarity computations in ASH and three popular alternatives: the standard PQ [43], and the state-of-the-art EDEN [63] and TurboQuant [68]. 7Table 3: Both PQ and ASH involve gather-like operations to compute similarities, as defined in Equa-tions (23) and (29). However, these gathers are of a different computational nature: PQ uses an in-memory irregular gather while ASH uses a masked load with b = 1. This can be observed in the efficiency of the underlying AVX-512 intrinsics. Latency and throughput are measured in CPU cycles and CPU cycles per instruction, respectively.           
+
+> Operands Instructions Latency Throughput PQ Gather [32] 30 9.75 ASH ( b= 1) Masked load [34] 80.5
+
+ASH versus PQ. PQ [43] divides the D dimensions into M < D segments (we assume D/M ∈ N for simplicity). A vector x ∈ RD is divided into segments x(1)  
+
+> i
+
+∈ RD/M , . . . , x(M ) 
+
+> i
+
+∈ RD/M . In PQ, to create codes with B = b · M bits, the quantizer takes an additive form 
+
+x ≈ quant pq (x) := Wpq 
+
+
+
+assign  x(1) 
+
+...assign  x(M ) , (28) where Wpq ∈ RD×(2 b·M ) is a block-diagonal matrix with M blocks W(m) 
+
+> pq
+
+∈ R(D/M )×2b
+
+and assign( x(m)) ∈ 2b
+
+is a one-hot binary vector (thus, b bits are needed to represent it). Each block W(m) 
+
+> pq
+
+is learned from the set 
+
+{x(m) 
+
+> i
+
+}ni=1 using a vector quantizer (i.e., k-means) with 2 b centroids and bin( x(m) 
+
+> i
+
+) is set using the index of the centroid closest to x(m) 
+
+> i
+
+.At search, the PQ similarity table T is computed once for each query q and stores the non-zero blocks 
+
+W(m)
+
+> pq
+> ⊤
+
+q(m) of Wpq ⊤q. The similarity to the indexed vector x is approximated by PQ as 
+
+⟨q, x⟩ ≈ ⟨ q, quant pq (x)⟩ = X
+
+> m
+
+⟨W(m)
+
+> pq
+> ⊤
+
+q(m), assign( x(m))⟩. (29) Since assign( x(m)) is a binary one-hot vector, each summand only involves a single gather operation [7], similarly to the masked-add in Equation (23). In general, 2 b · M > D > d , making the PQ gather more expensive than the d-dimensional masked-add in Equation (23). Let us build an example with typical numbers. Let D = 1024. We set b = 8 to have byte-aligned PQ codes and M = 64 or M = 128 are reasonable practical values. In these examples, the PQ similarity table occupies 64KB or 128KB at four bytes per entry (float32). Even when compressing each entry to one byte [6], the PQ similarity table occupies 16KB or 32KB. On the other side, the query vector used in Equation (23) only occupies 4KB when d = D and C = 1. Considering that modern CPUs have 112KB of L1 cache per core, 1 this is a significant reduction. As detailed in Section 5, ASH already outperforms PQ in terms of search accuracy with C = 1 and this lead is further widened when C > 1. We also consider the computational aspect of the SIMD operations behind Equation (29) in PQ against those behind Equation (23) in ASH. Although mathematically they appear similar, their efficiency differs drastically when using AVX instructions, as observed for example in Table 3 when using the latest AVX-512. For PQ, SIMD allows in-memory table lookups using gather instructions [32]. While these instructions support 16-element gather operations, only a fraction of the underlying memory accesses can be performed concurrently, which limits the throughput and latency of the instruction. For ASH, the fixed-precision dot product is performed efficiently (as a masked load for b = 1), involving a single memory access. 
+
+ASH versus EDEN and TurboQuant. EDEN [63] and TurboQuant [68] start by rotating each input vector x using a random rotation matrix R ∈ SO( d) and encode each dimension of Rx using a b-bit Lloyd-Max quantizer [47, 51] to create codes with B = Db bits (EDEN uses an additional scalar s per vector that we omit from this footprint calculation for simplicity). The EDEN and TurboQuant quantizers take an 
+
+> 1https://en.wikipedia.org/wiki/Granite_Rapids#Compute_tile
+
+8Table 4: Vectors produced by embedding models are not isotropically distributed. We take the target set 
+
+X = {xi}ni=1 and compute min ij cosSim( xi, xj ) (the minimum cosine similarity) and ∥ ¯μ∥∞, where ¯ μ =
+
+n−1 P 
+
+> i
+
+xi is the empirical mean. For isotropic data, these values should be close to -1 and 0, respectively, but they are not for standard embedding vectors.                 
+
+> Dataset min
+> ij cosSim( xi,xj)∥¯μ∥∞
+> ada002-100k −0.104 0.659 openai-1536-100k −0.200 0.064 openai-3072-100k −0.175 0.053 gecko-100k 0.221 0.123 nv-qa-v4-100k −0.021 0.160
+
+additive form 
+
+x ≈ quant ed/tq (x) := s ·
+
+
+
+wLM ⊤ assign (( Rx )1)...
+
+wLM ⊤ assign (( Rx )D )
+
+ , (30) where wLM ∈ R2b
+
+is a vector that contains each value of the one-dimensional Lloyd-Max grid with b-bits and assign( x) ∈ 2b is a one-hot binary vector (thus, b bits are needed to represent it). The MSE version of TurboQuant, which yields its best performance, takes s = 1. For EDEN, a few different s options were proposed in [62, 63]: following an empirical evaluation, we take s = ∥x∥2 / quant ed/tq (x) 2
+
+as it yields the best results (EDEN has a small header but we omit it in this discussion). For search, EDEN and TurboQuant approximate the similarity between a query q and the indexed vector 
+
+x as by 
+
+⟨q, x⟩ ≈ ⟨ q, quant ed/tq (x)⟩ = s
+
+> D
+
+X
+
+> j=1
+
+qj · wLM ⊤ assign (( Rx )j ) . (31) Since assign( x(m)) is a binary one-hot vector, each summand only involves a single gather operation [7], similarly to Equation (23). Unlike PQ, the search-time look-up table wLM is very small, containing 2 b values. Because of this small size, the corresponding gather can be computed in-register using SIMD instructions. Once this gather is complete, the cost of the remaining SIMD operations is equivalent to that of ASH. EDEN and TurboQuant assume that the data is isotropic. For a set of input vectors X = {xi}ni=1 , EDEN and TurboQuant assume that xi/ ∥xi∥2 and xi, respectively, are sampled from a uniform distribution on the D-dimensional sphere SD−1. However, these assumptions do not hold for modern vectors produced by embedding models, see Table 4. Hence, the optimality bounds provided by both methods, which are valid for data following their respective assumptions, are not directly applicable to real-world embedding vectors. In practice, this means that only a fraction of the 2 Db possible encodings is used, reducing the effectiveness of these methods. ASH, in turn, by using the landmarks to re-center and normalize the data, produces a more uniform distribution on the sphere, which helps drive up its search accuracy. 
+
+ASH versus RaBitQ. RaBitQ [23, 24] is a particular instantiation of our model where D = d, b = 1, 
+
+C = 1, and W = R for a random orthogonal matrix R ∈ RD×D. As such, both models have many similarities from a computational and efficiency perspective. However, ASH enables reducing the dimensionality, learning the projection from data. This has two immediate consequences. First, we can target higher compression ratios with ASH (i.e., lower values of B). Second, as pointed out in Section 2.1, reducing the dimension while expanding the bitrate b per dimension enables regimes with better tradeoffs of speed and accuracy. 
+
+ASH versus LOPQ. Locally-optimized product quantization (LOPQ) [44] is one of the most powerful additive quantizers and shares key features with ASH. LOPQ clusters the data with a vector quantizer (i.e., a coarse quantizer [43]). Then, for each cluster, the residuals are encoded using PQ augmented with a rotation matrix. The objective of the additional rotation is to split the space along the principal axes of the data 9Table 5: Datasets used for our experimental results. We denote the dimensionality, processed database size, and query count by D, n, and q, respectively.                                     
+
+> Dataset Dnq
+> gecko-100k [21] 768 100 ,000 10 ,000 nv-qa-v4-100k [21] 1,024 100 ,000 10 ,000 ada002-100k [21] 1,536 100 ,000 10 ,000 openai-1536-100k [55] 1,536 100 ,000 1,000 openai-3072-100k [56] 3,072 100 ,000 1,000 ada002-1m [21] 1,536 982 ,790 10 ,000 cap-1m [42] 1,536 1,000 ,000 10 ,000 cohere-1m [17] 1,024 1,000 ,000 10 ,000 mpnet-1m [53] 768 999 ,812 10 ,000 openai-1536-1m [56] 1,536 999 ,000 1,000 openai-3072-1m [56] 3,072 999 ,000 1,000
+
+within each cluster. For each cluster, the optimization becomes min 
+
+> R,Wpq
+
+X
+
+> x
+
+x − R quant pq (x) 22 s.t. R ∈ St( D, D ), Wpq ∈ D , (32) where quant pq and Wpq ∈ RD×(2 b·M ) are defined in Equation (28) and D is the set of block-diagonal matrices with M blocks in R(D/M )×2b
+
+. The problem can be optimized by alternating optimization, which involves alternating between M k-means problems to find Wpq and computing the SVD of P 
+
+> x
+
+x quant pq (x)⊤ to find 
+
+R. In the LOPQ paper, the authors acknowledge the practicality limitations of this expensive optimization [44]. In ASH, we also use a coarse quantizer as the first step, learn a common rotation matrix R for all clusters (similar to OPQ [25]), and swap the PQ representation with scalar quantization. We originally tried using multiple rotation matrices in ASH, one per cluster, but opted for using a single one for two main reasons. First, learning would become much slower with multiple rotation matrices, having to solve C independent optimization problems. Second, and most importantly, similarity computations would gain a significant overhead as we would need to perform C matrix multiplications with C different matrices W. In ASH, we perform a single matrix multiplication with the common matrix W.
+
+ASH versus LeanVec. LeanVec [59] uses dimensionality reduction with scalar quantization and can handle in-distribution and out-of-distribution queries. The in-distribution version is the most similar tech-nique to ASH, and we will only refer to it henceforth. The dimensionality reduction in LeanVec is done with an SVD. Its scalar quantization uses LVQ [2], which quantizes each vector x individually by computing the quantization range [min( x), max( x)]. The main drawback in LeanVec is LVQ. The min-max scaling inflates norms in unpredictable ways, i.e., 
+
+∥x∥2 ≤ quant lvq (x) 2, which causes distortions in dot product similarities. This effect is mild for b = 4 and above, but more pronounced for lower bitrates. Additionally, LeanVec only incorporates the quantization as a post-processing step, which means that it cannot refine the initial PCA using the quantizer, as demonstrated in Section 3. 
+
+## 5 Experimental Results 
+
+We use the datasets described in Table 5, which originate from different embedding models and types of data. Unless explicitly specified, we learn ASH from data using the techniques in Section 3. Throughout this section, search accuracy is measured as 10-recall@R, where R is the number of retrieved elements. 
+
+The advantage of learning the quantizer. We start by showing that the parameterization and learning algorithm presented in Section 3 produce better results than data-agnostic dimensionality reduction 10 techniques. For this, we compare the results with those of a Johnson-Lindenstrauss projection, obtained by drawing a random matrix W ∈ St( d, D ). In Figure 1, we clearly observe that the learned regime outperforms the random one with gains that increase with the gap between D and d. Furthermore, we observe in Figure 2 that the learning algorithm brings clear improvements over its SVD-plus-random initialization. When b = 1, the reconstruction error is ∥x − quant 1(Wx )∥22 = 2 − 2⟨x, quant 1(Wx )⟩ for x ∈ SD−1.Additionally, when D = d, C = 1, and W = R for a random orthogonal matrix R ∈ SO( D), the expectation of the dot product ⟨x, quant 1(Wx )⟩ over R is [23] 
+
+ER [⟨x, quant 1(Wx )⟩] = 2 pD/π Γ( D/ 2) (D − 1)Γ(( D − 1) /2) , (33) where Γ is the Gamma function. Its value is approximately 0.798 for D ≈ 1000 (we include its plot in Figure D.1 of the appendix). In the left plot of Figure 2, we show that in the RaBitQ [23] regime ( D = d and 
+
+C = 1), ASH provides clear improvements over RaBitQ in terms of reconstruction error and search accuracy. 
+
+The number of landmarks. The search accuracy of ASH improves with an increasing number of landmarks, as observed in Figure 3. As mentioned earlier, this local data centering is a form of coarse quantization, which is known to whiten the error and improve the quantization [43, 60]. In Figure 3, we observe that beyond C = 64, we start hitting diminishing returns in terms of search accuracy. Henceforth, we use C = 64 as the default value. 
+
+The estimator bias. Interested in analyzing any systematic biases introduced by the ASH estimator, we plot the two-dimensional pairs ( x, y ) formed by x = ⟨q, x⟩ and y = ⟨q, quant( x)⟩ in Figure 4 for different values of b and d. We can observe that the pairs follow a linear trend, which indicates that ASH did not introduce any aberrant distortions. We use the linear regression min 
+
+> ρ,β
+
+X
+
+> q∈Q
+> x∈X
+
+∥ρ⟨q, x⟩ + β − ⟨ q, ˆx⟩∥ 22 (34) to unveil the linear trend in the distribution of the pairs. In Figure 4, the distribution exhibits a slight bias (its slope is different from 1). Interestingly, since ASH preserves the vector norms exactly, the bias comes entirely from the vector direction. The bias depends on b: for b = 1 and b = 4, we observe larger deviations than for b = 2. For b = 1, ρ > 1 while for b = 4, ρ < 1. We leave the investigation of this interesting phenomenon for future work. Finally, we point out that a linear bias does not affect MIP search as multiplying quant( x) by a global scalar does not change the order of the dot products. ANN powered by the Euclidean distance, for example, can be affected by a linear bias. In this case, the bias can be removed using the linear regression coefficients estimated from a small sample of query and index vectors (˜100 of each). 
+
+Reducing the precision of the query. We study the necessity of keeping ˘ q, Equation (19), at full precision. For this, we downcast the values in ˘ q to float16. In this lower-precision format, we can load 32 elements per iteration in Code 1 instead of just 16, increasing its efficiency. We evaluate the difference in search accuracy (10-recall@R) between both formats, as shown in Table 6. The differences are in the order of 10 −5, which is negligible considering that recall is a quantity in [0 , 1]. In the performance experiments, we use bfloat16 with similar effects. 
+
+ASH versus PQ. We show in Figure 5 that ASH outperforms PQ [43] in search accuracy. To disentangle the effect of the coarse quantizer in ASH (the use of landmark vectors in Equation (12)) we include ASH with C = 1 in the comparison. This version of ASH exhibits search accuracy higher than that of PQ at iso-compression. In several cases, ASH is even competitive with PQ while using half the number of bits. To disentangle the effect of using C = 64, while not using one in PQ, we point out that its effect is modest, as observed in Figure 3, and does not change the trends of the results. 
+
+ASH versus LOPQ. We can observe in Figure 6 that ASH outperforms LOPQ in terms of search accuracy while being much faster to train, as discussed in Section 3. Finally, similarity computations with ASH are faster than with LOPQ (ASH is more efficient than PQ, which is in turn more efficient than LOPQ). 
+
+ASH versus EDEN and TurboQuant. We evaluate the performance of ASH with respect to these techniques, which are described in Section 4. ASH shows a clear advantage over both methods in terms of search accuracy, as presented in Figure 7. In many cases, ASH performs competitively with EDEN and TurboQuant configurations that use twice the total number of bits. 11 10 15 20 25 30 35 40 45 
+
+0.55 
+
+0.6 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression | training 
+
+32x (B=1536, b=1) | random 
+
+32x (B=1536, b=1) | trained 
+
+32x (B=1536, b=2) | random 
+
+32x (B=1536, b=2) | trained 
+
+32x (B=1536, b=4) | random 
+
+32x (B=1536, b=4) | trained 
+
+ada002-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+32x (B=768, b=1) | random 
+
+32x (B=768, b=1) | trained 
+
+32x (B=768, b=2) | random 
+
+32x (B=768, b=2) | trained 
+
+32x (B=768, b=4) | random 
+
+32x (B=768, b=4) | trained 
+
+gecko-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression | training 
+
+32x (B=1536, b=1) | random 
+
+32x (B=1536, b=1) | trained 
+
+32x (B=1536, b=2) | random 
+
+32x (B=1536, b=2) | trained 
+
+32x (B=1536, b=4) | random 
+
+32x (B=1536, b=4) | trained 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression | training 
+
+32x (B=3072, b=1) | random 
+
+32x (B=3072, b=1) | trained 
+
+32x (B=3072, b=2) | random 
+
+32x (B=3072, b=2) | trained 
+
+32x (B=3072, b=4) | random 
+
+32x (B=3072, b=4) | trained 
+
+openai-3072-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+32x (B=1024, b=1) | random 
+
+32x (B=1024, b=1) | trained 
+
+32x (B=1024, b=2) | random 
+
+32x (B=1024, b=2) | trained 
+
+32x (B=1024, b=4) | random 
+
+32x (B=1024, b=4) | trained 
+
+nv-qa-v4-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+64x (B=768, b=1) | random 
+
+64x (B=768, b=1) | trained 
+
+64x (B=768, b=2) | random 
+
+64x (B=768, b=2) | trained 
+
+64x (B=768, b=4) | random 
+
+64x (B=768, b=4) | trained 
+
+ada002-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+64x (B=384, b=1) | random 
+
+64x (B=384, b=1) | trained 
+
+64x (B=384, b=2) | random 
+
+64x (B=384, b=2) | trained 
+
+64x (B=384, b=4) | random 
+
+64x (B=384, b=4) | trained 
+
+gecko-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+64x (B=768, b=1) | random 
+
+64x (B=768, b=1) | trained 
+
+64x (B=768, b=2) | random 
+
+64x (B=768, b=2) | trained 
+
+64x (B=768, b=4) | random 
+
+64x (B=768, b=4) | trained 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+64x (B=1536, b=1) | random 
+
+64x (B=1536, b=1) | trained 
+
+64x (B=1536, b=2) | random 
+
+64x (B=1536, b=2) | trained 
+
+64x (B=1536, b=4) | random 
+
+64x (B=1536, b=4) | trained 
+
+openai-3072-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.1 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+64x (B=512, b=1) | random 
+
+64x (B=512, b=1) | trained 
+
+64x (B=512, b=2) | random 
+
+64x (B=512, b=2) | trained 
+
+64x (B=512, b=4) | random 
+
+64x (B=512, b=4) | trained 
+
+nv-qa-v4-100k 
+
+R
+
+> 10-recall@R
+
+Figure 1: Learning the projection matrix W leads to significant improvements in search accuracy (10-recall@R) for B = D (top two rows) and B = D/ 2 (bottom two rows). In ASH, increasing the bitrate b
+
+with B fixed means decreasing the target dimensionality d. When D > d , the advantage of the learned parameters becomes wider. Notably, ASH with b = 2 consistently beats b = 1, meaning that reducing the dimensionality while increasing the bitrate pays off (additional values of B in Figure D.2 of the appendix). 12 0 10 20 30 40     
+
+> 0.8
+> 0.81
+> 0.82
+> 0.83
+> 0.84
+> 0.85
+> Trained
+> ada002-100k
+> openai-1536-100k
+> openai-3072-100k
+> gecko-100k
+> nv-qa-v4-100k
+> Theoretical
+> ada002-100k
+> openai-1536-100k
+> openai-3072-100k
+> gecko-100k
+> nv-qa-v4-100k
+> Training loss for b=1
+> Iterations
+> Loss 010 20 30 40
+> 0.91
+> 0.915
+> 0.92
+> 0.925
+> 0.93
+> 0.935
+> Trained
+> ada002-100k
+> openai-1536-100k
+> openai-3072-100k
+> gecko-100k
+> nv-qa-v4-100k
+> Training loss for b=2
+> Iterations
+> Loss
+
+Figure 2: The algorithm presented in Section 3 converges as its iterations progress. Tracking the loss in Equation (24), we observe that after 20-30 iterations, we start getting diminishing returns. For B = D and 
+
+b = 1, we can compare the obtained results with the expected loss in Equation (33) [23], observing clear improvements. 10 15 20 25 30 35 40 45        
+
+> 0.8
+> 0.85
+> 0.9
+> 0.95
+> 1
+> clusters
+> 1
+> 16
+> 32
+> 64
+> 128
+> 256
+> ada002-100k
+> R
+> 10-recall@R 10 15 20 25 30 35 40 45
+> 0.85
+> 0.9
+> 0.95
+> 1
+> clusters
+> 1
+> 16
+> 32
+> 64
+> 128
+> 256
+> ada002-100k
+> R
+> 10-recall@R
+
+Figure 3: The search accuracy (10-recall@R) increases with the number of ASH landmarks, defined in Equation (13) for B = D/ 2, b = 1 (left), and b = 2 (right). Additional datasets are included in Figure D.3 of the appendix. 
+
+ASH versus LeanVec. We evaluate the performance of ASH compared to its conceptually most similar technique, LeanVec [59] (described in Section 4). In Figure 8, we observe that ASH clearly outperforms LeanVec in search accuracy. 
+
+Performance evaluations. We implement an inverted file index (IVF) with ASH in C++ to evaluate indexing cost, single-thread throughput (QPS), and 10-recall@10 on modern embedding datasets, using IVF 
+
+nlist =4096 for 1M-scale sets. IVF search sweeps nprobe to trace Pareto frontiers; IVF training uses at most 300 k vectors. 
+
+Baselines and configurations. ASH uses C = 32 landmarks trained for 5 iterations and b ∈ { 2, 4}
+
+with d = D/ 2 for the main comparison; b = 1 and d ∈ { D/ 2, D } are included for indexing analysis. Projection training uses samples 10 D and runs for at most 25 iterations with early stopping after 10 epochs (patience 3 epochs, loss improvement thresholds: 10 −4 absolute, 2 .5 · 10 −3 relative). PQ uses Faiss’s 
+
+IndexIVFPQFastScan (factory string IVF {nlist },PQ {M}x4fs ) performing 4-bit PQ in packed batches with 4M = bd bits/vector [22, 57]. For RaBitQ, we use its official library [64] with b ∈ { 1, 2}, fast quantization enabled, and high-accuracy FastScan disabled (negligible difference when enabled). The experiments run on a GCP c4-standard-96-lssd instance (Intel Xeon 6985P-C @ 2.30GHz, 48 physical cores, Debian Linux). ASH is compiled with GCC/C++20 using -O3 , -march=native , OpenMP, AVX-512 kernels, and MKL/LAPACKE for projection training. Faiss-PQ uses Faiss 1.14.1 (cpu) [57] through the Python API, loading the AVX512-SPR wrapper with OpenMP and MKL enabled; the RaBitQ library [64] is built with C++17, OpenMP, -Ofast , and -march=native . Index builds request 48 OpenMP threads pinned to 48 physical cores; all query timings are single-threaded. 
+
+Indexing cost. Table 7 reports ASH projection-training and base-encoding time. Projection training follows the 10 D sample size and projection dimension. At equal code size, halving d while doubling b
+
+substantially reduces projection training: b = 2 , d = D/ 2 is 2 .3–3 .3× faster than b = 1 , d = D, and 
+
+b = 4 , d = D/ 2 is 4 .0–5 .3× faster than b = 2 , d = D. Early stopping benefits b = 4 with reduced d the most, cutting roughly 30–50% of iterations with negligible impact on recall. Encoding takes only a few seconds for 13 Figure 4: The ASH estimator has a slight bias, see Equation (34), when comparing the ground truth ⟨q, x⟩
+
+with the estimated ⟨q, quant( x)⟩ (each pair ( ⟨q, x⟩, ⟨q, quant( x)⟩) corresponds to a circle in the plot) using the dataset queries. The bias slope ρ depends on the number of bits B and the bitrate b (in these examples 
+
+d = ⌊(B − 32) /b ⌋); from left to right b = 1 , 2, 4. In this case, B = D. Additional datasets and configurations are included in Figures D.4 and D.5 of the appendix. 10 15 20 25 30 35 40 45 
+
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+
+Compression 
+
+> 32x (B=1536)
+> 64x (B=768)
+> 128x (B=384)
+> 256x (B=192)
+
+ada002-100k 
+
+R       
+
+> 10-recall@R 10 15 20 25 30 35 40 45
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+
+Compression 
+
+> 32x (B=768)
+> 64x (B=384)
+> 128x (B=192)
+> 256x (B=96)
+
+gecko-100k 
+
+R       
+
+> 10-recall@R 10 15 20 25 30 35 40 45
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+
+Compression 
+
+> 32x (B=1024)
+> 64x (B=512)
+> 128x (B=256)
+> 256x (B=128)
+
+nv-qa-v4-100k 
+
+R       
+
+> 10-recall@R 10 15 20 25 30 35 40 45
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+
+Compression 
+
+> 32x (B=1536)
+> 64x (B=768)
+> 128x (B=384)
+> 256x (B=192)
+
+openai-1536-100k 
+
+R       
+
+> 10-recall@R 10 15 20 25 30 35 40 45
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+
+Compression 
+
+> 32x (B=3072)
+> 64x (B=1536)
+> 128x (B=768)
+> 256x (B=384)
+
+openai-3072-100k 
+
+R
+
+> 10-recall@R
+
+PQ ASH C=64, b=2 
+
+Figure 5: ASH outperforms PQ in search accuracy (10-recall@R). ASH is even competitive at several com-pression levels with PQ configurations that use twice the space (additional datasets in Figure D.6 of the appendix). 14 10 15 20 25 30 35 40 45 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression 
+
+32x (B=1536) 
+
+64x (B=768) 
+
+128x (B=384) 
+
+ada002-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression 
+
+32x (B=768) 
+
+64x (B=384) 
+
+128x (B=192) 
+
+gecko-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression 
+
+32x (B=1024) 
+
+64x (B=512) 
+
+128x (B=256) 
+
+nv-qa-v4-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression 
+
+32x (B=1536) 
+
+64x (B=768) 
+
+128x (B=384) 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.6 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression 
+
+32x (B=3072) 
+
+64x (B=1536) 
+
+128x (B=768) 
+
+openai-3072-100k 
+
+R
+
+> 10-recall@R
+
+ASH C=64 LOPQ C=64 Figure 6: ASH outperforms LOPQ [44] in search accuracy (10-recall@R). Additionally, ASH is computation-ally more efficient at learning the quantizer and computing similarities. 10 15 20 25 30 35 40 45 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression 
+
+32x (B=1536) 
+
+16x (B=3072) 
+
+8x (B=6144) 
+
+ada002-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression 
+
+32x (B=768) 
+
+16x (B=1536) 
+
+8x (B=3072) 
+
+gecko-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+Compression 
+
+32x (B=1024) 
+
+16x (B=2048) 
+
+8x (B=4096) 
+
+nv-qa-v4-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.84 
+
+0.86 
+
+0.88 
+
+0.9 
+
+0.92 
+
+0.94 
+
+0.96 
+
+0.98 
+
+1
+
+Compression 
+
+32x (B=1536) 
+
+16x (B=3072) 
+
+8x (B=6144) 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.84 
+
+0.86 
+
+0.88 
+
+0.9 
+
+0.92 
+
+0.94 
+
+0.96 
+
+0.98 
+
+1
+
+Compression 
+
+32x (B=1536) 
+
+16x (B=3072) 
+
+8x (B=6144) 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+TurboQuant EDEN ASH 
+
+Figure 7: ASH outperforms EDEN [63] and TurboQuant [68] in search accuracy (10-recall@R). Often, ASH is competitive at several compression levels with EDEN and TurboQuant configurations that use twice the space. 15 Table 6: The maximum absolute 10-recall@R difference between queries in float32 or float16 format (in the latter case, the values are simply downcast) with ASH ( C = 64). The full 10-recall@R difference curves are available in Figure D.7 of the appendix. We can observe minute differences in a quantity that lies in [0 , 1].               
+
+> Dataset b= 1 b= 2 ada002-1536-100k 4.00 ×10 −54.00 ×10 −5
+> openai-v3-large-1536-100k 4.00 ×10 −56.00 ×10 −5
+> openai-v3-large-3072-100k 4.00 ×10 −53.00 ×10 −5
+> gecko-768-100k 4.00 ×10 −56.00 ×10 −5
+> nv-qa-v4-100k 1.79 ×10 −42.30 ×10 −4
+
+Table 7: ASH training and encoding time (s). As detailed in Section 3, we use a training sample size of 10 D,which explains the training time trend. As in search, increasing b while decreasing d improves the efficiency of training (compare the iso-footprint cases b = 2 , d = D/ 2 and b = 1 , d = D).                                                                      
+
+> Dataset Ddb= 1 b= 2 b= 4 Tr. Enc. Tr. Enc. Tr. Enc. mpnet-1m 768 384 0.52 0.17 0.57 0.48 0.38 0.84 768 1.33 0.29 1.51 0.90 0.99 1.70 cohere-1m 1,024 512 0.89 0.24 1.03 0.66 0.70 1.19 1,024 3.05 0.47 3.11 1.30 2.15 2.41 ada002-1m 1,536 768 1.79 0.47 2.05 1.08 1.41 1.84 1,536 6.27 0.83 6.84 2.22 4.31 3.71 openai-3072-1m 3,072 1,536 8.77 1.50 9.71 2.80 6.51 4.62 3,072 32.41 2.86 34.25 5.71 20.96 8.99
+
+1M vectors and grows mainly with quantization bitwidth. 
+
+Throughput and recall. Figure 9 shows that ASH improves the high-recall end of the Pareto frontier. At 32 × compression ( b = 2 , d = D/ 2), ASH reaches 2.3–7.1 points higher terminal recall than RaBitQ and is over 12 × faster at RaBitQ’s highest-recall operating point. At 16 × compression ( b = 4 , d = D/ 2), ASH improves terminal recall by 2.2–6.8 points and is over 4.6 × faster at the corresponding RaBitQ endpoint. Compared with PQ FastScan, ASH improves recall across the frontier, with terminal gains of 6.3–22.9 points at 32 × and 4.3–14.4 points at 16 ×, with the same trend on additional datasets in the appendix. Additional experiments on Faiss’s RaBitQ-FastScan (factory string: RR {D},IVF {nlists },RaBitQfs {b}) revealed higher max QPS (albeit still lower than both ASH and PQ) but a less favorable QPS vs recall trade-off in the high-recall regime. 
+
+## 6 Conclusions 
+
+The dominance of additive quantization methods has long rested on two pillars: an asymmetric similarity computation that keeps queries at full precision while quantizing only indexed vectors, and a fast, data-driven learning algorithm. Traditionally, learning-to-hash methods have remained binary and symmetric. In recent years, a number of asymmetric and data-agnostic scalar hashing techniques have emerged, offering great efficiency and accuracy. In this work, we blend both worlds. We presented ASH (Asymmetric Scalar Hashing), a data-driven encoder-decoder framework that brings the asymmetric learning paradigm to scalar quantization. Learning an orthonormal projection that reduces dimensionality before quantization allows ASH to increase the bitrate per dimension while reducing the reconstruction error, yielding higher accuracy than the best additive and scalar quantizers at iso-compression. The training algorithm converges rapidly, requiring only 20–30 16 10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+ada002-100k | 32x (B=1536) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+gecko-100k | 32x (B=768) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+nv-qa-v4-100k | 32x (B=1024) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+openai-1536-100k | 32x (B=1536) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+openai-3072-100k | 32x (B=3072) 
+
+R
+
+> 10-recall@R
+
+Figure 8: ASH outperforms LeanVec [59] in search accuracy (10-recall@R). ASH with b = 1 is competitive with LeanVec with b = 4, which uses four times more space (additional configurations in Figure D.8 of the appendix). 
+
+Figure 9: ASH outperforms RaBitQ [23, 24] and PQ [43] in search accuracy (10-recall@R) and throughput (queries per second, QPS), clearly improving the Pareto frontier. 17 iterations and a small training sample. ASH generalizes prior methods such as ITQ and RaBitQ as special cases. Since ASH is a scalar quantizer, similarity computations can be implemented with great efficiency using SIMD instructions in both sequential and random access patterns. This makes ASH naturally suitable for both inverted index and graph-based vector search structures. Extensive experiments confirm that ASH achieves state-of-the-art ANN recall across all compression regimes, outperforming alternatives by a wide margin. In several cases, ASH with half the total bits matches or exceeds the alternatives’ accuracy, offering significant memory savings with no loss in recall. In future work, we are interested in deeper architectures for asymmetric hashing, going beyond the linear projection functions used in this work. We also plan to study end-to-end learning schemes to jointly learn the ASH landmarks and the projection functions. 
+
+## References 
+
+[1] Azim Afroozeh and Peter Boncz. The fastlanes compression layout: Decoding >100 billion integers per second with scalar code. Proc. VLDB Endow. , 16(9):2132–2144, May 2023. [2] Cecilia Aguerrebere, Ishwar Singh Bhati, Mark Hildebrand, Mariano Tepper, and Theodore Willke. Similarity search in the blink of an eye with compressed indices. Proc. VLDB Endow. , 16(11):3433– 3446, July 2023. [3] Cecilia Aguerrebere, Mark Hildebrand, Ishwar Singh Bhati, Theodore Willke, and Mariano Tepper. Locally-adaptive quantization for streaming vector search, February 2024. arXiv:2402.02044 [cs]. [4] Kenza Amara, Matthijs Douze, Alexandre Sablayrolles, and Herv´ e J´ egou. Nearest neighbor search with compact codes: A decoder perspective. In Proceedings of the 2022 International Conference on Multimedia Retrieval , pages 167–175, New York, NY, USA, June 2022. Association for Computing Machinery. [5] Alexandr Andoni and Piotr Indyk. Near-optimal hashing algorithms for approximate nearest neighbor in high dimensions. Communications of the ACM , 51(1):117–122, January 2008. [6] Fabien Andre, Anne-Marie Kermarrec, and Nicolas Le Scouarnec. Quicker adc : Unlocking the hidden potential of product quantization with simd. IEEE Transactions on Pattern Analysis and Machine Intelligence , 43(5):1666–1677, May 2021. [7] Fabien Andr´ e, Anne-Marie Kermarrec, and Nicolas Le Scouarnec. Cache locality is not enough: high-performance nearest neighbor search with product quantization fast scan. Proc. VLDB Endow. , 9(4): 288–299, December 2015. [8] Fabien Andr´ e, Anne-Marie Kermarrec, and Nicolas Le Scouarnec. Accelerated nearest neighbor search with quick adc. In Proceedings of the 2017 ACM on International Conference on Multimedia Retrieval ,pages 159–166, New York, NY, USA, June 2017. Association for Computing Machinery. [9] Artem Babenko and Victor Lempitsky. Additive quantization for extreme vector compression. pages 931–938, 2014. [10] Artem Babenko and Victor Lempitsky. Tree quantization for large-scale similarity search and classifi-cation. pages 4240–4248, 2015. [11] Jon Louis Bentley. Multidimensional binary search trees used for associative searching. Commun. ACM ,18(9):509–517, September 1975. [12] Alina Beygelzimer, Sham Kakade, and John Langford. Cover trees for nearest neighbor. In Proceedings of the 23rd international conference on Machine learning , ICML ’06, pages 97–104, New York, NY, USA, June 2006. Association for Computing Machinery. [13] Miguel A. Carreira-Perpinan and Ramin Raziperchikolaei. Hashing with binary autoencoders. pages 557–566, 2015. 18 [14] Moses S. Charikar. Similarity estimation techniques from rounding algorithms. In Proceedings of the thiry-fourth annual ACM symposium on Theory of computing , STOC ’02, pages 380–388, New York, NY, USA, May 2002. Association for Computing Machinery. [15] Qi Chen, Bing Zhao, Haidong Wang, Mingqin Li, Chuanjie Liu, Zengzhong Li, Mao Yang, and Jingdong Wang. Spann: highly-efficient billion-scale approximate nearest neighbor search. In Proceedings of the 35th International Conference on Neural Information Processing Systems , pages 5199–5212, Red Hook, NY, USA, December 2021. Curran Associates Inc. [16] Yongjian Chen, Tao Guan, and Cheng Wang. Approximate nearest neighbor search by residual vector quantization. Sensors , 10(12):11259–11273, December 2010. [17] CohereLabs. msmarco-v2-embed-english-v3. URL https://huggingface.co/datasets/CohereLabs/ msmarco-v2-embed-english-v3 .[18] Bo Dai, Ruiqi Guo, Sanjiv Kumar, Niao He, and Le Song. Stochastic generative hashing. In Proceedings of the 34th International Conference on Machine Learning , pages 913–922. PMLR, July 2017. [19] Sanjoy Dasgupta, Charles F. Stevens, and Saket Navlakha. A neural algorithm for a fundamental computing problem. Science , 358(6364):793–796, November 2017. [20] Mayur Datar, Nicole Immorlica, Piotr Indyk, and Vahab S. Mirrokni. Locality-sensitive hashing scheme based on p-stable distributions. In Proceedings of the twentieth annual symposium on Computational geometry , SCG ’04, pages 253–262, New York, NY, USA, June 2004. Association for Computing Ma-chinery. [21] DataStax. Jvector, May 2026. URL https://github.com/datastax/jvector . original-date: 2023-08-25T01:45:20Z. [22] Matthijs Douze, Alexandr Guzhva, Chengqi Deng, Jeff Johnson, Gergely Szilvasy, Pierre-Emmanuel Mazar´ e, Maria Lomeli, Lucas Hosseini, and Herv´ e J´ egou. The faiss library. IEEE Transactions on Big Data , 12(2):346–361, April 2026. [23] Jianyang Gao and Cheng Long. Rabitq: Quantizing high-dimensional vectors with a theoretical error bound for approximate nearest neighbor search. Proc. ACM Manag. Data , 2(3):167:1–167:27, May 2024. [24] Jianyang Gao, Yutong Gou, Yuexuan Xu, Yongyi Yang, Cheng Long, and Raymond Chi-Wing Wong. Practical and asymptotically optimal quantization of high-dimensional vectors in euclidean space for approximate nearest neighbor search. Proc. ACM Manag. Data , 3(3):202:1–202:26, June 2025. [25] Tiezheng Ge, Kaiming He, Qifa Ke, and Jian Sun. Optimized product quantization. IEEE Transactions on Pattern Analysis and Machine Intelligence , 36(04):744–755, April 2014. [26] Yunchao Gong and Svetlana Lazebnik. Iterative quantization: A procrustean approach to learning binary codes. In CVPR 2011 , pages 817–824, June 2011. [27] Yunchao Gong, Svetlana Lazebnik, Albert Gordo, and Florent Perronnin. Iterative quantization: Aprocrustean approach to learning binary codes for large-scale image retrieval. IEEE Transactions on Pattern Analysis and Machine Intelligence , 35(12):2916–2929, December 2013. [28] Albert Gordo and Florent Perronnin. Asymmetric distances for binary embeddings. In CVPR 2011 ,pages 729–736, June 2011. [29] Intel Intrinsics Guide. load mask16, July 2025. URL https://www.intel.com/content/www/us/en/ docs/intrinsics-guide/index.html#text=_load_mask16&ig_expand=3996 .[30] Intel Intrinsics Guide. mm512 add ps, July 2025. URL https://www.intel.com/content/www/us/ en/docs/intrinsics-guide/index.html#text=_mm512_add_ps&techs=AVX_512&ig_expand=143 .19 [31] Intel Intrinsics Guide. mm512 fmadd ps, July 2025. URL https://www.intel.com/content/www/us/ en/docs/intrinsics-guide/index.html#text=_mm512_loadu_ps&ig_expand=4103 .[32] Intel Intrinsics Guide. mm512 i32gather ps, July 2025. URL https://www.intel.com/content/ www/us/en/docs/intrinsics-guide/index.html#techs=AVX_512&text=_mm512_i32gather_ps&ig_ expand=3734 .[33] Intel Intrinsics Guide. mm512 loadu ps, July 2025. URL https://www.intel.com/content/www/ us/en/docs/intrinsics-guide/index.html#text=_mm512_fmadd_ps&avx512techs=AVX512F&ig_ expand=3111 .[34] Intel Intrinsics Guide. mm512 maskz loadu ps, July 2025. URL https://www.intel.com/content/ www/us/en/docs/intrinsics-guide/index.html#text=_mm512_maskz_loadu_ps&ig_expand=4105 .[35] Intel Intrinsics Guide. mm512 reduce add ps, July 2025. URL https://www.intel.com/content/ www/us/en/docs/intrinsics-guide/index.html#text=_mm512_reduce_add_ps&avx512techs= AVX512F&ig_expand=5303 .[36] Ruiqi Guo, Philip Sun, Erik Lindgren, Quan Geng, David Simcha, Felix Chern, and Sanjiv Kumar. Accelerating large-scale inference with anisotropic vector quantization. In Proceedings of the 37th In-ternational Conference on Machine Learning , pages 3887–3896. PMLR, November 2020. [37] Piotr Indyk and Rajeev Motwani. Approximate nearest neighbors: towards removing the curse of dimensionality. In Proceedings of the thirtieth annual ACM symposium on Theory of computing , STOC ’98, pages 604–613, New York, NY, USA, May 1998. Association for Computing Machinery. [38] Omid Jafari, Preeti Maurya, Parth Nagarkar, Khandker Mushfiqul Islam, and Chidambaram Crushev. A survey on locality sensitive hashing algorithms and their applications, February 2021. arXiv:2102.08942 [cs]. [39] Jeff Johnson, Matthijs Douze, and Herv´ e J´ egou. Billion-scale similarity search with gpus. IEEE Trans-actions on Big Data , 7(3):535–547, July 2021. [40] Keller Jordan, Yuchen Jin, Vlado Boza, Jiacheng You, Franz Cesista, Laker Newhouse, and Jeremy Bern-stein. Muon: An optimizer for hidden layers in neural networks, 2024. URL https://kellerjordan. github.io/posts/muon/ .[41] Biing-Hwang Juang and A. Gray. Multiple stage vector quantization for speech coding. In ICASSP ’82. IEEE International Conference on Acoustics, Speech, and Signal Processing , volume 7, pages 597–600, May 1982. [42] justicedao. Caselaw access project embeddings. URL https://huggingface.co/datasets/ justicedao/Caselaw_Access_Project_embeddings .[43] Herve J´ egou, Matthijs Douze, and Cordelia Schmid. Product quantization for nearest neighbor search. 
+
+IEEE Transactions on Pattern Analysis and Machine Intelligence , 33(1):117–128, January 2011. [44] Yannis Kalantidis and Yannis Avrithis. Locally optimized product quantization for approximate nearest neighbor search. In 2014 IEEE Conference on Computer Vision and Pattern Recognition , pages 2329– 2336, June 2014. [45] Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich K¨ uttler, Mike Lewis, Wen-tau Yih, Tim Rockt¨ aschel, Sebastian Riedel, and Douwe Kiela. Retrieval-augmented generation for knowledge-intensive nlp tasks. In Advances in Neural Information Processing Systems , pages 9459–9474. Curran Associates Inc., December 2020. [46] Shicong Liu, Hongtao Lu, and Junru Shao. Improved residual vector quantization for high-dimensional approximate nearest neighbor search, September 2015. arXiv:1509.05195 [cs]. 20 [47] S. Lloyd. Least squares quantization in pcm. IEEE Transactions on Information Theory , 28(2):129–137, March 1982. [48] Xiao Luo, Haixin Wang, Daqing Wu, Chong Chen, Minghua Deng, Jianqiang Huang, and Xian-Sheng Hua. A survey on deep hashing methods. ACM Trans. Knowl. Discov. Data , 17(1):15:1–15:50, February 2023. [49] Yu A. Malkov and D. A. Yashunin. Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs. IEEE Transactions on Pattern Analysis and Machine Intel-ligence , 42(4):824–836, April 2020. [50] Julieta Martinez, Joris Clement, Holger H. Hoos, and James J. Little. Revisiting additive quantization. In Bastian Leibe, Jiri Matas, Nicu Sebe, and Max Welling, editors, Computer Vision – ECCV 2016 ,pages 137–153, Cham, 2016. Springer International Publishing. [51] J. Max. Quantizing for minimum distortion. IRE Transactions on Information Theory , 6(1):7–12, March 1960. [52] Marius Muja and David G. Lowe. Scalable nearest neighbor algorithms for high dimensional data. IEEE Transactions on Pattern Analysis and Machine Intelligence , 36(11):2227–2240, November 2014. [53] olmer. wiki mpnet embeddings. URL https://huggingface.co/datasets/olmer/wiki_mpnet_ embeddings .[54] Thomas Pethick, Wanyun Xie, Kimon Antonakopoulos, Zhenyu Zhu, Antonio Silveti-Falls, and Volkan Cevher. Training deep learning models with norm-constrained lmos. In Proceedings of the 42nd In-ternational Conference on Machine Learning , volume 267 of ICML’25 , pages 49069–49104, Vancouver, Canada, July 2025. JMLR.org. [55] Qdrant. dbpedia-entities-openai3-text-embedding-3-large-1536-1m, 2024. URL https://huggingface. co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M .[56] Qdrant. dbpedia-entities-openai3-text-embedding-3-large-3072-1m, 2024. URL https://huggingface. co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M .[57] Meta Research. Faiss, May 2026. URL https://github.com/facebookresearch/faiss . Accessed: 2026-05-07. [58] Suhas Jayaram Subramanya, Devvrit, Rohan Kadekodi, Ravishankar Krishaswamy, and Harsha Vard-han Simhadri. Diskann: fast accurate billion-point nearest neighbor search on a single node. In Advances on Neural Information Processing Systems , pages 13766–13776, Red Hook, NY, USA, December 2019. Curran Associates Inc. [59] Mariano Tepper, Ishwar Singh Bhati, Cecilia Aguerrebere, Mark Hildebrand, and Theodore L. Willke. Leanvec: Searching vectors faster by making them fit. Transactions on Machine Learning Research ,January 2024. [60] Mariano Tepper, Ishwar Singh Bhati, Cecilia Aguerrebere, and Ted Willke. Gleanvec: Accelerating vector search with minimalist nonlinear dimensionality reduction, October 2024. arXiv:2410.22347 [cs]. [61] Aaron van den Oord, Oriol Vinyals, and Koray Kavukcuoglu. Neural discrete representation learning. In 
+
+Proceedings of the 31st International Conference on Neural Information Processing Systems , NIPS’17, pages 6309–6318, Red Hook, NY, USA, December 2017. Curran Associates Inc. [62] Shay Vargaftik, Ran Ben-Basat, Amit Portnoy, Gal Mendelson, Yaniv Ben-Itzhak, and Michael Mitzen-macher. Drive: One-bit distributed mean estimation. In Advances in Neural Information Processing Systems , volume 34, pages 362–377. Curran Associates, Inc., 2021. 21 [63] Shay Vargaftik, Ran Ben Basat, Amit Portnoy, Gal Mendelson, Yaniv Ben Itzhak, and Michael Mitzen-macher. Eden: Communication-efficient and robust distributed mean estimation for federated learning. In Proceedings of the 39th International Conference on Machine Learning , pages 21984–22014. PMLR, June 2022. [64] VectorDB-NTU. Rabitq-library, 2025. URL https://github.com/VectorDB-NTU/RaBitQ-Library .Accessed: 2026-05-15. [65] Jingdong Wang, Ting Zhang, jingkuan song, Nicu Sebe, and Heng Tao Shen. A survey on learning to hash. IEEE Transactions on Pattern Analysis and Machine Intelligence , 40(4):769–790, April 2018. [66] Yair Weiss, Antonio Torralba, and Rob Fergus. Spectral hashing. In Proceedings of the 22nd Inter-national Conference on Neural Information Processing Systems , NIPS’08, pages 1753–1760, Red Hook, NY, USA, December 2008. Curran Associates Inc. [67] Felix Yu, Sanjiv Kumar, Yunchao Gong, and Shih-Fu Chang. Circulant binary embedding. In Proceed-ings of the 31st International Conference on Machine Learning , pages 946–954. PMLR, June 2014. [68] Amir Zandieh, Majid Daliri, Majid Hadian, and Vahab Mirrokni. Turboquant: Online vector quanti-zation with near-optimal distortion rate. October 2025. [69] Ting Zhang, Chao Du, and Jingdong Wang. Composite quantization for approximate nearest neighbor search. In Proceedings of the 31st International Conference on International Conference on Machine Learning - Volume 32 , ICML’14, pages II–846, Beijing, China, June 2014. JMLR.org. [70] Xu Zhang, Felix X. Yu, Ruiqi Guo, Sanjiv Kumar, Shengjin Wang, and Shi-Fu Chang. Fast orthogonal projection based on kronecker product. pages 2929–2937, 2015. 
+
+## A Additional similarity functions 
+
+The Euclidean distance is straightforward to incorporate in the current framework. We start by decomposing the distance ∥q − xi∥22 as follows 
+
+∥q − xi∥22 = ∥q − μ∗ 
+
+> i
+
++ μ∗ 
+
+> i
+
+− xi∥22 (A.1) = ∥q − μ∗ 
+
+> i
+
+∥22 + ∥x − μ∗ 
+
+> i
+
+∥22 − 2
+
+
+
+⟨q, xi⟩ − ⟨ μ∗ 
+
+> i
+
+, xi⟩ − ⟨ q, μ∗ 
+
+> i
+
+⟩ + ∥μ∗ 
+
+> i
+
+∥22
+
+
+
+. (A.2) The terms ∥x − μ∗ 
+
+> i
+
+∥22 and ⟨μ∗ 
+
+> i
+
+, xi⟩ are stored in the ASH payload (Table 1). The terms ∥q − μ∗ 
+
+> i
+
+∥22 and ⟨q, μ∗ 
+
+> i
+
+⟩
+
+are computed once for each query. We can pre-compute ∥μc∥22 once all c. Finally, to approximate ⟨q, xi⟩,we use Equation (17). The cosine similarity cosSim( q, x) := ⟨q, x⟩ / (∥q∥2 · ∥ xi∥2) (A.3) requires a little more work. The first and simpler approach is to add the value of ∥xi∥2 to the ASH header (Table 1). This would increase our payload by 16 bits. Alternatively, we can use Equation (12) to write 
+
+xi = ∥xi − μ∗ 
+
+> i
+
+∥2 ˆxi + μ∗
+
+> i
+
+≈ d−1/2 ∥xi − μ∗ 
+
+> i
+
+∥2 W⊤ (quant b(ˆ xi)) + μ∗ 
+
+> i
+
+. (A.4) From this approximation of xi and using simple calculations, we can estimate its norm as 
+
+∥xi∥22 ≈ ∥ xi − μ∗ 
+
+> i
+
+∥22 + 2 d−1/2 ∥xi − μ∗ 
+
+> i
+
+∥2 ⟨quant b(ˆ xi), Wμ∗ 
+
+> i
+
+⟩ + ∥μ∗ 
+
+> i
+
+∥22 . (A.5) Only the term ⟨bin(ˆ xi), Wμ∗ 
+
+> i
+
+⟩ requires being computed for each i. The remaining terms are global, can be computed once per query, or are already stored in the ASH payload. 22 B The symmetric case 
+
+Multiple similarity computations between vectors in X are performed when building a graph index for X .To save memory, it is of critical importance to compute these similarities from quantized vectors efficiently and symmetrically . In this case, we set C = 1, further simplifying the computation (we drop the sub-indices to simplify the notation). For x, y ∈ X , we write their dot product as 
+
+⟨x, y⟩ = ⟨x − μ, y − μ⟩ + ⟨x, μ⟩ + ⟨y, μ⟩ − ∥ μ∥22 (B.1) = ∥x − μ∥2 ∥y − μ∥2 ⟨˜x, ˜y⟩ + ⟨x, μ⟩ + ⟨y, μ⟩ − ∥ μ∥22 , (B.2) where ˜ x, ˜y are defined as in Equation (12). Then, all quantities except ⟨˜x, ˜y⟩ are stored as part of the encodings of x and y, see Table 1. We use the representation proposed in Equation (9) to approximate the dot product ⟨˜x, ˜y⟩ as 
+
+⟨˜x, ˜y⟩ ≈ ∥ g(˜ x)∥−12 ∥g(˜ y)∥−12
+
+D
+
+W⊤g(˜ x), W⊤g(˜ y)
+
+E
+
+(B.3) = cosSim (quant b (W˜x) , quant b (W˜y)) . (B.4) When plugging Equation (B.4) in Equation (B.2), all operations can be performed with integer FMAs and scalar computations using global constants or information available in the ASH header (see Table 1). Similarly as in the asymmetric case, we can further develop Equation (B.4) for binary quantization ( b = 1) as 
+
+⟨˜x, ˜y⟩ ≈ d−1 D
+
+W⊤g(˜ x), W⊤g(˜ y)
+
+E
+
+(B.5) = d−1 ⟨g(˜ x), g (˜ y)⟩ (B.6) = 4 d−1 ⟨bin ( W˜x) , bin ( W˜y)⟩ − − 2d−1 ⟨bin ( W˜x) , 1⟩ − − 2d−1 ⟨bin ( W˜y) , 1⟩ + d−1.
+
+(B.7) The dot product ⟨bin ( W˜x) , bin ( W˜y)⟩ between binary vectors can be performed using a negated XOR. The dot product ⟨bin ( ·) , 1⟩ can be computed using a popcount on-the-fly or added to the payload. Note that these computations are similar to the classical use of hashing, where ⟨x, y⟩ ≈ ⟨ bin ( Wx ) , bin ( Wy )⟩ for a linear or nonlinear function h [37]. 
+
+## C Reference dot product code                                             
+
+> float dot_product ( const float * query , const float * vector , uint32_t d ) {__m512 vec_result =_mm512_setzero_ps () ; for ( uint32_t j=0; j<d ; j+= 16) {__m512 v1 =_mm512_load_ps (( void const * ) ( query +j ) ) ; __m512 v2 =_mm512_load_ps (( void const * ) ( vector +j ) ) ; vec_result =_mm512_fmadd_ps ( v1 , v2 , vec_result ) ; }float result =_mm512_reduce_add_ps ( vec_result ) ; return result ; }
+
+c
+
+## D Additional experimental results 
+
+We include additional experimental results in Figures D.1 to D.8. These figures extend the results in the main body of the manuscript. 23 100 2 3 4 5 6 7 8 9
+
+1000 2 3 4 5 6 7 8 9
+
+10k 
+
+0.798 
+
+0.7985 
+
+0.799 
+
+0.7995 Figure D.1: The expected dot product in Equation (33) between a normalized vector x and its quantized and normalized version quant(ˆ x) as a function of D (in logarithmic scale). 10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+128x (B=384, b=1) | random 
+
+128x (B=384, b=1) | trained 
+
+128x (B=384, b=2) | random 
+
+128x (B=384, b=2) | trained 
+
+128x (B=384, b=4) | random 
+
+128x (B=384, b=4) | trained 
+
+ada002-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.1 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+Compression | training 
+
+128x (B=192, b=1) | random 
+
+128x (B=192, b=1) | trained 
+
+128x (B=192, b=2) | random 
+
+128x (B=192, b=2) | trained 
+
+128x (B=192, b=4) | random 
+
+128x (B=192, b=4) | trained 
+
+gecko-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+128x (B=384, b=1) | random 
+
+128x (B=384, b=1) | trained 
+
+128x (B=384, b=2) | random 
+
+128x (B=384, b=2) | trained 
+
+128x (B=384, b=4) | random 
+
+128x (B=384, b=4) | trained 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+128x (B=768, b=1) | random 
+
+128x (B=768, b=1) | trained 
+
+128x (B=768, b=2) | random 
+
+128x (B=768, b=2) | trained 
+
+128x (B=768, b=4) | random 
+
+128x (B=768, b=4) | trained 
+
+openai-3072-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.1 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+Compression | training 
+
+64x (B=512, b=1) | random 
+
+64x (B=512, b=1) | trained 
+
+64x (B=512, b=2) | random 
+
+64x (B=512, b=2) | trained 
+
+64x (B=512, b=4) | random 
+
+64x (B=512, b=4) | trained 
+
+nv-qa-v4-100k 
+
+R
+
+> 10-recall@R
+
+Figure D.2: Learning the projection matrix W leads to significant improvements on search accuracy, mea-sured as 10-recall@R for different values of R. In ASH, increasing the bitrate b with B fixed means decreasing the target dimensionality d. When D > d , the advantage of the learned parameters becomes wider. Notably, ASH with b = 2 consistently beats b = 1, meaning that reducing the dimensionality while increasing the bitrate pays off. 10 15 20 25 30 35 40 45 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+gecko-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.6 
+
+0.65 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+nv-qa-v4-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.84 
+
+0.86 
+
+0.88 
+
+0.9 
+
+0.92 
+
+0.94 
+
+0.96 
+
+0.98 
+
+1
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+openai-3072-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+1
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+gecko-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.7 
+
+0.75 
+
+0.8 
+
+0.85 
+
+0.9 
+
+0.95 
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+nv-qa-v4-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.82 
+
+0.84 
+
+0.86 
+
+0.88 
+
+0.9 
+
+0.92 
+
+0.94 
+
+0.96 
+
+0.98 
+
+1
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+openai-1536-100k 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.88 
+
+0.9 
+
+0.92 
+
+0.94 
+
+0.96 
+
+0.98 
+
+1
+
+clusters 
+
+1
+
+16 
+
+32 
+
+64 
+
+128 
+
+256 
+
+openai-3072-100k 
+
+R
+
+> 10-recall@R
+
+Figure D.3: The search accuracy increases with the number of ASH landmarks, defined in Equation (12). We set B = D/ 2, b = 1 (top row) and b = 2 (bottomr row, and use C = 1 , 16 , 64 , 128 , 256. 24 Figure D.4: The ASH estimator has a slight bias, see Equation (34), when comparing the ground truth 
+
+⟨q, x⟩ with the estimated ⟨q, quant( x)⟩ (each pair ( ⟨q, x⟩, ⟨q, quant( x)⟩) corresponds to a circle in the plot) using the dataset queries. The bias slope ρ depends number of bits B and the bitrate b (in these examples 
+
+d = ⌊(B − 32) /b ⌋). In this case, B = D.25 Figure D.5: The ASH estimator has a slight bias, see Equation (34), when comparing the ground truth ⟨q, x⟩
+
+with the estimated ⟨q, quant( x)⟩ (each pair ( ⟨q, x⟩, ⟨q, quant( x)⟩) corresponds to a circle in the plot) using the dataset queries. The bias slope ρ depends number of bits B and the bitrate b (d = ⌊(B − 32) /b ⌋ in these examples). In this case, B = D/ 2. 10 15 20 25 30 35 40 45 
+
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+> Compression
+> 32x (B=1024)
+> 64x (B=512)
+> 128x (B=256)
+> 256x (B=128)
+
+nv-qa-v4-100k        
+
+> R
+> 10-recall@R 10 15 20 25 30 35 40 45
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+> Compression
+> 32x (B=1536)
+> 64x (B=768)
+> 128x (B=384)
+> 256x (B=192)
+
+openai-1536-100k  
+
+> R
+> 10-recall@R PQ ASH C=64, b=2
+
+Figure D.6: ASH outperforms PQ in search accuracy, measured using 10-recall@R for different values of R. ASH is even competitive at several compression levels with PQ configurations that use twice the space. 26 10 15 20 25 30 35 40 45 
+
+−4×10 −5 
+
+−3×10 −5 
+
+−2×10 −5 
+
+−1×10 −5 
+
+0
+
+1×10 −5 
+
+2×10 −5 
+
+3×10 −5 
+
+4×10 −5 
+
+Number of bits 
+
+1536 
+
+768 
+
+384 
+
+ada002-100k | ASH C=64, b=1 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−3×10 −5 
+
+−2×10 −5 
+
+−1×10 −5 
+
+0
+
+1×10 −5 
+
+2×10 −5 
+
+3×10 −5 
+
+4×10 −5 
+
+Number of bits 
+
+768 
+
+384 
+
+192 
+
+gecko-100k | ASH C=64, b=1 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−2×10 −4 
+
+−1.5×10 −4 
+
+−1×10 −4 
+
+−0.5×10 −4 
+
+0
+
+0.5×10 −4 
+
+1×10 −4 
+
+1.5×10 −4 
+
+2×10 −4 
+
+Number of bits 
+
+1024 
+
+512 
+
+256 
+
+nv-qa-v4-100k | ASH C=64, b=1 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−3×10 −5 
+
+−2×10 −5 
+
+−1×10 −5 
+
+0
+
+1×10 −5 
+
+2×10 −5 
+
+3×10 −5 
+
+4×10 −5 
+
+Number of bits 
+
+1536 
+
+768 
+
+384 
+
+openai-1536-100k | ASH C=64, b=1 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−4×10 −5 
+
+−3×10 −5 
+
+−2×10 −5 
+
+−1×10 −5 
+
+0
+
+1×10 −5 
+
+Number of bits 
+
+3072 
+
+1536 
+
+768 
+
+openai-3072-100k | ASH C=64, b=1 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−2×10 −5 
+
+−1×10 −5 
+
+0
+
+1×10 −5 
+
+2×10 −5 
+
+3×10 −5 
+
+4×10 −5 
+
+Number of bits 
+
+1536 
+
+768 
+
+384 
+
+ada002-100k | ASH C=64, b=2 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−6×10 −5 
+
+−4×10 −5 
+
+−2×10 −5 
+
+0
+
+2×10 −5 
+
+4×10 −5 Number of bits 
+
+768 
+
+384 
+
+192 
+
+gecko-100k | ASH C=64, b=2 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−2×10 −4 
+
+−1.5×10 −4 
+
+−1×10 −4 
+
+−0.5×10 −4 
+
+0
+
+0.5×10 −4 
+
+1×10 −4 
+
+1.5×10 −4 
+
+2×10 −4 
+
+2.5×10 −4 
+
+Number of bits 
+
+1024 
+
+512 
+
+256 
+
+nv-qa-v4-100k | ASH C=64, b=2 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−2×10 −5 
+
+−1×10 −5 
+
+0
+
+1×10 −5 
+
+2×10 −5 
+
+3×10 −5 
+
+4×10 −5 
+
+5×10 −5 
+
+6×10 −5 
+
+Number of bits 
+
+1536 
+
+768 
+
+384 
+
+openai-1536-100k | ASH C=64, b=2 
+
+R
+
+> 10-recall@R difference
+
+10 15 20 25 30 35 40 45 
+
+−2×10 −5 
+
+−1×10 −5 
+
+0
+
+1×10 −5 
+
+2×10 −5 
+
+3×10 −5 
+
+Number of bits 
+
+3072 
+
+1536 
+
+768 
+
+openai-3072-100k | ASH C=64, b=2 
+
+R
+
+> 10-recall@R difference
+
+Figure D.7: The 10-recall@R difference between queries encoded as float32 or as float16 for different values of R. In the float16 case, the values of the query vector are simply downcasted. 10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+ada002-100k | 64x (B=768) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+gecko-100k | 64x (B=384) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+nv-qa-v4-100k | 64x (B=512) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+openai-1536-100k | 64x (B=768) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+openai-3072-100k | 64x (B=1536) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+ada002-100k | 128x (B=384) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+gecko-100k | 128x (B=192) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.2 
+
+0.3 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+nv-qa-v4-100k | 128x (B=256) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+openai-1536-100k | 128x (B=384) 
+
+R
+
+> 10-recall@R
+
+10 15 20 25 30 35 40 45 
+
+0.4 
+
+0.5 
+
+0.6 
+
+0.7 
+
+0.8 
+
+0.9 
+
+1
+
+LeanVec, b=1 
+
+LeanVec, b=2 
+
+LeanVec, b=4 
+
+ASH, b=1 
+
+ASH, b=2 
+
+ASH, b=4 
+
+openai-3072-100k | 128x (B=768) 
+
+R
+
+> 10-recall@R
+
+Figure D.8: ASH outperforms LeanVec [59] (that also combines dimensionality reduction and scalar hashing) in search accuracy. We measure the search accuracy using 10-recall@R for different values of R. 27

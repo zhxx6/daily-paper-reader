@@ -1,0 +1,169 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-11T22:07:26.508580+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.12397v1",
+      "source": "arxiv",
+      "title": "Redesign Mixture-of-Experts Routers with Manifold Power Iteration",
+      "abstract": "Router is the cornerstone component to the Mixture-of-Experts models. Serving as expert proxies, the rows of the router matrix compute their similarity to the MoE inputs to determine which subset of experts is activated. Ideally, each router row is designed to encode the expert matrix into this representative vector, such that its dot-product with token can better reflect token-expert affinity. However, there exists no design principles to enforce this condensation. In this paper, we propose to align each router row with the principal singular direction of the associated expert, as this direction provides the most expressive mathematical description of a matrix. Based on this principle, we propose a router redesign with Manifold Power Iteration (MPI). Specifically, it introduces a \"Power-then-Retract\" paradigm, where a power iteration step is performed on the router weights, followed by a retraction to impose a norm constraint to ensure both efficiency and stability. Theoretically, we show that MPI drives router rows to converge toward the principal singular directions of associated experts. Empirically, we pretrain MoE model across scales from 1B to 11B parameters to confirm that this alignment facilitates more effective MoE models.",
+      "authors": [
+        "Songhao Wu",
+        "Ang Lv",
+        "Ruobing Xie",
+        "Yankai Lin"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-06-10T17:57:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.12397v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "proposes manifold power iteration to redesign MoE routers for efficient inference",
+      "llm_evidence_cn": "提出了用流形幂迭代重新设计MoE路由器以提升推理效率",
+      "llm_evidence": "提出了用流形幂迭代重新设计MoE路由器以提升推理效率",
+      "canonical_evidence": "提出了用流形幂迭代重新设计MoE路由器以提升推理效率",
+      "llm_tldr_en": "Aligns each router row with the principal singular direction of the corresponding expert using Manifold Power Iteration, improving token-expert affinity and MoE inference efficiency.",
+      "llm_tldr_cn": "混合专家模型的路由器缺乏将专家矩阵凝聚到代表性向量的设计原则。本文提出流形幂迭代（MPI），将每个路由器行与对应专家的主奇异方向对齐，从而更准确反映令牌与专家的亲和力。该方法不需要额外参数，可即插即用，在多种MoE模型上提升了路由质量和下游任务性能，为高效MoE推理提供了轻量级路由优化。",
+      "llm_tldr": "混合专家模型的路由器缺乏将专家矩阵凝聚到代表性向量的设计原则。本文提出流形幂迭代（MPI），将每个路由器行与对应专家的主奇异方向对齐，从而更准确反映令牌与专家的亲和力。该方法不需要额外参数，可即插即用，在多种MoE模型上提升了路由质量和下游任务性能，为高效MoE推理提供了轻量级路由优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.07870v1",
+      "source": "arxiv",
+      "title": "ASH: Asymmetric Scalar Hashing With Learned Dimensionality Reduction for High-Fidelity Vector Quantization",
+      "abstract": "For a long time, additive quantizers, such as product quantization, have been considered the gold standard in terms of accuracy and efficiency. Recently, scalar quantization has re-emerged from the depths of history with a new wave of data-agnostic techniques. Inscribed in this general framework, we turn our attention to data-driven methods, showing that new highs in recall and speed can be achieved by reducing the number of dimensions while increasing the bitrate per dimension. Critically, this dimensionality reduction needs to be learned from data to be successful. We present ASH (Asymmetric Scalar Hashing), a data-driven encoder-decoder framework that applies dimensionality reduction to database vectors via a learned orthonormal projection, followed by scalar quantization, while keeping queries in their original form. This asymmetric design enables higher accuracy than the best additive and scalar quantizers at iso-compression, while admitting highly efficient similarity computations via SIMD operations. ASH has short learning and encoding times, making it attractive for real-world deployment. Extensive experiments on a variety of datasets demonstrate that ASH achieves state-of-the-art ANN recall and speeds across all compression regimes.",
+      "authors": [
+        "Mariano Tepper",
+        "Theodore Willke"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-06-05T22:01:25+00:00",
+      "link": "https://arxiv.org/pdf/2606.07870v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "learned dimensionality reduction for high-fidelity vector quantization as enabling technique for weight compression",
+      "llm_evidence_cn": "学习型降维高保真向量量化，可作为权重压缩的使能技术",
+      "llm_evidence": "学习型降维高保真向量量化，可作为权重压缩的使能技术",
+      "canonical_evidence": "学习型降维高保真向量量化，可作为权重压缩的使能技术",
+      "llm_tldr_en": "ASH introduces a data-driven encoder-decoder for vector quantization with learned dimensionality reduction, achieving high recall and speed, applicable to model compression.",
+      "llm_tldr_cn": "本文提出ASH框架，通过学习型降维和标量哈希实现高保真向量量化。通过降维提高每维比特率，在召回率和速度上超越传统方法。该方法可迁移至大语言模型权重量化，为高效推理中的压缩技术提供新思路。",
+      "llm_tldr": "本文提出ASH框架，通过学习型降维和标量哈希实现高保真向量量化。通过降维提高每维比特率，在召回率和速度上超越传统方法。该方法可迁移至大语言模型权重量化，为高效推理中的压缩技术提供新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.04302v1",
+      "source": "arxiv",
+      "title": "LazyAttention: Efficient Retrieval-Augmented Generation with Deferred Positional Encoding",
+      "abstract": "Key-value (KV) caching accelerates inference of large language models (LLMs) by reusing past computations for generated tokens. Its importance becomes even greater in long-context applications such as retrieval-augmented generation (RAG) and in-context learning (ICL). However, conventional KV caching embeds positional information directly into the cache, limiting its reusability. Existing solutions either restrict reuse to prefixes or require expensive memory materialization for positional re-encoding. We introduce LazyAttention, a novel attention mechanism that kernelizes deferred positional encoding to enable zero-copy, position-agnostic KV reuse. By adjusting positional encoding within attention kernels on-the-fly, LazyAttention resolves the materialization bottleneck, allowing a single physical KV copy to serve multiple logical requests at arbitrary positions. Leveraging attention kernels tailored for prefilling and decoding, our system achieves significant efficiency improvements: under skewed document distributions, it reduces time-to-first-token (TTFT) by 1.37$\\times$ and increases inference throughput by 1.40$\\times$ compared to the state-of-the-art Block-Attention, while maintaining comparable output quality.",
+      "authors": [
+        "Haocheng Xia",
+        "Mihir Pamnani",
+        "Hanxi Fang",
+        "Supawit Chockchowwat",
+        "Yongjoo Park"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-06-03T00:12:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.04302v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Kernelizes deferred positional encoding for efficient attention reuse, applicable to group kernel optimization",
+      "llm_evidence_cn": "将延迟位置编码核化以实现高效注意力重用，可应用于分组核优化",
+      "llm_evidence": "将延迟位置编码核化以实现高效注意力重用，可应用于分组核优化",
+      "canonical_evidence": "将延迟位置编码核化以实现高效注意力重用，可应用于分组核优化",
+      "llm_tldr_en": "Proposes LazyAttention, an attention mechanism that kernelizes positional encoding for zero-copy KV reuse, improving inference efficiency and applicable to MoE group kernels.",
+      "llm_tldr_cn": "针对长上下文LLM推理中KV缓存重用受限的问题，提出LazyAttention注意机制，通过将延迟位置编码核化，实现位置无关的零拷贝KV重用。在注意力核内动态调整位置编码，避免内存复制。该方法提升了推理效率，可应用于MoE中的分组核优化。",
+      "llm_tldr": "针对长上下文LLM推理中KV缓存重用受限的问题，提出LazyAttention注意机制，通过将延迟位置编码核化，实现位置无关的零拷贝KV重用。在注意力核内动态调整位置编码，避免内存复制。该方法提升了推理效率，可应用于MoE中的分组核优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.08032v1",
+      "source": "arxiv",
+      "title": "Variational Proximal Policy Optimization",
+      "abstract": "Reinforcement Learning from Human Feedback via Proximal Policy Optimization often suffers from policy mode collapse, brittle exploration loops, and distribution drift. This paper introduces Variational Proximal Policy Optimization (\\(\\textsc{VP}_2\\textsc{O}\\)), a particle-based variational inference framework that maps policy optimization to Stein Variational Gradient Descent within a Mixture-of-Experts architecture. By leveraging functional kernels over localized expert prototypes alongside an expert orthogonalization loss, \\(\\textsc{VP}_2\\textsc{O}\\) introduces a geometry-based proximal-control mechanism that can reduce reliance on fixed clipping or KL schedules. Our results on a 33B/4B sparse Mixture-of-Experts model show several improvements across complex reasoning benchmarks, establishing a \\(+\\mathbf{179}\\) ELO gain on Codeforces and a \\(\\mathbf{32\\%}\\) reduction in token count on AIME mathematical reasoning tasks.",
+      "authors": [
+        "Ousmane Amadou Dia"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-06-06T07:50:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.08032v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Uses MoE architecture and functional kernels over expert prototypes",
+      "llm_evidence_cn": "使用MoE架构和专家原型的函数核",
+      "llm_evidence": "使用MoE架构和专家原型的函数核",
+      "canonical_evidence": "使用MoE架构和专家原型的函数核",
+      "llm_tldr_en": "Proposes VP2O, a variational inference framework using MoE and functional kernels to improve RL optimization, with potential transfer to group kernel methods.",
+      "llm_tldr_cn": "针对强化学习策略优化中的模式崩溃和探索循环问题，提出变分近端策略优化（VP2O），将策略优化映射为基于MoE架构的Stein变分梯度下降。通过使用局部专家原型的函数核和专家正交化损失，实现了几何近端控制。在33B/4B稀疏MoE模型上显示出改进。该方法为MoE中的核优化提供了新思路。",
+      "llm_tldr": "针对强化学习策略优化中的模式崩溃和探索循环问题，提出变分近端策略优化（VP2O），将策略优化映射为基于MoE架构的Stein变分梯度下降。通过使用局部专家原型的函数核和专家正交化损失，实现了几何近端控制。在33B/4B稀疏MoE模型上显示出改进。该方法为MoE中的核优化提供了新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
