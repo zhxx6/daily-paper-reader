@@ -1,0 +1,290 @@
+Title: From Observation to Intervention: A Causal Audit of Expert Importance in Mixture-of-Experts Models
+
+URL Source: https://arxiv.org/pdf/2606.10703v1
+
+Published Time: Wed, 10 Jun 2026 00:53:45 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# From Observation to Intervention: A Causal Audit of Expert Importance in Mixture-of-Experts Models 
+
+Leonard Engmann 1 Christian Medeiros Adriano 1 Holger Giese 1
+
+# Abstract 
+
+Interpretability methods routinely use population-level summary statistics over observed model be-haviour to license claims about the effects of tar-geted interventions on specific computations; in Pearl’s terms, they treat rung-1 associational evi-dence as if it supported rung-2 interventional con-clusions, a move whose validity is rarely tested. We examine one concrete instance: the use of routing statistics in Mixture-of-Experts (MoE) pruning, where utilization rates, activation norms, and routing weight distributions are treated as predictors of which experts can be removed with-out functional cost. A token-level interventional audit across three high-redundancy MoE archi-tectures (OLMoE-1B-7B-0924, Qwen1.5-MoE-A2.7B, DeepSeek-V2-Lite) finds no observational metric predicts causal expert importance after multiple-comparison correction in any model, with effect sizes below Cohen’s d = 0 .17 across all 60 metric-layer combinations. A per-token routing weight control rules out insufficient power, recovering a single Bonferroni-significant sig-nal at OLMoE’s final MoE layer ( d = +0 .231 ,
+
+p = 0 .0013 ). Existing pruning methods succeed in this regime not by identifying dispensable ex-perts but because early-layer redundancy renders most selection criteria interchangeable. Our re-sults provide an explicit counterexample to the common inferential step from population-level observational summaries to token-level interven-tional claims about expert importance, and illus-trate how interventional audits can calibrate the evidential standards for interpretability claims. 
+
+> 1
+
+Hasso Plattner Institute, University of Potsdam, Ger-many. Correspondence to: Leonard Engmann <engmann1@uni-potsdam.de >.
+
+Accepted at the ICML 2026 Workshop on Philosophy of Science Meets Machine Learning (PhilML), Seoul, South Korea. Non-archival; not part of the ICML proceedings. 
+
+# 1. Introduction 
+
+Interpretability methods routinely treat statistics computed over observed model behaviour as predictors of what a tar-geted intervention would do. Attention weights are read as explanations of individual predictions. Gradient saliency is read as identifying input features whose removal should change a model’s output. Routing statistics in Mixture-of-Experts (MoE) models are read as identifying experts whose ablation should leave the model intact. The move is from observation to intervention, and its va-lidity is rarely tested. When it has been tested, it has often failed. Jain & Wallace (2019) showed that attention weights do not predict the effect of perturbing the corresponding inputs. Adebayo et al. (2020) showed that saliency maps survive randomisation of the very model weights they pur-port to explain. Joshi et al. (2026) argue more generally that interpretability claims that aim to generalise require interventional evidence, not associational evidence. This paper examines a third case. It complements Jain & Wallace (2019) and Adebayo et al. (2020) with a new empirical instance, and makes Joshi et al. (2026)’s gen-eral argument concrete in the MoE pruning setting. The MoE pruning and compression literature uses observational routing statistics, such as expert utilization rates, activa-tion norms, and routing weight distributions, as proxies for functional expert importance. The implicit assumption is that experts which are routed to more frequently, or more selectively, are doing more important work. That assump-tion supports a now-standard pipeline: rank experts by an observational criterion, remove the lowest-ranked, recover capability through fine-tuning (Chen et al., 2022; Muzio et al., 2024; Jaiswal et al., 2025). Recent extensions apply the same criteria to high-redundancy architectures includ-ing OLMoE (Xie et al., 2024). The interventional question, whether the observational ranking predicts which expert ab-lations actually change model behaviour at individual token positions, has not been tested in any of these architectures. We test it. Using router-aware per-token ablation, we au-dit four canonical observational pruning metrics, namely utilization rate, activation norm, mean routing weight when active, and activation standard deviation, at five 1
+
+> arXiv:2606.10703v1 [cs.LG] 9 Jun 2026 From Observation to Intervention
+
+representative layers in each of three high-redundancy MoE language models: OLMoE-1B-7B-0924 (Muen-nighoff et al., 2025), Qwen1.5-MoE-A2.7B , and 
+
+DeepSeek-V2-Lite (DeepSeek-AI, 2024). The three models span the major design dimensions of the contempo-rary MoE literature: single- versus multi-objective auxiliary load-balancing, top-k activation ratios from 6.7% to 12.5%, scratch versus upcycled-from-dense training, and the pres-ence or absence of shared experts. A parallel control experi-ment swaps the observational criterion for per-token routing weights. This is a token-conditioned quantity, distinct from the population-averaged routing weight metric, and bounds the predictive signal available to any routing-derived mea-sure. The result is a clean three-model null. No observational metric reaches Bonferroni-corrected significance at any tested layer in any model. Effect sizes stay below Cohen’s 
+
+d = 0 .17 across all 60 metric-layer combinations, with signs inconsistent across layers. The routing weight control rules out insufficient power. Applied with identical machin-ery and identical n, it recovers one Bonferroni-significant effect. The signal is unique to OLMoE, at the final MoE layer ( d = +0 .231 , p = 0 .0013 ), where ablating an expert moves the residual stream by roughly 40 × what it does at early layers. Qwen and DeepSeek-V2-Lite show no compa-rable concentration. We treat the OLMoE late-layer effect as a within-model regularity that three architectures are not enough data to attribute to any single cause. Two findings, two scopes. The observational null is general: three architectures spanning the major design dimensions of the contemporary literature, no metric-layer cell at corrected significance in any of them. Existing pruning methods that rely on these statistics do not succeed by identifying dispens-able experts. They succeed because early-layer redundancy makes most selection criteria interchangeable, a regime we confirm through progressive ablation (Section 3). The OL-MoE late-layer effect is narrow: one model, one layer, only under direct token-level conditioning. Both findings sit on the same side of one inferential boundary. Population-level routing statistics do not license token-level interventional predictions in this regime, regardless of which statistic is used. All code and data are released. 1
+
+# 2. Setup 
+
+MoE layer. A Mixture-of-Experts layer replaces a dense feedforward block with N experts {Ei}Ni=1 and a router G. 
+
+> 1Code: https://github.com/callmeloui/ observational_metrics .
+
+For hidden state x at token position t, the layer output is 
+
+yt = X
+
+> i∈top-k
+
+gi(xt) · Ei(xt), (1) where gi(xt) = softmax( Wg xt)i is the routing weight. Three of our four metrics ( utilization rate ,
+
+activation norm , activation std ) are computed per-expert over the full corpus before any ablation. The fourth, mean routing weight when active, is the average of gi over to-kens for which expert i is selected. Our routing weight control uses gi(xt) directly, conditioned on the token under evaluation. 
+
+Functional importance. For expert i active at token t,we measure causal contribution through ablation. Let y(−i)
+
+> t
+
+denote the layer output with Ei replaced by zero. The functional importance of i at t is the resulting loss change 
+
+∆L(t) 
+
+> i
+
+= L(−i) 
+
+> t
+
+− L t, where Lt = − log pθ (xt+1 | x≤t).We also report the residual-stream displacement δ(t) 
+
+> i
+
+=
+
+∥yt − y(−i) 
+
+> t
+
+∥2, which we call the gap norm. Functional importance asks whether ablating i at t changes the model’s prediction at t. The gap norm asks whether ablation changes the residual stream regardless of whether the change reaches the output. 
+
+Audit protocol. We test a precise version of the proxy assumption. 
+
+Definition 2.1 (Metric validity) . An observational metric 
+
+m : E → R is causally valid at the token level if, for token position t with active expert set At, higher m(e) among 
+
+e ∈ A t predicts larger functional importance ∆L(t) 
+
+> e
+
+.Definition 2.1 is the condition that would justify using m
+
+to select experts for ablation: a strategy removing low-m
+
+experts should preferentially remove low-importance ones. For each metric-layer-model cell we sample n = 200 token positions. At each position we identify the active routed-expert set (shared experts in Qwen and DeepSeek are never modified), rank by the target metric, ablate the highest-ranked expert and record ∆Lhigh , then ablate the lowest-ranked and record ∆Llow . Validity in the sense of Defini-tion 2.1 implies the paired difference ∆Lhigh − ∆Llow is reliably positive. We test with a paired t-test (Cohen’s d as effect size) and a Wilcoxon signed-rank test as a distribution-free check, and treat any cell where t and Wilcoxon disagree as noise. The routing weight control follows the same pro-tocol with gi(xt) in place of the observational metric. 
+
+Models and data. We run the protocol on three high-redundancy MoE language models: 
+
+OLMoE-1B-7B-0924 (16 layers, 64 experts, top-8, no shared expert), Qwen1.5-MoE-A2.7B (24 lay-ers, 60 routed experts plus one shared, top-4), and 2From Observation to Intervention 
+
+DeepSeek-V2-Lite (27 layers with layer 0 dense, 64 routed experts plus 2 shared, top-6). The auxiliary load-balancing coefficient ranges over an order of mag-nitude across the three ( α = 0.01 for OLMoE, 0.001 
+
+for Qwen, multi-objective for DeepSeek). For each model we audit four metrics at five representative layers proportional to network depth (OLMoE: L0, L4, L7, L11, L15; Qwen: L0, L6, L12, L18, L23; DeepSeek: L1, L7, L13, L20, L26), yielding 20 metric-layer cells per model and 60 cells in total. Bonferroni correction is applied per model: αadj = 0 .05 /20 = 0 .0025 for the audit and αadj = 0 .05 /5 = 0 .01 for the routing weight control. The evaluation corpus is the WikiText-2 test split (Merity et al., 2016). Full architectural details, precision settings, verification procedures, and per-cell numbers are in Appendix A and B. 
+
+# 3. Results 
+
+Each metric-layer cell is a direct token-level test of whether an observational summary licenses an interventional predic-tion. 
+
+The observational null replicates in all three models. 
+
+Across the 60 metric-layer cells (20 per model), no obser-vational metric reaches the Bonferroni-corrected threshold of p < 0.0025 . Effect sizes stay below Cohen’s d = 0 .17 
+
+throughout. In OLMoE, 19 of 20 cells are non-significant at 
+
+p < 0.05 uncorrected, and the one cell at pt = 0 .048 (activa-tion std at Layer 11, d = +0 .141 ) reverses sign at Layer 15 (d = −0.020 ). In Qwen, one cell reaches uncorrected 
+
+pt < 0.0025 but fails the Wilcoxon check ( pW = 0 .036 ); under our t-and-Wilcoxon agreement rule it is noise. In DeepSeek, three cells reach uncorrected pt < 0.05 and only one survives Wilcoxon, with d = +0 .163 at Layer 20 of utilization rate, well below the magnitudes the pruning liter-ature treats as actionable. Activation norm, which Jaiswal et al. (2025) identify as the strongest of 16 expert-dropping criteria they benchmark, shows |d| ≤ 0.157 at every tested layer in every model and does not reach Bonferroni signifi-cance anywhere. Signs are inconsistent across layers within each metric, which is the pattern produced by null distribu-tions rather than weak true effects. Full per-cell tables are in Appendix A. 
+
+The routing weight control isolates one signal, in one model, at one layer. Applied with identical machinery, the per-token routing weight ranking yields the pattern in Figure 1. In OLMoE, effect size grows monotonically with depth and reaches d = +0 .231 at Layer 15 ( p = 0 .0013 ,the one result in the entire experiment to survive Bonfer-roni correction). Qwen and DeepSeek show no comparable depth concentration: Qwen stays within |d| ≤ 0.124 across all five tested layers, DeepSeek within |d| ≤ 0.098 . The shaded band in Figure 1 shows the range covered by all 60 observational-metric cells across the three models; only the OLMoE Layer 15 routing weight result lies outside it.           
+
+> Figure 1. Per-token routing weight ablation across layers in three models ( n= 200 per layer, paired t-test, Cohen’s don paired differences). Shaded bands per model are 95% CIs. Grey band is the full range of observational-metric effect sizes across all four metrics, five layers, and three models. Only OLMoE Layer 15 ( d=+0 .231 ,p= 0 .0013 ) survives Bonferroni correction ( αadj = 0 .01
+> over five layers).
+
+Progressive ablation confirms the redundancy regime. 
+
+A progressive ablation experiment on OLMoE removes the 
+
+k highest-weight active experts at a target layer and records the cumulative loss change ( n = 500 token positions per layer-k cell, layers {0, 1, 7, 8, 9, 15 }, k ∈ { 1, . . . , 7}). At layers 0 through 9, mean loss change stays below +0 .083 
+
+nats at k = 7 , meaning removing seven of eight active ex-perts is functionally tolerable in the average case. Layer 15 breaks at k = 2 with mean ∆L = +0 .155 nats and reaches 
+
++0 .431 at k = 7 . The early- and mid-layer redundancy buffer is the structural condition that makes the choice of observational metric immaterial: any selection criterion that removes experts at these layers will look approximately harmless because nearly all selections at these layers are approximately harmless. 
+
+Mechanism underlying the OLMoE late-layer effect. 
+
+The OLMoE Layer 15 signal coincides with a sharp scaling of the gap norm: mean residual-stream displacement un-der single-expert ablation grows from 0.0041 at Layer 0 to 
+
+0.1697 at Layer 15, a 41 × increase. The Qwen redistribu-tion analysis (Appendix A.3) shows comparable gap-norm scaling without OLMoE’s late-layer functional concentra-tion, which rules out gap-norm growth alone as sufficient. Three architectures are not enough data to attribute the OLMoE-specific pattern to any single training or architec-tural factor. We treat it as an empirical regularity requiring 3From Observation to Intervention 
+
+controlled within-architecture follow-up. 
+
+# 4. Discussion 
+
+What the audit shows and what it does not. The three-model null is the empirical headline: no observational met-ric reaches corrected significance at any tested layer in any model. The audit does not show that metric-guided prun-ing fails as a deployment pipeline. It shows that when it succeeds, the success is not attributable to the metric iden-tifying experts that matter at the level of individual tokens. Progressive ablation explains why this is consistent with the literature’s reported gains: removing seven of eight ac-tive experts at layers 0 through 9 leaves OLMoE’s mean loss almost unchanged. Any selection rule applied at these layers will look approximately harmless because nearly all selections at these layers are approximately harmless. The metric and the random baseline are doing the same thing. 
+
+The OLMoE late-layer effect. One signal does survive. At OLMoE Layer 15, per-token routing weight predicts functional importance ( d = +0 .231 , p = 0 .0013 ). The signal is conditioned on the individual token rather than the corpus distribution, which is the structural move the rest of the paper shows to be missing. The signal is also not a counterexample to the broader null: pruning methods need a predictor that can be computed before inference, and gi(xt) requires the forward pass to that layer at that token. The OLMoE result is an existence proof of a per-token predictor, not evidence that any deployable metric works. It is also unique to OLMoE: comparable gap-norm scaling in Qwen does not produce comparable functional concentration, which rules out residual-stream growth as a sufficient explanation. Three architectures are not enough data to attribute the pattern to any single training or design choice. We treat it as an empirical regularity worth following up within OLMoE through controlled checkpoint variation, not as a general property of high-redundancy MoE. 
+
+Scope. The audit is at the token level and tests one-expert ablation at one position. Deployed pruning makes one-shot global decisions and recovers through fine-tuning. The token-level null does not directly falsify the deployed pipeline, but it removes the per-token mechanism that pipeline assumes. All three audited models are high-redundancy, with top-k activation rates between 6.7% and 12.5%. Whether observational metrics regain validity in low-redundancy architectures such as Switch-style and Mixtral-8x7B remains open, and we read the literature’s reported pruning successes on those architectures as partly attributable to the regime in which the metrics were origi-nally developed. 
+
+The inferential move. Pearl’s causal hierarchy (Barein-boim et al., 2022) distinguishes what kinds of claims an in-terpretability study is entitled to make. At the associational level, observational data can justify statements about corre-lations between a model’s behaviour and its internal compo-nents. At the interventional level, experiments such as abla-tions or activation patching can support claims about how deliberately editing those components changes behavioural quantities. The pruning literature treats Et[mt(e)] , a sum-mary over observed routing behaviour, as a predictor of 
+
+∆L(t) 
+
+> e
+
+, the loss change under intervention at a specific token. In the framing of Joshi et al. (2026), this is a move from rung 1 to rung 2 of the hierarchy: observational evidence used to license an interventional claim. Joshi et al.’s primary concern is the boundary between rung 2 (interventions over a set of prompts) and rung 3 (counterfactual claims about individual instances). Our case shows the analogous fail-ure one boundary lower: observational summaries do not license interventional predictions at the token level. Each of the 60 metric-layer cells in our audit is an instance of this rung-1-to-rung-2 inference. None survives the corrected threshold in any of the three models. The failure is uniform across metric families, layers, and architectures. The closest precedents are Jain & Wallace (2019) on attention and Ade-bayo et al. (2020) on saliency. In both, a quantity computed from observed model behaviour was treated as a predictor of intervention outcomes, and in both the proxy was not invariant to the perturbations it was meant to track. Routing statistics in MoE pruning are the same case. The pattern is not about attention, saliency, or routing. It is about what kind of evidence licenses what kind of claim. We do not develop a general theory of when observational-to-interventional inferences hold or fail. We provide one empirical instance and identify two structurally similar cases. 
+
+# 5. Conclusion 
+
+Mixture-of-Experts pruning relies on an unstated inference from population-level routing statistics to token-level in-terventional predictions. A three-model audit finds no ob-servational metric predicts causal expert importance at the token level after correction, with one signal surviving only under direct per-token conditioning at OLMoE Layer 15. Null-hypothesis testing here measures evidence against a metric’s validity, not evidence in favour of any competing account. A Bayesian comparison of metric models, in the spirit of Bayes factors or information-criterion model se-lection, would let future work quantify the relative support each criterion receives from token-level interventional data. The pattern of summary statistics standing in for interven-tional evidence has appeared elsewhere in interpretability methodology, and the present null is one more case where the inferential move does not hold up to its own test. 4From Observation to Intervention 
+
+# References 
+
+Adebayo, J., Gilmer, J., Muelly, M., Goodfellow, I., Hardt, M., and Kim, B. Sanity checks for saliency maps, 2020. URL https://arxiv.org/abs/1810.03292 .Bareinboim, E., Correa, J. D., Ibeling, D., and Icard, T. On pearl’s hierarchy and the foundations of causal inference. In Probabilistic and causal inference: the works of Judea Pearl , pp. 507–556. ACM Books, 2022. Chen, T., Huang, S., Xie, Y., Jiao, B., Jiang, D., Zhou, H., Li, J., and Wei, F. Task-specific expert pruning for sparse mixture-of-experts, 2022. URL https: //arxiv.org/abs/2206.00277 .DeepSeek-AI. Deepseek-v2: A strong, economical, and efficient mixture-of-experts language model, 2024. URL 
+
+https://arxiv.org/abs/2405.04434 .Jain, S. and Wallace, B. C. Attention is not explana-tion, 2019. URL https://arxiv.org/abs/1902. 10186 .Jaiswal, A., Wang, J., Li, Y., Li, P., Chen, T., Wang, Z., Wang, C., Pang, R., and Du, X. Finding fantastic experts in moes: A unified study for expert dropping strategies and observations, 2025. URL https://arxiv.org/ abs/2504.05586 .Joshi, S., Mueller, A., Klindt, D., Brendel, W., Reizinger, P., and Sridhar, D. Causality is key for interpretability claims to generalise, 2026. URL https://arxiv. org/abs/2602.16698 .Merity, S., Xiong, C., Bradbury, J., and Socher, R. Pointer sentinel mixture models, 2016. URL https://arxiv. org/abs/1609.07843 .Muennighoff, N., Soldaini, L., Groeneveld, D., Lo, K., Mor-rison, J., Min, S., Shi, W., Walsh, P., Tafjord, O., Lambert, N., Gu, Y., Arora, S., Bhagia, A., Schwenk, D., Wadden, D., Wettig, A., Hui, B., Dettmers, T., Kiela, D., Farhadi, A., Smith, N. A., Koh, P. W., Singh, A., and Hajishirzi, H. Olmoe: Open mixture-of-experts language models, 2025. URL https://arxiv.org/abs/2409.02060 .Muzio, A., Sun, A., and He, C. Seer-moe: Sparse ex-pert efficiency through regularization for mixture-of-experts, 2024. URL https://arxiv.org/abs/ 2404.05089 .Xie, Y., Zhang, Z., Zhou, D., Xie, C., Song, Z., Liu, X., Wang, Y., Lin, X., and Xu, A. Moe-pruner: Pruning mixture-of-experts large language model using the hints from its router, 2024. URL https://arxiv.org/ abs/2410.12013 .5From Observation to Intervention 
+
+# A. Detailed Cross-Architecture Replication Results 
+
+This appendix reports per-cell results for the cross-architecture replications summarized in Section 3. Section A.1 gives full per-token metric ablation tables for all three models. Section A.2 gives full routing weight control tables. Section A.3 gives the redistribution analysis. 
+
+A.1. Observational Metrics Per-Cell Results 
+
+For each model, we report Cohen’s d, paired t-test p-value ( pt), and Wilcoxon signed-rank p-value ( pW ). Bonferroni-corrected significance threshold per model: αadj = 0 .05 /20 = 0 .0025 . Cells in bold reach uncorrected pt < 0.05 ; no cell reaches Bonferroni significance in any of the three models. 
+
+Table 1. Per-token metric ablation per-cell results, OLMoE-1B-7B-0924. n = 200 per cell. Metric L0 L4 L7 L11 L15 Utilization rate −0.071 −0.027 +0 .029 +0 .066 +0 .051 
+
+pt=0 .319 pt=0 .702 pt=0 .687 pt=0 .351 pt=0 .476 
+
+Activation norm −0.095 +0 .119 +0 .075 +0 .136 +0 .033 
+
+pt=0 .182 pt=0 .094 pt=0 .293 pt=0 .057 pt=0 .640 
+
+Mean routing weight +0 .048 −0.093 +0 .072 −0.036 −0.095 
+
+pt=0 .500 pt=0 .189 pt=0 .312 pt=0 .611 pt=0 .179 
+
+Activation std −0.034 +0 .030 −0.098 +0.141 −0.020 
+
+pt=0 .634 pt=0 .669 pt=0 .169 pt=0.048 pt=0 .777 
+
+Table 2. Per-token metric ablation per-cell results, Qwen1.5-MoE-A2.7B. n = 200 per cell. Metric L0 L6 L12 L18 L23 Utilization rate −0.131 +0 .012 +0 .111 +0 .009 −0.001 
+
+pt=0 .065 pt=0 .861 pt=0 .118 pt=0 .903 pt=0 .993 
+
+Activation norm +0 .019 +0 .053 +0 .110 +0 .045 +0 .092 
+
+pt=0 .786 pt=0 .454 pt=0 .120 pt=0 .526 pt=0 .194 
+
+Mean routing weight +0 .021 +0 .018 −0.006 +0 .129 +0 .035 
+
+pt=0 .772 pt=0 .798 pt=0 .934 pt=0 .070 pt=0 .620 
+
+Activation std +0 .067 +0 .046 +0 .081 +0.149 +0.222 
+
+pt=0 .343 pt=0 .515 pt=0 .252 pt=0.036 pt=0.002 
+
+Table 3. Per-token metric ablation per-cell results, DeepSeek-V2-Lite. n = 200 per cell. Metric L1 L7 L13 L20 L26 Utilization rate −0.039 +0 .044 +0 .115 +0.163 +0.143 
+
+pt=0 .581 pt=0 .533 pt=0 .105 pt=0.023 pt=0.045 
+
+Activation norm +0.157 +0 .040 +0 .097 +0 .006 +0 .084 
+
+pt=0.028 pt=0 .576 pt=0 .172 pt=0 .937 pt=0 .235 
+
+Mean routing weight −0.007 −0.070 +0 .097 −0.014 +0 .035 
+
+pt=0 .926 pt=0 .327 pt=0 .174 pt=0 .849 pt=0 .621 
+
+Activation std +0 .101 +0 .064 +0 .043 +0 .050 +0 .064 
+
+pt=0 .156 pt=0 .369 pt=0 .545 pt=0 .483 pt=0 .370 
+
+A.2. Routing Weight Control Per-Cell Results 
+
+For the per-token routing weight control experiment, we report Cohen’s d, paired t-test p-value, Wilcoxon p-value, and Spearman ρ between the routing weight ratio ( whigh /w low ) and the loss difference ( ∆high − ∆low ). Bonferroni-corrected threshold per model: αadj = 0 .05 /5 = 0 .01 . Cells in bold reach Bonferroni significance. 6From Observation to Intervention                                                                                           
+
+> Table 4. Routing weight control, OLMoE-1B-7B-0924. n= 200 per layer. L0 L4 L7 L11 L15 Cohen’s d−0.114 +0 .095 +0 .085 +0.164 +0.231
+> pt0.107 0.180 0.233 0.022 0.0013
+> pW0.217 0.799 0.227 0.015 0.019
+> Spearman ρ−0.058 +0 .019 +0 .196 +0 .084 +0 .199
+> Table 5. Routing weight control, Qwen1.5-MoE-A2.7B. n= 200 per layer. L0 L6 L12 L18 L23 Cohen’s d+0 .014 −0.031 +0 .114 +0 .124 +0 .112
+> pt0.840 0.659 0.110 0.081 0.116
+> pW0.385 0.589 0.308 0.922 0.199
+> Spearman ρ−0.084 +0 .043 −0.036 +0 .082 −0.011
+> Table 6. Routing weight control, DeepSeek-V2-Lite. n= 200 per layer. L1 L7 L13 L20 L26 Cohen’s d+0 .075 +0 .078 +0 .068 +0 .068 +0 .098
+> pt0.293 0.273 0.336 0.335 0.169
+> pW0.390 0.508 0.460 0.085 0.466
+> Spearman ρ+0 .090 −0.070 +0 .051 −0.001 −0.018
+
+A.3. Redistribution Analysis 
+
+The redistribution analysis decomposes the signal chain from router to logits into two correlations across depth: routing weight to gap norm (whether the router tracks expert contribution magnitude), and gap norm to relative compensation (whether that contribution propagates to logit-level importance). Figure 2 shows both correlation chains across depth in OLMoE-1B-7B-0924 and Qwen1.5-MoE-A2.7B. In both models, routing weight predicts gap norm at every layer. The two models diverge on the second chain: in Qwen, gap norm predicts relative compensation from Layer 6 onwards; in OLMoE, this correlation strengthens only at Layer 15. The router tracks hidden-state contribution magnitude in both architectures, but in OLMoE those contributions reach logit space only at the final layer. For Qwen1.5-MoE-A2.7B, we ran the redistribution analysis at layers 0, 6, 12, 18, and 23, computing per-expert statistics over the WikiText-2 test corpus ( n = 34 ,016 token-level expert activations per layer). Table 7 reports mean gap norm across the 60 routed experts, Spearman ρ between routing weight and gap norm, and Spearman ρ between gap norm and relative compensation. The gap-norm-to-relative-compensation correlation is non-significant at Layer 0 ( ρ = +0 .076 , p = 0 .563 ) but significant (p < 0.05 ) from Layer 6 onwards, in contrast to OLMoE where this correlation strengthens only at Layer 15. The mean gap norm scales ≈ 38 × from Layer 0 ( 0.011 ) to Layer 23 ( 0.440 ), comparable to OLMoE’s 41 × scaling. 
+
+# B. Architecture Verification Procedures 
+
+For each cross-architecture replication, we ran a four-test verification suite before collecting per-token metric ablation and routing weight control data: 1. Per-token CE matches HuggingFace reference loss. For one corpus sample, mean per-token cross-entropy over non-padding positions is compared to HuggingFace’s labels=input ids loss. Tolerance: 10 −2 for half-precision runs, 10 −4 for fp32. 2. No stale state after clearing ablation hooks. For one position, baseline loss, ablated loss, and post-clear loss are computed; baseline and post-clear must agree to within 10 −3.3. Position diversity. Across 100 positions in one sample, distinct losses must exceed 50% of positions. 7From Observation to Intervention 
+
+Figure 2. Two-level dissociation in redistribution: Spearman ρ across depth for OLMoE-1B-7B-0924 and Qwen1.5-MoE-A2.7B. Left: routing weight versus gap norm; the router tracks expert contribution magnitude at every layer in both models. Right: gap norm versus relative compensation; in Qwen the second chain closes from Layer 6, in OLMoE only at Layer 15. Significance markers: ∗p < 0.05 ;
+
+> ∗∗
+
+p < 0.01 ; ∗∗∗ p < 0.001 .
+
+Table 7. Qwen1.5-MoE redistribution analysis. Correlations computed across N = 60 routed experts at each layer. Significance markers: 
+
+> ∗
+
+p < 0.05 ; ∗∗ p < 0.01 ; ∗∗∗ p < 0.001 .L0 L6 L12 L18 L23 Mean gap norm 0.011 0.122 0.090 0.239 0.440 
+
+ρ(rw, gap norm) +0 .558 ∗∗∗ +0 .638 ∗∗∗ +0 .632 ∗∗∗ +0 .596 ∗∗∗ +0 .744 ∗∗∗ 
+
+ρ(gap norm, rel. comp.) +0 .076 +0 .394 ∗∗ +0 .388 ∗∗ +0 .349 ∗∗ +0 .282 ∗
+
+4. Position-specific ablation effect. Ablating expert e at a position where e is active must produce larger loss change than at a position where e is inactive. All three models passed all four verification tests. For DeepSeek-V2-Lite verification was repeated independently at each of the 5 tested layers; Qwen and OLMoE verifications were performed once at the most-tested middle layer. 
+
+# C. Progressive Ablation Per-Layer Trajectories 
+
+For the progressive ablation experiment summarised in Section 3, Table 8 reports mean cumulative ∆L (in nats) on OLMoE-1B-7B-0924 for each tested layer at each removal depth k, computed over n = 500 WikiText-2 token positions per (layer, k) cell. Table 9 reports the corresponding median and P95 values, which clarify that the mean increase at Layer 15 is driven by a heavy upper tail rather than a uniform shift. Median ∆L at k = 7 remains below +0 .02 nats at every tested layer including Layer 15, while P95 reaches +2 .633 nats at Layer 15 versus ≤ +0 .709 elsewhere. The redundancy cliff at Layer 15 is concentrated on a minority of positions where the ensemble does not absorb removal. 8From Observation to Intervention 
+
+Table 8. Mean cumulative ∆L (nats) under progressive ablation of the k highest-routing-weight active experts at each layer in OLMoE-1B-7B-0924. n = 500 token positions per cell. 
+
+k L0 L1 L7 L8 L9 L15 1 +0 .009 +0 .018 +0 .009 +0 .015 +0 .029 +0 .082 
+
+2 +0 .013 +0 .031 +0 .016 +0 .028 +0 .060 +0 .155 
+
+3 +0 .016 +0 .035 +0 .010 +0 .045 +0 .061 +0 .214 
+
+4 +0 .019 +0 .051 +0 .022 +0 .054 +0 .073 +0 .290 
+
+5 +0 .029 +0 .058 +0 .022 +0 .061 +0 .080 +0 .354 
+
+6 +0 .021 +0 .058 +0 .025 +0 .062 +0 .078 +0 .403 
+
+7 +0 .028 +0 .068 +0 .020 +0 .070 +0 .083 +0 .431 
+
+Table 9. Median and P95 cumulative ∆L (nats) at k = 7 for each tested layer. Median values near zero throughout indicate the mean increase at Layer 15 is concentrated in an upper tail rather than a uniform shift. L0 L1 L7 L8 L9 L15 Median +0 .000 +0 .003 +0 .001 +0 .008 +0 .012 +0 .018 
+
+P95 +0 .433 +0 .398 +0 .473 +0 .641 +0 .709 +2 .633 
+
+9

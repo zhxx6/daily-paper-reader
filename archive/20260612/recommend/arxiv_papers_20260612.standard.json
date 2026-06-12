@@ -1,0 +1,97 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-12T21:13:04.009900+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.10703v1",
+      "source": "arxiv",
+      "title": "From Observation to Intervention: A Causal Audit of Expert Importance in Mixture-of-Experts Models",
+      "abstract": "Interpretability methods routinely use population-level summary statistics over observed model behaviour to license claims about the effects of targeted interventions on specific computations; in Pearl's terms, they treat rung-1 associational evidence as if it supported rung-2 interventional conclusions, a move whose validity is rarely tested. We examine one concrete instance: the use of routing statistics in Mixture-of-Experts (MoE) pruning, where utilization rates, activation norms, and routing weight distributions are treated as predictors of which experts can be removed without functional cost. A token-level interventional audit across three high-redundancy MoE architectures (OLMoE-1B-7B-0924, Qwen1.5-MoE-A2.7B, DeepSeek-V2-Lite) finds no observational metric predicts causal expert importance after multiple-comparison correction in any model, with effect sizes below Cohen's $d = 0.17$ across all 60 metric-layer combinations. A per-token routing weight control rules out insufficient power, recovering a single Bonferroni-significant signal at OLMoE's final MoE layer ($d = +0.231$, $p = 0.0013$). Existing pruning methods succeed in this regime not by identifying dispensable experts but because early-layer redundancy renders most selection criteria interchangeable. Our results provide an explicit counterexample to the common inferential step from population-level observational summaries to token-level interventional claims about expert importance, and illustrate how interventional audits can calibrate the evidential standards for interpretability claims.",
+      "authors": [
+        "Leonard Engmann",
+        "Christian Medeiros Adriano",
+        "Holger Giese"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-06-09T11:04:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.10703v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "audits expert importance in MoE models for pruning, directly supporting efficient inference",
+      "llm_evidence_cn": "审计MoE模型中的专家重要性以支持剪枝，直接有助于高效推理",
+      "llm_evidence": "审计MoE模型中的专家重要性以支持剪枝，直接有助于高效推理",
+      "canonical_evidence": "审计MoE模型中的专家重要性以支持剪枝，直接有助于高效推理",
+      "llm_tldr_en": "Performs token-level interventional audit on MoE models to validate routing statistics for pruning, tested on OLMoE-1B-7B-0924, Qwen1.5-MoE-A2.7B, DeepSeek.",
+      "llm_tldr_cn": "针对混合专家模型的可解释性方法中，将观察性路由统计直接用于干预性剪枝决策的可靠性问题，本文对三个高冗余MoE架构进行token级干预审计。结果表明，基于利用率、激活范数和路由权重的常用剪枝指标可能不可靠，需要更严格的因果验证。该工作为高效MoE推理中的专家剪枝提供了重要指导。",
+      "llm_tldr": "针对混合专家模型的可解释性方法中，将观察性路由统计直接用于干预性剪枝决策的可靠性问题，本文对三个高冗余MoE架构进行token级干预审计。结果表明，基于利用率、激活范数和路由权重的常用剪枝指标可能不可靠，需要更严格的因果验证。该工作为高效MoE推理中的专家剪枝提供了重要指导。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.10896v1",
+      "source": "arxiv",
+      "title": "Flash-GMM: A Memory-Efficient Kernel for Scalable Soft Clustering",
+      "abstract": "We present \\textbf{Flash-GMM}, a fused Triton kernel for efficient computation of Gaussian Mixture Models (GMMs) over large-scale data in a single GPU pass. By eliminating the need to materialize the full responsibility matrix in GPU memory, Flash-GMM achieves a \\textbf{20$\\times$} speedup over existing implementations and enables training on datasets more than \\textbf{100$\\times$} larger than previously feasible on one device. To demonstrate its impact, we integrate Flash-GMM into the IVF coarse quantizer for approximate nearest-neighbor (ANN) search. We show that soft GMM clustering is now a viable drop-in replacement for $k$-means, and that GMM responsibilities can be leveraged to assign border vectors to multiple clusters. Our approach reaches fixed recall targets with up to $1.7\\times$ fewer distance computations, or equivalently, yields $+2$--$12$ recall@10 at matched computational cost. We release the kernel as an open-source project.",
+      "authors": [
+        "Gal Bloch",
+        "Ariel Gera",
+        "Matan Orbach",
+        "Ohad Eytan",
+        "Assaf Toledo"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.DB",
+        "cs.IR",
+        "cs.PF"
+      ],
+      "published": "2026-06-09T14:07:18+00:00",
+      "link": "https://arxiv.org/pdf/2606.10896v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "fused Triton kernel for efficient computation, transferable to group kernel optimization in MoE inference",
+      "llm_evidence_cn": "融合Triton内核实现高效计算，可迁移至MoE推理中的分组内核优化",
+      "llm_evidence": "融合Triton内核实现高效计算，可迁移至MoE推理中的分组内核优化",
+      "canonical_evidence": "融合Triton内核实现高效计算，可迁移至MoE推理中的分组内核优化",
+      "llm_tldr_en": "Flash-GMM presents a fused Triton kernel for GMM clustering, achieving 20x speedup and enabling 100x larger datasets. The kernel fusion technique is directly applicable to group kernel optimization in MoE models.",
+      "llm_tldr_cn": "针对大规模高斯混合模型计算中完整责任矩阵的内存瓶颈，本文提出Flash-GMM融合Triton内核，在单次GPU传递中完成计算，避免实例化责任矩阵。该方法实现20倍加速并支持百倍更大数据集训练。其内核融合与内存优化思路可推广至混合专家模型的分组内核计算，为高效推理提供方法论支撑。",
+      "llm_tldr": "针对大规模高斯混合模型计算中完整责任矩阵的内存瓶颈，本文提出Flash-GMM融合Triton内核，在单次GPU传递中完成计算，避免实例化责任矩阵。该方法实现20倍加速并支持百倍更大数据集训练。其内核融合与内存优化思路可推广至混合专家模型的分组内核计算，为高效推理提供方法论支撑。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "kernel fusion techniques for grouped expert computation in MoE",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-12",
+  "date": "2026-06-12",
+  "generated_at": "2026-06-12T21:14:09",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/12/2606.10703v1-from-observation-to-intervention-a-causal-audit-of-expert-importance-in-mixture-of-experts-models",
+      "section": "quick",
+      "title_en": "From Observation to Intervention: A Causal Audit of Expert Importance in Mixture-of-Experts Models",
+      "authors": "Leonard Engmann, Christian Medeiros Adriano, Holger Giese",
+      "date": "2026-06-09",
+      "pdf": "https://arxiv.org/pdf/2606.10703v1",
+      "score": "7.0",
+      "evidence": "审计MoE模型中的专家重要性以支持剪枝，直接有助于高效推理",
+      "tldr": "现有可解释性方法常将观测性统计量直接当作因果证据，但大多未经检验。本文以MoE模型剪枝为例，对OLMoE、Qwen1.5-MoE、DeepSeek-V2三个高冗余架构进行token级因果干预审计，发现利用率、激活范数、路由权重等观测指标均无法预测专家的因果重要性（效应量d<0.17，所有60个指标-层组合均不显著）。仅在OLMoE最后一层通过路由权重控制后恢复一个显著信号（d=+0.231, p=0.0013）。结果表明剪枝成功的真正原因是早期层冗余而非识别出可丢弃专家，干预审计为可解释性声明的证据标准提供了校准工具。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Interpretability methods routinely use population-level summary statistics over observed model behaviour to license claims about the effects of targeted interventions on specific computations; in Pearl's terms, they treat rung-1 associational evidence as if it supported rung-2 interventional conclusions, a move whose validity is rarely tested. We examine one concrete instance: the use of routing statistics in Mixture-of-Experts (MoE) pruning, where utilization rates, activation norms, and routing weight distributions are treated as predictors of which experts can be removed without functional cost. A token-level interventional audit across three high-redundancy MoE architectures (OLMoE-1B-7B-0924, Qwen1.5-MoE-A2.7B, DeepSeek-V2-Lite) finds no observational metric predicts causal expert importance after multiple-comparison correction in any model, with effect sizes below Cohen's $d = 0.17$ across all 60 metric-layer combinations. A per-token routing weight control rules out insufficient power, recovering a single Bonferroni-significant signal at OLMoE's final MoE layer ($d = +0.231$, $p = 0.0013$). Existing pruning methods succeed in this regime not by identifying dispensable experts but because early-layer redundancy renders most selection criteria interchangeable. Our results provide an explicit counterexample to the common inferential step from population-level observational summaries to token-level interventional claims about expert importance, and illustrate how interventional audits can calibrate the evidential standards for interpretability claims.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/12/2606.10896v1-flash-gmm-a-memory-efficient-kernel-for-scalable-soft-clustering",
+      "section": "quick",
+      "title_en": "Flash-GMM: A Memory-Efficient Kernel for Scalable Soft Clustering",
+      "authors": "Gal Bloch, Ariel Gera, Matan Orbach, Ohad Eytan, Assaf Toledo",
+      "date": "2026-06-09",
+      "pdf": "https://arxiv.org/pdf/2606.10896v1",
+      "score": "6.0",
+      "evidence": "融合Triton内核实现高效计算，可迁移至MoE推理中的分组内核优化",
+      "tldr": "传统高斯混合模型（GMM）训练受限于显存，无法处理大规模数据。Flash-GMM采用融合Triton内核，在单次GPU pass中逐步计算而不物化责任矩阵，从而内存与计算效率俱佳。实验显示，相比现有实现，速度提升20倍，可处理数据规模扩大100倍以上。将Flash-GMM集成到IVF粗量化器用于近似最近邻搜索，软GMM聚类替代k-means，利用责任值将边界向量分配到多个簇，在相同召回目标下距离计算减少1.7倍，或在等量计算下召回提升2-12点。开源内核使大规模软聚类成为可行方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We present \\textbf{Flash-GMM}, a fused Triton kernel for efficient computation of Gaussian Mixture Models (GMMs) over large-scale data in a single GPU pass. By eliminating the need to materialize the full responsibility matrix in GPU memory, Flash-GMM achieves a \\textbf{20$\\times$} speedup over existing implementations and enables training on datasets more than \\textbf{100$\\times$} larger than previously feasible on one device. To demonstrate its impact, we integrate Flash-GMM into the IVF coarse quantizer for approximate nearest-neighbor (ANN) search. We show that soft GMM clustering is now a viable drop-in replacement for $k$-means, and that GMM responsibilities can be leveraged to assign border vectors to multiple clusters. Our approach reaches fixed recall targets with up to $1.7\\times$ fewer distance computations, or equivalently, yields $+2$--$12$ recall@10 at matched computational cost. We release the kernel as an open-source project.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
