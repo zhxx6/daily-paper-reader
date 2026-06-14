@@ -1,0 +1,100 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-14T21:16:28.239528+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.13392v1",
+      "source": "arxiv",
+      "title": "MiniMax Sparse Attention",
+      "abstract": "Ultra-long-context capability is becoming indispensable for frontier LLMs: agentic workflows, repository-scale code reasoning, and persistent memory all require the model to jointly attend over hundreds of thousands to millions of tokens, yet the quadratic cost of softmax attention makes this untenable at deployment scale. We introduce MiniMax Sparse Attention (MSA), a blockwise sparse attention built upon Grouped Query Attention (GQA). A lightweight Index Branch scores key-value blocks and independently selects a Top-k subset for each GQA group, enabling group-specific sparse retrieval while maintaining efficient block-level execution; the Main Branch then performs exact block-sparse attention over only the selected blocks. Designed around a principle of simplicity and scalability, MSA is deliberately streamlined, making it straightforward to deploy efficiently across a broad range of GPUs. To translate sparsity into practical speedups, we co-design MSA with a GPU execution path that uses exp-free Top-k selection and KV-outer sparse attention to improve tensor-core utilization under block-granular access. On a 109B-parameter model with native multimodal training, MSA performs on par with GQA while reducing per-token attention compute by 28.4x at 1M context. Paired with our co-designed kernel, MSA achieves 14.2x prefill and 7.6x decoding wall-clock speedups on H800. Our inference kernel is available at: https://github.com/MiniMax-AI/MSA. A production-grade natively multimodal model powered by MSA has been publicly released at: https://huggingface.co/MiniMaxAI/MiniMax-M3.",
+      "authors": [
+        "Xunhao Lai",
+        "Weiqi Xu",
+        "Yufeng Yang",
+        "Qiaorui Chen",
+        "Yang Xu",
+        "Lunbin Zeng",
+        "Xiaolong Li",
+        "Haohai Sun",
+        "Haichao Zhu",
+        "Vito Zhang",
+        "Pengyu Zhao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-11T14:23:41+00:00",
+      "link": "https://arxiv.org/pdf/2606.13392v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "blockwise sparse attention on GQA with group-specific top-k selection",
+      "llm_evidence_cn": "基于分组查询注意力的块稀疏注意力，组特定Top-k选择",
+      "llm_evidence": "基于分组查询注意力的块稀疏注意力，组特定Top-k选择",
+      "canonical_evidence": "基于分组查询注意力的块稀疏注意力，组特定Top-k选择",
+      "llm_tldr_en": "MiniMax Sparse Attention (MSA) is a blockwise sparse attention built on Grouped Query Attention (GQA) that uses a lightweight index branch to select top-k key-value blocks per group, enabling efficient long-context LLM inference with significantly reduced computation.",
+      "llm_tldr_cn": "针对超长上下文语言模型中自注意力二次复杂度不可行的问题，本文提出MiniMax稀疏注意力（MSA）。该方法基于分组查询注意力设计，通过一个轻量级索引分支为每个GQA组独立选择Top-k键值块，然后主分支仅对所选块执行精确块稀疏注意力。实验结果表明，MSA在大幅降低计算量的同时保持了模型质量，为部署超长上下文LLM提供了一种简单可扩展的解决方案。",
+      "llm_tldr": "针对超长上下文语言模型中自注意力二次复杂度不可行的问题，本文提出MiniMax稀疏注意力（MSA）。该方法基于分组查询注意力设计，通过一个轻量级索引分支为每个GQA组独立选择Top-k键值块，然后主分支仅对所选块执行精确块稀疏注意力。实验结果表明，MSA在大幅降低计算量的同时保持了模型质量，为部署超长上下文LLM提供了一种简单可扩展的解决方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12240v1",
+      "source": "arxiv",
+      "title": "Multi-Rate Mixture of Experts for Accelerating Liquid Neural Network Training",
+      "abstract": "Multivariate time-series data often exhibit complex temporal dependencies, irregular sampling, and heterogeneous dynamics across multiple time scales, making accurate sequence modeling particularly challenging. Traditional recurrent neural networks (RNNs), such as Long Short-Term Memory (LSTM) networks, operate in discrete time and may struggle to effectively capture continuous and irregular temporal behaviors. Liquid Neural Networks (LNNs) address some of these limitations through continuous-time dynamics, but standard LNN architectures typically rely on a single dynamical system, limiting their ability to model heterogeneous temporal patterns. To address these challenges, we propose a Multi-Rate Mixture-of-Experts (MR-MoE) framework built on top of Liquid Neural Networks. In the proposed architecture, multiple LNN-based experts operate at distinct time scales, enabling the model to explicitly separate fast-changing dynamics from slow-evolving temporal trends. A gating network further enables adaptive expert specialization based on input conditions. In addition, we incorporate both feature-level and temporal attention mechanisms to improve robustness, interpretability, and long-range dependency modeling. Feature-level attention suppresses noisy or irrelevant variables, while temporal attention selectively focuses on informative historical states. We evaluate the proposed framework on a complex multivariate time-series prediction task and compare it against strong baselines, including LSTM, monolithic LNN, and standard MoE models. Experimental results demonstrate that the proposed MR-MoE framework consistently achieves improved AUROC and AUPRC performance while maintaining favorable computational efficiency. These results highlight the effectiveness of combining continuous-time dynamics, multi-scale expert decomposition, and adaptive attention mechanisms for time-series modeling.",
+      "authors": [
+        "Shilong Zong",
+        "Almuatazbellah Boker",
+        "Hoda Eldardiry"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-10T15:43:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.12240v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Mixture of Experts for acceleration",
+      "llm_evidence_cn": "混合专家模型用于加速",
+      "llm_evidence": "混合专家模型用于加速",
+      "canonical_evidence": "混合专家模型用于加速",
+      "llm_tldr_en": "Proposes Multi-Rate Mixture-of-Experts (MR-MoE) framework to accelerate Liquid Neural Network training by modeling heterogeneous temporal patterns with multiple experts.",
+      "llm_tldr_cn": "针对液体神经网络在处理多尺度时间序列时的局限性，论文提出多速率混合专家（MR-MoE）框架，通过多个不同时间尺度的专家网络协同建模，加速训练并提升对异质动态的捕捉能力。实验表明MR-MoE在多个时间序列基准上显著优于传统单动态系统模型，为高效MoE训练提供了新思路。",
+      "llm_tldr": "针对液体神经网络在处理多尺度时间序列时的局限性，论文提出多速率混合专家（MR-MoE）框架，通过多个不同时间尺度的专家网络协同建模，加速训练并提升对异质动态的捕捉能力。实验表明MR-MoE在多个时间序列基准上显著优于传统单动态系统模型，为高效MoE训练提供了新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
