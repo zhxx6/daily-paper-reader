@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-15",
+  "date": "2026-06-15",
+  "generated_at": "2026-06-15T22:51:08",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/15/2606.09927v1-trainable-smooth-rotation-transforms-with-learned-channel-scales-for-llm-quantization",
+      "section": "deep",
+      "title_en": "Trainable Smooth-Rotation Transforms with Learned Channel Scales for LLM Quantization",
+      "authors": "Patrik Czakó, Gábor Kertész, Sándor Szénási",
+      "date": "2026-06-07",
+      "pdf": "https://arxiv.org/pdf/2606.09927v1",
+      "score": "9.0",
+      "evidence": "通过可训练平滑旋转变换实现LLM权重量化",
+      "tldr": "大语言模型后训练量化中，激活量化因异常值通道导致误差大。本文发现缩放等效变换存在过度迁移问题，提出基于高分位数的鲁棒缩放策略替代最大值统计，并联合梯度优化的通道缩放。在LLaMA-3.2-1B的W4A4量化上，单层量化误差降低11.1-18.5%，全层误差降低19.9%。该方法在保持等效变换框架下实现了稳定提升。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Post-training quantization (PTQ) is one of the most practical ways to reduce the serving cost of Large Language Models (LLMs), but activation quantization remains difficult because outlier-dominated channels lead to large quantization errors. This paper investigates whether part of this degradation is caused by over-migration in scaling-based equivalent transformations. We introduce a quantile-robust scaling policy for SmoothRot-style transforms by replacing max-based activation statistics with high quantiles, and we complement it with constrained gradient-based optimization of channel scales. On LLaMA-3.2-1B under W4A4 quantization, quantile-only policy search improves selected-layer error by 11.1% over the SmoothRot baseline, joint (alpha, q) search improves it by 12%, and training reaches 18.5%. Replaying the best selected-layer policy on all decoder-block down-projection layers reduces the corresponding full-layer mean error from 97.51 to 78.08 (19.9%). The results show that robust migration control and lightweight scale learning provide consistent gains over max-based fixed policies while preserving the equivalent-transform framework.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/15/2606.14398v1-a-theoretical-model-for-task-routing-in-mixture-of-expert-transformers",
+      "section": "deep",
+      "title_en": "A theoretical model for task routing in mixture-of-expert transformers",
+      "authors": "Yongli Xiang, Vinoth Nandakumar, Yunzhi Yao, Peike Li, Tongliang Liu",
+      "date": "2026-06-12",
+      "pdf": "https://arxiv.org/pdf/2606.14398v1",
+      "score": "8.0",
+      "evidence": "MoE变换器中任务路由的理论模型",
+      "tldr": "混合专家（MoE）层可在固定推理计算下扩展Transformer规模，但现有理论工作使用连续混合模型，难以解释自然语言中的任务-专家专业化现象。本文通过句法模板和键值字典表示结构化知识，构建离散模型，从理论上证明单层MoE Transformer可通过专家专业化编码知识，查询被路由到唯一的任务特定专家，其大小仅取决于任务复杂度。该理论支持了MoE模型中局部知识电路的经验发现，并通过实验验证了不同损失函数下的性能。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-experts (MoE) layers enable the scaling of transformer models while keeping the inference compute fixed. While task-expert specialization has been observed in empirical studies of frontier MoE transformer models, existing theoretical work analyzes this using continuous mixture models that cannot be used to model natural language effectively. An important open question is to \\textit{theoretically explain task-expert specialization in transformer MoE models using discrete models of language}. To address this, we represent structured knowledge via syntactic templates and finite key-value dictionaries, and prove formally that a single-layer MoE transformer can encode knowledge by using experts that specialize in the corresponding tasks. Our construction shows how queries are routed to unique, task-specific experts whose size depends solely on the intrinsic complexity of the given task (i.e. the combined size of its syntactic templates and factual dictionary). Our construction provides a theoretical support for empirical results on localized knowledge circuits in MoE models. We support our theoretical findings with experiments evaluating model performance under varying MoE loss functions.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/15/2606.13392v2-minimax-sparse-attention",
+      "section": "quick",
+      "title_en": "MiniMax Sparse Attention",
+      "authors": "Xunhao Lai, Weiqi Xu, Yufeng Yang, Qiaorui Chen, Yang Xu, Lunbin Zeng, Xiaolong Li, Haohai Sun, Haichao Zhu, Vito Zhang, Jinkai Hu, Jiayao Li, Rui Gao, Zekun Li, Songquan Zhu, Jingkai Zhou, Pengyu Zhao",
+      "date": "2026-06-11",
+      "pdf": "https://arxiv.org/pdf/2606.13392v2",
+      "score": "6.0",
+      "evidence": "分组查询注意力（GQA）块稀疏注意力方法",
+      "tldr": "超长上下文是前沿大模型的关键能力，但softmax注意力的平方复杂度限制了部署。MiniMax Sparse Attention（MSA）基于分组查询注意力（GQA）设计块稀疏注意力：轻量级索引分支为每组独立选择Top-k KV块，主分支仅对这些块执行精确稀疏注意力。在109B参数多模态模型上，MSA在百万token上下文下减少28.4倍注意力计算，配合定制内核在H800上实现14.2倍预填充和7.6倍解码加速。该方法简洁可扩展，已开源推理内核和原生多模态模型。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Ultra-long-context capability is becoming indispensable for frontier LLMs: agentic workflows, repository-scale code reasoning, and persistent memory all require the model to jointly attend over hundreds of thousands to millions of tokens, yet the quadratic cost of softmax attention makes this untenable at deployment scale. We introduce MiniMax Sparse Attention (MSA), a blockwise sparse attention built upon Grouped Query Attention (GQA). A lightweight Index Branch scores key-value blocks and independently selects a Top-k subset for each GQA group, enabling group-specific sparse retrieval while maintaining efficient block-level execution; the Main Branch then performs exact block-sparse attention over only the selected blocks. Designed around a principle of simplicity and scalability, MSA is deliberately streamlined, making it straightforward to deploy efficiently across a broad range of GPUs. To translate sparsity into practical speedups, we co-design MSA with a GPU execution path that uses exp-free Top-k selection and KV-outer sparse attention to improve tensor-core utilization under block-granular access. On a 109B-parameter model with native multimodal training, MSA performs on par with GQA while reducing per-token attention compute by 28.4x at 1M context. Paired with our co-designed kernel, MSA achieves 14.2x prefill and 7.6x decoding wall-clock speedups on H800. Our inference kernel is available at: https://github.com/MiniMax-AI/MSA. A production-grade natively multimodal model powered by MSA has been publicly released at: https://huggingface.co/MiniMaxAI/MiniMax-M3.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

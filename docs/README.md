@@ -6,29 +6,29 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-14
-- 运行时间：2026-06-14 21:18:08 UTC
+- 最新运行日期：2026-06-15
+- 运行时间：2026-06-15 22:51:01 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：0
-- 速读区：2
+- 本次总论文数：3
+- 精读区：2
+- 速读区：1
 
 ### 今日简报（AI）
-今日速读2篇论文，涉及注意力机制与液态神经网络训练加速。  
-最推荐关注评分7.0的《MiniMax Sparse Attention》，其在稀疏注意力方向有实用改进；另一篇《Multi-Rate Mixture of Experts》则针对液态神经网络训练提速。  
-建议优先精读稀疏注意力论文，了解其轻量化部署价值；液态神经网络论文可作为扩展阅读。
-- 详情：[/202606/14/README](/202606/14/README)
+今日精读两篇高分论文：大模型量化新方法Trainable Smooth-Rotation Transforms（9.0分）和混合专家模型任务路由理论模型（8.0分），速读MiniMax稀疏注意力（6.0分）。最值得关注的是可训练旋转变换量化技术，它在保持性能的同时大幅降低LLM内存占用；其次是MoE任务路由的理论框架，为理解专家分配提供了新视角。建议普通读者优先阅读量化论文，对于实际部署大模型有直接参考价值。
+- 详情：[/202606/15/README](/202606/15/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Trainable Smooth-Rotation Transforms with Learned Channel Scales for LLM Quantization](/202606/15/2606.09927v1-trainable-smooth-rotation-transforms-with-learned-channel-scales-for-llm-quantization)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：通过可训练平滑旋转变换实现LLM权重量化
+2. [A theoretical model for task routing in mixture-of-expert transformers](/202606/15/2606.14398v1-a-theoretical-model-for-task-routing-in-mixture-of-expert-transformers)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：MoE变换器中任务路由的理论模型
 
 ### 速读区论文标签
-1. [MiniMax Sparse Attention](/202606/14/2606.13392v1-minimax-sparse-attention)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：基于分组查询注意力的块稀疏注意力，组特定Top-k选择
-2. [Multi-Rate Mixture of Experts for Accelerating Liquid Neural Network Training](/202606/14/2606.12240v1-multi-rate-mixture-of-experts-for-accelerating-liquid-neural-network-training)  
+1. [MiniMax Sparse Attention](/202606/15/2606.13392v2-minimax-sparse-attention)  
    标签：评分：6.0/10、query:moe-gk-quant
-   evidence：混合专家模型用于加速
+   evidence：分组查询注意力（GQA）块稀疏注意力方法
 
 
 <div class="dpr-home-promo-card">
