@@ -1,0 +1,212 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-16T23:05:03.110151+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.14398v2",
+      "source": "arxiv",
+      "title": "A theoretical model for task routing in mixture-of-expert transformers",
+      "abstract": "Mixture-of-experts (MoE) layers enable the scaling of transformer models while keeping the inference compute fixed. While task-expert specialization has been observed in empirical studies of frontier MoE transformer models, existing theoretical work analyzes this using continuous mixture models that cannot be used to model natural language effectively. An important open question is to \\textit{theoretically explain task-expert specialization in transformer MoE models using discrete models of language}. To address this, we represent structured knowledge via syntactic templates and finite key-value dictionaries, and prove formally that a single-layer MoE transformer can encode knowledge by using experts that specialize in the corresponding tasks. Our construction shows how queries are routed to unique, task-specific experts whose size depends solely on the intrinsic complexity of the given task (i.e. the combined size of its syntactic templates and factual dictionary). Our construction provides a theoretical support for empirical results on localized knowledge circuits in MoE models. We support our theoretical findings with experiments evaluating model performance under varying MoE loss functions.",
+      "authors": [
+        "Vinoth Nandakumar",
+        "Yongli Xiang",
+        "Yunzhi Yao",
+        "Peike Li",
+        "Tongliang Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-12T12:35:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.14398v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "theoretical analysis of task routing in MoE transformers, directly relevant to efficient inference",
+      "llm_evidence_cn": "MoE Transformer任务路由的理论分析，直接关联高效推理",
+      "llm_evidence": "MoE Transformer任务路由的理论分析，直接关联高效推理",
+      "canonical_evidence": "MoE Transformer任务路由的理论分析，直接关联高效推理",
+      "llm_tldr_en": "Theoretically explains task-expert specialization in MoE transformers using discrete language models, providing foundations for efficient routing and inference optimization.",
+      "llm_tldr_cn": "该论文建立了一个理论模型来解释混合专家Transformer中的任务-专家专门化现象。通过使用句法模板和有限键值字典表示结构化知识，作者证明单层MoE Transformer可以通过专家专门化来编码知识。这一理论框架为理解MoE路由机制和设计高效推理策略提供了数学基础。研究填补了现有理论工作无法有效建模自然语言中专家专门化的空白。",
+      "llm_tldr": "该论文建立了一个理论模型来解释混合专家Transformer中的任务-专家专门化现象。通过使用句法模板和有限键值字典表示结构化知识，作者证明单层MoE Transformer可以通过专家专门化来编码知识。这一理论框架为理解MoE路由机制和设计高效推理策略提供了数学基础。研究填补了现有理论工作无法有效建模自然语言中专家专门化的空白。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.15453v1",
+      "source": "arxiv",
+      "title": "A Spatio-Temporal Expert Prefetching Framework for Efficient MoE-based LLM Inference",
+      "abstract": "Mixture-of-Experts (MoE) based large language models (LLMs), such as Qwen and DeepSeek, have recently emerged as an effective approach to improving model capacity without proportionally increasing computational cost. By replacing the conventional feed-forward network in dense LLMs with a set of experts and activating only a subset of them for each input token, MoE models significantly increase the total number of parameters while keeping the per-token computation relatively manageable. However, this dynamic and irregular expert activation pattern also introduces substantial expert loading overhead during inference, since the required experts must be fetched on demand according to token-dependent routing results. As a result, expert loading latency becomes a major source of performance and energy inefficiency. To this end, we first perform a comprehensive analysis of expert selection behavior in various MoE-based LLMs and applications, including language understanding and code generation. Our analysis reveals that, within each application domain, expert requests exhibit strong correlation across both adjacent MoE layers and consecutive decoding tokens, making future expert activations predictable. Based on this insight, we propose ST-MoE, a spatio-temporal expert prefetching framework that proactively stages experts ahead of use to overlap expert loading with ongoing computation. ST-MoE combines a lightweight runtime prediction mechanism that preserves the original routing behavior with a reconfigurable hardware design that efficiently supports dynamic expert prefetching. The combined effect of the prediction mechanism with the supporting hardware significantly improves MoE inference performance and energy efficiency while preserving model inference accuracy.",
+      "authors": [
+        "Yingnan Zhao",
+        "Razvan Bunescu",
+        "Ahmed Louri",
+        "Avinash Karanth",
+        "Ke Wang"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.LG"
+      ],
+      "published": "2026-06-13T20:09:54+00:00",
+      "link": "https://arxiv.org/pdf/2606.15453v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Spatio-temporal expert prefetching for efficient MoE LLM inference",
+      "llm_evidence_cn": "时空专家预取框架用于高效MoE大语言模型推理",
+      "llm_evidence": "时空专家预取框架用于高效MoE大语言模型推理",
+      "canonical_evidence": "时空专家预取框架用于高效MoE大语言模型推理",
+      "llm_tldr_en": "Proposes a spatio-temporal expert prefetching framework that predicts future expert usage and preloads experts, reducing loading overhead in MoE LLM inference.",
+      "llm_tldr_cn": "混合专家模型（MoE）推理时专家按需加载造成显著开销。本文提出时空专家预取框架，利用历史和上下文信息预测即将激活的专家并提前加载，从而减少专家加载延迟，提升MoE LLM推理效率。实验表明该方法在多种MoE模型上有效。",
+      "llm_tldr": "混合专家模型（MoE）推理时专家按需加载造成显著开销。本文提出时空专家预取框架，利用历史和上下文信息预测即将激活的专家并提前加载，从而减少专家加载延迟，提升MoE LLM推理效率。实验表明该方法在多种MoE模型上有效。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.16825v1",
+      "source": "arxiv",
+      "title": "Tying the Loop -- Tied Expert Layers in Mixture-of-Experts Language Models",
+      "abstract": "Mixture-of-Experts (MoE) architectures efficiently scale Large Language Models (LLMs) by activating only a small fraction of their experts per token, yet the full parameter count - dominated by the expert parameters - must be held in training and inference memory. To address this, we introduce Expert Tying, an architectural modification that shares expert parameters across consecutive transformer layers while preserving independent, layer-wise routing and attention.   We evaluate this approach across common, state-of-the-art architectures, including OLMoE, Qwen3, and DeepSeek-style MoEs. Our pretraining experiments demonstrate that tying experts can reduce memory footprint by almost 2x at virtually no degradation in perplexity or downstream quality. By exploiting the parameter redundancy inherent in MoE pathways, our method provides a highly favorable compute-to-memory trade-off, advancing efficient training and scaling of next-generation LLMs.",
+      "authors": [
+        "Martin Jaggi"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-15T15:08:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.16825v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "expert parameter sharing in MoE reduces memory, directly relevant to efficient MoE inference",
+      "llm_evidence_cn": "MoE中的专家参数共享减少内存，直接与高效MoE推理相关",
+      "llm_evidence": "MoE中的专家参数共享减少内存，直接与高效MoE推理相关",
+      "canonical_evidence": "MoE中的专家参数共享减少内存，直接与高效MoE推理相关",
+      "llm_tldr_en": "Expert Tying shares expert parameters across MoE layers, reducing memory by ~2x with minimal quality loss, improving inference efficiency.",
+      "llm_tldr_cn": "该论文提出专家绑定（Expert Tying），在混合专家语言模型中跨层共享专家参数，而保持每层独立的路由和注意力。这种方法在预训练实验中几乎不降低困惑度和下游质量的情况下，将内存占用减少近一半，直接提升了MoE模型的推理效率。其核心思想与用户需求中的高效MoE推理、分组核优化高度吻合，为MoE的轻量推理提供了实用方案。",
+      "llm_tldr": "该论文提出专家绑定（Expert Tying），在混合专家语言模型中跨层共享专家参数，而保持每层独立的路由和注意力。这种方法在预训练实验中几乎不降低困惑度和下游质量的情况下，将内存占用减少近一半，直接提升了MoE模型的推理效率。其核心思想与用户需求中的高效MoE推理、分组核优化高度吻合，为MoE的轻量推理提供了实用方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.15615v1",
+      "source": "arxiv",
+      "title": "MoECa: Aligning Feature Reuse with Expert Decomposition in Diffusion Transformers",
+      "abstract": "Diffusion Transformers with Mixture-of-Experts (DiT-MoE) improve model capacity under sparse activation, but diffusion inference is still bottlenecked by redundant computation across timesteps. Existing caching methods mainly operate at the token level, which becomes suboptimal in DiT-MoE because each token update is internally decomposed into multiple routed expert branches. Our analysis shows that cross-timestep redundancy in DiT-MoE is better characterized at the expert-branch level than at the whole-token level. Based on this observation, we propose MoECa, a fine-grained caching framework that performs branch-level feature reuse across timesteps. MoECa further introduces expert-aware adaptive control and synchronized cache updates across MoE and attention paths to maintain stable intermediate states. Experiments on multiple DiT-MoE models show that MoECa consistently achieves a better speed-quality trade-off than prior caching methods, with up to 2.83$\\times$ inference speedup and minimal quality degradation.",
+      "authors": [
+        "Maoliang Li",
+        "Haojing Chen",
+        "Jiayu Chen",
+        "Zihao Zheng",
+        "Xinhao Sun",
+        "Hailong Zou",
+        "Xiang Chen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-06-14T05:54:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.15615v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "MoE inference with branch-level caching in Diffusion Transformers",
+      "llm_evidence_cn": "扩散Transformer中的分支级缓存实现MoE高效推理",
+      "llm_evidence": "扩散Transformer中的分支级缓存实现MoE高效推理",
+      "canonical_evidence": "扩散Transformer中的分支级缓存实现MoE高效推理",
+      "llm_tldr_en": "MoECa proposes a fine-grained caching framework for DiT-MoE that reuses expert-branch features across timesteps, reducing redundant computation and improving inference efficiency.",
+      "llm_tldr_cn": "现有的扩散Transformer混合专家（DiT-MoE）模型推理受限于跨时间步的冗余计算，且缓存方法仅在token层面操作。MoECa提出一种细粒度缓存框架，在专家分支级别复用特征，并引入专家感知的自适应控制与同步缓存更新，从而显著减少计算开销，提升DiT-MoE推理速度。",
+      "llm_tldr": "现有的扩散Transformer混合专家（DiT-MoE）模型推理受限于跨时间步的冗余计算，且缓存方法仅在token层面操作。MoECa提出一种细粒度缓存框架，在专家分支级别复用特征，并引入专家感知的自适应控制与同步缓存更新，从而显著减少计算开销，提升DiT-MoE推理速度。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.15716v1",
+      "source": "arxiv",
+      "title": "How to Score Experts for One-Shot MoE Expert Pruning: A Unified Formulation and Selection Principle",
+      "abstract": "Mixture-of-Experts (MoE) language models reduce per-token computation through sparse expert activation, yet deployment still requires storing the full expert pool, making one-shot expert pruning a practical approach for reducing memory usage. Although effective, existing criteria are largely heuristic, and no single criterion is universally optimal. Thus, establishing a principle for selecting pruning criteria suited to different deployment objectives remains an important yet largely underexplored problem in one-shot expert pruning. To this end, we introduce a unified formulation for one-shot MoE expert pruning organized around three factors: routing frequency, gate weighting, and activation strength. The formulation yields a criteria selection principle: task-agnostic pruning should favor routed-token-averaged, gate-free activation-based criteria, whereas task-specific pruning can benefit from retaining routing-frequency and gate-weight information. Beyond this principle, the formulation also provides a systematic view of existing heuristic criteria and gives rise to two new task-agnostic criteria, Mean Activation Norm (MAN) and Mean Squared Activation Norm (MSAN). Across four representative MoE models and 16 diverse benchmarks, MAN and MSAN are consistently strong in the task-agnostic setting, obtain the top-two average ranks, and improve average performance by up to 8.8 points over the strongest baseline.",
+      "authors": [
+        "Zongfang Liu",
+        "Jinghui Zhang",
+        "Zijian Ma",
+        "Guangyi Chen",
+        "Xin Yuan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-14T10:07:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.15716v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "one-shot expert pruning for MoE inference efficiency",
+      "llm_evidence_cn": "MoE单次专家剪枝提升推理效率",
+      "llm_evidence": "MoE单次专家剪枝提升推理效率",
+      "canonical_evidence": "MoE单次专家剪枝提升推理效率",
+      "llm_tldr_en": "Unified formulation for one-shot MoE expert pruning considering routing frequency, gate weighting, and activation strength.",
+      "llm_tldr_cn": "为MoE模型单次专家剪枝提出了统一公式，综合考虑路由频率、门控权重和激活强度三个因素。该方法有助于在保持性能的同时减少专家数量，间接提升推理效率。实验表明，根据不同的部署目标选择合适准则至关重要。",
+      "llm_tldr": "为MoE模型单次专家剪枝提出了统一公式，综合考虑路由频率、门控权重和激活强度三个因素。该方法有助于在保持性能的同时减少专家数量，间接提升推理效率。实验表明，根据不同的部署目标选择合适准则至关重要。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

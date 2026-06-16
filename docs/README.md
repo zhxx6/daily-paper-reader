@@ -6,29 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-15
-- 运行时间：2026-06-15 22:51:01 UTC
+- 最新运行日期：2026-06-16
+- 运行时间：2026-06-16 23:08:21 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：2
-- 速读区：1
+- 本次总论文数：5
+- 精读区：3
+- 速读区：2
 
 ### 今日简报（AI）
-今日精读两篇高分论文：大模型量化新方法Trainable Smooth-Rotation Transforms（9.0分）和混合专家模型任务路由理论模型（8.0分），速读MiniMax稀疏注意力（6.0分）。最值得关注的是可训练旋转变换量化技术，它在保持性能的同时大幅降低LLM内存占用；其次是MoE任务路由的理论框架，为理解专家分配提供了新视角。建议普通读者优先阅读量化论文，对于实际部署大模型有直接参考价值。
-- 详情：[/202606/15/README](/202606/15/README)
+今日聚焦混合专家模型（MoE）领域，共推荐5篇论文，其中精读2篇、速读2篇。最值得关注的是MoE任务路由理论模型与高效的时空专家预取框架，两者分别从原理和工程优化层面提升推理效率。普通读者可优先研读这两篇，以理解MoE的核心挑战与实用解决方案。
+- 详情：[/202606/16/README](/202606/16/README)
 
 ### 精读区论文标签
-1. [Trainable Smooth-Rotation Transforms with Learned Channel Scales for LLM Quantization](/202606/15/2606.09927v1-trainable-smooth-rotation-transforms-with-learned-channel-scales-for-llm-quantization)  
+1. [A theoretical model for task routing in mixture-of-expert transformers](/202606/16/2606.14398v2-a-theoretical-model-for-task-routing-in-mixture-of-expert-transformers)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：通过可训练平滑旋转变换实现LLM权重量化
-2. [A theoretical model for task routing in mixture-of-expert transformers](/202606/15/2606.14398v1-a-theoretical-model-for-task-routing-in-mixture-of-expert-transformers)  
+   evidence：MoE Transformer任务路由的理论分析，直接关联高效推理
+2. [A Spatio-Temporal Expert Prefetching Framework for Efficient MoE-based LLM Inference](/202606/16/2606.15453v1-a-spatio-temporal-expert-prefetching-framework-for-efficient-moe-based-llm-inference)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：MoE变换器中任务路由的理论模型
+   evidence：时空专家预取框架用于高效MoE大语言模型推理
+3. [Tying the Loop -- Tied Expert Layers in Mixture-of-Experts Language Models](/202606/16/2606.16825v1-tying-the-loop----tied-expert-layers-in-mixture-of-experts-language-models)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：MoE中的专家参数共享减少内存，直接与高效MoE推理相关
 
 ### 速读区论文标签
-1. [MiniMax Sparse Attention](/202606/15/2606.13392v2-minimax-sparse-attention)  
+1. [MoECa: Aligning Feature Reuse with Expert Decomposition in Diffusion Transformers](/202606/16/2606.15615v1-moeca-aligning-feature-reuse-with-expert-decomposition-in-diffusion-transformers)  
    标签：评分：6.0/10、query:moe-gk-quant
-   evidence：分组查询注意力（GQA）块稀疏注意力方法
+   evidence：扩散Transformer中的分支级缓存实现MoE高效推理
+2. [How to Score Experts for One-Shot MoE Expert Pruning: A Unified Formulation and Selection Principle](/202606/16/2606.15716v1-how-to-score-experts-for-one-shot-moe-expert-pruning-a-unified-formulation-and-selection-principle)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：MoE单次专家剪枝提升推理效率
 
 
 <div class="dpr-home-promo-card">
