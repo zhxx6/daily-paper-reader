@@ -1,0 +1,100 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-17T22:01:58.153913+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.15652v1",
+      "source": "arxiv",
+      "title": "MosaicQuant: Inlier-Outlier Disaggregation for Unified 4-Bit LLM Quantization",
+      "abstract": "4-bit quantization significantly reduces the memory footprint and accelerates the inference of large language models (LLMs). However, its limited bit-width representation struggles to faithfully capture both dense common values (\\emph{inliers}) and rare large-magnitude values (\\emph{outliers}), causing substantial accuracy degradation. Existing mixed-precision methods mitigate this by retaining outliers in high precision, but at the cost of breaking the uniformity of low-bit execution, introducing precision conversion and extra data movement that undermine practical speedup. We propose \\textbf{MosaicQuant}, a unified 4-bit LLM quantization paradigm built on a novel principle of \\emph{inlier--outlier disaggregation}. Rather than elevating outlier precision, MosaicQuant quantizes the full weight matrix into a dense 4-bit base component, where inliers are captured faithfully while outlier are inevitably quantized. A sparse 4-bit residual component is then introduced to compensate for these quantization errors, selectively targeting the most error-critical weight blocks where output distortion is shown to be concentrated. However, a unified representation alone is insufficient, as naïvely executing the sparse residual as a separate kernel still breaks the unified low-bit inference pipeline. To bridge this gap, we introduce \\textbf{ZipperEngine}, which fuses sparse block computation into the dense 4-bit GEMM kernel via an overlapped pipeline, unifying not only the representation but also the execution into a single coherent low-bit inference pipeline. Extensive experiments on LLaMA3 and Qwen3 demonstrate that MosaicQuant preserves near-FP16 accuracy while achieving up to $1.24\\times$ speedup over the W16A16 baseline.",
+      "authors": [
+        "Yangjia Hu",
+        "Haodong Wang",
+        "Zicong Hong",
+        "Qianli Liu",
+        "Quanxin Shou",
+        "Jian Lin",
+        "Song Guo",
+        "Xiaowei Shen",
+        "Xiangjun Huang",
+        "Dian Wang",
+        "Jian Yang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-06-14T07:43:43+00:00",
+      "link": "https://arxiv.org/pdf/2606.15652v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "4-bit LLM quantization with inlier-outlier disaggregation",
+      "llm_evidence_cn": "4比特大语言模型量化，内点-离群点分离",
+      "llm_evidence": "4比特大语言模型量化，内点-离群点分离",
+      "canonical_evidence": "4比特大语言模型量化，内点-离群点分离",
+      "llm_tldr_en": "MosaicQuant achieves unified 4-bit LLM quantization by disaggregating inliers and outliers, maintaining accuracy while enabling practical speedup, matching requirement for weight quantization of large language models.",
+      "llm_tldr_cn": "4比特量化可大幅降低LLM内存占用和加速推理，但难以同时表示密集内点和稀疏离群点，现有混合精度方法破坏低比特执行均匀性。本文提出MosaicQuant，基于内点-离群点分离原则，统一4比特量化范式，无需混合精度转换即可保持精度和加速。实验表明MosaicQuant在多个LLM上实现高效推理，为LLM量化提供简洁高效方案。",
+      "llm_tldr": "4比特量化可大幅降低LLM内存占用和加速推理，但难以同时表示密集内点和稀疏离群点，现有混合精度方法破坏低比特执行均匀性。本文提出MosaicQuant，基于内点-离群点分离原则，统一4比特量化范式，无需混合精度转换即可保持精度和加速。实验表明MosaicQuant在多个LLM上实现高效推理，为LLM量化提供简洁高效方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.17952v1",
+      "source": "arxiv",
+      "title": "SoftMoE: Soft Differentiable Routing for Mixture-of-Experts in LLMs",
+      "abstract": "Sparse Mixture-of-Experts (MoE) architectures enable scaling LLM parameters under a fixed inference budget by activating only a small subset of experts via top-$k$ routing. While this preserves causality and suits autoregressive language models, the discrete top-$k$ operator is not differentiable, forcing a fixed number of active experts per input and resulting in inefficient use of computation. We propose SoftMoE, which replaces discrete routing with a truncated soft top-$k$ LapSum relaxation, allowing gradient-based optimization of expert routing. We further parameterize the mean number of active experts per layer and impose a global budget constraint, enabling the model to learn how to allocate expert capacity across layers. SoftMoE remains fully compatible with autoregressive modeling and achieves performance comparable to or better than sparse MoE on language modeling and downstream tasks, while activating significantly fewer experts. Notably, the learned allocation is highly non-uniform, with later layers activating more experts. The source code is publicly available$^\\dagger$.",
+      "authors": [
+        "Mikołaj Zasada",
+        "Łukasz Struski",
+        "Jacek Tabor",
+        "Marcin Kurdziel"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-16T14:05:41+00:00",
+      "link": "https://arxiv.org/pdf/2606.17952v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "soft differentiable MoE routing improves inference efficiency",
+      "llm_evidence_cn": "软可微分MoE路由方法提升推理效率",
+      "llm_evidence": "软可微分MoE路由方法提升推理效率",
+      "canonical_evidence": "软可微分MoE路由方法提升推理效率",
+      "llm_tldr_en": "SoftMoE replaces discrete top-k routing with a differentiable soft relaxation, allowing gradient-based optimization and dynamic expert allocation, improving MoE inference efficiency.",
+      "llm_tldr_cn": "针对稀疏MoE模型中离散top-k路由不可微且导致计算效率低下的问题，SoftMoE提出一种截断软top-k LapSum松弛方法，实现可微分的专家路由，并学习各层平均活跃专家数。该方法在保持因果性的同时，允许梯度优化和全局预算约束，实验表明能更高效地分配专家计算资源。",
+      "llm_tldr": "针对稀疏MoE模型中离散top-k路由不可微且导致计算效率低下的问题，SoftMoE提出一种截断软top-k LapSum松弛方法，实现可微分的专家路由，并学习各层平均活跃专家数。该方法在保持因果性的同时，允许梯度优化和全局预算约束，实验表明能更高效地分配专家计算资源。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
