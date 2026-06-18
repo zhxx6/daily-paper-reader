@@ -1,0 +1,151 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-18T21:48:24.010191+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.15625v1",
+      "source": "arxiv",
+      "title": "Conflict-Aware Federated Fine-Tuning of Large Language Models with Mixture-of-Experts",
+      "abstract": "The continuous scaling of large language models (LLMs) incurs prohibitive computational costs, making Mixture-of-Experts (MoE) a scalable alternative for efficient fine-tuning via sparse activation. While federated learning (FL) emerges as the paradigm for privacy-preserving collaborative optimization, integrating MoE into FL under data heterogeneity may trigger conflicting expert optimizations. Client-specific data distributions force same-indexed experts to optimize under inconsistent or even conflicting feature-label correlations. This mismatch induces destructive interference during aggregation, thus destabilizing the optimization trajectory and degrading model performance. To address this issue, we propose FC-MoE, a federated conflict-aware framework for MoE fine-tuning. It employs an importance aware weighting scheme to prioritize reliable local updates and utilizes gradient consensus projection to suppress conflicting updates, ensuring a stable global optimization path. Moreover, a local knowledge retention mechanism further preserves specialized client expertise by re-anchoring domain-specific residuals. Extensive experiments demonstrate that FC-MoE accelerates convergence and enhances both global and local model performance in non-IID federated environments.",
+      "authors": [
+        "Yijun Lu",
+        "Zihan Fang",
+        "Pengpeng Qiao",
+        "Zheng Lin",
+        "Jing Yang",
+        "Yuxin Zhang",
+        "Por Lip Yee",
+        "Zhe Chen",
+        "Jun Luo"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.NI"
+      ],
+      "published": "2026-06-14T06:22:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.15625v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Federated fine-tuning of LLMs with Mixture-of-Experts, addressing optimization conflicts for efficient MoE adaptation",
+      "llm_evidence_cn": "联邦微调大语言模型中的混合专家，解决优化冲突以实现高效的MoE适应",
+      "llm_evidence": "联邦微调大语言模型中的混合专家，解决优化冲突以实现高效的MoE适应",
+      "canonical_evidence": "联邦微调大语言模型中的混合专家，解决优化冲突以实现高效的MoE适应",
+      "llm_tldr_en": "Proposes FC-MoE to resolve conflicting expert optimizations in federated fine-tuning of MoE LLMs, improving training stability and efficiency.",
+      "llm_tldr_cn": "联邦学习中MoE模型面临专家优化冲突问题，导致训练不稳定。本文提出FC-MoE，通过冲突感知聚合策略抑制专家间的干扰，使得MoE模型在数据异构下仍能高效微调。实验表明，FC-MoE在保持隐私的同时提升了模型收敛速度和泛化性能，为大规模MoE模型的协作微调提供了可行方案。",
+      "llm_tldr": "联邦学习中MoE模型面临专家优化冲突问题，导致训练不稳定。本文提出FC-MoE，通过冲突感知聚合策略抑制专家间的干扰，使得MoE模型在数据异构下仍能高效微调。实验表明，FC-MoE在保持隐私的同时提升了模型收敛速度和泛化性能，为大规模MoE模型的协作微调提供了可行方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16456v1",
+      "source": "arxiv",
+      "title": "SPRI: SVD-Partitioned Residual Initialization for Data-Constrained MoE Upcycling",
+      "abstract": "Mixture-of-Experts (MoE) models enable efficient scaling, but training them from scratch remains prohibitively expensive. MoE upcycling mitigates this cost by converting pretrained dense models into sparse MoE models. However, existing upcycling methods typically rely on large-scale continued training and often perform poorly under data-constrained supervised adaptation, due to either homogeneous experts or overly disruptive perturbations to pretrained parameters. In this setting, effective upcycling must leverage pretrained weight structure while introducing sufficient diversity among routed experts. To this end, we propose SVD-Partitioned Residual Initialization (SPRI), which distributes SVD-partitioned residuals derived from pretrained feed-forward network (FFN) weights across routed experts, introducing controlled expert diversity grounded in pretrained spectral structure. We further introduce a two-stage training strategy to improve adaptation stability. We evaluate SPRI on multilingual speech-to-text translation, where limited supervised data challenges MoE upcycling and multiple target languages provide natural routing heterogeneity. On CoVoST2 across 15 En-to-XX directions, SPRI improves average BLEU and COMET over fully fine-tuned dense models by 2.58 and 3.32 points, respectively, and outperforms the prior best MoE upcycling baseline by 3.39 BLEU and 4.34 COMET points.",
+      "authors": [
+        "Weiqiao Shan",
+        "Ruixiang Mao",
+        "Yuang Li",
+        "Yuhao Zhang",
+        "Yingfeng Luo",
+        "Tong Zheng",
+        "Chen Xu",
+        "Yucheng Qiao",
+        "Chunxiang Jin",
+        "Yi Yuan",
+        "Jingdong Chen",
+        "Tong Xiao",
+        "Jingbo Zhu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-15T09:28:24+00:00",
+      "link": "https://arxiv.org/pdf/2606.16456v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "MoE upcycling method that leverages pretrained weight structure, relevant to efficient MoE inference",
+      "llm_evidence_cn": "MoE升级方法利用预训练权重结构，与高效MoE推理相关",
+      "llm_evidence": "MoE升级方法利用预训练权重结构，与高效MoE推理相关",
+      "canonical_evidence": "MoE升级方法利用预训练权重结构，与高效MoE推理相关",
+      "llm_tldr_en": "Proposes SPRI, an SVD-based residual initialization for MoE upcycling under data constraints, enabling diverse experts without large-scale continued training.",
+      "llm_tldr_cn": "数据受限场景下，现有MoE升级方法需要大规模持续训练且效果不佳。本文提出SPRI，利用SVD分解预训练权重得到残差进行分区初始化，在保持参数结构的同时引入专家多样性。实验表明SPRI在监督微调设定下优于现有升级方法。该方法可快速将稠密模型转为稀疏MoE，间接降低了MoE推理的部署成本。",
+      "llm_tldr": "数据受限场景下，现有MoE升级方法需要大规模持续训练且效果不佳。本文提出SPRI，利用SVD分解预训练权重得到残差进行分区初始化，在保持参数结构的同时引入专家多样性。实验表明SPRI在监督微调设定下优于现有升级方法。该方法可快速将稠密模型转为稀疏MoE，间接降低了MoE推理的部署成本。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.18304v1",
+      "source": "arxiv",
+      "title": "Attribution-Guided and Coverage-Maximized Pruning for Structural MoE Compression",
+      "abstract": "Mixture-of-Experts (MoE) models scale compute efficiently, yet remain expensive to deploy due to their substantial memory footprint and inference overhead. Prior compression methods mainly operate at the expert level, either removing entire experts or ranking experts by coarse-grained importance scores. However, such expert-wise decisions are often too coarse to capture fine-grained redundancy, leading to misallocated pruning budgets and limited compression. To address this problem, we observe that information within MoE experts is highly concentrated in a small subset of channels, leaving substantial redundancy even in experts deemed important. Based on this observation, we propose a structural pruning framework tailored for MoE models. Our method reformulates prune-ratio allocation as a channel-score coverage maximization problem and solves it efficiently using an attribution-based approximation. Experiments on DeepSeek and Qwen MoE models show that our method preserves model accuracy under 50% or 25% structured pruning when combined with 4-bit quantization. On Qwen3-30B-A3B, our approach reduces memory footprint by 5.27$\\times$ and consistently outperforms state-of-the-art baselines across diverse benchmarks.",
+      "authors": [
+        "Yifu Ding",
+        "Jiacheng Wang",
+        "Ge Yang",
+        "Yongcheng Jing",
+        "Jinyang Guo",
+        "Xianglong Liu",
+        "Dacheng Tao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-16T06:53:27+00:00",
+      "link": "https://arxiv.org/pdf/2606.18304v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Structural pruning for MoE compression to reduce inference overhead",
+      "llm_evidence_cn": "面向MoE压缩的结构化剪枝以降低推理开销",
+      "llm_evidence": "面向MoE压缩的结构化剪枝以降低推理开销",
+      "canonical_evidence": "面向MoE压缩的结构化剪枝以降低推理开销",
+      "llm_tldr_en": "Proposes attribution-guided and coverage-maximized structural pruning for MoE models, operating at channel level to capture fine-grained redundancy and reduce memory and inference cost.",
+      "llm_tldr_cn": "MoE模型在部署时仍面临高内存和推理开销。本文提出一种结构化剪枝框架，在通道级别进行归因引导和覆盖最大化的剪枝，以捕捉专家内部细粒度冗余。实验表明，该方法在显著压缩模型的同时保持了性能，为MoE高效推理提供了有效方案。",
+      "llm_tldr": "MoE模型在部署时仍面临高内存和推理开销。本文提出一种结构化剪枝框架，在通道级别进行归因引导和覆盖最大化的剪枝，以捕捉专家内部细粒度冗余。实验表明，该方法在显著压缩模型的同时保持了性能，为MoE高效推理提供了有效方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

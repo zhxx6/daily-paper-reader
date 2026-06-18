@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-18",
+  "date": "2026-06-18",
+  "generated_at": "2026-06-18T21:52:15",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/18/2606.15625v1-conflict-aware-federated-fine-tuning-of-large-language-models-with-mixture-of-experts",
+      "section": "quick",
+      "title_en": "Conflict-Aware Federated Fine-Tuning of Large Language Models with Mixture-of-Experts",
+      "authors": "Yijun Lu, Zihan Fang, Pengpeng Qiao, Zheng Lin, Jing Yang, Yuxin Zhang, Por Lip Yee, Zhe Chen, Jun Luo",
+      "date": "2026-06-14",
+      "pdf": "https://arxiv.org/pdf/2606.15625v1",
+      "score": "7.0",
+      "evidence": "联邦微调大语言模型中的混合专家，解决优化冲突以实现高效的MoE适应",
+      "tldr": "针对联邦学习中混合专家模型（MoE）因数据异构性导致的专家优化冲突问题，本文提出FC-MoE框架。通过重要性加权优先可靠更新、梯度共识投影抑制冲突更新，以及局部知识保留机制维持客户端特化知识。实验表明该方法在非独立同分布场景下加速收敛，显著提升全局和局部模型性能。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "The continuous scaling of large language models (LLMs) incurs prohibitive computational costs, making Mixture-of-Experts (MoE) a scalable alternative for efficient fine-tuning via sparse activation. While federated learning (FL) emerges as the paradigm for privacy-preserving collaborative optimization, integrating MoE into FL under data heterogeneity may trigger conflicting expert optimizations. Client-specific data distributions force same-indexed experts to optimize under inconsistent or even conflicting feature-label correlations. This mismatch induces destructive interference during aggregation, thus destabilizing the optimization trajectory and degrading model performance. To address this issue, we propose FC-MoE, a federated conflict-aware framework for MoE fine-tuning. It employs an importance aware weighting scheme to prioritize reliable local updates and utilizes gradient consensus projection to suppress conflicting updates, ensuring a stable global optimization path. Moreover, a local knowledge retention mechanism further preserves specialized client expertise by re-anchoring domain-specific residuals. Extensive experiments demonstrate that FC-MoE accelerates convergence and enhances both global and local model performance in non-IID federated environments.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/18/2606.18304v1-attribution-guided-and-coverage-maximized-pruning-for-structural-moe-compression",
+      "section": "quick",
+      "title_en": "Attribution-Guided and Coverage-Maximized Pruning for Structural MoE Compression",
+      "authors": "Yifu Ding, Jiacheng Wang, Ge Yang, Yongcheng Jing, Jinyang Guo, Xianglong Liu, Dacheng Tao",
+      "date": "2026-06-16",
+      "pdf": "https://arxiv.org/pdf/2606.18304v1",
+      "score": "7.0",
+      "evidence": "面向MoE压缩的结构化剪枝以降低推理开销",
+      "tldr": "MoE模型部署面临内存和推理开销大，现有专家级剪枝粒度粗、易误判冗余。本文发现专家内通道级信息高度集中，提出基于归因的通道分数覆盖最大化剪枝框架，将剪枝比例分配转化为优化问题。在DeepSeek和Qwen等MoE模型上，50%或25%结构化剪枝结合4-bit量化保持模型精度，Qwen3-30B-A3B内存缩减5.27倍。方法优于现有基线，实现了高效的结构化压缩，显著降低部署成本。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models scale compute efficiently, yet remain expensive to deploy due to their substantial memory footprint and inference overhead. Prior compression methods mainly operate at the expert level, either removing entire experts or ranking experts by coarse-grained importance scores. However, such expert-wise decisions are often too coarse to capture fine-grained redundancy, leading to misallocated pruning budgets and limited compression. To address this problem, we observe that information within MoE experts is highly concentrated in a small subset of channels, leaving substantial redundancy even in experts deemed important. Based on this observation, we propose a structural pruning framework tailored for MoE models. Our method reformulates prune-ratio allocation as a channel-score coverage maximization problem and solves it efficiently using an attribution-based approximation. Experiments on DeepSeek and Qwen MoE models show that our method preserves model accuracy under 50% or 25% structured pruning when combined with 4-bit quantization. On Qwen3-30B-A3B, our approach reduces memory footprint by 5.27$\\times$ and consistently outperforms state-of-the-art baselines across diverse benchmarks.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/18/2606.16456v1-spri-svd-partitioned-residual-initialization-for-data-constrained-moe-upcycling",
+      "section": "quick",
+      "title_en": "SPRI: SVD-Partitioned Residual Initialization for Data-Constrained MoE Upcycling",
+      "authors": "Weiqiao Shan, Ruixiang Mao, Yuang Li, Yuhao Zhang, Yingfeng Luo, Tong Zheng, Chen Xu, Yucheng Qiao, Chunxiang Jin, Yi Yuan, Jingdong Chen, Tong Xiao, Jingbo Zhu",
+      "date": "2026-06-15",
+      "pdf": "https://arxiv.org/pdf/2606.16456v1",
+      "score": "6.0",
+      "evidence": "MoE升级方法利用预训练权重结构，与高效MoE推理相关",
+      "tldr": "针对数据受限场景下MoE upcycling存在专家同质或扰动过大的问题，提出SPRI方法，通过SVD分解预训练FFN权重并分配残差初始化专家，引入受控多样性；结合两阶段训练提升稳定性。在多语言语音翻译任务上，SPRI相比微调稠密模型平均BLEU提升2.58，COMET提升3.32，优于现有最佳upcycling基线。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models enable efficient scaling, but training them from scratch remains prohibitively expensive. MoE upcycling mitigates this cost by converting pretrained dense models into sparse MoE models. However, existing upcycling methods typically rely on large-scale continued training and often perform poorly under data-constrained supervised adaptation, due to either homogeneous experts or overly disruptive perturbations to pretrained parameters. In this setting, effective upcycling must leverage pretrained weight structure while introducing sufficient diversity among routed experts. To this end, we propose SVD-Partitioned Residual Initialization (SPRI), which distributes SVD-partitioned residuals derived from pretrained feed-forward network (FFN) weights across routed experts, introducing controlled expert diversity grounded in pretrained spectral structure. We further introduce a two-stage training strategy to improve adaptation stability. We evaluate SPRI on multilingual speech-to-text translation, where limited supervised data challenges MoE upcycling and multiple target languages provide natural routing heterogeneity. On CoVoST2 across 15 En-to-XX directions, SPRI improves average BLEU and COMET over fully fine-tuned dense models by 2.58 and 3.32 points, respectively, and outperforms the prior best MoE upcycling baseline by 3.39 BLEU and 4.34 COMET points.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
