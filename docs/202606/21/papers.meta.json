@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-21",
+  "date": "2026-06-21",
+  "generated_at": "2026-06-21T20:24:38",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/21/2606.17118v1-mode-modality-decomposed-expert-level-mixed-precision-quantization-for-moe-multimodal-llms",
+      "section": "deep",
+      "title_en": "MODE: Modality-Decomposed Expert-Level Mixed-Precision Quantization for MoE Multimodal LLMs",
+      "authors": "Yuanteng Chen, Peisong Wang, Zhilei Liu, Nanxin Zeng, Yuantian Shao, Shiqiang Lang, Tao Liu, Chuangyi Li, Qinghao Hu, Gang Li, Jing Liu, Jian Cheng",
+      "date": "2026-06-15",
+      "pdf": "https://arxiv.org/pdf/2606.17118v1",
+      "score": "9.0",
+      "evidence": "面向MoE多模态大语言模型的专家级混合精度量化",
+      "tldr": "MoE多模态大语言模型（MoE-MLLMs）性能优异但显存开销巨大。现有专家级混合精度量化在单模态MoE上有效，但在多模态场景下因视觉token数量主导专家选择频率而性能退化。本文提出MODE，通过按模态分解专家选择频率、过滤冗余视觉token并引入量化敏感性作为补充信号，利用整数线性规划分配位宽。在W3A16设置下平均性能损失仅2.9%，2-bit极端量化下增益更显著，为MoE-MLLMs提供了高效无损的压缩方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts Multimodal Large Language Models (MoE-MLLMs) offer remarkable performance but incur prohibitive GPU memory costs, making compression essential. Among PTQ methods, expert-level mixed-precision quantization has proven effective for MoE-LLMs, yet suffers notable degradation on MoE-MLLMs due to two overlooked biases in expert importance estimation. (1) At the cross-modal level, the numerical dominance of vision tokens causes expert selection frequency to be dominated by vision tokens, masking experts that are critical to the text modality; (2) at the intra-vision level, the large proportion of redundant vision tokens further skew frequency statistics, obscuring experts critical for informative visual content. To bridge gaps, we propose MODE, a modality-decomposed expert-level mixed-precision quantization framework for MoE-MLLMs that decomposes expert selection frequency by modality, filters redundant vision tokens to obtain denoised visual frequency, and further evaluates quantization sensitivity per modality as a complementary signal to frequency-based estimation. These signals are integrated into an Integer Linear Programming formulation to assign per-expert bit-widths under a given budget. Extensive experiments show that MODE is particularly well-suited for MoE-MLLMs, limiting average performance loss to within 2.9% at W3A16, with larger gains at the extreme 2-bit setting.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/21/2606.19036v1-geometric-and-stochastic-analysis-of-discontinuities-in-sparse-mixture-of-experts",
+      "section": "quick",
+      "title_en": "Geometric and Stochastic Analysis of Discontinuities in Sparse Mixture-of-Experts",
+      "authors": "Tho Tran Huu, Huu-Tuan Nguyen, Thien-Hai Nguyen, Nhat-Tri Ho, Viet-Hoang Tran, Tho Quan, Tan Minh Nguyen",
+      "date": "2026-06-17",
+      "pdf": "https://arxiv.org/pdf/2606.19036v1",
+      "score": "6.0",
+      "evidence": "分析稀疏MoE路由中的不连续性",
+      "tldr": "稀疏混合专家模型（SMoE）因Top-k专家选择导致输入输出映射不连续。本文对不连续性进行几何分类（按阶数）和随机分析，证明低阶不连续占主导且随机路径几乎必然命中阶-1不连续。进一步提出轻量级平滑机制，在不增加太多计算开销下增强连续性，实验表明该机制提升语言与视觉任务性能。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Sparse Mixture-of-Experts (SMoE) architectures are now widely deployed in state-of-the-art language and vision models, where conditional routing allows scaling to very large networks. However, this very Top-$k$ expert selection that enables conditional routing also renders the SMoE map inherently discontinuous. In the vicinity of these discontinuity surfaces, even inputs that are arbitrarily close may activate substantially different sets of experts resulting in significantly different outputs. In this work we give a rigorous geometric and stochastic analysis of these discontinuities. We first classify them by order, determined by the number of tied experts at a switching event. Using measure-theoretic slicing arguments, we establish asymptotic volume estimates for the thickened discontinuity surfaces, showing that lower-order discontinuity sets dominate, whereas higher-order ones occupy a vanishingly small relative volume. Next, modeling random perturbations in the input space via a diffusion process, we prove that the path eventually encounter a discontinuity, and moreover that the first hit almost surely occurs on an order-1 discontinuity with explicit finite-time probability bounds. We further derive occupation-time bounds that quantify the duration the random path spend in the neighborhoods of each discontinuity order. These theoretical results imply that inputs are more likely to lie near lower order discontinuities. Motivated by this insight, we propose a simple smoothing mechanism that can be directly applied to existing SMoEs, softly incorporating experts near discontinuities; our analysis guarantees that the added computational overhead remains small while providing localized smoothing near discontinuities, and experiments across language and vision tasks show that smoothing not only enforces continuity of the SMoE map but also enhances empirical performance.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
