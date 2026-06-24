@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-24",
+  "date": "2026-06-24",
+  "generated_at": "2026-06-24T21:52:40",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/24/2606.20945v2-grouped-query-experts-mixture-of-experts-on-gqa-self-attention",
+      "section": "deep",
+      "title_en": "Grouped Query Experts: Mixture-of-Experts on GQA Self-Attention",
+      "authors": "Vishesh Tripathi, Abhay Kumar",
+      "date": "2026-06-18",
+      "pdf": "https://arxiv.org/pdf/2606.20945v2",
+      "score": "9.0",
+      "evidence": "提出在分组查询注意力上应用专家混合以实现高效推理",
+      "tldr": "Transformer自注意力计算随序列长度平方增长，且对所有token均匀激活造成冗余。本文提出Grouped Query Experts (GQE)，在分组查询注意力基础上叠加专家混合层，由路由器为每个token选择k个查询头专家，键值头保持密集。250M参数模型在30B token上训练后，激活一半查询头即可匹配全激活基线精度。该方法在保持GQA的KV缓存优势的同时，显著降低自注意力计算成本。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Self-attention is central to Transformer performance and is often the most expensive part of the Transformer at long context lengths because its pairwise token interactions scale quadratically with sequence length. Standard dense attention also applies the same set of attention heads to every token regardless of token difficulty or information content. This uniform activation can waste compute, especially as sequences grow longer and attention cost increases rapidly. We propose Grouped Query Experts (GQE), a mixture-of-experts layer on top of grouped-query attention (GQA). Within each GQA group, a router selects k query-head experts per token while all key-value (KV) heads remain dense and unchanged. Thus, GQE keeps the KV cache benefits of GQA and reduces only the active query-head computation. On a fixed 30B token budget at the 250M parameter scale, GQE matches the all-active GQA baseline in downstream accuracy while activating half the query heads per token.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/24/2606.21428v2-does-mixture-of-experts-actually-help-inference-on-consumer-and-edge-hardware-an-empirical-study",
+      "section": "deep",
+      "title_en": "Does Mixture-of-Experts Actually Help Inference on Consumer and Edge Hardware? An Empirical Study",
+      "authors": "Alfarizy Alfarizy, Hung Truong Thanh Nguyen, René Richard, Roozbeh Razavi-Far, Hung Cao",
+      "date": "2026-06-19",
+      "pdf": "https://arxiv.org/pdf/2606.21428v2",
+      "score": "9.0",
+      "evidence": "在消费级和边缘硬件上对MoE推理效率的实证研究",
+      "tldr": "MoE语言模型虽理论上通过稀疏激活降低计算量，但实际在消费级和边缘硬件上的优势尚不明确。本文在Apple M2 Pro和NVIDIA Jetson Orin Nano上对比OLMoE-1B-7B与密集基线模型，发现笔记本上性能接近相同活跃参数的密集模型，但边缘设备上吞吐低31%、能耗高2.1倍，内存逼近8GB上限。逐节点计时表明路由开销不足MoE块计算的9%，瓶颈来自总参内存占用与KV缓存压力。结论指出带宽受限的硬件上推理成本更依赖总参数，稀疏激活未能克服硬件瓶颈。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) language models are often described as ideal for resource-constrained inference. Each token activates only a small subset of experts, so the per-token compute cost, in floating-point operations (FLOPs), resembles that of a much smaller dense model. Whether that FLOP advantage survives in practice is far less clear. We ask whether MoE models actually run faster and cheaper than comparable dense models on consumer-grade and edge hardware. We benchmark OLMoE-1B-7B (1.3 B active of 6.9 B total) against three dense baselines on an Apple M2 Pro and an NVIDIA Jetson Orin Nano 8 GB through \\texttt{llama.cpp}, measuring throughput, memory, and on-device energy. The answer is device-dependent: OLMoE's active-parameter advantage is only partly realised on the laptop (~10% behind the same-active Llama-3.2-1B) and erodes on the edge device (~31% behind, at 2.1$\\times$ the energy per token, with peak memory at the 8 GB ceiling). Patching \\texttt{llama.cpp} to time the decode graph node-by-node shows routing accounts for under 9% of MoE-block compute on the cleaner edge backend, so the gap reflects total-parameter memory footprint, expert dispatch, and KV-cache pressure rather than routing. The implication is that on bandwidth-bound edge hardware, inference cost tracks total parameters, not active ones, and sparse activation does not buy back what the device is constrained on. These findings are bounded to one MoE model at this parameter scale and two devices, and we release the full measurement harness and per-run data.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
