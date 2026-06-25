@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-25 <!--dpr-date:20260625-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/25/2606.25674v1-bitnet-text-embeddings" data-sidebar-item="{&quot;title&quot;: &quot;BitNet Text Embeddings&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.25674v1-bitnet-text-embeddings&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;面向LLM文本嵌入的极低比特量化框架&quot;}">BitNet Text Embeddings</a>
   * 2026-06-24 <!--dpr-date:20260624-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/24/2606.20945v2-grouped-query-experts-mixture-of-experts-on-gqa-self-attention" data-sidebar-item="{&quot;title&quot;: &quot;Grouped Query Experts: Mixture-of-Experts on GQA Self-Attention&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.20945v2-grouped-query-experts-mixture-of-experts-on-gqa-self-attention&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;提出在分组查询注意力上应用专家混合以实现高效推理&quot;}">Grouped Query Experts: Mixture-of-Experts on GQA Self-Attention</a>

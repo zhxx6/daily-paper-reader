@@ -6,26 +6,23 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-24
-- 运行时间：2026-06-24 21:52:32 UTC
+- 最新运行日期：2026-06-25
+- 运行时间：2026-06-25 21:53:10 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：2
+- 本次总论文数：1
+- 精读区：1
 - 速读区：0
 
 ### 今日简报（AI）
-今日精读两篇9分论文：一篇提出分组查询专家改进GQA自注意力，另一篇实证MoE在消费级与边缘硬件上的推理表现。  
-最值得关注的方向：注意力架构优化与混合专家在低算力场景的实际可用性。  
-普通读者可跟进MoE在手机、IoT设备上的部署可行性，对比传统Transformer的推理效率。
-- 详情：[/202606/24/README](/202606/24/README)
+今日精读一篇高价值论文《BitNet Text Embeddings》（评分8.0）。  
+该研究探索了二值化网络在文本嵌入任务中的表现，在保持效率的同时实现接近全精度模型的效果。  
+如果关注高效文本表示或模型压缩，这篇文章值得深入阅读，尤其适合资源受限场景的实践者。
+- 详情：[/202606/25/README](/202606/25/README)
 
 ### 精读区论文标签
-1. [Grouped Query Experts: Mixture-of-Experts on GQA Self-Attention](/202606/24/2606.20945v2-grouped-query-experts-mixture-of-experts-on-gqa-self-attention)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：提出在分组查询注意力上应用专家混合以实现高效推理
-2. [Does Mixture-of-Experts Actually Help Inference on Consumer and Edge Hardware? An Empirical Study](/202606/24/2606.21428v2-does-mixture-of-experts-actually-help-inference-on-consumer-and-edge-hardware-an-empirical-study)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：在消费级和边缘硬件上对MoE推理效率的实证研究
+1. [BitNet Text Embeddings](/202606/25/2606.25674v1-bitnet-text-embeddings)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：面向LLM文本嵌入的极低比特量化框架
 
 ### 速读区论文标签
 - 本次无速读推荐。
