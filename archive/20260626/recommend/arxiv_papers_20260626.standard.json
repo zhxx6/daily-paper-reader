@@ -1,0 +1,98 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-26T22:00:05.698251+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.26287v1",
+      "source": "arxiv",
+      "title": "GeMoE: Gating Entropy is All You Need for Uncertainty-aware Adaptive Routing in MoE-based Large Vision-Language Models",
+      "abstract": "With the increase in model parameters and training data, the instruction following and generalization capabilities of Large VisionLanguage Models (LVLMs) have been significantly improved. Based on the Mixture of Experts (MoE) architecture, LVLMs expand their parameter capacity while maintaining the inference cost. However, traditional MoE methods employ a Top-k static routing strategy, which fails to account for variations in the input and adaptively select the number of experts, resulting in suboptimal resource utilization. In this paper, we propose viewing token routing as an information encoding task, framing dynamic routing as a Minimum Description Length (MDL) problem in encoding By validating the connection between MDL and gating entropy in the MoE scenario, we introduce Gating Entropy-based Uncertainty-aware Adaptive Routing (GeMoE) for MoE. Unlike traditional static or heuristic-based dynamic routing methods, GeMoE explicitly models the trade-off between model complexity and performance. By using gating entropy to assess the complexity of tokens, GeMoE adaptively determines the number of experts each token should engage. On a wide range of backbones and benchmarks, our method achieves 99.5% average performance retention compared to the original static routing, while improving average expert activation sparsity by 36.5%.",
+      "authors": [
+        "Chaoxiang Cai",
+        "Minghe Weng",
+        "Jie Li",
+        "Yibo Jiang",
+        "Longrong Yang",
+        "Zequn Qin",
+        "Xi Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-24T18:34:00+00:00",
+      "link": "https://arxiv.org/pdf/2606.26287v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "MoE adaptive routing using gating entropy for efficient inference",
+      "llm_evidence_cn": "利用门控熵进行MoE自适应路由以实现高效推理",
+      "llm_evidence": "利用门控熵进行MoE自适应路由以实现高效推理",
+      "canonical_evidence": "利用门控熵进行MoE自适应路由以实现高效推理",
+      "llm_tldr_en": "GeMoE introduces an adaptive routing mechanism for MoE-based vision-language models, using gating entropy to dynamically determine the number of active experts per token, reducing redundant computation and improving inference efficiency.",
+      "llm_tldr_cn": "GeMoE提出基于门控熵的自适应路由方法，用于MoE大视觉语言模型。它将token路由视为信息编码任务，利用门控熵度量不确定性，动态选择专家数量，替代传统Top-k静态路由。实验证明该方法能在保持性能的同时显著提升资源利用率，降低推理开销。这一工作为MoE模型的高效自适应推理提供了新途径。",
+      "llm_tldr": "GeMoE提出基于门控熵的自适应路由方法，用于MoE大视觉语言模型。它将token路由视为信息编码任务，利用门控熵度量不确定性，动态选择专家数量，替代传统Top-k静态路由。实验证明该方法能在保持性能的同时显著提升资源利用率，降低推理开销。这一工作为MoE模型的高效自适应推理提供了新途径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.20544v1",
+      "source": "arxiv",
+      "title": "Toward Calibrated Mixture-of-Experts Under Distribution Shift",
+      "abstract": "Calibration aligns a model's predictive uncertainty with the frequencies of its empirical outcomes and is important for understanding and trusting reported probabilities. Recent work shows that enforcing calibration at the level of individual predictors can improve ensemble accuracy and calibration, with mixture-of-experts (MoE) models showing strong empirical improvements in particular; however, the conditions under which calibration helps MoE are not well understood. In this work, we study how MoE models behave under distribution shift, focusing on how routing mechanisms interact with expert-level calibration. We show that expert calibration is sufficient to ensure calibration of the overall model under a broad class of distribution shifts in hard-routed models, but is insufficient for calibrating soft-routed models. To address this, we propose an adversarial reweighting that penalizes calibration errors of the routed aggregate under distribution shift, and we demonstrate that it improves the accuracy-calibration tradeoff both on average and on difficult subsets of the data, across model classes, prediction tasks, and distribution shifts.",
+      "authors": [
+        "Gina Wong",
+        "Drew Prinster",
+        "Suchi Saria",
+        "Rama Chellappa",
+        "Anqi Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-18T17:55:00+00:00",
+      "link": "https://arxiv.org/pdf/2606.20544v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "studies calibration of MoE models under distribution shift",
+      "llm_evidence_cn": "研究分布漂移下MoE模型的校准",
+      "llm_evidence": "研究分布漂移下MoE模型的校准",
+      "canonical_evidence": "研究分布漂移下MoE模型的校准",
+      "llm_tldr_en": "Analyzes how calibration at the expert level affects overall MoE calibration under distribution shift, showing expert calibration suffices for hard-routed MoE.",
+      "llm_tldr_cn": "针对MoE模型在分布漂移下校准性能不稳定的问题，本文理论分析了专家级校准与整体模型校准的关系。证明在硬路由模式下，专家校准足以保证整体模型在广泛分布漂移下的校准性。为MoE模型的可靠推理提供了理论基础。",
+      "llm_tldr": "针对MoE模型在分布漂移下校准性能不稳定的问题，本文理论分析了专家级校准与整体模型校准的关系。证明在硬路由模式下，专家校准足以保证整体模型在广泛分布漂移下的校准性。为MoE模型的可靠推理提供了理论基础。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

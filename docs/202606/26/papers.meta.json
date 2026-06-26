@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-26",
+  "date": "2026-06-26",
+  "generated_at": "2026-06-26T22:02:10",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/26/2606.26287v1-gemoe-gating-entropy-is-all-you-need-for-uncertainty-aware-adaptive-routing-in-moe-based-large-vision-language-models",
+      "section": "quick",
+      "title_en": "GeMoE: Gating Entropy is All You Need for Uncertainty-aware Adaptive Routing in MoE-based Large Vision-Language Models",
+      "authors": "Chaoxiang Cai, Minghe Weng, Jie Li, Yibo Jiang, Longrong Yang, Zequn Qin, Xi Li",
+      "date": "2026-06-24",
+      "pdf": "https://arxiv.org/pdf/2606.26287v1",
+      "score": "7.0",
+      "evidence": "利用门控熵进行MoE自适应路由以实现高效推理",
+      "tldr": "传统MoE的Top-k静态路由无法根据输入复杂度自适应选择专家，导致资源利用次优。本文提出GeMoE，将路由视为最小描述长度问题，利用门控熵动态评估token复杂度，自适应决定专家激活数量。在多个骨干网络和基准上，GeMoE以平均99.5%的性能保留实现了36.5%的专家激活稀疏性提升。该方法显式建模了模型复杂度与性能的权衡，为高效MoE路由提供了信息论视角的新方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "With the increase in model parameters and training data, the instruction following and generalization capabilities of Large VisionLanguage Models (LVLMs) have been significantly improved. Based on the Mixture of Experts (MoE) architecture, LVLMs expand their parameter capacity while maintaining the inference cost. However, traditional MoE methods employ a Top-k static routing strategy, which fails to account for variations in the input and adaptively select the number of experts, resulting in suboptimal resource utilization. In this paper, we propose viewing token routing as an information encoding task, framing dynamic routing as a Minimum Description Length (MDL) problem in encoding By validating the connection between MDL and gating entropy in the MoE scenario, we introduce Gating Entropy-based Uncertainty-aware Adaptive Routing (GeMoE) for MoE. Unlike traditional static or heuristic-based dynamic routing methods, GeMoE explicitly models the trade-off between model complexity and performance. By using gating entropy to assess the complexity of tokens, GeMoE adaptively determines the number of experts each token should engage. On a wide range of backbones and benchmarks, our method achieves 99.5% average performance retention compared to the original static routing, while improving average expert activation sparsity by 36.5%.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/26/2606.20544v1-toward-calibrated-mixture-of-experts-under-distribution-shift",
+      "section": "quick",
+      "title_en": "Toward Calibrated Mixture-of-Experts Under Distribution Shift",
+      "authors": "Gina Wong, Drew Prinster, Suchi Saria, Rama Chellappa, Anqi Liu",
+      "date": "2026-06-18",
+      "pdf": "https://arxiv.org/pdf/2606.20544v1",
+      "score": "6.0",
+      "evidence": "研究分布漂移下MoE模型的校准",
+      "tldr": "分布偏移下混合专家模型的校准面临挑战。本文分析路由机制与专家级校准的交互，证明硬路由中专家校准足以保证整体模型校准，但软路由中不足。为此提出对抗性重加权方法，惩罚分布偏移下路由聚合的校准误差。该方法在多种模型、任务和分布偏移下改善了平均和困难子集上的准确率-校准权衡。贡献在于揭示了校准在MoE中的适用条件并提出有效解决方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Calibration aligns a model's predictive uncertainty with the frequencies of its empirical outcomes and is important for understanding and trusting reported probabilities. Recent work shows that enforcing calibration at the level of individual predictors can improve ensemble accuracy and calibration, with mixture-of-experts (MoE) models showing strong empirical improvements in particular; however, the conditions under which calibration helps MoE are not well understood. In this work, we study how MoE models behave under distribution shift, focusing on how routing mechanisms interact with expert-level calibration. We show that expert calibration is sufficient to ensure calibration of the overall model under a broad class of distribution shifts in hard-routed models, but is insufficient for calibrating soft-routed models. To address this, we propose an adversarial reweighting that penalizes calibration errors of the routed aggregate under distribution shift, and we demonstrate that it improves the accuracy-calibration tradeoff both on average and on difficult subsets of the data, across model classes, prediction tasks, and distribution shifts.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
