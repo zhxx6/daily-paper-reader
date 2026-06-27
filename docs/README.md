@@ -6,31 +6,30 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-26
-- 运行时间：2026-06-26 22:02:02 UTC
+- 最新运行日期：2026-06-27
+- 运行时间：2026-06-27 20:57:52 UTC
 - 运行状态：成功
 - 本次总论文数：2
-- 精读区：0
-- 速读区：2
+- 精读区：1
+- 速读区：1
 
 ### 今日简报（AI）
-今日速读2篇MoE相关论文，聚焦大视觉语言模型中的自适应路由与分布漂移下的校准问题。
+今日精读1篇、速读1篇，涵盖大模型量化与MoE架构优化。
 
-最值得关注的方向：GeMoE提出利用门控熵实现不确定性感知路由，Toward Calibrated探讨混合专家模型在分布偏移下的校准方法。
+最值得关注的是精读论文《An Empirical Study of OpenPangu Quantization on Ascend NPUs》（9.0分），探讨了华为Ascend NPU上的量化部署方法。
 
-建议普通读者关注MoE模型在复杂场景下的鲁棒性优化，后续可跟进如何提升模型对不确定输入的响应可靠性。
-- 详情：[/202606/26/README](/202606/26/README)
+建议普通读者重点关注量化技术在实际硬件上的落地效果，这对低成本部署大模型有直接参考价值。
+- 详情：[/202606/27/README](/202606/27/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [An Empirical Study of OpenPangu Quantization on Ascend NPUs](/202606/27/2606.21257v1-an-empirical-study-of-openpangu-quantization-on-ascend-npus)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：大语言模型权重量化方法的实证研究
 
 ### 速读区论文标签
-1. [GeMoE: Gating Entropy is All You Need for Uncertainty-aware Adaptive Routing in MoE-based Large Vision-Language Models](/202606/26/2606.26287v1-gemoe-gating-entropy-is-all-you-need-for-uncertainty-aware-adaptive-routing-in-moe-based-large-vision-language-models)  
+1. [Systematic Exploration of 4-Expert Heterogeneous Mixture-of-Experts via Automated Pipeline Search](/202606/27/2606.23739v1-systematic-exploration-of-4-expert-heterogeneous-mixture-of-experts-via-automated-pipeline-search)  
    标签：评分：7.0/10、query:moe-gk-quant
-   evidence：利用门控熵进行MoE自适应路由以实现高效推理
-2. [Toward Calibrated Mixture-of-Experts Under Distribution Shift](/202606/26/2606.20544v1-toward-calibrated-mixture-of-experts-under-distribution-shift)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：研究分布漂移下MoE模型的校准
+   evidence：系统探索异构MoE架构，为高效推理提供设计指导
 
 
 <div class="dpr-home-promo-card">

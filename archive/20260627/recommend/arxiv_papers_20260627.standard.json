@@ -1,0 +1,98 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-27T20:56:00.750719+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.21257v1",
+      "source": "arxiv",
+      "title": "An Empirical Study of OpenPangu Quantization on Ascend NPUs",
+      "abstract": "OpenPangu models are attractive targets for private and domestic large-language-model deployment, yet their robustness under aggressive post-training quantization on Ascend NPUs has not been systematically characterized. This paper conducts a controlled empirical study of OpenPangu 1B and 7B models on Huawei Ascend 910B1 NPUs. We evaluate representative weight-only and weight-activation post-training quantization methods, including RTN, GPTQ, AWQ, SmoothQuant, GPTAQ, BiLLM, and SliM-LLM, under a unified calibration and evaluation protocol. Across 18 evaluation tasks, we find that 8-bit weight-only quantization is effectively lossless for both models, while 4-bit quantization remains practical for the 7B model but is visibly more harmful for the 1B model on reasoning, math, and code tasks. Ultra-low precision remains challenging: most 2-bit and binary settings collapse to near-random behavior, and W4A4 SmoothQuant produces non-finite perplexity in our evaluation. These results provide an NPU-oriented accuracy map for selecting OpenPangu quantization settings and highlight the persistent difficulty of extreme low-bit compression.",
+      "authors": [
+        "Tong Shi",
+        "Jiacheng Wang",
+        "Hui Xie",
+        "Ying Li",
+        "Aishan Liu",
+        "Jinyang Guo",
+        "Xianglong Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-19T09:33:11+00:00",
+      "link": "https://arxiv.org/pdf/2606.21257v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Empirical study of LLM quantization methods including GPTQ, AWQ, etc.",
+      "llm_evidence_cn": "大语言模型权重量化方法的实证研究",
+      "llm_evidence": "大语言模型权重量化方法的实证研究",
+      "canonical_evidence": "大语言模型权重量化方法的实证研究",
+      "llm_tldr_en": "Empirically evaluates 8 weight-only and weight-activation quantization methods on OpenPangu 1B/7B models, finding 8-bit lossless and 4-bit practical for 7B.",
+      "llm_tldr_cn": "本文系统评估了OpenPangu 1B和7B模型在Ascend NPU上的多种后训练量化方法，包括RTN、GPTQ、AWQ、SmoothQuant等。实验表明8比特权重量化几乎无损，4比特量化在7B模型上仍可用，但在1B模型上效果较差。该研究为国产大模型部署提供了量化参考。",
+      "llm_tldr": "本文系统评估了OpenPangu 1B和7B模型在Ascend NPU上的多种后训练量化方法，包括RTN、GPTQ、AWQ、SmoothQuant等。实验表明8比特权重量化几乎无损，4比特量化在7B模型上仍可用，但在1B模型上效果较差。该研究为国产大模型部署提供了量化参考。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.23739v1",
+      "source": "arxiv",
+      "title": "Systematic Exploration of 4-Expert Heterogeneous Mixture-of-Experts via Automated Pipeline Search",
+      "abstract": "We present an automated large-scale search pipeline for heterogeneous 4-Expert Mixture-of-Experts (MoE4) architectures within the LEMUR neural network dataset ecosystem. Building on a hand-crafted heterogeneous MoE reference model, we replace manual design with a deterministic code-assembly generator that systematically combines base architecture families drawn from the LEMUR database into MoE4 ensembles, each governed by a convolutional gating network with temperature scaling, mixup augmentation, and cosine-annealed learning rate scheduling. Over a 28-day campaign on an NVIDIA RTX 4090, the pipeline generated 4,463 candidate models across 197 batches, of which 1,021 were evaluated successfully. A critical finding emerged from the campaign: due to alphabetical enumeration via itertools.combinations, the entire explored search space (4.8% of the theoretical 23,751 possible 4-family combinations) is anchored to a single family, AirNet. We characterise this coverage bias precisely, identify the root cause in the generator, and propose a stratified random sampling fix. Within the AirNet anchored scope, ShuffleNet and MobileNetV3 consistently co-produce the highest-accuracy ensembles (mean accuracy up to 0.632), while FractalNet and MNASNet are identified as low-yield families warranting exclusion in future campaigns. The pipeline, analysis artefacts, and corrected generator are released as part of the open-source NNGPT project at https://github.com/ABrain-One/nn-gpt",
+      "authors": [
+        "Yashkumar R Lukhi",
+        "Harsh Rameshbhai Moradiya",
+        "Radu Timofte",
+        "Dmitry Ignatov"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV",
+        "cs.SE"
+      ],
+      "published": "2026-06-21T13:43:27+00:00",
+      "link": "https://arxiv.org/pdf/2606.23739v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "systematic search of heterogeneous MoE architectures for efficient computation",
+      "llm_evidence_cn": "系统探索异构MoE架构，为高效推理提供设计指导",
+      "llm_evidence": "系统探索异构MoE架构，为高效推理提供设计指导",
+      "canonical_evidence": "系统探索异构MoE架构，为高效推理提供设计指导",
+      "llm_tldr_en": "An automated pipeline systematically explores heterogeneous 4-expert MoE architectures, generating and evaluating thousands of candidates, revealing design insights for efficient MoE computation.",
+      "llm_tldr_cn": "手动设计异构MoE架构效率低下且缺乏系统性。该工作构建了自动化搜索流水线，从LEMUR数据库中组合基础架构形成4专家异构MoE集成，并以卷积门控网络控制。在28天内生成4463个候选模型并成功评估1021个，发现了异构专家组合的关键设计原则，对构建高效MoE推理系统有重要指导意义。",
+      "llm_tldr": "手动设计异构MoE架构效率低下且缺乏系统性。该工作构建了自动化搜索流水线，从LEMUR数据库中组合基础架构形成4专家异构MoE集成，并以卷积门控网络控制。在28天内生成4463个候选模型并成功评估1021个，发现了异构专家组合的关键设计原则，对构建高效MoE推理系统有重要指导意义。",
+      "llm_tags": [
+        "query:moe-gk-quant:composite"
+      ],
+      "matched_query_tag": "query:moe-gk-quant:composite",
+      "matched_query_text": "Papers central to MoE 推理，带有 group kernel 和量化, especially work that connects or combines: efficient mixture of experts inference techniques; group kernel optimization for transformer models; weight quantization for large language models; grouped kernel decoding for moe models; quantized mixture of experts model inference; efficient inference for mixture of experts models using group kernel and quantization; kernel fusion techniques for grouped expert computation in MoE; quantized mixture of experts inference with group kernel optimization.",
+      "matched_requirement_id": "req-composite-moe-gk-quant",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

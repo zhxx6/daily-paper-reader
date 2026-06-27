@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-27",
+  "date": "2026-06-27",
+  "generated_at": "2026-06-27T20:57:58",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/27/2606.21257v1-an-empirical-study-of-openpangu-quantization-on-ascend-npus",
+      "section": "deep",
+      "title_en": "An Empirical Study of OpenPangu Quantization on Ascend NPUs",
+      "authors": "Tong Shi, Jiacheng Wang, Hui Xie, Ying Li, Aishan Liu, Jinyang Guo, Xianglong Liu",
+      "date": "2026-06-19",
+      "pdf": "https://arxiv.org/pdf/2606.21257v1",
+      "score": "9.0",
+      "evidence": "大语言模型权重量化方法的实证研究",
+      "tldr": "OpenPangu模型在华为Ascend NPU上的量化鲁棒性未被系统研究。本文在910B1 NPU上对1B和7B模型测试了多种后训练量化方法（RTN、GPTQ、AWQ等）。结果表明8-bit权重量化无损，4-bit对7B可行但对1B在推理、数学、代码任务上有显著损害，而2-bit及二进制量化近乎随机，W4A4 SmoothQuant产生非有限困惑度。该研究提供了NPU导向的量化精度地图，揭示了极低位压缩的持续困难。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "OpenPangu models are attractive targets for private and domestic large-language-model deployment, yet their robustness under aggressive post-training quantization on Ascend NPUs has not been systematically characterized. This paper conducts a controlled empirical study of OpenPangu 1B and 7B models on Huawei Ascend 910B1 NPUs. We evaluate representative weight-only and weight-activation post-training quantization methods, including RTN, GPTQ, AWQ, SmoothQuant, GPTAQ, BiLLM, and SliM-LLM, under a unified calibration and evaluation protocol. Across 18 evaluation tasks, we find that 8-bit weight-only quantization is effectively lossless for both models, while 4-bit quantization remains practical for the 7B model but is visibly more harmful for the 1B model on reasoning, math, and code tasks. Ultra-low precision remains challenging: most 2-bit and binary settings collapse to near-random behavior, and W4A4 SmoothQuant produces non-finite perplexity in our evaluation. These results provide an NPU-oriented accuracy map for selecting OpenPangu quantization settings and highlight the persistent difficulty of extreme low-bit compression.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/27/2606.23739v1-systematic-exploration-of-4-expert-heterogeneous-mixture-of-experts-via-automated-pipeline-search",
+      "section": "quick",
+      "title_en": "Systematic Exploration of 4-Expert Heterogeneous Mixture-of-Experts via Automated Pipeline Search",
+      "authors": "Yashkumar R Lukhi, Harsh Rameshbhai Moradiya, Radu Timofte, Dmitry Ignatov",
+      "date": "2026-06-21",
+      "pdf": "https://arxiv.org/pdf/2606.23739v1",
+      "score": "7.0",
+      "evidence": "系统探索异构MoE架构，为高效推理提供设计指导",
+      "tldr": "当前异构混合专家模型依赖手工设计，效率低下。本文提出自动化流水线，基于LEMUR数据集系统组合4个基础架构家族构建MoE4，并采用卷积门控网络与正则化训练。在RTX 4090上运行28天，生成4463个模型，但发现由于字母顺序枚举，搜索空间锚定于AirNet家族，仅探索了理论组合的4.8%。其中ShuffleNet与MobileNetV3组合达到0.632平均精度，FractalNet和MNASNet被识别为低效家族。本文表征了覆盖偏差，提出分层随机采样修复，并将流水线开源。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We present an automated large-scale search pipeline for heterogeneous 4-Expert Mixture-of-Experts (MoE4) architectures within the LEMUR neural network dataset ecosystem. Building on a hand-crafted heterogeneous MoE reference model, we replace manual design with a deterministic code-assembly generator that systematically combines base architecture families drawn from the LEMUR database into MoE4 ensembles, each governed by a convolutional gating network with temperature scaling, mixup augmentation, and cosine-annealed learning rate scheduling. Over a 28-day campaign on an NVIDIA RTX 4090, the pipeline generated 4,463 candidate models across 197 batches, of which 1,021 were evaluated successfully. A critical finding emerged from the campaign: due to alphabetical enumeration via itertools.combinations, the entire explored search space (4.8% of the theoretical 23,751 possible 4-family combinations) is anchored to a single family, AirNet. We characterise this coverage bias precisely, identify the root cause in the generator, and propose a stratified random sampling fix. Within the AirNet anchored scope, ShuffleNet and MobileNetV3 consistently co-produce the highest-accuracy ensembles (mean accuracy up to 0.632), while FractalNet and MNASNet are identified as low-yield families warranting exclusion in future campaigns. The pipeline, analysis artefacts, and corrected generator are released as part of the open-source NNGPT project at https://github.com/ABrain-One/nn-gpt",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
