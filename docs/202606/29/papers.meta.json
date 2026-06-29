@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-29",
+  "date": "2026-06-29",
+  "generated_at": "2026-06-29T21:47:30",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/29/2606.27866v1-flexmoe-one-for-all-nested-intra-expert-pruning-for-moe-language-models",
+      "section": "deep",
+      "title_en": "FlexMoE: One-for-All Nested Intra-Expert Pruning for MoE Language Models",
+      "authors": "Fan Mo, Yuxuan Han, Geng Zhang, Wangbo Zhao, Yang You",
+      "date": "2026-06-26",
+      "pdf": "https://arxiv.org/pdf/2606.27866v1",
+      "score": "8.0",
+      "evidence": "MoE模型剪枝以高效推理",
+      "tldr": "混合专家语言模型虽稀疏激活但存储所有专家带来部署负担，且不同设备预算各异。FlexMoE方法先对专家FFN通道重要性排序，让每个专家学习离散剪枝动作，通过逐步增加成本压力输出从高到低预算的嵌套子网络，并在中间预算进行一次恢复微调。在Qwen2-57B-A14B上剪枝50%路由专家参数保留约99.8%性能且无需微调，实现内存减少和吞吐提升，支持实时预算切换。该框架优于现有固定预算压缩方法，为MoE模型灵活部署提供了高效方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) language models scale model ability with sparsely activated experts, making this architecture a standard recipe for modern large models. However, sparse activation does not remove the deployment burden of storing and serving all experts, and the available deployment budget can vary substantially across devices, users, and workloads. Existing MoE compression methods are still largely fixed-budget, typically optimizing one compressed endpoint at each chosen target budget. We study a different setting: converting a large pretrained MoE LLM into a nested family of deployable subnetworks across budgets. Our method first ranks expert FFN channels by their importance, then lets each expert learn a discrete action to prune its channels. By gradually increasing cost pressure, a single action-training run exports a series of action masks from high to low budgets, each of which identifies a reliable smaller subnetwork nested in the ranked base model. Moreover, we use a single recovery fine-tune at a mid pruning budget (40%) to recover degraded model quality and transfer the recovered model to other unseen budgets. Overall, our framework surpasses recent MoE compression baselines. Specifically, on Qwen2-57B-A14B, our method retains ~99.8% of base performance while pruning 50% of routed expert parameters even without fine-tuning. For deployment, our pruned subnetworks deliver real memory reduction and throughput gains, and further support realtime online budget switching with kernel-level co-design.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-06-29 <!--dpr-date:20260629-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/29/2606.27866v1-flexmoe-one-for-all-nested-intra-expert-pruning-for-moe-language-models" data-sidebar-item="{&quot;title&quot;: &quot;FlexMoE: One-for-All Nested Intra-Expert Pruning for MoE Language Models&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.27866v1-flexmoe-one-for-all-nested-intra-expert-pruning-for-moe-language-models&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;MoE模型剪枝以高效推理&quot;}">FlexMoE: One-for-All Nested Intra-Expert Pruning for MoE Language Models</a>
   * 2026-06-27 <!--dpr-date:20260627-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202606/27/2606.21257v1-an-empirical-study-of-openpangu-quantization-on-ascend-npus" data-sidebar-item="{&quot;title&quot;: &quot;An Empirical Study of OpenPangu Quantization on Ascend NPUs&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.21257v1-an-empirical-study-of-openpangu-quantization-on-ascend-npus&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;大语言模型权重量化方法的实证研究&quot;}">An Empirical Study of OpenPangu Quantization on Ascend NPUs</a>
