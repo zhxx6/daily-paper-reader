@@ -1,0 +1,211 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-30T21:09:45.276347+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.29982v1",
+      "source": "arxiv",
+      "title": "Beyond Uniform Experts: Cost-Aware Expert Execution for Efficient Multi-Device MoE Inference",
+      "abstract": "Mixture-of-Experts (MoE) architectures enable language models to achieve unprecedented scale via sparse activation. However, their inference performance is often limited by data movement bottlenecks. Two coupled challenges exacerbate this limtation: (1) Importance-Agnostic Cost: Low-contribution experts incur nearly uniform memory and transfer costs, resulting in a low cost-to-benefit ratio and wasting critical bandwidth; (2) System-Level Imbalance: Multi-device deployments are universally bottlenecked by the slowest device, meaning that local reductions on one device may yield no improvement in end-to-end latency. We propose Cost-Aware Expert Execution (CAEE), a hardware-guided runtime framework that jointly optimizes for token-level expert importance and system-level execution cost. CAEE uses lightweight, calibrated cost models to estimate hardware overhead, selectively prunes low-importance, high-cost experts, and redistributes their contributions via a low-overhead compensation mechanism, avoiding extra data movement. Evaluations on the 671B DeepSeek-R1 model show that CAEE can reduce end-to-end inference latency by 8\\%-18\\% across diverse deployment settings, including expert offloading and on-device execution on multi-device systems, while maintaining a model accuracy drop of less than 1\\%.",
+      "authors": [
+        "Hui Zang",
+        "Pengfei Xia",
+        "Hong Liu",
+        "Jiajia Chu",
+        "Tuo Hao",
+        "Minghao Chen",
+        "Rui Zhang",
+        "Ziyang Zhang"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-06-29T08:57:59+00:00",
+      "link": "https://arxiv.org/pdf/2606.29982v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Cost-aware multi-device MoE inference optimization",
+      "llm_evidence_cn": "成本感知的多设备MoE推理优化",
+      "llm_evidence": "成本感知的多设备MoE推理优化",
+      "canonical_evidence": "成本感知的多设备MoE推理优化",
+      "llm_tldr_en": "Proposes Cost-Aware Expert Execution (CAEE) to optimize MoE inference by balancing expert contribution and device-level latency, addressing data movement bottlenecks.",
+      "llm_tldr_cn": "混合专家（MoE）模型推理受限于数据移动瓶颈，低贡献专家浪费带宽，多设备部署受最慢设备拖累。本文提出成本感知专家执行（CAEE）框架，硬件引导的运行时优化，联合优化token级执行以平衡专家重要性和设备负载。实验表明CAEE有效减少端到端推理延迟，为高效MoE推理提供了新思路。",
+      "llm_tldr": "混合专家（MoE）模型推理受限于数据移动瓶颈，低贡献专家浪费带宽，多设备部署受最慢设备拖累。本文提出成本感知专家执行（CAEE）框架，硬件引导的运行时优化，联合优化token级执行以平衡专家重要性和设备负载。实验表明CAEE有效减少端到端推理延迟，为高效MoE推理提供了新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.29575v1",
+      "source": "arxiv",
+      "title": "TF-MoE: Time-Frequency Mixture-of-Experts for Efficient Speech Separation",
+      "abstract": "Recent advances in speech separation (SS) have led to compact front-end models with small parameter sizes, yet their high computational cost remains a major barrier for deployment on edge devices. To address this, we propose TF-MoE, a sparse Mixture-of-Experts (MoE) framework that enhances model capacity with almost no increase in inference cost. Our method introduces dynamic expert specialization in time and frequency dimensions through alternating time-wise and frequency-wise MoE modules, each dynamically selecting experts per frame or mel band. Built upon a mel-band-splitting Conformer backbone, TF-MoE achieves strong performance on SS tasks under low-compute settings. Experimental results demonstrate that TF-MoE consistently improves separation performance under computation cost constraints, outperforming BSRNN by +3.8 dB SDR on Libri2Mix with comparable 4.1 GMACs/s inference cost. This positions TF-MoE as a promising candidate for edge-device deployment.",
+      "authors": [
+        "Qinzhe Hu",
+        "Chenda Li",
+        "Wangyou Zhang",
+        "Shujie Liu",
+        "Yan Lu",
+        "Yanmin Qian"
+      ],
+      "primary_category": "cs.SD",
+      "categories": [
+        "cs.SD",
+        "cs.AI"
+      ],
+      "published": "2026-06-28T19:37:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.29575v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "sparse MoE for efficient inference in speech separation",
+      "llm_evidence_cn": "稀疏混合专家用于语音分离的高效推理",
+      "llm_evidence": "稀疏混合专家用于语音分离的高效推理",
+      "canonical_evidence": "稀疏混合专家用于语音分离的高效推理",
+      "llm_tldr_en": "Proposes TF-MoE, a sparse MoE framework that enhances model capacity without increasing inference cost, relevant to efficient MoE inference.",
+      "llm_tldr_cn": "语音分离任务中紧凑前端模型计算成本仍较高，该论文提出TF-MoE，通过交替时域和频域的门控专家选择，在不增加推理开销的情况下提升模型容量。在低计算设置下取得优异分离性能，展示了MoE在高效推理中的潜力，但未涉及量化或群组核优化。",
+      "llm_tldr": "语音分离任务中紧凑前端模型计算成本仍较高，该论文提出TF-MoE，通过交替时域和频域的门控专家选择，在不增加推理开销的情况下提升模型容量。在低计算设置下取得优异分离性能，展示了MoE在高效推理中的潜力，但未涉及量化或群组核优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.28516v1",
+      "source": "arxiv",
+      "title": "CLEAR-MoE: Shared-Basis Expert Extraction from Frozen Vision Transformers via Calibration-Driven Layer Selection",
+      "abstract": "We present CLEAR-MoE, a four-phase post-training pipeline that converts a frozen pretrained Vision Transformer (ViT) into a sparse Mixture-of-Experts (MoE) model without updating backbone weights. The pipeline (i) scores feed-forward network (FFN) layers by sparsity, clusterability, and output sensitivity; (ii) decomposes selected layers into a shared low-rank SVD basis and per-cluster residual experts using k-means clustering; (iii) trains lightweight routers supervised by cluster labels; and (iv) dispatches tokens through pluggable CUDA backends. On Imagenette with DeiT-Small, CLEAR-MoE retains 99.9% of the dense model's accuracy (86.70 +/- 0.02% versus 86.73%). Extensive ablation studies reveal a consistent empirical finding: the shared SVD basis is the primary factor responsible for preserving accuracy. Random routing, learned routing, and three different router architectures produce nearly identical performance, with accuracy varying by at most 0.06 percentage points (86.62%-86.68%). Accuracy also remains stable across different SVD ranks, expert counts (2-8), calibration set sizes (50-500), and random seeds. This behavior generalizes across five ViT backbones (DeiT-Tiny, DeiT-Small, DeiT-Base, ViT-Small, and ViT-Base), covering models from 5.7M to 86.6M parameters, with accuracy differences <= 0.10 percentage points from their dense counterparts. On a GTX 960 GPU, routing and scatter-gather overhead make the CLEAR-MoE FFN 1.3-1.7x slower than the dense implementation. A dispatch microbenchmark further shows that routing is an order of magnitude more memory-bound than expert matrix multiplications, identifying fused dispatch kernels as a promising direction for future optimization.",
+      "authors": [
+        "Md Irtiza Hossain",
+        "Humaira Ayesha",
+        "Junaid Ahmed Sifat"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.DC"
+      ],
+      "published": "2026-06-26T18:12:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.28516v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Group kernel extraction via shared-basis and clustering for ViT-to-MoE conversion",
+      "llm_evidence_cn": "通过共享基和聚类提取组核用于视觉Transformer转MoE",
+      "llm_evidence": "通过共享基和聚类提取组核用于视觉Transformer转MoE",
+      "canonical_evidence": "通过共享基和聚类提取组核用于视觉Transformer转MoE",
+      "llm_tldr_en": "CLEAR-MoE converts frozen ViT to sparse MoE by extracting shared-basis experts and cluster-based group kernels, enabling efficient inference with pluggable CUDA backends.",
+      "llm_tldr_cn": "将冻结的视觉Transformer（ViT）转换为稀疏MoE模型，通过校准驱动的层选择、低秩SVD共享基分解和k-means聚类提取分组专家核，并训练轻量路由器。在Imagenette上保留99.9%精度，支持可插拔CUDA后端，为组核优化提供了可迁移方法。",
+      "llm_tldr": "将冻结的视觉Transformer（ViT）转换为稀疏MoE模型，通过校准驱动的层选择、低秩SVD共享基分解和k-means聚类提取分组专家核，并训练轻量路由器。在Imagenette上保留99.9%精度，支持可插拔CUDA后端，为组核优化提供了可迁移方法。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.27748v1",
+      "source": "arxiv",
+      "title": "Flexformer: Flexible Linear Transformer with Learnable Attention Kernel",
+      "abstract": "Transformer models rely on attention mechanism to capture long-range dependencies but suffer from quadratic complexity, limiting their scalability to long sequences. Kernel-based linear attention reduces this complexity but typically relies on fixed or weakly learnable kernels, restricting expressiveness and performance. In this work, we propose Flexformer, a flexible linear Transformer that learns attention kernels in a fully data-driven manner. Flexformer builds on random Fourier feature-based linear attention and treats spectral frequencies as trainable parameters, enabling the model to learn a broad family of attention kernels.   We develop both stationary and nonstationary variants, with the latter offering strictly greater expressiveness.   Extensive experiments on language modeling and sequence classification demonstrate that Flexformer consistently outperforms baselines. Moreover, Flexformer can be effectively distilled from pretrained Transformers to recover softmax attention and exhibits strong kernel transferability across domains, achieving both high efficiency and competitive performance on long-sequence tasks.",
+      "authors": [
+        "Haoran Zhang",
+        "Feng Zhou"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-26T06:08:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.27748v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learnable attention kernel for linear Transformers",
+      "llm_evidence_cn": "可学习注意力核用于线性Transformer",
+      "llm_evidence": "可学习注意力核用于线性Transformer",
+      "canonical_evidence": "可学习注意力核用于线性Transformer",
+      "llm_tldr_en": "Proposes Flexformer with learnable kernel to improve expressiveness of linear attention, relevant to kernel optimization.",
+      "llm_tldr_cn": "Transformer模型由于二次复杂度难以处理长序列，该工作提出Flexformer，通过将频谱频率作为可训练参数，使线性注意力中的核函数可学习，从而提升模型表达能力。实验表明Flexformer在多个序列任务上超越固定核线性Transformer，为非MoE场景下的核优化提供了新思路。",
+      "llm_tldr": "Transformer模型由于二次复杂度难以处理长序列，该工作提出Flexformer，通过将频谱频率作为可训练参数，使线性注意力中的核函数可学习，从而提升模型表达能力。实验表明Flexformer在多个序列任务上超越固定核线性Transformer，为非MoE场景下的核优化提供了新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.27748v2",
+      "source": "arxiv",
+      "title": "Flexformer: Flexible Linear Transformer with Learnable Attention Kernel",
+      "abstract": "Transformer models rely on attention mechanism to capture long-range dependencies but suffer from quadratic complexity, limiting their scalability to long sequences. Kernel-based linear attention reduces this complexity but typically relies on fixed or weakly learnable kernels, restricting expressiveness and performance. In this work, we propose Flexformer, a flexible linear Transformer that learns attention kernels in a fully data-driven manner. Flexformer builds on random Fourier feature-based linear attention and treats spectral frequencies as trainable parameters, enabling the model to learn a broad family of attention kernels.   We develop both stationary and nonstationary variants, with the latter offering strictly greater expressiveness.   Extensive experiments on language modeling and sequence classification demonstrate that Flexformer consistently outperforms baselines. Moreover, Flexformer can be effectively distilled from pretrained Transformers to recover softmax attention and exhibits strong kernel transferability across domains, achieving both high efficiency and competitive performance on long-sequence tasks.",
+      "authors": [
+        "Haoran Zhang",
+        "Feng Zhou"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-26T06:08:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.27748v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learnable attention kernel for linear Transformers",
+      "llm_evidence_cn": "可学习注意力核用于线性Transformer",
+      "llm_evidence": "可学习注意力核用于线性Transformer",
+      "canonical_evidence": "可学习注意力核用于线性Transformer",
+      "llm_tldr_en": "Proposes Flexformer with learnable kernel to improve expressiveness of linear attention, relevant to kernel optimization.",
+      "llm_tldr_cn": "Transformer模型由于二次复杂度难以处理长序列，该工作提出Flexformer，通过将频谱频率作为可训练参数，使线性注意力中的核函数可学习，从而提升模型表达能力。实验表明Flexformer在多个序列任务上超越固定核线性Transformer，为非MoE场景下的核优化提供了新思路。",
+      "llm_tldr": "Transformer模型由于二次复杂度难以处理长序列，该工作提出Flexformer，通过将频谱频率作为可训练参数，使线性注意力中的核函数可学习，从而提升模型表达能力。实验表明Flexformer在多个序列任务上超越固定核线性Transformer，为非MoE场景下的核优化提供了新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
