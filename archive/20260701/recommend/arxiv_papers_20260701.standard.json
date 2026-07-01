@@ -1,0 +1,140 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-01T21:39:24.379976+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.29575v2",
+      "source": "arxiv",
+      "title": "TF-MoE: Time-Frequency Mixture-of-Experts for Efficient Speech Separation",
+      "abstract": "Recent advances in speech separation (SS) have led to compact front-end models with small parameter sizes, yet their high computational cost remains a major barrier for deployment on edge devices. To address this, we propose TF-MoE, a sparse Mixture-of-Experts (MoE) framework that enhances model capacity with almost no increase in inference cost. Our method introduces dynamic expert specialization in time and frequency dimensions through alternating time-wise and frequency-wise MoE modules, each dynamically selecting experts per frame or mel band. Built upon a mel-band-splitting Conformer backbone, TF-MoE achieves strong performance on SS tasks under low-compute settings. Experimental results demonstrate that TF-MoE consistently improves separation performance under computation cost constraints, outperforming BSRNN by +3.8 dB SDR on Libri2Mix with comparable 4.1 GMACs/s inference cost. This positions TF-MoE as a promising candidate for edge-device deployment.",
+      "authors": [
+        "Qinzhe Hu",
+        "Chenda Li",
+        "Wangyou Zhang",
+        "Shujie Liu",
+        "Yan Lu",
+        "Yanmin Qian"
+      ],
+      "primary_category": "cs.SD",
+      "categories": [
+        "cs.SD",
+        "cs.AI"
+      ],
+      "published": "2026-06-28T19:37:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.29575v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "MoE framework for low-cost inference",
+      "llm_evidence_cn": "用于低推理成本的MoE框架",
+      "llm_evidence": "用于低推理成本的MoE框架",
+      "canonical_evidence": "用于低推理成本的MoE框架",
+      "llm_tldr_en": "TF-MoE proposes a sparse Mixture-of-Experts framework for speech separation that enhances model capacity with almost no increase in inference cost by introducing dynamic expert specialization in time and frequency dimensions.",
+      "llm_tldr_cn": "现有语音分离模型虽小但计算成本高，难以部署在边缘设备。本文提出TF-MoE，一种稀疏MoE框架，通过交替时间维和频率维的MoE模块动态选择专家，在不增加推理成本的前提下大幅提升模型容量。实验表明在低计算场景下性能优异。该工作为MoE的高效推理提供了新思路。",
+      "llm_tldr": "现有语音分离模型虽小但计算成本高，难以部署在边缘设备。本文提出TF-MoE，一种稀疏MoE框架，通过交替时间维和频率维的MoE模块动态选择专家，在不增加推理成本的前提下大幅提升模型容量。实验表明在低计算场景下性能优异。该工作为MoE的高效推理提供了新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.31413v1",
+      "source": "arxiv",
+      "title": "Learning to Select, Not Relearn: Hard-Routed Mixtures of Reasoning LoRAs",
+      "abstract": "Composing independently trained LoRA adapters into a single large language model is useful for multi-domain adaptation, especially when the original training data cannot be shared. A common approach is to use MoE-style routing over LoRA experts, but for frozen pretrained adapters, soft weighted combinations can change the unit-scale additive update under which each LoRA module was originally trained. We propose \\textbf{Hard-Routed MoR-LoRA}, a two-stage framework for composing frozen reasoning LoRA experts through unit-scale hard selection. First, domain-specific LoRA adapters are trained independently using reinforcement learning from verifiable feedback to obtain reasoning experts. Then, all experts are frozen, reasoning traces are distilled from them, and only a lightweight shared router together with a small attention LoRA is trained for integration. The router selects exactly one expert per token using hard top-1 routing, while a straight-through estimator enables gradient-based training. Experiments across five benchmarks, multiple model scales, and additional model families show that Hard-Routed MoR-LoRA preserves expert behavior while requiring substantially fewer trainable parameters than soft-routing mixture baselines. Our analysis further shows that normalized soft mixtures often concentrate most routing mass on a single expert, suggesting that hard unit-scale routing provides a simple and efficient abstraction for frozen LoRA expert composition.",
+      "authors": [
+        "Seyed Alireza Molavi",
+        "Zhan Su",
+        "Yan Hu",
+        "Peyman Sheikholharam Mashhadi",
+        "Stefan Byttner",
+        "Prayag Tiwari"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-06-30T09:40:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.31413v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "hard-routed MoE for efficient inference with frozen LoRA experts",
+      "llm_evidence_cn": "硬路由MoE实现冻结LoRA专家高效推理",
+      "llm_evidence": "硬路由MoE实现冻结LoRA专家高效推理",
+      "canonical_evidence": "硬路由MoE实现冻结LoRA专家高效推理",
+      "llm_tldr_en": "Proposes Hard-Routed MoR-LoRA for composing frozen reasoning LoRA experts via unit-scale hard selection, improving inference efficiency without retraining.",
+      "llm_tldr_cn": "针对独立训练LoRA适配器组合时软加权破坏原训练尺度的问题，提出硬路由MoR-LoRA框架：先通过强化学习训练领域特定推理LoRA专家，再冻结所有专家并利用硬选择蒸馏推理轨迹。该方法在保持性能的同时提升推理效率，避免重新训练。",
+      "llm_tldr": "针对独立训练LoRA适配器组合时软加权破坏原训练尺度的问题，提出硬路由MoR-LoRA框架：先通过强化学习训练领域特定推理LoRA专家，再冻结所有专家并利用硬选择蒸馏推理轨迹。该方法在保持性能的同时提升推理效率，避免重新训练。",
+      "llm_tags": [
+        "query:moe-gk-quant:composite"
+      ],
+      "matched_query_tag": "query:moe-gk-quant:composite",
+      "matched_query_text": "Papers central to MoE 推理，带有 group kernel 和量化, especially work that connects or combines: efficient mixture of experts inference techniques; group kernel optimization for transformer models; weight quantization for large language models; grouped kernel decoding for moe models; quantized mixture of experts model inference; efficient inference for mixture of experts models using group kernel and quantization; kernel fusion techniques for grouped expert computation in MoE; quantized mixture of experts inference with group kernel optimization.",
+      "matched_requirement_id": "req-composite-moe-gk-quant",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31519v1",
+      "source": "arxiv",
+      "title": "RaBitQCache: Rotated Binary Quantization for KVCache in Long Context LLM Inference",
+      "abstract": "Long-context Large Language Model inference is severely bottlenecked by the massive Key-Value (KV) cache, yet existing sparse attention methods often suffer from static fixed-budget (Top-k) retrieval or rely on proxy scores that are computationally expensive and biased. To address these limitations, we propose RaBitQCache, a novel sparse attention framework that utilizes randomized rotated binary quantization and high-throughput binary-INT4 arithmetic to efficiently estimate attention weights. Our proxy score serves as an unbiased estimator with a proven error bound, enabling adaptive Top-p retrieval that dynamically adjusts the token budget based on actual attention sparsity. We further implement a hardware-aware system with asynchronous pipelining and lazy updates to mask overhead. Evaluations demonstrate that RaBitQCache significantly accelerates inference and reduces memory I/O while preserving generation quality compared to state-of-the-art baselines. Code is available at https://github.com/Sakuraaa0/RaBitQCache.git.",
+      "authors": [
+        "Wenhao Li",
+        "Jinhao Dong",
+        "Hailin Zhang",
+        "Wenhang Shi",
+        "Wei Lu",
+        "Xiaoyong Du"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-06-30T11:32:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.31519v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Rotated binary quantization for KV cache in LLM inference",
+      "llm_evidence_cn": "针对LLM推理的KV缓存旋转二值量化",
+      "llm_evidence": "针对LLM推理的KV缓存旋转二值量化",
+      "canonical_evidence": "针对LLM推理的KV缓存旋转二值量化",
+      "llm_tldr_en": "Proposes RaBitQCache, a sparse attention framework using rotated binary quantization and binary-INT4 arithmetic to efficiently estimate attention weights for long-context LLM inference.",
+      "llm_tldr_cn": "长上下文LLM推理受限于庞大KV缓存，现有稀疏注意力方法静态且计算昂贵。提出RaBitQCache，利用旋转二值量化和高速二进制-INT4算术，实现无偏注意力权重估计，支持自适应Top-p检索。硬件感知系统异步流水线化，在长序列上显著加速推理，同时保持精度。",
+      "llm_tldr": "长上下文LLM推理受限于庞大KV缓存，现有稀疏注意力方法静态且计算昂贵。提出RaBitQCache，利用旋转二值量化和高速二进制-INT4算术，实现无偏注意力权重估计，支持自适应Top-p检索。硬件感知系统异步流水线化，在长序列上显著加速推理，同时保持精度。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
