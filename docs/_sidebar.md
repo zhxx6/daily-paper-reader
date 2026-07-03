@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-03 <!--dpr-date:20260703-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/03/2607.01710v1-generic-expert-coverage-for-pruning-sparsemixture-of-experts-language-models" data-sidebar-item="{&quot;title&quot;: &quot;Generic Expert Coverage for Pruning SparseMixture-of-Experts Language Models&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.01710v1-generic-expert-coverage-for-pruning-sparsemixture-of-experts-language-models&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;通过剪枝专家降低MoE推理成本&quot;}">Generic Expert Coverage for Pruning SparseMixture-of-Experts Language Models</a>
   * 2026-07-02 <!--dpr-date:20260702-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/02/2607.01127v1-textlogtextbquant-quantizing-language-models-in-logarithmic-space" data-sidebar-item="{&quot;title&quot;: &quot;$\\text{Log}_\\text{b}$Quant: Quantizing Language Models in Logarithmic Space&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.01127v1-textlogtextbquant-quantizing-language-models-in-logarithmic-space&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;提出对数域量化方法提升语言模型推理效率&quot;}">$\text{Log}_\text{b}$Quant: Quantizing Language Models in Logarithmic Space</a>

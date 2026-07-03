@@ -1,0 +1,24 @@
+{
+  "label": "2026-07-03",
+  "date": "2026-07-03",
+  "generated_at": "2026-07-03T21:15:08",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202607/03/2607.01710v1-generic-expert-coverage-for-pruning-sparsemixture-of-experts-language-models",
+      "section": "quick",
+      "title_en": "Generic Expert Coverage for Pruning SparseMixture-of-Experts Language Models",
+      "authors": "Yongqin Zeng, Sicheng Pan, Jiale Wang, Hai-tao Zheng, Hong-Gee Kim, Chunxia Ma, XiuTeng Zhou",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.01710v1",
+      "score": "7.0",
+      "evidence": "通过剪枝专家降低MoE推理成本",
+      "tldr": "稀疏激活的混合专家语言模型在路由专家间存在结构化冗余，现有剪枝方法依赖单一次要分数，容易偏向主导校准模式。本文提出Generic TB-Coverage方法，利用通用文本语料WikiText2和C4进行校准，通过分别评估每个语料上的专家效用并强制执行固定预算覆盖规则，保留每个语料中的高效用专家。在Qwen1.5-MoE-A2.7B和DeepSeek-MoE-16B-Base上，25%、50%和75%保留预算下，模型在六个零样本基准上的平均准确率优于随机剪枝、REAP和ExpertSparsity，同时降低了困惑度退化。增益在激进剪枝（25%和50%保留）下最大，表明保留跨语料专家覆盖是一种有效的通用数据先验。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Sparsely activated Mixture-of-Experts (MoE) language models contain substantial structured redundancy among routed experts, but pruning them without downstream calibration data remains challenging. Existing expert-pruning methods typically rely on a single aggregated importance score, which can bias the retained set toward experts favored by dominant calibration patterns. We propose \\textbf{Generic TB-Coverage}, a coverage-aware expert pruning method that uses only generic text corpora (WikiText2 and C4) for calibration. Instead of collapsing expert utility into one score, our method profiles per-expert utility separately on each corpus and enforces a fixed-budget coverage rule that preserves high-utility experts from each corpus before constructing the final pruning mask. Across Qwen1.5-MoE-A2.7B and DeepSeek-MoE-16B-Base at 25\\%, 50\\%, and 75\\% retention budgets, our method improves average accuracy on six common zero-shot benchmarks over random pruning, REAP, and ExpertSparsity, while also reducing perplexity degradation on WikiText2 and C4. The gains are largest under aggressive pruning (25\\% and 50\\% retain), suggesting that preserving cross-corpus expert coverage is an effective generic-data prior for MoE pruning. Our improvements hold with fixed pruning budgets and no downstream calibration data.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

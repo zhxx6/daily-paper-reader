@@ -1,0 +1,58 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-03T21:14:35.904580+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.01710v1",
+      "source": "arxiv",
+      "title": "Generic Expert Coverage for Pruning SparseMixture-of-Experts Language Models",
+      "abstract": "Sparsely activated Mixture-of-Experts (MoE) language models contain substantial structured redundancy among routed experts, but pruning them without downstream calibration data remains challenging. Existing expert-pruning methods typically rely on a single aggregated importance score, which can bias the retained set toward experts favored by dominant calibration patterns. We propose \\textbf{Generic TB-Coverage}, a coverage-aware expert pruning method that uses only generic text corpora (WikiText2 and C4) for calibration. Instead of collapsing expert utility into one score, our method profiles per-expert utility separately on each corpus and enforces a fixed-budget coverage rule that preserves high-utility experts from each corpus before constructing the final pruning mask. Across Qwen1.5-MoE-A2.7B and DeepSeek-MoE-16B-Base at 25\\%, 50\\%, and 75\\% retention budgets, our method improves average accuracy on six common zero-shot benchmarks over random pruning, REAP, and ExpertSparsity, while also reducing perplexity degradation on WikiText2 and C4. The gains are largest under aggressive pruning (25\\% and 50\\% retain), suggesting that preserving cross-corpus expert coverage is an effective generic-data prior for MoE pruning. Our improvements hold with fixed pruning budgets and no downstream calibration data.",
+      "authors": [
+        "Yongqin Zeng",
+        "Sicheng Pan",
+        "Jiale Wang",
+        "Hai-tao Zheng",
+        "Hong-Gee Kim",
+        "Chunxia Ma",
+        "XiuTeng Zhou"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-02T05:02:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.01710v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "pruning experts to reduce MoE inference cost",
+      "llm_evidence_cn": "通过剪枝专家降低MoE推理成本",
+      "llm_evidence": "通过剪枝专家降低MoE推理成本",
+      "canonical_evidence": "通过剪枝专家降低MoE推理成本",
+      "llm_tldr_en": "Proposes Generic TB-Coverage, a coverage-aware expert pruning method for sparse MoE models that uses generic corpora to select high-utility experts, improving inference efficiency without downstream data.",
+      "llm_tldr_cn": "稀疏激活的混合专家语言模型存在冗余，但缺乏校准数据时剪枝困难。本文提出Generic TB-Coverage，一种覆盖感知的专家剪枝方法，利用通用语料库（WikiText2和C4）分别评估每个专家的效用，并强制执行固定预算覆盖规则以保留高效用专家。该方法避免了对单一校准模式的偏倚，在无需下游数据的情况下实现了有效的专家剪枝，从而提升模型推理效率。",
+      "llm_tldr": "稀疏激活的混合专家语言模型存在冗余，但缺乏校准数据时剪枝困难。本文提出Generic TB-Coverage，一种覆盖感知的专家剪枝方法，利用通用语料库（WikiText2和C4）分别评估每个专家的效用，并强制执行固定预算覆盖规则以保留高效用专家。该方法避免了对单一校准模式的偏倚，在无需下游数据的情况下实现了有效的专家剪枝，从而提升模型推理效率。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
