@@ -6,24 +6,27 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-03
-- 运行时间：2026-07-03 21:15:02 UTC
+- 最新运行日期：2026-07-04
+- 运行时间：2026-07-04 19:58:21 UTC
 - 运行状态：成功
-- 本次总论文数：1
+- 本次总论文数：2
 - 精读区：0
-- 速读区：1
+- 速读区：2
 
 ### 今日简报（AI）
-今日聚焦稀疏专家混合模型剪枝，速读一篇评分7.0的论文。该研究提出基于专家覆盖的剪枝策略，可有效压缩MoE语言模型。建议关注稀疏MoE模型在资源受限场景下的部署优化。
-- 详情：[/202607/03/README](/202607/03/README)
+今日精读2篇前沿论文：LLM量化后门防御方案FlipGuard与生物医学MoE模型剪枝的可靠性评估。结论：量化后门攻击可通过模型剪枝检测绕过，生物医学MoE轻量化后事实准确性下降显著。建议优先阅读FlipGuard的对抗性量化防御机制。
+- 详情：[/202607/04/README](/202607/04/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Generic Expert Coverage for Pruning SparseMixture-of-Experts Language Models](/202607/03/2607.01710v1-generic-expert-coverage-for-pruning-sparsemixture-of-experts-language-models)  
+1. [FlipGuard: Defending Large Language Models Against Quantization-Conditioned Backdoor Attacks](/202607/04/2606.28962v1-flipguard-defending-large-language-models-against-quantization-conditioned-backdoor-attacks)  
    标签：评分：7.0/10、query:moe-gk-quant
-   evidence：通过剪枝专家降低MoE推理成本
+   evidence：针对大语言模型量化条件下的后门攻击防御方法，涉及权重量化
+2. [On the Utility and Factual Reliability of Pruned Mixture-of-Experts Models in the Biomedical Domain](/202607/04/2607.01444v1-on-the-utility-and-factual-reliability-of-pruned-mixture-of-experts-models-in-the-biomedical-domain)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：评估剪枝MoE模型的实用性和可靠性
 
 
 <div class="dpr-home-promo-card">

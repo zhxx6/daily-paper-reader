@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-04",
+  "date": "2026-07-04",
+  "generated_at": "2026-07-04T19:58:29",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/04/2606.28962v1-flipguard-defending-large-language-models-against-quantization-conditioned-backdoor-attacks",
+      "section": "quick",
+      "title_en": "FlipGuard: Defending Large Language Models Against Quantization-Conditioned Backdoor Attacks",
+      "authors": "Aoying Zheng, Anqi Du, Zizhuang Deng, Yuxuan Chen",
+      "date": "2026-06-27",
+      "pdf": "https://arxiv.org/pdf/2606.28962v1",
+      "score": "7.0",
+      "evidence": "针对大语言模型量化条件下的后门攻击防御方法，涉及权重量化",
+      "tldr": "量化条件后门攻击（QCB）利用模型量化过程激活隐藏恶意行为，绕过安全审计。本文提出FlipGuard防御框架，通过量化前扰动权重打破攻击者预设的权重与量化边界对齐，无需依赖训练数据或触发样本。实验表明，FlipGuard在7种大语言模型（如StarCoder、LLaMA系列）和INT8/FP4/NF4量化方案下，有效抑制了代码生成、内容注入等三类攻击场景，且性能损失极小。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Model quantization is essential for the efficient deployment of Large Language Models (LLMs), but introduces a critical vulnerability: Quantization-Conditioned Backdoor (QCB) attacks. In these attacks, malicious behaviors remain dormant in full-precision models and activate only after specific quantization distortions, bypassing standard security audits. To mitigate this, we introduce FlipGuard, a proactive defense framework that selectively perturbs model weights prior to quantization. By breaking the adversary's precise alignment between weight patterns and quantization boundaries, FlipGuard suppresses backdoor activation without requiring access to training data or trigger samples. We further propose the Defense Effectiveness Ratio (DER), a unified metric to jointly evaluate security gains, utility preservation, and computational cost. Extensive experiments across seven LLMs (including StarCoder and LLaMA-family models) and three quantization schemes (INT8, FP4, NF4) demonstrate that FlipGuard effectively neutralizes QCBs across three scenarios, i.e., vulnerable code generation, content injection, and over-refusal, achieving high security with negligible performance degradation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/04/2607.01444v1-on-the-utility-and-factual-reliability-of-pruned-mixture-of-experts-models-in-the-biomedical-domain",
+      "section": "quick",
+      "title_en": "On the Utility and Factual Reliability of Pruned Mixture-of-Experts Models in the Biomedical Domain",
+      "authors": "Atsuki Yamaguchi, Szymon Palucha, Léo Bijar, Aline Villavicencio, Nikolaos Aletras",
+      "date": "2026-07-01",
+      "pdf": "https://arxiv.org/pdf/2607.01444v1",
+      "score": "7.0",
+      "evidence": "评估剪枝MoE模型的实用性和可靠性",
+      "tldr": "混合专家（MoE）模型内存需求高，专家剪枝可降低部署成本但影响事实可靠性。本文系统评估了四个MoE模型、六种剪枝方法在生物医学和通用领域的效用与可靠性。结果显示适度剪枝保持领域内性能且可靠性未降，但极端剪枝增加幻觉风险；跨领域时两者均快速退化。研究表明安全压缩依赖任务和领域，仅凭效用评估不足以用于高风险场景。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models offer inference speedups via selective activation but impose substantial memory requirements because the whole network must remain loaded. Structured expert pruning is a practical approach for reducing deployment costs in resource-constrained settings. However, prior studies primarily evaluate benchmark utility, leaving the effect of pruning on factual reliability underexplored, particularly in high-stakes domains such as biomedicine. In this paper, we investigate how domain-specific expert pruning affects both utility and reliability. We assess four MoE models, six pruning methods, and multiple pruning ratios across generation and classification tasks under in-domain (biomedical) and cross-domain settings. Results reveal that moderate pruning preserves in-domain utility without immediate reliability decline, although hallucination risks increase at extreme pruning ratios. When shifting to the general domain, both utility and reliability degrade rapidly. These findings indicate that safe compression depends heavily on the task and domain. Evaluating pruned MoE models solely on utility is inadequate for high-stakes deployment without reliability assessment.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,96 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-04T19:56:53.976142+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.28962v1",
+      "source": "arxiv",
+      "title": "FlipGuard: Defending Large Language Models Against Quantization-Conditioned Backdoor Attacks",
+      "abstract": "Model quantization is essential for the efficient deployment of Large Language Models (LLMs), but introduces a critical vulnerability: Quantization-Conditioned Backdoor (QCB) attacks. In these attacks, malicious behaviors remain dormant in full-precision models and activate only after specific quantization distortions, bypassing standard security audits. To mitigate this, we introduce FlipGuard, a proactive defense framework that selectively perturbs model weights prior to quantization. By breaking the adversary's precise alignment between weight patterns and quantization boundaries, FlipGuard suppresses backdoor activation without requiring access to training data or trigger samples. We further propose the Defense Effectiveness Ratio (DER), a unified metric to jointly evaluate security gains, utility preservation, and computational cost. Extensive experiments across seven LLMs (including StarCoder and LLaMA-family models) and three quantization schemes (INT8, FP4, NF4) demonstrate that FlipGuard effectively neutralizes QCBs across three scenarios, i.e., vulnerable code generation, content injection, and over-refusal, achieving high security with negligible performance degradation.",
+      "authors": [
+        "Aoying Zheng",
+        "Anqi Du",
+        "Zizhuang Deng",
+        "Yuxuan Chen"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
+      "published": "2026-06-27T15:02:42+00:00",
+      "link": "https://arxiv.org/pdf/2606.28962v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "defends LLMs against quantization-conditioned backdoor attacks related to weight quantization",
+      "llm_evidence_cn": "针对大语言模型量化条件下的后门攻击防御方法，涉及权重量化",
+      "llm_evidence": "针对大语言模型量化条件下的后门攻击防御方法，涉及权重量化",
+      "canonical_evidence": "针对大语言模型量化条件下的后门攻击防御方法，涉及权重量化",
+      "llm_tldr_en": "FlipGuard proactively perturbs model weights prior to quantization to defend against quantization-conditioned backdoor attacks in LLMs, without needing training data.",
+      "llm_tldr_cn": "大语言模型量化部署存在量化条件后门攻击隐患，攻击行为在量化后激活。本文提出FlipGuard防御框架，在量化前主动扰动模型权重，破坏攻击者预设的权重模式与量化边界对齐，无需训练数据即可有效抑制后门激活。实验表明该防御在保持模型性能的同时显著降低攻击成功率，为LLM安全量化部署提供了新方案。",
+      "llm_tldr": "大语言模型量化部署存在量化条件后门攻击隐患，攻击行为在量化后激活。本文提出FlipGuard防御框架，在量化前主动扰动模型权重，破坏攻击者预设的权重模式与量化边界对齐，无需训练数据即可有效抑制后门激活。实验表明该防御在保持模型性能的同时显著降低攻击成功率，为LLM安全量化部署提供了新方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.01444v1",
+      "source": "arxiv",
+      "title": "On the Utility and Factual Reliability of Pruned Mixture-of-Experts Models in the Biomedical Domain",
+      "abstract": "Mixture-of-Experts (MoE) models offer inference speedups via selective activation but impose substantial memory requirements because the whole network must remain loaded. Structured expert pruning is a practical approach for reducing deployment costs in resource-constrained settings. However, prior studies primarily evaluate benchmark utility, leaving the effect of pruning on factual reliability underexplored, particularly in high-stakes domains such as biomedicine. In this paper, we investigate how domain-specific expert pruning affects both utility and reliability. We assess four MoE models, six pruning methods, and multiple pruning ratios across generation and classification tasks under in-domain (biomedical) and cross-domain settings. Results reveal that moderate pruning preserves in-domain utility without immediate reliability decline, although hallucination risks increase at extreme pruning ratios. When shifting to the general domain, both utility and reliability degrade rapidly. These findings indicate that safe compression depends heavily on the task and domain. Evaluating pruned MoE models solely on utility is inadequate for high-stakes deployment without reliability assessment.",
+      "authors": [
+        "Atsuki Yamaguchi",
+        "Szymon Palucha",
+        "Léo Bijar",
+        "Aline Villavicencio",
+        "Nikolaos Aletras"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-01T20:08:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.01444v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "evaluates pruned MoE models for utility and reliability",
+      "llm_evidence_cn": "评估剪枝MoE模型的实用性和可靠性",
+      "llm_evidence": "评估剪枝MoE模型的实用性和可靠性",
+      "canonical_evidence": "评估剪枝MoE模型的实用性和可靠性",
+      "llm_tldr_en": "Investigates how domain-specific expert pruning affects both utility and factual reliability in four MoE models across biomedical tasks, revealing trade-offs between efficiency and trustworthiness.",
+      "llm_tldr_cn": "在生物医学等高危领域，MoE模型的结构化专家剪枝虽然能降低部署成本，但以往只关注基准效用，忽视了事实可靠性。本文系统评估了四种MoE模型、六种剪枝方法和多种剪枝比例在生成与分类任务上的表现，发现剪枝后模型在保持效用的同时可能损害事实正确性。这为MoE模型在实际部署中的权衡提供了重要指导，尤其适用于资源敏感且需要可靠输出的场景。",
+      "llm_tldr": "在生物医学等高危领域，MoE模型的结构化专家剪枝虽然能降低部署成本，但以往只关注基准效用，忽视了事实可靠性。本文系统评估了四种MoE模型、六种剪枝方法和多种剪枝比例在生成与分类任务上的表现，发现剪枝后模型在保持效用的同时可能损害事实正确性。这为MoE模型在实际部署中的权衡提供了重要指导，尤其适用于资源敏感且需要可靠输出的场景。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
