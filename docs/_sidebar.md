@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-05 <!--dpr-date:20260705-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/05/2607.01566v1-h-sage-holistic-speaker-aware-guided-experts-for-moe-based-multi-talker-asr" data-sidebar-item="{&quot;title&quot;: &quot;H-SAGE: Holistic Speaker-Aware Guided Experts for MoE-based Multi-Talker ASR&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.01566v1-h-sage-holistic-speaker-aware-guided-experts-for-moe-based-multi-talker-asr&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;提出基于MoE的语音识别改进路由，与高效MoE推理技术相关&quot;}">H-SAGE: Holistic Speaker-Aware Guided Experts for MoE-based Multi-Talker ASR</a>
   * 2026-07-04 <!--dpr-date:20260704-->
     * 速读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/04/2606.28962v1-flipguard-defending-large-language-models-against-quantization-conditioned-backdoor-attacks" data-sidebar-item="{&quot;title&quot;: &quot;FlipGuard: Defending Large Language Models Against Quantization-Conditioned Backdoor Attacks&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2606.28962v1-flipguard-defending-large-language-models-against-quantization-conditioned-backdoor-attacks&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;针对大语言模型量化条件下的后门攻击防御方法，涉及权重量化&quot;}">FlipGuard: Defending Large Language Models Against Quantization-Conditioned Backdoor Attacks</a>

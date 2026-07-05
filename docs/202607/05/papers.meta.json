@@ -1,0 +1,24 @@
+{
+  "label": "2026-07-05",
+  "date": "2026-07-05",
+  "generated_at": "2026-07-05T21:11:08",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202607/05/2607.01566v1-h-sage-holistic-speaker-aware-guided-experts-for-moe-based-multi-talker-asr",
+      "section": "quick",
+      "title_en": "H-SAGE: Holistic Speaker-Aware Guided Experts for MoE-based Multi-Talker ASR",
+      "authors": "Yujie Guo, Jiaming Zhou, Yuhang Jia, Yang chen, Yong Qin",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.01566v1",
+      "score": "6.0",
+      "evidence": "提出基于MoE的语音识别改进路由，与高效MoE推理技术相关",
+      "tldr": "多说话人语音识别在高重叠场景下面临挑战。现有基于混合专家模型的方法因帧独立路由导致时间短视，且仅依赖ASR目标造成表征学习不充分。本文提出H-SAGE，通过说话人感知全局编码器捕获长期依赖，引入重叠感知损失显式引导声学状态判别，并设计整体门控机制融合全局与局部信息。在LibriSpeechMix上，H-SAGE持续超越强基线，尤其在复杂条件下性能提升显著，验证了显式声学指导对专家协作的有效性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Multi-talker Automatic Speech Recognition (MTASR) faces significant challenges in accurately transcribing overlapping speech, particularly under complex high-overlap conditions. While recent Mixture-of-Experts (MoE) approaches have shown promise, they typically rely on frame-independent routing that leads to temporal myopia, and depend solely on the downstream ASR objective, which results in implicit and ungrounded representation learning. To address these limitations, we propose Holistic Speaker-Aware Guided Experts (H-SAGE) for MoE-based MTASR. Specifically, we introduce a Speaker-Aware Global Encoder to capture long-term dependencies, supervised by an auxiliary Overlap-Aware Loss that explicitly guides the model to discern acoustic states. Furthermore, we design a Holistic Gating Mechanism to arbitrate expert selection by jointly evaluating global context and local details. Experiments on LibriSpeechMix demonstrate that H-SAGE achieves consistent improvements over strong baselines, particularly in complex scenarios, validating that explicit acoustic guidance effectively enhances expert collaboration. Our code can be found at https://github.com/NKU-HLT/H-SAGE.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
