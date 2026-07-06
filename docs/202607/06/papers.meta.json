@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-06",
+  "date": "2026-07-06",
+  "generated_at": "2026-07-06T20:50:48",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/06/2607.01789v1-epng-adaptive-expert-prune-and-grow-for-parameter-efficient-moe-fine-tuning",
+      "section": "quick",
+      "title_en": "EPnG: Adaptive Expert Prune-and-Grow for Parameter-Efficient MoE Fine-tuning",
+      "authors": "Ahin Lee, Sehyun Yun, Taesik Gong",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.01789v1",
+      "score": "7.0",
+      "evidence": "自适应专家剪枝与增长用于高效MoE微调",
+      "tldr": "MoE模型微调常因冗余专家和均匀参数分配导致成本高、效率低。现有PEFT方法如LoRA未利用路由动态，造成资源浪费。EPnG提出自适应剪枝与增长框架，根据门控概率评估专家重要性，剪枝低利用专家并通过正交初始化增长高重要专家LoRA秩，维持固定参数预算。在OLMoE和Qwen1.5-MoE上，EPnG仅更新0.55%-0.72%参数即达到全微调性能，显著优于LoRA。该方法将PEFT与MoE路由对齐，实现了高效、可扩展的微调策略。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models scale efficiently but remain costly to adapt due to redundant experts and uniform parameter allocation. Existing parameter-efficient fine-tuning (PEFT) methods such as LoRA ignore MoE routing dynamics, leading to suboptimal resource use. We propose EPnG, an adaptive prune-and-grow framework that reallocates LoRA capacity based on expert importance derived from router gate probabilities. EPnG prunes under-utilized experts and expands high-importance experts via rank growth with orthogonal initialization, while maintaining a fixed parameter budget. Across OLMoE and Qwen1.5-MoE, EPnG consistently outperforms LoRA under the same budget and achieves performance comparable to full fine-tuning while updating only 0.55%-0.72% of parameters (up to 140x-180x fewer). These results demonstrate that aligning PEFT with MoE routing yields a more effective and scalable fine-tuning strategy.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/06/2606.29581v1-the-joint-effect-of-quantization-and-sampling-temperature-on-llm-safety-alignment-a-factorial-analysis",
+      "section": "quick",
+      "title_en": "The Joint Effect of Quantization and Sampling Temperature on LLM Safety Alignment: A Factorial Analysis",
+      "authors": "Hari Prasad, Ritam Pal",
+      "date": "2026-06-28",
+      "pdf": "https://arxiv.org/pdf/2606.29581v1",
+      "score": "6.0",
+      "evidence": "研究权重量化对LLM安全的影响，与LLM权重量化相关",
+      "tldr": "现代LLM部署常使用量化和提高采样温度以降低成本，但安全评估未考虑两者联合影响。本文对9个模型进行3种精度和6种温度的因子实验，发现标准INT4/INT8量化通常保持安全对齐，而高温显著增加脆弱模型的决策不稳定性，且两者交互并非双重惩罚。结果表明强对齐模型可接受量化，但高温下需报告多样本稳定性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Modern LLM deployments routinely compress models and raise sampling temperature to reduce cost, latency, or repetition, yet safety evaluations usually treat these choices as fixed implementation details. This leaves a practical uncertainty: does a model that is safe at FP16 and greedy decoding remain safe after it is quantized and sampled stochastically, or do the two deployment knobs amplify one another? We study this question with a factorial evaluation of 9 instruction-tuned models from six families, 3 precisions (FP16, GPTQ INT8, AWQ INT4), and 6 temperatures ($T{=}0$ to $1.0$), yielding 161 configurations and $\\approx$322k responses judged by a six-model safety ensemble. Contrary to the concern that low-bit deployment broadly erodes alignment, standard non-adversarial quantization is usually safety-neutral: INT4 keeps or lowers attack success for 7 of 9 models, with clear degradation concentrated in the weakest baseline model, SmolLM3-3B ($18.5\\%{\\to}36.0\\%$). The larger risk comes from sampling: higher temperature sharply increases decision instability for vulnerable models, with DFR reaching 53.0\\% at $T{=}1.0$, even when average ASR changes modestly. Finally, the interaction is not a ``double penalty'': our Compound Degradation Index remains largely sub-additive ($-0.195$ to $+0.045$), indicating that quantization and temperature do not systematically compound. These results suggest a deployment rule of thumb: standard INT4/INT8 quantization can be reasonable for strongly aligned models, but safety claims at elevated temperature should report multi-sample stability, not only average attack success.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

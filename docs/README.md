@@ -6,26 +6,27 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-05
-- 运行时间：2026-07-05 21:11:03 UTC
+- 最新运行日期：2026-07-06
+- 运行时间：2026-07-06 20:50:41 UTC
 - 运行状态：成功
-- 本次总论文数：1
+- 本次总论文数：2
 - 精读区：0
-- 速读区：1
+- 速读区：2
 
 ### 今日简报（AI）
-今日关注了一篇基于MoE多说话人ASR的论文《H-SAGE》，提出说话人感知专家引导方法。  
-值得注意的方向是：利用专家路由策略增强多说话人语音分离与识别效果。  
-后续可尝试将说话人感知模块融入现有ASR系统，提升多人场景鲁棒性。
-- 详情：[/202607/05/README](/202607/05/README)
+今日速读2篇论文，涵盖高效MoE微调与LLM安全对齐。重点关注《EPnG》提出的自适应专家剪枝与增长方法，以及《量化与温度对安全对齐的联合效应》中的因子分析结果。建议进一步精读这两篇以了解模型压缩与安全调优的实用技巧。
+- 详情：[/202607/06/README](/202607/06/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [H-SAGE: Holistic Speaker-Aware Guided Experts for MoE-based Multi-Talker ASR](/202607/05/2607.01566v1-h-sage-holistic-speaker-aware-guided-experts-for-moe-based-multi-talker-asr)  
+1. [EPnG: Adaptive Expert Prune-and-Grow for Parameter-Efficient MoE Fine-tuning](/202607/06/2607.01789v1-epng-adaptive-expert-prune-and-grow-for-parameter-efficient-moe-fine-tuning)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：自适应专家剪枝与增长用于高效MoE微调
+2. [The Joint Effect of Quantization and Sampling Temperature on LLM Safety Alignment: A Factorial Analysis](/202607/06/2606.29581v1-the-joint-effect-of-quantization-and-sampling-temperature-on-llm-safety-alignment-a-factorial-analysis)  
    标签：评分：6.0/10、query:moe-gk-quant
-   evidence：提出基于MoE的语音识别改进路由，与高效MoE推理技术相关
+   evidence：研究权重量化对LLM安全的影响，与LLM权重量化相关
 
 
 <div class="dpr-home-promo-card">

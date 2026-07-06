@@ -1,0 +1,91 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-06T20:49:44.352737+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.01789v1",
+      "source": "arxiv",
+      "title": "EPnG: Adaptive Expert Prune-and-Grow for Parameter-Efficient MoE Fine-tuning",
+      "abstract": "Mixture-of-Experts (MoE) models scale efficiently but remain costly to adapt due to redundant experts and uniform parameter allocation. Existing parameter-efficient fine-tuning (PEFT) methods such as LoRA ignore MoE routing dynamics, leading to suboptimal resource use. We propose EPnG, an adaptive prune-and-grow framework that reallocates LoRA capacity based on expert importance derived from router gate probabilities. EPnG prunes under-utilized experts and expands high-importance experts via rank growth with orthogonal initialization, while maintaining a fixed parameter budget. Across OLMoE and Qwen1.5-MoE, EPnG consistently outperforms LoRA under the same budget and achieves performance comparable to full fine-tuning while updating only 0.55%-0.72% of parameters (up to 140x-180x fewer). These results demonstrate that aligning PEFT with MoE routing yields a more effective and scalable fine-tuning strategy.",
+      "authors": [
+        "Ahin Lee",
+        "Sehyun Yun",
+        "Taesik Gong"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-02T07:02:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.01789v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "adaptive expert prune-and-grow for efficient MoE fine-tuning",
+      "llm_evidence_cn": "自适应专家剪枝与增长用于高效MoE微调",
+      "llm_evidence": "自适应专家剪枝与增长用于高效MoE微调",
+      "canonical_evidence": "自适应专家剪枝与增长用于高效MoE微调",
+      "llm_tldr_en": "EPnG adaptively prunes under-utilized experts and grows high-importance ones via LoRA rank increase, improving MoE fine-tuning efficiency under fixed budget.",
+      "llm_tldr_cn": "针对MoE模型微调中专家冗余和资源分配不均的问题，提出EPnG框架，基于路由门控概率动态剪枝低重要性专家并扩展高重要性专家秩，在固定参数预算下提升微调效率。在OLMoE和Qwen1.5-MoE上优于LoRA，性能接近全量微调但仅更新0.55%参数。",
+      "llm_tldr": "针对MoE模型微调中专家冗余和资源分配不均的问题，提出EPnG框架，基于路由门控概率动态剪枝低重要性专家并扩展高重要性专家秩，在固定参数预算下提升微调效率。在OLMoE和Qwen1.5-MoE上优于LoRA，性能接近全量微调但仅更新0.55%参数。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.29581v1",
+      "source": "arxiv",
+      "title": "The Joint Effect of Quantization and Sampling Temperature on LLM Safety Alignment: A Factorial Analysis",
+      "abstract": "Modern LLM deployments routinely compress models and raise sampling temperature to reduce cost, latency, or repetition, yet safety evaluations usually treat these choices as fixed implementation details. This leaves a practical uncertainty: does a model that is safe at FP16 and greedy decoding remain safe after it is quantized and sampled stochastically, or do the two deployment knobs amplify one another? We study this question with a factorial evaluation of 9 instruction-tuned models from six families, 3 precisions (FP16, GPTQ INT8, AWQ INT4), and 6 temperatures ($T{=}0$ to $1.0$), yielding 161 configurations and $\\approx$322k responses judged by a six-model safety ensemble. Contrary to the concern that low-bit deployment broadly erodes alignment, standard non-adversarial quantization is usually safety-neutral: INT4 keeps or lowers attack success for 7 of 9 models, with clear degradation concentrated in the weakest baseline model, SmolLM3-3B ($18.5\\%{\\to}36.0\\%$). The larger risk comes from sampling: higher temperature sharply increases decision instability for vulnerable models, with DFR reaching 53.0\\% at $T{=}1.0$, even when average ASR changes modestly. Finally, the interaction is not a ``double penalty'': our Compound Degradation Index remains largely sub-additive ($-0.195$ to $+0.045$), indicating that quantization and temperature do not systematically compound. These results suggest a deployment rule of thumb: standard INT4/INT8 quantization can be reasonable for strongly aligned models, but safety claims at elevated temperature should report multi-sample stability, not only average attack success.",
+      "authors": [
+        "Hari Prasad",
+        "Ritam Pal"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-06-28T19:52:25+00:00",
+      "link": "https://arxiv.org/pdf/2606.29581v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "studies weight quantization effects on LLM safety, relevant to weight quantization for LLMs",
+      "llm_evidence_cn": "研究权重量化对LLM安全的影响，与LLM权重量化相关",
+      "llm_evidence": "研究权重量化对LLM安全的影响，与LLM权重量化相关",
+      "canonical_evidence": "研究权重量化对LLM安全的影响，与LLM权重量化相关",
+      "llm_tldr_en": "This paper studies the joint effect of quantization and sampling temperature on LLM safety alignment via a factorial evaluation of 9 models across 3 precisions and 6 temperatures, finding that low-bit quantization does not uniformly degrade safety but interacts with temperature.",
+      "llm_tldr_cn": "该论文通过因子分析探究了量化精度（FP16、INT8、INT4）与采样温度对LLM安全对齐的联合影响。在9个模型、161种配置下评估约32.2万条回复，发现低比特量化不统一降低安全性，而是与温度交互。研究为LLM部署中的量化与采样设置提供了安全视角的实证依据。",
+      "llm_tldr": "该论文通过因子分析探究了量化精度（FP16、INT8、INT4）与采样温度对LLM安全对齐的联合影响。在9个模型、161种配置下评估约32.2万条回复，发现低比特量化不统一降低安全性，而是与温度交互。研究为LLM部署中的量化与采样设置提供了安全视角的实证依据。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
