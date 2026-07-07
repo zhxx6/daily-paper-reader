@@ -1,0 +1,304 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-07T21:55:00.805718+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2607.02893v1",
+      "source": "arxiv",
+      "title": "Variable Bit-width Quantization: Learning Per-Group Precision for \"Bigger-but-Smaller\" Language Models",
+      "abstract": "Low-bit quantization shrinks language models but treats precision as a single global hyper-parameter: every weight uses the same bit-width. We introduce Variable Bit-width Quantization (VBQ), a training-time method in which each contiguous group of 64 weights learns its own resolution from {1,2,4,8} bits via a Gumbel-Softmax relaxation, trained jointly by an alternating optimization that gives the precision logits a clean, task-aligned signal. VBQ discovers a consistent, strongly heterogeneous allocation within individual projection types, not merely across layers, impossible to express with per-layer methods: 69% of groups collapse to 1 bit, the LM head averages 1.09 bits, while the first MLP block keeps ~2.5 bits. This pattern is stable enough to freeze into a fixed recipe and reuse without further search. The recipe yields a \"bigger-but-smaller\" regime: a 131M model at 1.82 mean bits reaches perplexity 4.2 on TinyStories, beating a 55M FP16 model (PPL 4.4) at 3.8x less storage, and lets a 1.46B model on FineWeb-Edu match a 593M FP16 control at ~3.7x less storage with 2.5x more parameters. As quality-per-byte, VBQ is 3.9-8.4x more efficient than FP16. The recipe maps directly to packed low-bit storage, so it also accelerates inference: with custom fused dequantize-and-multiply kernels, memory-bandwidth-bound autoregressive decode is faster at equal output, and the speedup grows with scale (parity at 131M, 1.9x at 1.0B, 4.7x at 9B on Apple silicon). A distributional analysis (KL divergence and argmax-flip rate) reveals a striking mechanism: deeper layers progressively self-heal the quantization error injected by early layers. The win is a from-scratch, train-time phenomenon; scaling the search economically beyond 1.5B parameters remains open. VBQ reframes precision as a learnable, non-uniform resource and shows that spending a fixed bit budget unevenly beats spending it uniformly.",
+      "authors": [
+        "Hamish Ogilvy"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-07-03T02:42:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.02893v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "per-group variable bit-width quantization for LLMs",
+      "llm_evidence_cn": "大语言模型每组变比特量化",
+      "llm_evidence": "大语言模型每组变比特量化",
+      "canonical_evidence": "大语言模型每组变比特量化",
+      "llm_tldr_en": "Proposes VBQ, a training-time method where each group of 64 weights learns its own bit-width from {1,2,4,8} via Gumbel-Softmax, achieving strongly heterogeneous allocation and high compression.",
+      "llm_tldr_cn": "该论文提出变比特量化(VBQ)，一种训练时方法，让每组64个权重通过Gumbel-Softmax从{1,2,4,8}比特中学习自己的精度，发现69%的组压缩到1比特，LM头平均1.09比特，而首个MLP块保持约2.5比特，实现了高度异构的比特分配，显著压缩模型。",
+      "llm_tldr": "该论文提出变比特量化(VBQ)，一种训练时方法，让每组64个权重通过Gumbel-Softmax从{1,2,4,8}比特中学习自己的精度，发现69%的组压缩到1比特，LM头平均1.09比特，而首个MLP块保持约2.5比特，实现了高度异构的比特分配，显著压缩模型。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04164v1",
+      "source": "arxiv",
+      "title": "BrownoutMoE: Structure-Aware Expert Grouping for Efficient and Accurate LLM Web-based Services",
+      "abstract": "Mixture-of-Experts (MoE) large language models (LLMs) are increasingly deployed in Web-facing services, where inference must be both accurate and responsive under bursty demand. Although MoE models improve parameter efficiency through sparse expert activation, efficient MoE inference remains challenging in practice. A major reason is the highly imbalanced expert access pattern during inference: a few hot experts process most routed tokens, while many cold experts are rarely activated, leaving GPU parallelism underutilized. Existing systems mainly optimize runtime execution, such as scheduling, communication overlap, and kernel fusion, but usually preserve the original expert organization and therefore do not address the structural inefficiency caused by fragmented expert usage. In this paper, we present \\textbf{BrownoutMoE}, a structure-aware optimization framework for efficient and accurate MoE inference services. Inspired by the brownout paradigm in service computing, BrownoutMoE reorganizes experts into groups to improve utilization and system efficiency while maintaining service quality. Specifically, we formulate layer-wise expert grouping as a learning problem and employ reinforcement learning to discover grouping strategies that minimize accuracy degradation. We further introduce a grouping-consistent distillation process to produce deployable models that are compatible with standard inference pipelines. Experimental results demonstrate that BrownoutMoE reduces accuracy degradation by up to 71.4% and improves throughput by up to 2.24x over baselines.",
+      "authors": [
+        "Yi Ding",
+        "Minxian Xu",
+        "Zhengxin Fang",
+        "Kejiang Ye",
+        "Chengzhong Xu"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-07-05T08:08:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.04164v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "structure-aware expert grouping for efficient MoE inference",
+      "llm_evidence_cn": "针对高效MoE推理的结构感知专家分组",
+      "llm_evidence": "针对高效MoE推理的结构感知专家分组",
+      "canonical_evidence": "针对高效MoE推理的结构感知专家分组",
+      "llm_tldr_en": "BrownoutMoE addresses efficient MoE inference by grouping experts based on access patterns, reducing GPU underutilization and improving accuracy under bursty demand.",
+      "llm_tldr_cn": "MoE大模型推理中专家访问不均衡导致GPU并行度低下。BrownoutMoE提出结构感知专家分组方法，根据路由统计将常共激活的专家组合，在保证准确率的同时提升推理吞吐量。实验表明该方法显著降低延迟并提高资源利用率，为MoE高效部署提供了实用方案。",
+      "llm_tldr": "MoE大模型推理中专家访问不均衡导致GPU并行度低下。BrownoutMoE提出结构感知专家分组方法，根据路由统计将常共激活的专家组合，在保证准确率的同时提升推理吞吐量。实验表明该方法显著降低延迟并提高资源利用率，为MoE高效部署提供了实用方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04244v1",
+      "source": "arxiv",
+      "title": "Quantize the Target, Quantize the Drafter: Efficient Inference with Qwen3.5-4B",
+      "abstract": "This report describes our approach to the Efficient Qwen Competition, where the goal is to enable low-latency serving of Qwen3.5-4B on a resource-constrained NVIDIA A10G GPU. Our system combines a quantized target model with speculative decoding. To recover accuracy, we apply quantization-aware distillation to the target model while retaining the original quantization grid. To speed up decoding, a block-diffusion drafter specialized for the quantized target model is trained using a two-stage procedure: first learning from the high-precision target and then adapting to the low-precision target. Because the drafter is invoked at every speculative decoding step, we further reduce its overhead with quantization and sliding-window attention, preserving draft-token acceptance while improving long-context decoding latency. As a result, our submission achieves a 6.978$\\times$ average speedup over the baseline while satisfying the required quality thresholds, ranking 3rd overall. We hope these results provide useful insights for practical LLM inference. The code and resources are available at https://github.com/nota-github/adaptfm-quant-dflash",
+      "authors": [
+        "Jaeyeon Kim",
+        "Jewon Lee",
+        "Bo-Kyeong Kim"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-05T11:44:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.04244v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "quantized LLM inference with distillation and speculative decoding",
+      "llm_evidence_cn": "量化目标模型与推测解码实现高效LLM推理",
+      "llm_evidence": "量化目标模型与推测解码实现高效LLM推理",
+      "canonical_evidence": "量化目标模型与推测解码实现高效LLM推理",
+      "llm_tldr_en": "This report presents a system combining quantized Qwen3.5-4B with speculative decoding and quantization-aware distillation to achieve low-latency serving on a resource-constrained GPU.",
+      "llm_tldr_cn": "现有大模型推理面临资源受限问题，本文提出量化目标模型与推测解码结合的方法，通过量化感知蒸馏恢复精度，并训练专门适配量化模型的block-diffusion草稿模型加速解码，同时利用量化和滑动窗口注意力降低开销，最终在NVIDIA A10G GPU上实现低延迟服务。",
+      "llm_tldr": "现有大模型推理面临资源受限问题，本文提出量化目标模型与推测解码结合的方法，通过量化感知蒸馏恢复精度，并训练专门适配量化模型的block-diffusion草稿模型加速解码，同时利用量化和滑动窗口注意力降低开销，最终在NVIDIA A10G GPU上实现低延迟服务。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04371v1",
+      "source": "arxiv",
+      "title": "Nemotron-Labs-3-Puzzle-75B-A9B: Compressing Hybrid MoE LLMs",
+      "abstract": "We present Nemotron-Labs-3-Puzzle-75B-A9B, a compressed variant of Nemotron-3-Super optimized for interactive deployment. We designed the model to maximize server throughput under high user throughput constraints. In interactive serving workloads on a single 8xB200 node, Puzzle-75B-A9B achieves approximately 2x higher server throughput than Nemotron-3-Super at matched user throughput constraints. In ultra-long-context deployment on a single H100 GPU, the compressed model increases 1M-token concurrency from 1 request to 8 requests. Puzzle-75B-A9B is constructed using a multi-stage pipeline that combines the Iterative Puzzle compression framework with knowledge distillation, reinforcement learning, quantization, and a Multi-Token Prediction head. The compression process jointly optimizes heterogeneous MoE pruning, active parameter budget, and Mamba pruning to improve inference efficiency while preserving model quality. We evaluate Puzzle-75B-A9B on a broad suite of reasoning, coding, multilingual, long-context, and agentic benchmarks. Despite substantial compression, the model retains strong downstream accuracy relative to the parent model across a wide range of tasks. These results demonstrate that large hybrid MoE models can be substantially optimized for deployment efficiency while maintaining strong downstream capability.",
+      "authors": [
+        "Akhiad Bercovich",
+        "Talor Abramovich",
+        "Daniel Afrimi",
+        "Shay Aharon",
+        "Nir Ailon",
+        "Vladimir Anisimov",
+        "Omer Ullman Argov",
+        "Maor Ashkenazi",
+        "Tomer Asida",
+        "Nave Assaf",
+        "Tomer Bar Natan",
+        "Alexander Bukharin",
+        "Grzegorz Chlebus",
+        "Marcin Chochowski",
+        "Eric Chung",
+        "Mohammad Dabbah",
+        "Carlo del Mundo",
+        "Ewa Dobrowolska",
+        "Ido Galil",
+        "Yaniv Galron",
+        "Amnon Geifman",
+        "Yonatan Geifman",
+        "Izik Golan",
+        "Alex Gronskiy",
+        "Tomasz Grzegorzek",
+        "Netanel Haber",
+        "Lior Kadoch",
+        "Grzegorz Karch",
+        "Tomer Keren",
+        "Abhinav Khattar",
+        "Amir Klein",
+        "Tugrul Konuk",
+        "Roi Koren",
+        "Daniel Korzekwa",
+        "Shaun Kotek",
+        "Konstantinos Krommydas",
+        "Itay Levy",
+        "Ofri Masad",
+        "Yoav Miron",
+        "Pavlo Molchanov",
+        "Shahar Mor",
+        "Zach Moshe",
+        "Saurav Muralidharan",
+        "Najeeb Nabwani",
+        "Besmira Nushi",
+        "Mostofa Patwary",
+        "Omri Puny",
+        "Johannes Rausch",
+        "Tomer Ronen",
+        "Sepehr Sameni",
+        "Itamar Schen",
+        "Elad Segal",
+        "Daniel Serebrenik",
+        "Ido Shahaf",
+        "Soumye Singhal",
+        "Daniil Sorokin",
+        "Sharath Turuvekere Sreenivas",
+        "Marta Stepniewska-Dziubinska",
+        "Ali Taghibakhshi",
+        "Nima Tajbakhsh",
+        "Oren Tropp",
+        "Dor Tzur",
+        "Anna Warno",
+        "Yi-Fu Wu",
+        "Michal Zawalski",
+        "Jiaqi Zeng",
+        "Yian Zhang",
+        "Ran Zilberstein",
+        "Amit Zuker",
+        "Ran El-Yaniv"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-05T16:00:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.04371v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Compresses hybrid MoE LLM using quantization, distillation, RL; achieves 2x throughput on B200 node.",
+      "llm_evidence_cn": "使用量化、蒸馏和强化学习压缩混合MoE大语言模型，在B200节点上实现2倍吞吐量提升。",
+      "llm_evidence": "使用量化、蒸馏和强化学习压缩混合MoE大语言模型，在B200节点上实现2倍吞吐量提升。",
+      "canonical_evidence": "使用量化、蒸馏和强化学习压缩混合MoE大语言模型，在B200节点上实现2倍吞吐量提升。",
+      "llm_tldr_en": "Nemotron-Labs-3-Puzzle-75B-A9B is a compressed hybrid MoE LLM achieving 2x server throughput on B200 via iterative puzzle compression, knowledge distillation, quantization, and multi-token prediction head.",
+      "llm_tldr_cn": "该工作针对混合MoE大语言模型推理效率低的问题，提出Nemotron-Labs-3-Puzzle-75B-A9B压缩变体。方法融合迭代拼图压缩、知识蒸馏、强化学习、量化和多词元预测头等多阶段流程。在8xB200节点上，该模型在相同用户吞吐量下实现约2倍服务器吞吐量提升；在单H100上的超长上下文部署中，将1M词元并发数从1提升到8。结果表明，该压缩方法显著提高了MoE模型的推理效率，适用于交互式部署场景。",
+      "llm_tldr": "该工作针对混合MoE大语言模型推理效率低的问题，提出Nemotron-Labs-3-Puzzle-75B-A9B压缩变体。方法融合迭代拼图压缩、知识蒸馏、强化学习、量化和多词元预测头等多阶段流程。在8xB200节点上，该模型在相同用户吞吐量下实现约2倍服务器吞吐量提升；在单H100上的超长上下文部署中，将1M词元并发数从1提升到8。结果表明，该压缩方法显著提高了MoE模型的推理效率，适用于交互式部署场景。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.05116v1",
+      "source": "arxiv",
+      "title": "Communication-Aware Placement and Pruning for Efficient Mixture-of-Experts Inference",
+      "abstract": "As MoE models scale to hundreds of experts, placement and pruning decisions increasingly dictate communication volume, affecting the performance of distributed inference across GPUs and nodes. We propose CAP (Communication-Aware Assignment and Pruning), a framework that considers computation, communication and accuracy together for efficient MoE inference through expert placement and pruning. It consists of three components: (1) Co-activation driven expert placement, which groups frequently co-activated experts to reduce inter-device and inter-node communication; (2) Communicationcomputation trade-off adjustment, which generates placements with different computational load and communication volume; and (3) Communication-aware expert pruning, which selectively removes routing destinations to reduce communication with limited accuracy degradation. By combining these components, CAP selects an efficient operating strategy for different hardware configurations. Across our single-node and multi-node experiments, it achieves 1.23x - 1.86 x throughput improvement over DeepSeek EPLB and sequential placement in vLLM, and preserves better model accuracy at the same target speedup under lossy acceleration.",
+      "authors": [
+        "Xiao Shi",
+        "Yingying Sun",
+        "Jiangsu Du",
+        "Zhiguang Chen",
+        "Yutong Lu"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-07-06T14:06:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.05116v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "communication-aware placement and pruning for efficient MoE inference",
+      "llm_evidence_cn": "通信感知的专家放置与剪枝实现高效MoE推理",
+      "llm_evidence": "通信感知的专家放置与剪枝实现高效MoE推理",
+      "canonical_evidence": "通信感知的专家放置与剪枝实现高效MoE推理",
+      "llm_tldr_en": "CAP optimizes MoE inference by placing frequently co-activated experts together and pruning less important ones, reducing inter-device communication and maintaining accuracy.",
+      "llm_tldr_cn": "大规模MoE分布式推理中通信开销是主要瓶颈。CAP框架通过共激活驱动的专家放置将常协同激活的专家置于同一设备，并引入通信感知剪枝移除低贡献专家。实验证明显著减少跨节点通信，保持精度的同时提升推理吞吐量，为扩展MoE系统提供了实用优化。",
+      "llm_tldr": "大规模MoE分布式推理中通信开销是主要瓶颈。CAP框架通过共激活驱动的专家放置将常协同激活的专家置于同一设备，并引入通信感知剪枝移除低贡献专家。实验证明显著减少跨节点通信，保持精度的同时提升推理吞吐量，为扩展MoE系统提供了实用优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04422v1",
+      "source": "arxiv",
+      "title": "Full-Stack FP4: Stable LLM Pretraining with Quantized Projections, Optimizers, and Attention",
+      "abstract": "Recent NVFP4 pretraining methods mainly target transformer linear layers, leaving optimizer states, optimizer arithmetic and attention underexplored in 4-bit pipelines. This critical gap blocks stable full-stack 4-bit pretraining, as the three core modules exhibit unique numerical failure patterns: linear layers hit hard quantization noise limits with dimension-propagated error amplification; AdamW second moments are heavy-tailed non-negative values fragile to low-precision denominators; attention carries error-prone computation paths demanding strict forward-backward quantization consistency. We propose Full-Stack FP4, the first complete NVFP4 pretraining framework resolving all three stability bottlenecks via module-wise precision strategies. For linear projections, LoRA-SVD lightweight decomposition suppresses quantization noise and breaks the direct-quantization error ceiling, shrinking the linear-only loss gap from 1.40% to 0.61%. For optimizers, we design AdamW second-moment transformation for robust NVFP4 storage and fully support native NVFP4 Newton-Schulz iterations for the Root (Muon) optimizer. For attention, a mixed-precision scheme quantizes Q/K/V and backward dS while guarding vulnerable paths in BF16, paired with unified tensor reuse to sustain forward-backward alignment. We further analyze fast error accumulation in naive low-bit matrix multiplication and the extreme sensitivity of PV / dOV^T attention branches. All modules are plug-and-play with cumulative stability and efficiency improvements. Our 3B/64B-token pretraining validates near-BF16 performance with merely 1.47% loss gap, verifying feasible stable end-to-end NVFP4 LLM pretraining.",
+      "authors": [
+        "Siyu Ding",
+        "Mingchuan Ma",
+        "Jiabo Tong",
+        "Xingrun Xing",
+        "Ziming Wang",
+        "Guoqi Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-05T17:31:36+00:00",
+      "link": "https://arxiv.org/pdf/2607.04422v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "quantized projections, optimizers, and attention for LLM pretraining",
+      "llm_evidence_cn": "用于LLM预训练的量化投影、优化器和注意力",
+      "llm_evidence": "用于LLM预训练的量化投影、优化器和注意力",
+      "canonical_evidence": "用于LLM预训练的量化投影、优化器和注意力",
+      "llm_tldr_en": "Proposes Full-Stack FP4, the first complete NVFP4 pretraining framework that stably quantizes linear layers, optimizer states, and attention to 4-bit, enabling memory-efficient LLM pretraining without significant accuracy loss.",
+      "llm_tldr_cn": "针对当前4-bit预训练主要聚焦线性层而忽略优化器状态和注意力的不足，本文提出Full-Stack FP4，首个完整NVFP4预训练框架，通过模块级精度调节解决线性层、AdamW二阶矩和注意力路径的数值不稳定问题。实验表明，该框架在保持精度的前提下实现4-bit全栈预训练，显著降低内存开销，为大规模LLM量化预训练提供稳定方案。",
+      "llm_tldr": "针对当前4-bit预训练主要聚焦线性层而忽略优化器状态和注意力的不足，本文提出Full-Stack FP4，首个完整NVFP4预训练框架，通过模块级精度调节解决线性层、AdamW二阶矩和注意力路径的数值不稳定问题。实验表明，该框架在保持精度的前提下实现4-bit全栈预训练，显著降低内存开销，为大规模LLM量化预训练提供稳定方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
