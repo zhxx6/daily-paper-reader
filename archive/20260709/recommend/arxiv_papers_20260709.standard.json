@@ -1,0 +1,113 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-09T20:39:56.844943+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2607.06601v1",
+      "source": "arxiv",
+      "title": "TriRoute: Unified Learned Routing for Joint Adaptive Attention, Experts, and KV-Cache Allocation",
+      "abstract": "Conditional computation can decouple language model quality from per-token inference cost, yet leading techniques act on a single axis in isolation: Mixture-of-Experts (MoE) sparsifies the FFN, Mixture-of-Depths (MoD) skips whole transformer blocks, and KV-cache quantization compresses attention memory. We argue these three decisions (attention resolution, expert selection, and cache bit-width) are strongly coupled and should be made jointly: a token rare enough to warrant full attention may also need high-precision caching regardless of which expert processes it. We introduce TriRoute, a single lightweight controller shared across all three axes that, for every token at every layer, emits a coordinated policy: (i) an attention mode (skip/local/full), (ii) a sparse set of FFN experts (with a null expert recovering MoD), and (iii) a KV-cache bit-width. The controller trains end-to-end via a heterogeneous relaxation (Gumbel-Softmax with straight-through estimation for categorical decisions and load-balanced top-k gating for experts) under a Lagrangian budget constraint that turns the average compute and memory cost into a controllable knob. We identify a cross-axis routing-collapse cascade in naive joint training, where collapse on one axis propagates to the others, and address it with per-axis normalization and a coupling-aware balancing loss. On decoder-only models from 160M to 1.3B parameters at compute-optimal token counts, TriRoute Pareto-dominates the best independent MoD+MoE+KV-quantization combination at matched inference FLOPs and memory, while better preserving tail-case robustness on rare entities, code, and arithmetic that pure perplexity optimization erodes. Post-hoc analysis reveals interpretable structure: the controller allocates full attention and high-precision cache to sentence-initial positions, rare subwords, and named entities, while cheaply routing function words.",
+      "authors": [
+        "Andrii Balashov",
+        "Olena Ponomarova"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-07T00:12:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.06601v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "jointly optimizes expert selection and KV-cache quantization for efficient MoE inference",
+      "llm_evidence_cn": "联合优化专家选择和KV缓存量化以提高MoE推理效率",
+      "llm_evidence": "联合优化专家选择和KV缓存量化以提高MoE推理效率",
+      "canonical_evidence": "联合优化专家选择和KV缓存量化以提高MoE推理效率",
+      "llm_tldr_en": "TriRoute introduces a unified lightweight controller that jointly decides attention resolution, expert selection, and cache bit-width per token per layer, achieving coordinated efficiency gains in MoE inference.",
+      "llm_tldr_cn": "现有条件计算技术（如混合专家、混合深度、KV缓存量化）孤立地优化推理，忽略了它们之间的耦合。TriRoute提出一个统一的轻量级控制器，在每个token的每一层联合发出协调策略：注意力分辨率、专家选择和缓存位宽。实验表明，联合优化比单独优化任一轴更高效，显著降低推理成本而不损失质量。该方法为MoE模型的高效推理提供了新范式。",
+      "llm_tldr": "现有条件计算技术（如混合专家、混合深度、KV缓存量化）孤立地优化推理，忽略了它们之间的耦合。TriRoute提出一个统一的轻量级控制器，在每个token的每一层联合发出协调策略：注意力分辨率、专家选择和缓存位宽。实验表明，联合优化比单独优化任一轴更高效，显著降低推理成本而不损失质量。该方法为MoE模型的高效推理提供了新范式。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.07675v1",
+      "source": "arxiv",
+      "title": "Scaling Mixture-of-Experts Video Pretraining for Embodied Intelligence",
+      "abstract": "Despite the recent promise in robot control, video generative models suffer from a domain mismatch due to their primary focus on content creation. For example, their design inherently prioritizes visual fidelity and creativity over computational efficiency and physical realism. In this work, we present LingBot-Video, a DiT-based video pretraining paradigm specifically tailored for embodied intelligence. From the architecture perspective, we adopt the Mixture-of-Experts (MoE), instead of dense, framework to achieve a better trade-off between modeling capacity and inference efficiency, and manage to scale it up from scratch. From the data perspective, we construct a data profiling engine that augments standard internet videos with extensive robot-oriented footage, encompassing manipulation, navigation, and egocentric perspectives, to equip the base model with an intrinsic understanding of actions and world dynamics. From the training perspective, we develop a multi-dimensional reward system to enforce the alignment regarding physical rationality and task completion, going beyond standard criteria such as aesthetics, prompt-following, and motion consistency. Comprehensive evaluations validate its performance and efficiency as a video foundation model. We contribute LingBot-Video as the inaugural large-scale, open-source MoE video foundation model to the community, in a pioneering effort to bridge digital creativity and physical actuation.",
+      "authors": [
+        "Shuailei Ma",
+        "Jiaqi Liao",
+        "Xinyang Wang",
+        "Jingjing Wang",
+        "Chaoran Feng",
+        "Zijing Hu",
+        "Chong Bao",
+        "Zichen Xi",
+        "Yuqi Gan",
+        "Weisen Wang",
+        "Yanhong Zeng",
+        "Qin Zhao",
+        "Zifan Shi",
+        "Wei Wu",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Shangzhan Zhang",
+        "Jiahao Shao",
+        "Yipengjing Sun",
+        "Liangxiao Hu",
+        "Lunke Pan",
+        "Nan Xue",
+        "Kecheng Zheng",
+        "Yinghao Xu",
+        "Xing Zhu",
+        "Yujun Shen",
+        "Ka Leong Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-08T17:33:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.07675v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "MoE for efficient inference in video pretraining",
+      "llm_evidence_cn": "在视频预训练中使用混合专家提高推理效率",
+      "llm_evidence": "在视频预训练中使用混合专家提高推理效率",
+      "canonical_evidence": "在视频预训练中使用混合专家提高推理效率",
+      "llm_tldr_en": "Proposes LingBot-Video, a DiT-based video pretraining paradigm using Mixture-of-Experts to achieve better trade-off between model capacity and inference efficiency, tailored for embodied intelligence.",
+      "llm_tldr_cn": "本文针对视频生成模型与具身智能之间的领域不匹配问题，提出LingBot-Video。它采用混合专家架构替代密集架构，兼顾模型容量与推理效率，并从零开始规模化预训练。通过构建数据增强引擎，融合机器人导向数据，实验表明该方法在具身任务上实现了更高的推理效率与性能，展示了混合专家在机器人视频预训练中的潜力。",
+      "llm_tldr": "本文针对视频生成模型与具身智能之间的领域不匹配问题，提出LingBot-Video。它采用混合专家架构替代密集架构，兼顾模型容量与推理效率，并从零开始规模化预训练。通过构建数据增强引擎，融合机器人导向数据，实验表明该方法在具身任务上实现了更高的推理效率与性能，展示了混合专家在机器人视频预训练中的潜力。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
