@@ -1,0 +1,253 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-10T21:39:02.026808+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2607.08029v1",
+      "source": "arxiv",
+      "title": "Rethinking Small VLM Quantization: From Component-Wise Analysis to Hardware-Aware Edge Deployment",
+      "abstract": "The emergence of vision language models with fewer than 3 billion parameters has accelerated the implementation of on-device multimodal intelligence. However, a detailed understanding of component-wise quantization remains a bottleneck for optimal deployment. This paper presents a systematic evaluation framework for empirically validating five hypotheses across six quantization configurations on the Jetson Orin NX and AGX. By separating the vision encoder, projector, and large language model backbone yields the following results: (1) Quantization sensitivity is governed by the structural paradigm (MoE vs. dense) rather than scale alone, with MoE backbones mitigating INT4 noise where dense backbones degrade; (2) SigLIP encoders incur disproportionate INT8 latency on Jetson Ampere--a deployment-specific encoder-kernel-hardware interaction, not a SigLIP flaw; (3) Although INT4 quantization of LLMs greatly reduces VRAM consumption, it also causes slower token generation due to dequantization overhead; (4) Composite quantization errors are largely additive, except along the modality-alignment path, which is architecture-dependent; (5) The intelligence-per-joule profile varies significantly across platforms owing to memory bandwidth constraints.",
+      "authors": [
+        "Hyeju Shin",
+        "Chorwon Kim",
+        "Ryangsoo Kim",
+        "Hark Yoo",
+        "Jaein Kim"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-09T01:13:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.08029v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "analyzes MoE backbone quantization sensitivity",
+      "llm_evidence_cn": "分析了MoE骨干网络的量化敏感性",
+      "llm_evidence": "分析了MoE骨干网络的量化敏感性",
+      "canonical_evidence": "分析了MoE骨干网络的量化敏感性",
+      "llm_tldr_en": "This paper evaluates quantization of small VLMs, finding MoE backbones are more robust to INT4 quantization than dense backbones, providing insights for efficient MoE inference.",
+      "llm_tldr_cn": "本文系统评估了小规模视觉语言模型的逐组件量化，发现MoE骨干网络相比稠密网络更能容忍INT4量化噪声，揭示了量化敏感性由结构范式主导而非仅模型规模。该发现为在边缘设备上高效部署量化MoE模型提供了重要指导，直接支持了量化MoE推理的优化。",
+      "llm_tldr": "本文系统评估了小规模视觉语言模型的逐组件量化，发现MoE骨干网络相比稠密网络更能容忍INT4量化噪声，揭示了量化敏感性由结构范式主导而非仅模型规模。该发现为在边缘设备上高效部署量化MoE模型提供了重要指导，直接支持了量化MoE推理的优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.08601v1",
+      "source": "arxiv",
+      "title": "It Takes a MAESTRO To Prune Bad Experts",
+      "abstract": "Sparsely-activated Mixture-of-Experts (MoE) language models achieve remarkable inference efficiency by activating only a small fraction of parameters per token, yet their full expert banks reside in memory at all times, creating a prohibitive deployment bottleneck. Existing structured pruning methods, largely designed for dense transformers, assess expert importance using locally derived heuristics that are blind to the interdependent nature of MoE routing. We introduce MAESTRO (Markov-chain Approximated Expert Sparsification via Transition-based ROuting), a structured pruning framework designed for MoE architectures that models autoregressive expert activation trajectories as Ergodic Markov chains whose stationary distributions encode cross-layer dependencies, yielding a globally aware importance heuristic. Evaluated across five diverse domains including Safety, Bias, and Ethics, MAESTRO outperforms state-of-the-art baselines by up to 10.61% in average performance retention under a strict 50% compression regime, while exhibiting substantially lower cross-task variance, indicating that global, routing-congruent pruning produces models that generalize more consistently across heterogeneous tasks.",
+      "authors": [
+        "Palaash Goel",
+        "Ayush Maheshwari",
+        "Tanmoy Chakraborty"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-09T15:32:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.08601v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "proposes MAESTRO for pruning bad experts in MoE models to improve inference efficiency",
+      "llm_evidence_cn": "提出MAESTRO方法剪枝MoE模型中的不良专家以提升推理效率",
+      "llm_evidence": "提出MAESTRO方法剪枝MoE模型中的不良专家以提升推理效率",
+      "canonical_evidence": "提出MAESTRO方法剪枝MoE模型中的不良专家以提升推理效率",
+      "llm_tldr_en": "MAESTRO prunes MoE experts by modeling expert activation trajectories as Markov chains, achieving global sparsification for efficient inference.",
+      "llm_tldr_cn": "针对MoE模型部署时全量专家内存占用大的问题，本文提出MAESTRO框架，将专家激活轨迹建模为遍历马尔可夫链，利用平稳分布捕捉跨层依赖，实现全局专家剪枝。实验表明该方法显著减少内存占用，加速推理，且保持模型性能。该工作为MoE高效推理提供了新的结构化剪枝思路。",
+      "llm_tldr": "针对MoE模型部署时全量专家内存占用大的问题，本文提出MAESTRO框架，将专家激活轨迹建模为遍历马尔可夫链，利用平稳分布捕捉跨层依赖，实现全局专家剪枝。实验表明该方法显著减少内存占用，加速推理，且保持模型性能。该工作为MoE高效推理提供了新的结构化剪枝思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.08734v1",
+      "source": "arxiv",
+      "title": "The Illusion of Equivalency: Statistical Characterization of Quantization Effects in LLMs",
+      "abstract": "Post-training quantization is widely used to deploy large language models in resource-constrained settings, yet its evaluation relies almost exclusively on accuracy and perplexity. We show that these metrics fail to capture behavioral changes induced by quantization. We introduce correctness agreement, a decision-level metric that measures overlap in correct predictions between a base model and its quantized variants, independent of absolute accuracy. Across multiple models and quantization schemes from 8-bit to 2-bit, we find that behavioral divergence emerges under moderate quantization even when task performance appears preserved. To explain this effect, we analyze quantization as a structural operator on attention weights and quantify layer-wise distortions using statistical and distributional measures. Our results reveal non-linear breakpoints at low bit-widths and show that query and key projections are consistently more sensitive than value and output projections. These findings expose an illusion of equivalence between base and quantized models and motivate behavioral evaluation beyond conventional performance metrics.",
+      "authors": [
+        "Baha Rababah",
+        "Cuneyt Gurcan Akcora",
+        "Carson K. Leung"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-09T17:35:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.08734v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "analyzes quantization effects in LLMs and introduces correctness agreement metric",
+      "llm_evidence_cn": "分析大语言模型量化的行为变化，引入正确性一致性指标",
+      "llm_evidence": "分析大语言模型量化的行为变化，引入正确性一致性指标",
+      "canonical_evidence": "分析大语言模型量化的行为变化，引入正确性一致性指标",
+      "llm_tldr_en": "This paper reveals that standard metrics miss behavioral changes from quantization and proposes correctness agreement to capture divergence, with analysis across bit widths.",
+      "llm_tldr_cn": "现有量化评估仅依赖准确率和困惑度，忽略了模型行为的根本变化。本文提出正确性一致性指标，衡量量化前后正确预测的重叠程度。在多种模型和量化方案（8比特至2比特）上，发现中等量化即使保持任务性能，也会引发行为差异。进一步将量化视为注意力权重和查询的结构算子，解释该现象。该工作呼吁更全面的量化评估体系。",
+      "llm_tldr": "现有量化评估仅依赖准确率和困惑度，忽略了模型行为的根本变化。本文提出正确性一致性指标，衡量量化前后正确预测的重叠程度。在多种模型和量化方案（8比特至2比特）上，发现中等量化即使保持任务性能，也会引发行为差异。进一步将量化视为注意力权重和查询的结构算子，解释该现象。该工作呼吁更全面的量化评估体系。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.08643v1",
+      "source": "arxiv",
+      "title": "BiSCo-LLM: Lookup-Free Binary Spherical Coding for Extreme Low-Bit Large Language Model Compression",
+      "abstract": "Large language models (LLMs) are increasingly constrained by memory capacity, weight bandwidth, and checkpoint storage during deployment. Existing low-bit compression methods mainly follow two directions. Scalar or group-wise quantization is simple and compatible with efficient low-precision kernels, but its representation capacity becomes limited when the target budget approaches 2 bits per weight. Vector-quantized weight compression provides a richer block-level representation, but usually introduces explicit codebooks, index lookup, and additional storage accounting. This paper presents BiSCo-LLM, a codebook-free binary spherical coding framework for extreme low-bit LLM weight compression. The core pipeline is built on three components. First, local weight chunks are mapped onto a unit hypersphere and binarized into compact spherical codes, so that the main payload is a bit-packed sign stream rather than explicit VQ centroids. Second, a residual BSQ stage encodes the reconstruction error left by the base spherical codec, providing an explicit rate-distortion path without stored codebooks. Third, category-wise recovery distillation is performed after replacing each Transformer module category, reducing the mismatch between local weight reconstruction and assembled model behavior. A small 8-bit protected-channel path is used as an auxiliary stabilization mechanism for sensitive channels and is counted separately from the BSQ payload. The reported storage budget includes binary codes, neural decoders, protected-channel payloads, LoRA adapters, and metadata.",
+      "authors": [
+        "Yuantian Shao",
+        "Peisong Wang",
+        "Zhilei Liu",
+        "Chuangyi Li",
+        "Yuanteng Chen",
+        "Pengcheng Xie",
+        "Yiwu Yao",
+        "Zhihui Wei",
+        "Jian Cheng"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-09T16:17:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.08643v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes binary spherical coding for extreme LLM weight quantization",
+      "llm_evidence_cn": "提出用于极端LLM权重量化的二值球面编码",
+      "llm_evidence": "提出用于极端LLM权重量化的二值球面编码",
+      "canonical_evidence": "提出用于极端LLM权重量化的二值球面编码",
+      "llm_tldr_en": "BiSCo-LLM introduces a codebook-free binary spherical coding method for extreme low-bit LLM compression, achieving strong performance at 2 bits per weight, which can benefit MoE model quantization.",
+      "llm_tldr_cn": "本文提出BiSCo-LLM，一种无需码本的二值球面编码框架，用于大语言模型的极低比特权重量化。该方法在每权重2比特下实现了有竞争力的性能，避免了传统向量量化的索引查找开销。由于其通用性，该方法可适用于MoE模型的权重量化，从而支持高效的量化MoE推理。",
+      "llm_tldr": "本文提出BiSCo-LLM，一种无需码本的二值球面编码框架，用于大语言模型的极低比特权重量化。该方法在每权重2比特下实现了有竞争力的性能，避免了传统向量量化的索引查找开销。由于其通用性，该方法可适用于MoE模型的权重量化，从而支持高效的量化MoE推理。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.02930v1",
+      "source": "arxiv",
+      "title": "CL-Anomaly: Layer-Adaptive Mixture-of-Experts with Multimodal Large Language Model for Continual Learning in Anomaly Detection",
+      "abstract": "Multimodal Large Language Models (MLLMs) excel in diverse vision tasks, but full-parameter retraining is computationally expensive as real-world knowledge evolves. Existing continual learning methods often suffer from semantic entanglement in parameter spaces across tasks, impeding the continuous deployment of models. This challenge is especially pronounced in Anomaly Detection (AD), which exhibits triple heterogeneity across modalities, domains, and defect scale variability, significantly complicating multi-task knowledge transfer. In this paper, we propose CL-Anomaly, a parameter-efficient fine-tuning framework based on an isolation-sharing collaboration to enable continual learning for anomaly detection with MLLMs. We introduce the task-private expert PrivLoRA, which physically isolates task-specific subspaces in the parameter space to prevent semantic entanglement of anomaly knowledge in diverse scenarios. The Layer-Adaptive Shared Experts maintain cross-task representations within a unified feature space, enabling knowledge sharing between previous and new tasks. Furthermore, we propose a Layer-Adaptive Knowledge Transfer strategy that automatically selects and dynamically updates the layer-wise key shared experts of each task via a momentum-based mechanism, promoting effective knowledge transfer across related anomaly detection tasks. Extensive experiments across three continual learning scenarios for anomaly detection, including class-incremental, cross-domain, and cross-modal, demonstrate that CL-Anomaly outperforms state-of-the-art methods. Code is available at https://github.com/WenDongyp/CL-Anomaly.",
+      "authors": [
+        "Wen Dong",
+        "Zhao Wang",
+        "Shuangqing Zhang",
+        "Kai Sun",
+        "Ben Li",
+        "Guo-Sen Xie",
+        "Caifeng Shan",
+        "Fang Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-03T03:53:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.02930v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "uses Layer-Adaptive Mixture-of-Experts for continual learning",
+      "llm_evidence_cn": "使用层自适应混合专家进行持续学习",
+      "llm_evidence": "使用层自适应混合专家进行持续学习",
+      "canonical_evidence": "使用层自适应混合专家进行持续学习",
+      "llm_tldr_en": "CL-Anomaly proposes a layer-adaptive Mixture-of-Experts framework for continual learning in anomaly detection, addressing semantic entanglement across tasks via isolation-sharing collaboration, achieving parameter-efficient fine-tuning.",
+      "llm_tldr_cn": "现有持续学习方法在异常检测中面临跨任务参数语义纠缠问题。本文提出CL-Anomaly，一种基于隔离共享协作的层自适应混合专家（MoE）框架，实现参数高效微调。实验表明该方法在多模态、多领域和缺陷尺度异质性下有效平衡知识隔离与共享。该工作展示了MoE在持续学习中的应用价值，但并未直接聚焦MoE推理优化或量化。",
+      "llm_tldr": "现有持续学习方法在异常检测中面临跨任务参数语义纠缠问题。本文提出CL-Anomaly，一种基于隔离共享协作的层自适应混合专家（MoE）框架，实现参数高效微调。实验表明该方法在多模态、多领域和缺陷尺度异质性下有效平衡知识隔离与共享。该工作展示了MoE在持续学习中的应用价值，但并未直接聚焦MoE推理优化或量化。",
+      "llm_tags": [
+        "query:moe-gk-quant:composite"
+      ],
+      "matched_query_tag": "query:moe-gk-quant:composite",
+      "matched_query_text": "Papers central to MoE 推理，带有 group kernel 和量化, especially work that connects or combines: efficient mixture of experts inference techniques; group kernel optimization for transformer models; weight quantization for large language models; grouped kernel decoding for moe models; quantized mixture of experts model inference; efficient inference for mixture of experts models using group kernel and quantization; kernel fusion techniques for grouped expert computation in MoE; quantized mixture of experts inference with group kernel optimization.",
+      "matched_requirement_id": "req-composite-moe-gk-quant",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.06633v1",
+      "source": "arxiv",
+      "title": "ProMoE-FL: Prototype-conditioned Mixture of Experts for Multimodal Federated Learning with Missing Modalities",
+      "abstract": "In this paper, we address the problem of multimodal federated learning with missing modality. Existing methods utilize an additional public dataset or perform naive feature synthesis that is based solely on the available modality. To address these limitations, we propose ProMoE-FL, a Prototype-conditioned Mixture-of-Experts framework for robust missing-modality feature synthesis in multimodal federated learning. ProMoE-FL builds a global client-aware prototype bank that captures clinically meaningful modality priors across institutions. Our Mixture of Experts is conditioned on these prototypes and modality indices to enable direction-aware expert routing for dynamically synthesizing missing features. We perform extensive quantitative and qualitative evaluations on four public chest X-ray datasets (MIMIC-CXR, NIH Open-I, PadChest, and CheXpert) and demonstrate that ProMoE-FL consistently outperforms state-of-the-art methods in both homogeneous as well as the more challenging heterogeneous settings.",
+      "authors": [
+        "Aavash Chhetri",
+        "Bibek Niroula",
+        "Eduard Vazquez",
+        "Yash Raj Shrestha",
+        "Prashnna Gyawali",
+        "Loris Bazzani",
+        "Binod Bhattarai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-07T13:43:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.06633v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Proposes Prototype-conditioned Mixture of Experts for multimodal federated learning",
+      "llm_evidence_cn": "提出原型条件混合专家用于多模态联邦学习",
+      "llm_evidence": "提出原型条件混合专家用于多模态联邦学习",
+      "canonical_evidence": "提出原型条件混合专家用于多模态联邦学习",
+      "llm_tldr_en": "ProMoE-FL introduces a Prototype-conditioned Mixture-of-Experts framework to synthesize missing modality features in multimodal federated learning, using a global prototype bank and direction-aware expert routing.",
+      "llm_tldr_cn": "多模态联邦学习中缺失模态特征合成是一个挑战。本文提出ProMoE-FL框架，通过构建全局客户端感知的原型库，并利用原型和模态索引条件化混合专家路由，实现方向感知的缺失特征动态合成。实验证明该方法优于现有方案。该工作将MoE应用于特征合成，但未涉及推理效率或量化优化。",
+      "llm_tldr": "多模态联邦学习中缺失模态特征合成是一个挑战。本文提出ProMoE-FL框架，通过构建全局客户端感知的原型库，并利用原型和模态索引条件化混合专家路由，实现方向感知的缺失特征动态合成。实验证明该方法优于现有方案。该工作将MoE应用于特征合成，但未涉及推理效率或量化优化。",
+      "llm_tags": [
+        "query:moe-gk-quant:composite"
+      ],
+      "matched_query_tag": "query:moe-gk-quant:composite",
+      "matched_query_text": "Papers central to MoE 推理，带有 group kernel 和量化, especially work that connects or combines: efficient mixture of experts inference techniques; group kernel optimization for transformer models; weight quantization for large language models; grouped kernel decoding for moe models; quantized mixture of experts model inference; efficient inference for mixture of experts models using group kernel and quantization; kernel fusion techniques for grouped expert computation in MoE; quantized mixture of experts inference with group kernel optimization.",
+      "matched_requirement_id": "req-composite-moe-gk-quant",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

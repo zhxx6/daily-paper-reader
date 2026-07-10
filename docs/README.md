@@ -6,27 +6,40 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-09
-- 运行时间：2026-07-09 20:42:47 UTC
+- 最新运行日期：2026-07-10
+- 运行时间：2026-07-10 21:43:29 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：2
-- 速读区：0
+- 本次总论文数：6
+- 精读区：3
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读2篇高分论文，聚焦统一学习路由分配与混合专家视频预训练。值得关注：TriRoute实现自适应注意力、专家和KV缓存联合学习分配；Scaling MoE视频预训练推动具身智能发展。建议进一步探索路由算法的计算效率优化及其在具身智能任务中的实际部署。
-- 详情：[/202607/09/README](/202607/09/README)
+1) 今日6篇论文聚焦高效模型压缩，精读高分解码小VLM量化与MoE剪枝。
+2) 最值得关注《Rethinking Small VLM Quantization》硬件感知量化和《It Takes a MAESTRO To Prune Bad Experts》专家剪枝，以及BiSCo-LLM的极低比特压缩方向。
+3) 普通读者可优先精读两篇高分论文，学习边缘部署的实际优化策略与稀疏化技巧。
+- 详情：[/202607/10/README](/202607/10/README)
 
 ### 精读区论文标签
-1. [TriRoute: Unified Learned Routing for Joint Adaptive Attention, Experts, and KV-Cache Allocation](/202607/09/2607.06601v1-triroute-unified-learned-routing-for-joint-adaptive-attention-experts-and-kv-cache-allocation)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：联合优化专家选择和KV缓存量化以提高MoE推理效率
-2. [Scaling Mixture-of-Experts Video Pretraining for Embodied Intelligence](/202607/09/2607.07675v1-scaling-mixture-of-experts-video-pretraining-for-embodied-intelligence)  
+1. [Rethinking Small VLM Quantization: From Component-Wise Analysis to Hardware-Aware Edge Deployment](/202607/10/2607.08029v1-rethinking-small-vlm-quantization-from-component-wise-analysis-to-hardware-aware-edge-deployment)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：在视频预训练中使用混合专家提高推理效率
+   evidence：分析了MoE骨干网络的量化敏感性
+2. [It Takes a MAESTRO To Prune Bad Experts](/202607/10/2607.08601v1-it-takes-a-maestro-to-prune-bad-experts)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：提出MAESTRO方法剪枝MoE模型中的不良专家以提升推理效率
+3. [The Illusion of Equivalency: Statistical Characterization of Quantization Effects in LLMs](/202607/10/2607.08734v1-the-illusion-of-equivalency-statistical-characterization-of-quantization-effects-in-llms)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：分析大语言模型量化的行为变化，引入正确性一致性指标
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [BiSCo-LLM: Lookup-Free Binary Spherical Coding for Extreme Low-Bit Large Language Model Compression](/202607/10/2607.08643v1-bisco-llm-lookup-free-binary-spherical-coding-for-extreme-low-bit-large-language-model-compression)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：提出用于极端LLM权重量化的二值球面编码
+2. [CL-Anomaly: Layer-Adaptive Mixture-of-Experts with Multimodal Large Language Model for Continual Learning in Anomaly Detection](/202607/10/2607.02930v1-cl-anomaly-layer-adaptive-mixture-of-experts-with-multimodal-large-language-model-for-continual-learning-in-anomaly-detection)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：使用层自适应混合专家进行持续学习
+3. [ProMoE-FL: Prototype-conditioned Mixture of Experts for Multimodal Federated Learning with Missing Modalities](/202607/10/2607.06633v1-promoe-fl-prototype-conditioned-mixture-of-experts-for-multimodal-federated-learning-with-missing-modalities)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：提出原型条件混合专家用于多模态联邦学习
 
 
 <div class="dpr-home-promo-card">
