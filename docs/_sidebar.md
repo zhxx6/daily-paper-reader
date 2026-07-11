@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-11 <!--dpr-date:20260711-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/11/2607.07964v1-kronq-llm-quantization-via-kronecker-factored-hessian" data-sidebar-item="{&quot;title&quot;: &quot;KronQ: LLM Quantization via Kronecker-Factored Hessian&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.07964v1-kronq-llm-quantization-via-kronecker-factored-hessian&quot;, &quot;score&quot;: &quot;10.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;直接针对大语言模型权重量化问题&quot;}">KronQ: LLM Quantization via Kronecker-Factored Hessian</a>
   * 2026-07-10 <!--dpr-date:20260710-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/10/2607.08029v1-rethinking-small-vlm-quantization-from-component-wise-analysis-to-hardware-aware-edge-deployment" data-sidebar-item="{&quot;title&quot;: &quot;Rethinking Small VLM Quantization: From Component-Wise Analysis to Hardware-Aware Edge Deployment&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.08029v1-rethinking-small-vlm-quantization-from-component-wise-analysis-to-hardware-aware-edge-deployment&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;分析了MoE骨干网络的量化敏感性&quot;}">Rethinking Small VLM Quantization: From Component-Wise Analysis to Hardware-Aware Edge Deployment</a>

@@ -1,0 +1,54 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-11T21:15:34.696748+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2607.07964v1",
+      "source": "arxiv",
+      "title": "KronQ: LLM Quantization via Kronecker-Factored Hessian",
+      "abstract": "Post-training quantization (PTQ) is a widely adopted technique for compressing large language models (LLMs) without retraining. Existing second-order PTQ methods, including GPTQ, construct quantization objectives exclusively from input activation statistics, effectively assuming that all output channels contribute equally to the layer-wise reconstruction objective. We propose KronQ, a PTQ framework that challenges this assumption by introducing the gradient covariance into the quantization pipeline. Under the Kronecker-factored Hessian approximation, the quantization loss depends jointly on both the activation and gradient covariances, and KronQ exploits this at two complementary levels. (1) KronQ introduces bidirectional incoherence processing, extending the existing input-side random rotation to the output dimension using the gradient covariance, reducing weight magnitude variance across both input and output dimensions. (2) KronQ derives a new sensitivity metric for inter-layer mixed-precision allocation, driven by the gradient and activation Hessian traces. Notably, in the case of 2-bit weight-only quantization on LLaMA-3-70B, while GPTQ and GPTAQ diverge or produce degenerate quantizations (>2000 perplexity on WikiText-2), KronQ achieves 7.93 perplexity.",
+      "authors": [
+        "Donghyun Lee",
+        "Yuhang Li",
+        "Ruokai Yin",
+        "Priyadarshini Panda"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-08T22:34:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.07964v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "directly addresses weight quantization for LLMs",
+      "llm_evidence_cn": "直接针对大语言模型权重量化问题",
+      "llm_evidence": "直接针对大语言模型权重量化问题",
+      "canonical_evidence": "直接针对大语言模型权重量化问题",
+      "llm_tldr_en": "KronQ proposes a post-training quantization framework for LLMs that incorporates gradient covariance via Kronecker-factored Hessian approximation, improving reconstruction fidelity over existing methods like GPTQ.",
+      "llm_tldr_cn": "现有大语言模型后训练量化方法仅依赖激活统计量，忽略了不同输出通道对重构误差的不同贡献。KronQ引入梯度协方差，利用Kronecker分解的海森矩阵近似，从双向非相干处理和量化感知训练两个层面优化量化损失。实验表明，该方法在多个模型和任务上优于GPTQ等基线，显著降低了量化精度损失。该工作为LLM压缩提供了更准确的理论驱动量化方案。",
+      "llm_tldr": "现有大语言模型后训练量化方法仅依赖激活统计量，忽略了不同输出通道对重构误差的不同贡献。KronQ引入梯度协方差，利用Kronecker分解的海森矩阵近似，从双向非相干处理和量化感知训练两个层面优化量化损失。实验表明，该方法在多个模型和任务上优于GPTQ等基线，显著降低了量化精度损失。该工作为LLM压缩提供了更准确的理论驱动量化方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

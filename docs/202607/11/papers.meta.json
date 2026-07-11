@@ -1,0 +1,24 @@
+{
+  "label": "2026-07-11",
+  "date": "2026-07-11",
+  "generated_at": "2026-07-11T21:17:25",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202607/11/2607.07964v1-kronq-llm-quantization-via-kronecker-factored-hessian",
+      "section": "deep",
+      "title_en": "KronQ: LLM Quantization via Kronecker-Factored Hessian",
+      "authors": "Donghyun Lee, Yuhang Li, Ruokai Yin, Priyadarshini Panda",
+      "date": "2026-07-08",
+      "pdf": "https://arxiv.org/pdf/2607.07964v1",
+      "score": "10.0",
+      "evidence": "直接针对大语言模型权重量化问题",
+      "tldr": "现有LLM后训练量化方法如GPTQ仅利用激活统计，假设输出通道贡献相等，导致极低比特量化失效。KronQ引入梯度协方差，基于Kronecker因子Hessian近似，在输入和输出维度进行双向不一致处理，并利用Hessian迹分配混合精度。在LLaMA-3-70B的2-bit权重量化中，KronQ取得7.93困惑度，而GPTQ和GPTAQ发散。首次将梯度协方差纳入PTQ，显著提升极低比特量化性能。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Post-training quantization (PTQ) is a widely adopted technique for compressing large language models (LLMs) without retraining. Existing second-order PTQ methods, including GPTQ, construct quantization objectives exclusively from input activation statistics, effectively assuming that all output channels contribute equally to the layer-wise reconstruction objective. We propose KronQ, a PTQ framework that challenges this assumption by introducing the gradient covariance into the quantization pipeline. Under the Kronecker-factored Hessian approximation, the quantization loss depends jointly on both the activation and gradient covariances, and KronQ exploits this at two complementary levels. (1) KronQ introduces bidirectional incoherence processing, extending the existing input-side random rotation to the output dimension using the gradient covariance, reducing weight magnitude variance across both input and output dimensions. (2) KronQ derives a new sensitivity metric for inter-layer mixed-precision allocation, driven by the gradient and activation Hessian traces. Notably, in the case of 2-bit weight-only quantization on LLaMA-3-70B, while GPTQ and GPTAQ diverge or produce degenerate quantizations (>2000 perplexity on WikiText-2), KronQ achieves 7.93 perplexity.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
