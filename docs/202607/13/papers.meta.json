@@ -1,0 +1,24 @@
+{
+  "label": "2026-07-13",
+  "date": "2026-07-13",
+  "generated_at": "2026-07-13T21:25:28",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202607/13/2607.09424v1-a-sovereign-open-source-foundation-model-for-german-and-english",
+      "section": "deep",
+      "title_en": "A Sovereign, Open-Source Foundation Model for German and English",
+      "authors": "The Soofi-Team, :, Benedikt Droste, David Fitzek, Ruben Härle, Lukas Helff, Maximilian Idahl, Alex Jude, Abbas Goher Khan, Maurice Kraus, Timm Ruland, Richard Rutmann, Sebastian Sztwiertnia, Markus Frey, Daniil Gurgurov, Jan Pfister, Tom Röhr, Sebastian von Rohrscheidt, Jörg Bienert, Nicolas Flores-Herr, Simon Gottschalk, Andreas Hotho, Kristian Kersting, Joachim Köhler, Alexander Löser, Wolfgang Nejdl, Simon Ostermann, Jan Plogsties, Patrick Putzky, Mehdi Ali, Michael Fromm, Max Lübbering",
+      "date": "2026-07-10",
+      "pdf": "https://arxiv.org/pdf/2607.09424v1",
+      "score": "8.0",
+      "evidence": "混合Mamba Transformer的MoE推理效率设计",
+      "tldr": "针对德语和英语缺乏主权、高效长上下文开源模型的现状，提出Soofi S 30B-A3B混合专家模型，结合Mamba和Transformer架构，每token仅激活3B参数，推理缓存近恒定。预训练27万亿tokens，加重德语数据，在英德基准上匹配14-27B密集模型，代码任务领先17个开源基模型，超越所有欧洲基线。完全开源权重、数据及代码，推动AI主权。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We present Soofi S 30B-A3B, a sovereign, open-source Mixture-of-Experts (MoE) hybrid Mamba Transformer foundation model for German and English. Its hybrid design activates only 3B of 30B parameters per token and keeps the inference cache near-constant as context grows, giving it a decisive throughput advantage over dense models for long-context, high-concurrency deployment. Pretrained on roughly 27 trillion tokens with deliberately up-weighted German, Soofi S matches dense 14 to 27B models on aggregate English and German benchmarks while achieving the best code aggregates in both languages among 17 open base models, and outperforms every European sovereign baseline in our comparison, including ones far larger in active parameters. Among fully open models, Soofi S obtains the highest English and German evaluation scores, ahead of Olmo 3 32B and Apertus 70B. Soofi S was built end-to-end on the German Industrial AI Cloud, a sovereign HPC scale AI infrastructure operated by Deutsche Telekom in Munich. Soofi S will be released under highly permissive, open-access terms: weights, selected intermediate checkpoints, full per-source data accounting, hyperparameters, and training and evaluation code. Where source licenses permit, data-construction artifacts are released under permissive licenses; commercially licensed sources are documented with aggregate statistics and exact mixture accounting.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-13 <!--dpr-date:20260713-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/13/2607.09424v1-a-sovereign-open-source-foundation-model-for-german-and-english" data-sidebar-item="{&quot;title&quot;: &quot;A Sovereign, Open-Source Foundation Model for German and English&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.09424v1-a-sovereign-open-source-foundation-model-for-german-and-english&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;混合Mamba Transformer的MoE推理效率设计&quot;}">A Sovereign, Open-Source Foundation Model for German and English</a>
   * 2026-07-11 <!--dpr-date:20260711-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/11/2607.07964v1-kronq-llm-quantization-via-kronecker-factored-hessian" data-sidebar-item="{&quot;title&quot;: &quot;KronQ: LLM Quantization via Kronecker-Factored Hessian&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.07964v1-kronq-llm-quantization-via-kronecker-factored-hessian&quot;, &quot;score&quot;: &quot;10.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;直接针对大语言模型权重量化问题&quot;}">KronQ: LLM Quantization via Kronecker-Factored Hessian</a>
