@@ -6,24 +6,32 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-13
-- 运行时间：2026-07-13 21:25:22 UTC
+- 最新运行日期：2026-07-14
+- 运行时间：2026-07-14 21:30:00 UTC
 - 运行状态：成功
-- 本次总论文数：1
-- 精读区：1
-- 速读区：0
+- 本次总论文数：4
+- 精读区：3
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读一篇关于德语与英语的开源主权基础模型论文（评分8.0/10）。最值得关注的方向是开源模型如何兼顾语言主权与多语种性能，尤其是德语场景的落地潜力。推荐进一步阅读该文以了解模型架构与训练策略，适合关注多语言NLP或国产化替代的读者。
-- 详情：[/202607/13/README](/202607/13/README)
+今日精读3篇速读1篇，聚焦大模型量化前沿。最值得关注《RDQ: Residual Distribution Quantization》和《Reliability Scaling Laws for Quantized LLMs》，均获9.0高分。建议优先精读这两篇量化方向论文，把握残差分布量化与可靠性定律。
+- 详情：[/202607/14/README](/202607/14/README)
 
 ### 精读区论文标签
-1. [A Sovereign, Open-Source Foundation Model for German and English](/202607/13/2607.09424v1-a-sovereign-open-source-foundation-model-for-german-and-english)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：混合Mamba Transformer的MoE推理效率设计
+1. [RDQ: Residual Distribution Quantization for Large Language Models](/202607/14/2607.10137v1-rdq-residual-distribution-quantization-for-large-language-models)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：大语言模型量化，残差分布漂移
+2. [Reliability Scaling Laws for Quantized Large Language Models](/202607/14/2607.10855v1-reliability-scaling-laws-for-quantized-large-language-models)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：量化大语言模型的可靠性评估
+3. [HCRMap: Pressure-Aware Hot-Expert Residency Mapping for 3.5D MoE Chiplet Inference](/202607/14/2607.11586v1-hcrmap-pressure-aware-hot-expert-residency-mapping-for-35d-moe-chiplet-inference)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：MoE推理中的热专家放置与复制
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [UMoE:Unlocking Every Expert in Domain-Specific Training](/202607/14/2607.11444v1-umoeunlocking-every-expert-in-domain-specific-training)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：面向领域特定MoE模型的专家精炼
 
 
 <div class="dpr-home-promo-card">

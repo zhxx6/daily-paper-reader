@@ -1,0 +1,158 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-14T21:26:56.316363+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2607.10137v1",
+      "source": "arxiv",
+      "title": "RDQ: Residual Distribution Quantization for Large Language Models",
+      "abstract": "Post-training quantization (PTQ) of large language models degrades sharply below 4-bit precision. We identify the root cause as residual stream distributional drift: quantization noise injected at each transformer layer accumulates in the shared residual representation, causing KL divergence from the FP16 baseline to grow super-linearly with depth (Pearson r=0.999 with log-perplexity, p<0.001, confirmed across all tested methods and bit-widths). We discover that 84% of LLaMA-3-8B layers exhibit non-Gaussian residual distributions (KS test, p<=0.05), and that per-layer residual stream variance grows 6,548x across depth. We propose RDQ (Residual Distribution Quantization), a PTQ framework whose central contribution is Cascaded Error Compensation (CEC): a sequential calibration procedure that captures the actual drifted activations each layer receives (computed by running calibration data through already-quantized upstream layers) and fits per-channel AWQ-style scales against those drifted inputs, with scales folded into preceding RMSNorm weights for exact mathematical equivalence at zero inference overhead. RDQ achieves state-of-the-art results on all three tested architectures: LLaMA-3-8B: 7.55 / 5.62 PPL (W3/W4); Qwen-2.5-7B: 7.46 / 6.38 PPL; Mistral-7B: 6.88 / 5.73 PPL. RDQ beats the best published baseline (LeanQuant/SpinQuant) at every model and bit-width combination, with gains up to -46.4% vs. RTN at W3A16 on LLaMA-3-8B. All output is standard group-128 asymmetric quantization, deployable on Qualcomm AIMET, GGUF, and any standard inference stack at zero runtime overhead.",
+      "authors": [
+        "Prateek Singh"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-11T05:54:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.10137v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "quantization for large language models, residual distribution drift",
+      "llm_evidence_cn": "大语言模型量化，残差分布漂移",
+      "llm_evidence": "大语言模型量化，残差分布漂移",
+      "canonical_evidence": "大语言模型量化，残差分布漂移",
+      "llm_tldr_en": "RDQ proposes Cascaded Error Compensation to address residual stream distributional drift in LLM post-training quantization, achieving strong performance at 3-4 bits.",
+      "llm_tldr_cn": "针对大语言模型后训练量化在低位宽下性能急剧下降的问题，本文发现根源是残差流分布漂移：量化噪声随深度超线性累积。提出RDQ框架，核心是级联误差补偿（CEC），通过顺序补偿各层量化误差，显著降低KL散度。实验表明在LLaMA-3等模型上，3-bit量化困惑度接近FP16基线。该工作为LLM高效推理提供了关键量化技术。",
+      "llm_tldr": "针对大语言模型后训练量化在低位宽下性能急剧下降的问题，本文发现根源是残差流分布漂移：量化噪声随深度超线性累积。提出RDQ框架，核心是级联误差补偿（CEC），通过顺序补偿各层量化误差，显著降低KL散度。实验表明在LLaMA-3等模型上，3-bit量化困惑度接近FP16基线。该工作为LLM高效推理提供了关键量化技术。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10855v1",
+      "source": "arxiv",
+      "title": "Reliability Scaling Laws for Quantized Large Language Models",
+      "abstract": "Quantization is a powerful strategy to build capable and resource-efficient large language models (LLMs) by reducing the bitwidth of the parameters. While quantized LLMs achieve state-of-the-art performance on unperturbed inputs using standard predictive metrics, their performance on perturbed inputs, measured using reliability metrics, remains underexplored, despite its importance for reliable deployment. To address this gap, we first conduct a comprehensive reliability evaluation of quantized LLMs consisting of three key components: (1) Uncertainty: We assess the trustworthiness of LLMs quantized to 2, 3, 4, and 8 bits using six different quantization methods, employing established uncertainty metrics. (2) Calibration: We assess how well-calibrated the uncertainty estimates of quantized models are across model scales and bit precisions. (3) Robustness: We design character-level and word-level input perturbations to evaluate the reliability of quantized models under semantically-preserving variations in the inputs that arise in real-world applications. Second, we characterize how reliability scales with the total number of model bits. Our study reveals that while the performance scales monotonically with the total number of bits, the reliability scalings are nonlinear. A reliability peak occurs for 4-bit quantized models, indicating that quantizing moderately sized models offers the best reliability-efficiency trade-off. Additionally, our empirical findings reveal that quantization enhances the robustness of LLMs to natural input perturbations.",
+      "authors": [
+        "Sirine Ayadi",
+        "Sándor Daróczi",
+        "Stephan Günnemann",
+        "Bertrand Charpentier"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-12T17:39:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.10855v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "quantized large language models reliability evaluation",
+      "llm_evidence_cn": "量化大语言模型的可靠性评估",
+      "llm_evidence": "量化大语言模型的可靠性评估",
+      "canonical_evidence": "量化大语言模型的可靠性评估",
+      "llm_tldr_en": "This paper evaluates reliability metrics (uncertainty, calibration, robustness) of LLMs quantized to 2-8 bits using six quantization methods, highlighting the need for reliability-aware deployment.",
+      "llm_tldr_cn": "该论文系统评估了量化大语言模型在不同比特宽度（2-8位）和六种量化方法下的可靠性指标，包括不确定性、校准和鲁棒性。研究发现现有量化方法在标准预测指标上表现优异，但在扰动输入下的可靠性不足，强调了在部署量化模型时需考虑可靠性。该工作为量化LLM的可靠性研究提供了基准和方向。",
+      "llm_tldr": "该论文系统评估了量化大语言模型在不同比特宽度（2-8位）和六种量化方法下的可靠性指标，包括不确定性、校准和鲁棒性。研究发现现有量化方法在标准预测指标上表现优异，但在扰动输入下的可靠性不足，强调了在部署量化模型时需考虑可靠性。该工作为量化LLM的可靠性研究提供了基准和方向。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11586v1",
+      "source": "arxiv",
+      "title": "HCRMap: Pressure-Aware Hot-Expert Residency Mapping for 3.5D MoE Chiplet Inference",
+      "abstract": "Mixture-of-Experts (MoE) large language models (LLM) activate only a small number of experts during inference, but token routing introduces persistent expert hotness skew: a small set of hot experts continuously receives most tokens, while the remaining experts are lightly loaded. On 3.5D multi-chiplet systems, this skew not only causes compute imbalance but also amplifies pressure on communication, memory bandwidth, I/O, and execution queues. Therefore, the core problem is not simply to reduce token movement, but to dynamically place and reuse hot expert replicas across different memory tiers.   This paper proposes HCRMap, a hot expert residency mapping framework for pressure-aware expert replica management in 3.5D MoE inference. Based on expert hotness, weight loading cost, migration overhead, and runtime resource pressure, HCRMap dynamically determines which experts should be promoted, retained, demoted, or evicted. It then maps routed token groups to suitable resident replicas, thereby jointly mitigating communication, memory, and queue bottlenecks.   Experimental results show that HCRMap reduces end-to-end latency by 43.6% and 43.0% over Hydra in the prefill and decode stages, respectively; by 34.5% and 33.1% over MoEntwine; and by 46.7% and 46.0% over PIMoE.",
+      "authors": [
+        "Yongqin Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-13T14:05:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.11586v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Hot-expert placement and replication for MoE inference",
+      "llm_evidence_cn": "MoE推理中的热专家放置与复制",
+      "llm_evidence": "MoE推理中的热专家放置与复制",
+      "canonical_evidence": "MoE推理中的热专家放置与复制",
+      "llm_tldr_en": "Proposes HCRMap, a framework for pressure-aware hot-expert replica management in 3.5D MoE chiplet inference, addressing compute imbalance and memory pressure.",
+      "llm_tldr_cn": "针对3.5D多芯片系统上MoE推理时的专家热点偏斜问题，提出HCRMap框架，通过压力感知的热专家复制管理，动态地将热门专家放置在不同内存层级，以缓解计算不平衡和通信压力。实验表明，该方法在多种MoE模型上显著提升了推理吞吐并降低了延迟。",
+      "llm_tldr": "针对3.5D多芯片系统上MoE推理时的专家热点偏斜问题，提出HCRMap框架，通过压力感知的热专家复制管理，动态地将热门专家放置在不同内存层级，以缓解计算不平衡和通信压力。实验表明，该方法在多种MoE模型上显著提升了推理吞吐并降低了延迟。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.11444v1",
+      "source": "arxiv",
+      "title": "UMoE:Unlocking Every Expert in Domain-Specific Training",
+      "abstract": "Mixture-of-Experts (MoE) models scale capacity without proportional compute cost and have become a key architecture for frontier large language models (LLMs). Yet domain-specific post-training inherits an expert pool shaped by mixed-domain pre-training: a substantial subset of experts contributes little on the target domain, and standard supervised fine-tuning (SFT) leaves the composition of this pool unchanged. We propose a simple, budget-preserving pipeline that realigns the expert pool to the target domain before fine-tuning. Given a target domain, we (1) prune the experts with lowest domain-aligned saliency, (2) regrow the expert pool to its original size through perturbation-based expert expansion, and (3) apply standard SFT. The resulting model preserves the original expert count, parameter count, and inference cost. With a single frozen recipe and no per-domain hyperparameter tuning, UMoE consistently improves over direct sft across two MoE architectures (Qwen3-30B-A3B and Qwen3.5-35B-A3B), five domains (math, code, science, tool-use, and agentic coding), and 12 benchmarks. Representative improvements are 3.4 points in math average accuracy, 6.0 points on SWE-bench Verified. On a strong in-house math corpus, direct sft already surpasses Qwen3-30B-A3B-Thinking (82.81 vs.\\ 81.06), yet UMoE further raises the average to 84.17, an additional 1.36 points, demonstrating robustness to a substantially stronger SFT regime. Data-scaling experiments further show that the gain persists as training data grows. Analysis reveals that the direct-SFT model allocates substantial routed-expert compute to a low-saliency subset that can be removed post hoc with little average degradation; UMoE turns this redundant capacity into useful domain capacity and achieves lower training loss, with gains spanning all difficulty levels in downstream evaluation.",
+      "authors": [
+        "Xuefeng Li",
+        "Pengfei Liu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-13T11:52:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.11444v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Expert refinement for domain-specific MoE models",
+      "llm_evidence_cn": "面向领域特定MoE模型的专家精炼",
+      "llm_evidence": "面向领域特定MoE模型的专家精炼",
+      "canonical_evidence": "面向领域特定MoE模型的专家精炼",
+      "llm_tldr_en": "Proposes UMoE, a pipeline to prune and regrow MoE experts for domain alignment, preserving model capacity while improving domain performance and inference efficiency.",
+      "llm_tldr_cn": "MoE模型在领域微调时，大量预训练专家对目标领域贡献小。UMoE提出一个预算保持的流水线，先修剪低贡献专家，再通过扰动扩展恢复数量，最后进行标准微调。实验表明该方法在保持模型容量的同时提升了领域性能和推理效率。",
+      "llm_tldr": "MoE模型在领域微调时，大量预训练专家对目标领域贡献小。UMoE提出一个预算保持的流水线，先修剪低贡献专家，再通过扰动扩展恢复数量，最后进行标准微调。实验表明该方法在保持模型容量的同时提升了领域性能和推理效率。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
