@@ -1,0 +1,98 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-15T21:25:31.793388+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2607.12696v1",
+      "source": "arxiv",
+      "title": "Less Experts, Faster Decoding: Cost-Aware Speculative Decoding for Mixture-of-Experts",
+      "abstract": "Sparse Mixture-of-Experts (MoE) models have become an important approach for scaling Large Language Models (LLMs), but their inference efficiency depends strongly on expert activation patterns. Speculative decoding (SD) accelerates autoregressive generation by verifying multiple draft tokens in parallel, yet existing draft selection strategies primarily optimize acceptance likelihood. In large-scale MoE models, however, selecting draft tokens also determines the union of experts activated during verification. We observe that confidence-driven SD can introduce \\textit{expert scattering}: high-probability draft tokens may route to disjoint experts, increasing expert-weight memory traffic and reducing the speedup from speculation. Motivated by this observation, we revisit draft-tree selection under the non-uniform memory-cost structure of MoE inference. We propose \\textsc{EcoSpec}, a cost-aware speculative decoding framework that incorporates predicted marginal expert activation cost into draft selection. With a lightweight expert predictor and a dynamic expert buffer, \\textsc{EcoSpec} favors draft paths that preserve high acceptance likelihood while reusing experts already covered by the current verification set, without modifying the target-model verification rule. We evaluate \\textsc{EcoSpec} on three large-scale MoE models, including DeepSeek-V3.1 (671B), Qwen3-235B-A22B, and GPT-OSS-120B, across reasoning, coding, question-answering, and dialogue benchmarks. \\textsc{EcoSpec} consistently reduces active expert footprints and improves end-to-end decoding speed, achieving up to $1.62\\times$ speedup. These results show that accounting for expert activation cost is important for efficient speculative decoding in large-scale MoE models.",
+      "authors": [
+        "Jincheng Xie",
+        "Runheng Liu",
+        "Heyan Huang",
+        "Yawen Ling",
+        "Hanbin Dai",
+        "Yu Zheng",
+        "Wen Hu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.DC"
+      ],
+      "published": "2026-07-14T12:22:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.12696v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "speculative decoding for MoE models to reduce expert scattering and improve inference efficiency",
+      "llm_evidence_cn": "针对MoE模型的推测解码，减少专家散射，提升推理效率",
+      "llm_evidence": "针对MoE模型的推测解码，减少专家散射，提升推理效率",
+      "canonical_evidence": "针对MoE模型的推测解码，减少专家散射，提升推理效率",
+      "llm_tldr_en": "Proposes cost-aware speculative decoding for MoE LLMs that selects draft tokens to minimize expert activation overhead, achieving faster decoding without quality loss.",
+      "llm_tldr_cn": "针对大规模MoE语言模型推理效率问题，现有推测解码仅优化接受率，导致专家散射增加内存开销。本文提出成本感知推测解码，在候选令牌选择时考虑专家激活代价，减少验证阶段加载的专家权重数量。实验表明该方法在保持生成质量的同时显著提升解码速度，为MoE高效推理提供了新思路。",
+      "llm_tldr": "针对大规模MoE语言模型推理效率问题，现有推测解码仅优化接受率，导致专家散射增加内存开销。本文提出成本感知推测解码，在候选令牌选择时考虑专家激活代价，减少验证阶段加载的专家权重数量。实验表明该方法在保持生成质量的同时显著提升解码速度，为MoE高效推理提供了新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.11933v1",
+      "source": "arxiv",
+      "title": "Transforming LLMs into Efficient Cross-Encoders via Knowledge Distillation for RAG Reranking",
+      "abstract": "Cross-encoders achieve high reranking accuracy in Retrieval-Augmented Generation (RAG) pipelines but impose quadratic inference costs that limit real-time deployment. We address this by fine-tuning LLaMA 3 (8B) as a drop-in reranker using a two-stage pipeline: supervised fine-tuning on a custom query-document relevance dataset via the Unsloth framework with LoRA adapters, followed by 4-bit quantization for efficient inference. The resulting model replaces the cross-encoder in a dual-retriever RAG pipeline combining BM25 and dense vector search. Evaluated on a domain-specific question-answering benchmark using the RAGAS framework, our fine-tuned LLaMA 3 reranker achieves gains of 14% in answer relevancy, 16% in context precision, 19% in answer similarity, and 21% in answer correctness over the cross-encoder baseline, while reducing inference overhead through 4-bit quantization. These results demonstrate that instruction-tuned LLMs can be adapted into accurate, efficient rerankers without the quadratic complexity of traditional cross-encoders.",
+      "authors": [
+        "Shreeya Dasa Lakshminath",
+        "Shubhan S"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.IR",
+        "cs.LG"
+      ],
+      "published": "2026-07-11T04:31:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.11933v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "4-bit quantization for LLM inference",
+      "llm_evidence_cn": "4位量化用于LLM推理",
+      "llm_evidence": "4位量化用于LLM推理",
+      "canonical_evidence": "4位量化用于LLM推理",
+      "llm_tldr_en": "Fine-tunes LLaMA3 with LoRA and 4-bit quantization to create an efficient cross-encoder for RAG reranking, achieving 14% gain in answer relevancy.",
+      "llm_tldr_cn": "该论文针对交叉编码器推理成本高的问题，通过LoRA微调将LLaMA3（8B）转化为交叉编码器，并采用4位量化部署。在RAG流程中，该模型替代传统交叉编码器，在领域问答基准上实现了答案相关性和上下文精度的显著提升，证明了量化LLM作为高效重排序器的潜力。",
+      "llm_tldr": "该论文针对交叉编码器推理成本高的问题，通过LoRA微调将LLaMA3（8B）转化为交叉编码器，并采用4位量化部署。在RAG流程中，该模型替代传统交叉编码器，在领域问答基准上实现了答案相关性和上下文精度的显著提升，证明了量化LLM作为高效重排序器的潜力。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

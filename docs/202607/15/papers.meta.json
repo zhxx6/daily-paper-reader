@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-15",
+  "date": "2026-07-15",
+  "generated_at": "2026-07-15T21:27:28",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/15/2607.12696v1-less-experts-faster-decoding-cost-aware-speculative-decoding-for-mixture-of-experts",
+      "section": "deep",
+      "title_en": "Less Experts, Faster Decoding: Cost-Aware Speculative Decoding for Mixture-of-Experts",
+      "authors": "Jincheng Xie, Runheng Liu, Heyan Huang, Yawen Ling, Hanbin Dai, Yu Zheng, Wen Hu",
+      "date": "2026-07-14",
+      "pdf": "https://arxiv.org/pdf/2607.12696v1",
+      "score": "9.0",
+      "evidence": "针对MoE模型的推测解码，减少专家散射，提升推理效率",
+      "tldr": "稀疏MoE模型推理效率严重依赖专家激活模式，但现有推测解码的草稿选择策略仅优化接受概率，忽略专家分散导致的内存开销。本文提出EcoSpec，通过轻量级专家预测器预估边际激活成本，并利用动态专家缓存引导草稿树偏好复用已在验证集中的专家路径。在DeepSeek-V3.1（671B）等大规模MoE模型上，EcoSpec持续减少活跃专家足迹，端到端解码速度最高提升1.62倍。该工作首次在MoE推测解码中显式建模专家激活成本，为大规模稀疏模型高效推理提供了新思路。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Sparse Mixture-of-Experts (MoE) models have become an important approach for scaling Large Language Models (LLMs), but their inference efficiency depends strongly on expert activation patterns. Speculative decoding (SD) accelerates autoregressive generation by verifying multiple draft tokens in parallel, yet existing draft selection strategies primarily optimize acceptance likelihood. In large-scale MoE models, however, selecting draft tokens also determines the union of experts activated during verification. We observe that confidence-driven SD can introduce \\textit{expert scattering}: high-probability draft tokens may route to disjoint experts, increasing expert-weight memory traffic and reducing the speedup from speculation. Motivated by this observation, we revisit draft-tree selection under the non-uniform memory-cost structure of MoE inference. We propose \\textsc{EcoSpec}, a cost-aware speculative decoding framework that incorporates predicted marginal expert activation cost into draft selection. With a lightweight expert predictor and a dynamic expert buffer, \\textsc{EcoSpec} favors draft paths that preserve high acceptance likelihood while reusing experts already covered by the current verification set, without modifying the target-model verification rule. We evaluate \\textsc{EcoSpec} on three large-scale MoE models, including DeepSeek-V3.1 (671B), Qwen3-235B-A22B, and GPT-OSS-120B, across reasoning, coding, question-answering, and dialogue benchmarks. \\textsc{EcoSpec} consistently reduces active expert footprints and improves end-to-end decoding speed, achieving up to $1.62\\times$ speedup. These results show that accounting for expert activation cost is important for efficient speculative decoding in large-scale MoE models.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/15/2607.11933v1-transforming-llms-into-efficient-cross-encoders-via-knowledge-distillation-for-rag-reranking",
+      "section": "quick",
+      "title_en": "Transforming LLMs into Efficient Cross-Encoders via Knowledge Distillation for RAG Reranking",
+      "authors": "Shreeya Dasa Lakshminath, Shubhan S",
+      "date": "2026-07-11",
+      "pdf": "https://arxiv.org/pdf/2607.11933v1",
+      "score": "7.0",
+      "evidence": "4位量化用于LLM推理",
+      "tldr": "交叉编码器在RAG重排序中精度高但推理成本高，限制实时部署。本文通过两阶段流程将LLaMA3微调为高效重排序器：先使用Unsloth框架和LoRA进行监督微调，再4bit量化。在领域问答基准上，相比交叉编码器基线，答案相关性提升14%、上下文精度提升16%、答案相似性提升19%、正确性提升21%，同时推理开销降低。该方法证明指令微调的大语言模型可成为高效重排序器，避免传统交叉编码器的二次复杂度。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Cross-encoders achieve high reranking accuracy in Retrieval-Augmented Generation (RAG) pipelines but impose quadratic inference costs that limit real-time deployment. We address this by fine-tuning LLaMA 3 (8B) as a drop-in reranker using a two-stage pipeline: supervised fine-tuning on a custom query-document relevance dataset via the Unsloth framework with LoRA adapters, followed by 4-bit quantization for efficient inference. The resulting model replaces the cross-encoder in a dual-retriever RAG pipeline combining BM25 and dense vector search. Evaluated on a domain-specific question-answering benchmark using the RAGAS framework, our fine-tuned LLaMA 3 reranker achieves gains of 14% in answer relevancy, 16% in context precision, 19% in answer similarity, and 21% in answer correctness over the cross-encoder baseline, while reducing inference overhead through 4-bit quantization. These results demonstrate that instruction-tuned LLMs can be adapted into accurate, efficient rerankers without the quadratic complexity of traditional cross-encoders.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
