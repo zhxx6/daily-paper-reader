@@ -6,28 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-15
-- 运行时间：2026-07-15 21:27:20 UTC
+- 最新运行日期：2026-07-16
+- 运行时间：2026-07-16 20:10:18 UTC
 - 运行状态：成功
 - 本次总论文数：2
 - 精读区：1
 - 速读区：1
 
 ### 今日简报（AI）
-今日精读一篇MoE模型加速解码研究（9.0分），速读一篇蒸馏交叉编码器用于RAG重排序（7.0分）。  
-值得关注：基于成本的推测解码可显著降低MoE模型推理延迟，是提升大模型效率的关键方向。  
-建议关注开源MoE模型的推测解码实现，尝试在RAG场景中用蒸馏后的交叉编码器替代传统双编码器，以提升检索排序质量。
-- 详情：[/202607/15/README](/202607/15/README)
+今日精读8.0分德语与英语开源基础模型，速读7.0分长上下文稀疏注意力内核。最值得关注的是德国主权开源模型对非英语大模型生态的突破。建议普通读者优先评估该模型在本地化场景的可用性，再留意长文本注意力优化对推理速度的提升。
+- 详情：[/202607/16/README](/202607/16/README)
 
 ### 精读区论文标签
-1. [Less Experts, Faster Decoding: Cost-Aware Speculative Decoding for Mixture-of-Experts](/202607/15/2607.12696v1-less-experts-faster-decoding-cost-aware-speculative-decoding-for-mixture-of-experts)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：针对MoE模型的推测解码，减少专家散射，提升推理效率
+1. [A Sovereign, Open-Source Foundation Model for German and English](/202607/16/2607.09424v2-a-sovereign-open-source-foundation-model-for-german-and-english)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：混合专家模型，高效推理
 
 ### 速读区论文标签
-1. [Transforming LLMs into Efficient Cross-Encoders via Knowledge Distillation for RAG Reranking](/202607/15/2607.11933v1-transforming-llms-into-efficient-cross-encoders-via-knowledge-distillation-for-rag-reranking)  
+1. [LiteTopK: Exploiting the Curse of Dimensionality for a Fused Indexer-TopK Kernel in Long-Context Sparse Attention](/202607/16/2607.11976v2-litetopk-exploiting-the-curse-of-dimensionality-for-a-fused-indexer-topk-kernel-in-long-context-sparse-attention)  
    标签：评分：7.0/10、query:moe-gk-quant
-   evidence：4位量化用于LLM推理
+   evidence：提出了用于稀疏注意力的融合索引器-TopK核，与MoE分组计算中的核融合技术相关
 
 
 <div class="dpr-home-promo-card">

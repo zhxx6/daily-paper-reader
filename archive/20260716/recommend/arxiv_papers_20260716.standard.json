@@ -1,0 +1,123 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-16T20:06:43.495718+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2607.09424v2",
+      "source": "arxiv",
+      "title": "A Sovereign, Open-Source Foundation Model for German and English",
+      "abstract": "We present Soofi S 30B-A3B, a sovereign, open-source Mixture-of-Experts (MoE) hybrid Mamba Transformer foundation model for German and English. Its hybrid design activates only 3B of 30B parameters per token and keeps the inference cache near-constant as context grows, giving it a decisive throughput advantage over dense models for long-context, high-concurrency deployment. Pretrained on roughly 27 trillion tokens with deliberately up-weighted German, Soofi S matches dense 14 to 27B models on aggregate English and German benchmarks while achieving the best code aggregates in both languages among 17 open base models, and outperforms every European sovereign baseline in our comparison, including ones far larger in active parameters. Among fully open models, Soofi S obtains the highest English and German evaluation scores, ahead of Olmo 3 32B and Apertus 70B. Soofi S was built end-to-end on the German Industrial AI Cloud, a sovereign HPC scale AI infrastructure operated by Deutsche Telekom in Munich. Soofi S will be released under highly permissive, open-access terms: weights, selected intermediate checkpoints, full per-source data accounting, hyperparameters, and training and evaluation code. Where source licenses permit, data-construction artifacts are released under permissive licenses; commercially licensed sources are documented with aggregate statistics and exact mixture accounting.",
+      "authors": [
+        "The Soofi-Team",
+        ":",
+        "Benedikt Droste",
+        "David Fitzek",
+        "Ruben Härle",
+        "Lukas Helff",
+        "Maximilian Idahl",
+        "Alex Jude",
+        "Abbas Goher Khan",
+        "Maurice Kraus",
+        "Timm Ruland",
+        "Richard Rutmann",
+        "Sebastian Sztwiertnia",
+        "Markus Frey",
+        "Daniil Gurgurov",
+        "Jan Pfister",
+        "Tom Röhr",
+        "Sebastian von Rohrscheidt",
+        "Jörg Bienert",
+        "Nicolas Flores-Herr",
+        "Simon Gottschalk",
+        "Andreas Hotho",
+        "Kristian Kersting",
+        "Joachim Köhler",
+        "Alexander Löser",
+        "Wolfgang Nejdl",
+        "Simon Ostermann",
+        "Jan Plogsties",
+        "Patrick Putzky",
+        "Mehdi Ali",
+        "Michael Fromm",
+        "Max Lübbering"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-10T13:51:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.09424v2",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Mixture-of-Experts hybrid Mamba Transformer with efficient inference",
+      "llm_evidence_cn": "混合专家模型，高效推理",
+      "llm_evidence": "混合专家模型，高效推理",
+      "canonical_evidence": "混合专家模型，高效推理",
+      "llm_tldr_en": "Soofi S is a 30B MoE hybrid Mamba Transformer model that activates only 3B parameters per token, achieving efficient inference with near-constant cache.",
+      "llm_tldr_cn": "本文提出Soofi S 30B-A3B，一个主权开放源码的混合专家（MoE）混合Mamba Transformer基础模型。该模型每token仅激活30亿参数（共300亿），并保持推理缓存近恒定，从而实现长上下文高并发场景下的吞吐量优势。预训练约27万亿token后，在英德基准上匹配140-270亿密集模型性能，并在代码任务上超越现有模型。",
+      "llm_tldr": "本文提出Soofi S 30B-A3B，一个主权开放源码的混合专家（MoE）混合Mamba Transformer基础模型。该模型每token仅激活30亿参数（共300亿），并保持推理缓存近恒定，从而实现长上下文高并发场景下的吞吐量优势。预训练约27万亿token后，在英德基准上匹配140-270亿密集模型性能，并在代码任务上超越现有模型。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.11976v2",
+      "source": "arxiv",
+      "title": "LiteTopK: Exploiting the Curse of Dimensionality for a Fused Indexer-TopK Kernel in Long-Context Sparse Attention",
+      "abstract": "Indexer-TopK, the operation to compute the scores and select the top-k candidates, is widely used by sparse attention kernels in large language models and vector retrieval in recommendation systems and vector databases. However, existing GPU-based Indexer-TopK kernels like DeepSeek Sparse Attention (DSA) remain inefficient due to excessive global memory traffic, costly synchronization, and prohibitive memory overhead. In this work, we exploit the curse of dimensionality in high-dimensional spaces, where distances between high-dimensional vectors tend to concentrate within a narrow range, to design LITETOPK, a novel and efficient fused Indexer-TopK kernel. LITETOPK first samples a small subset of data to estimate query-data score ranges, then uses these estimates to partition candidate results into bins online. This organization allows the LITETOPK kernel to maintain a tight approximate threshold, write back only promising candidates, reduce unnecessary I/O, substantially lower memory overhead, and still preserve exact Top-k correctness. Experimental results show that LITETOPK accelerates the prefill stage of GLM 5.2 by 1.2x in real-world deployment scenarios while incurring lower memory overhead.",
+      "authors": [
+        "Ziqi Yin",
+        "Jianyang Gao",
+        "Peiqi Yin",
+        "Jiangneng Li",
+        "Gao Cong"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-13T03:53:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.11976v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes a fused Indexer-TopK kernel for sparse attention, relevant to kernel fusion for grouped computation in MoE",
+      "llm_evidence_cn": "提出了用于稀疏注意力的融合索引器-TopK核，与MoE分组计算中的核融合技术相关",
+      "llm_evidence": "提出了用于稀疏注意力的融合索引器-TopK核，与MoE分组计算中的核融合技术相关",
+      "canonical_evidence": "提出了用于稀疏注意力的融合索引器-TopK核，与MoE分组计算中的核融合技术相关",
+      "llm_tldr_en": "LiteTopK introduces a fused GPU kernel for Indexer-TopK that reduces memory traffic and synchronization by exploiting the curse of dimensionality, achieving significant speedups for long-context sparse attention, which can be transferred to MoE grouped expert kernel fusion.",
+      "llm_tldr_cn": "针对长上下文稀疏注意力中Indexer-TopK核效率低的问题，提出LiteTopK融合核，利用高维空间距离集中特性，通过采样估计阈值避免全局计算，显著降低内存访问和同步开销。实验表明优于DeepSeek稀疏注意力，并可推广至MoE模型的分组专家核融合优化。",
+      "llm_tldr": "针对长上下文稀疏注意力中Indexer-TopK核效率低的问题，提出LiteTopK融合核，利用高维空间距离集中特性，通过采样估计阈值避免全局计算，显著降低内存访问和同步开销。实验表明优于DeepSeek稀疏注意力，并可推广至MoE模型的分组专家核融合优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "kernel fusion techniques for grouped expert computation in MoE",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

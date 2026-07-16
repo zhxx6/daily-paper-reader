@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-16",
+  "date": "2026-07-16",
+  "generated_at": "2026-07-16T20:10:24",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/16/2607.09424v2-a-sovereign-open-source-foundation-model-for-german-and-english",
+      "section": "deep",
+      "title_en": "A Sovereign, Open-Source Foundation Model for German and English",
+      "authors": "The Soofi-Team, :, Benedikt Droste, David Fitzek, Ruben Härle, Lukas Helff, Maximilian Idahl, Alex Jude, Abbas Goher Khan, Maurice Kraus, Timm Ruland, Richard Rutmann, Sebastian Sztwiertnia, Markus Frey, Daniil Gurgurov, Jan Pfister, Tom Röhr, Sebastian von Rohrscheidt, Jörg Bienert, Nicolas Flores-Herr, Simon Gottschalk, Andreas Hotho, Kristian Kersting, Joachim Köhler, Alexander Löser, Wolfgang Nejdl, Simon Ostermann, Jan Plogsties, Patrick Putzky, Mehdi Ali, Michael Fromm, Max Lübbering",
+      "date": "2026-07-10",
+      "pdf": "https://arxiv.org/pdf/2607.09424v2",
+      "score": "8.0",
+      "evidence": "混合专家模型，高效推理",
+      "tldr": "德语和英语开源基础模型稀缺且性能不足。我们提出Soofi S 30B-A3B，采用MoE混合Mamba Transformer架构，每token仅激活3B参数，推理缓存大小随上下文增长几乎不变，在长上下文高并发部署中吞吐量远优于密集模型。在约27万亿token上预训练并提高德语权重，模型在英德语基准上匹配14-27B参数密集模型，代码聚合得分两项均为开源模型最高，超越Olmo 3 32B和Apertus 70B等。模型完全开源，包括权重、中间检查点、数据构成、超参数和代码，确保主权和可复现性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We present Soofi S 30B-A3B, a sovereign, open-source Mixture-of-Experts (MoE) hybrid Mamba Transformer foundation model for German and English. Its hybrid design activates only 3B of 30B parameters per token and keeps the inference cache near-constant as context grows, giving it a decisive throughput advantage over dense models for long-context, high-concurrency deployment. Pretrained on roughly 27 trillion tokens with deliberately up-weighted German, Soofi S matches dense 14 to 27B models on aggregate English and German benchmarks while achieving the best code aggregates in both languages among 17 open base models, and outperforms every European sovereign baseline in our comparison, including ones far larger in active parameters. Among fully open models, Soofi S obtains the highest English and German evaluation scores, ahead of Olmo 3 32B and Apertus 70B. Soofi S was built end-to-end on the German Industrial AI Cloud, a sovereign HPC scale AI infrastructure operated by Deutsche Telekom in Munich. Soofi S will be released under highly permissive, open-access terms: weights, selected intermediate checkpoints, full per-source data accounting, hyperparameters, and training and evaluation code. Where source licenses permit, data-construction artifacts are released under permissive licenses; commercially licensed sources are documented with aggregate statistics and exact mixture accounting.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/16/2607.11976v2-litetopk-exploiting-the-curse-of-dimensionality-for-a-fused-indexer-topk-kernel-in-long-context-sparse-attention",
+      "section": "quick",
+      "title_en": "LiteTopK: Exploiting the Curse of Dimensionality for a Fused Indexer-TopK Kernel in Long-Context Sparse Attention",
+      "authors": "Ziqi Yin, Jianyang Gao, Peiqi Yin, Jiangneng Li, Gao Cong",
+      "date": "2026-07-13",
+      "pdf": "https://arxiv.org/pdf/2607.11976v2",
+      "score": "7.0",
+      "evidence": "提出了用于稀疏注意力的融合索引器-TopK核，与MoE分组计算中的核融合技术相关",
+      "tldr": "长上下文稀疏注意力中的Indexer-TopK操作在GPU上效率低下，主要源于全局内存流量大和同步开销高。本文利用高维空间的距离集中特性，提出LITETOPK融合内核，通过采样估计分数范围并在线分桶，只回写有潜力的候选，大幅降低I/O和内存开销。实验表明，LITETOPK在GLM 5.2预填充阶段实现1.2倍加速，同时保持精确Top-K结果。该方法为高效稀疏注意力计算提供了新思路。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Indexer-TopK, the operation to compute the scores and select the top-k candidates, is widely used by sparse attention kernels in large language models and vector retrieval in recommendation systems and vector databases. However, existing GPU-based Indexer-TopK kernels like DeepSeek Sparse Attention (DSA) remain inefficient due to excessive global memory traffic, costly synchronization, and prohibitive memory overhead. In this work, we exploit the curse of dimensionality in high-dimensional spaces, where distances between high-dimensional vectors tend to concentrate within a narrow range, to design LITETOPK, a novel and efficient fused Indexer-TopK kernel. LITETOPK first samples a small subset of data to estimate query-data score ranges, then uses these estimates to partition candidate results into bins online. This organization allows the LITETOPK kernel to maintain a tight approximate threshold, write back only promising candidates, reduce unnecessary I/O, substantially lower memory overhead, and still preserve exact Top-k correctness. Experimental results show that LITETOPK accelerates the prefill stage of GLM 5.2 by 1.2x in real-world deployment scenarios while incurring lower memory overhead.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
