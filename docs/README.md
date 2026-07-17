@@ -6,26 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-16
-- 运行时间：2026-07-16 20:10:18 UTC
+- 最新运行日期：2026-07-17
+- 运行时间：2026-07-17 21:07:02 UTC
 - 运行状态：成功
-- 本次总论文数：2
+- 本次总论文数：1
 - 精读区：1
-- 速读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日精读8.0分德语与英语开源基础模型，速读7.0分长上下文稀疏注意力内核。最值得关注的是德国主权开源模型对非英语大模型生态的突破。建议普通读者优先评估该模型在本地化场景的可用性，再留意长文本注意力优化对推理速度的提升。
-- 详情：[/202607/16/README](/202607/16/README)
+今日精读一篇高分论文，探索如何在2011年的6GB Fermi显卡上运行现代多模态助手的全部GPU推理。  
+其核心结论是：通过分段验证和全CUDA优化，老旧GPU也能支撑一定规模的AI推理任务。  
+若你手头有低显存旧显卡，可参考该论文的Stage-Validated方法和CUDA调优思路，尝试部署轻量模型。
+- 详情：[/202607/17/README](/202607/17/README)
 
 ### 精读区论文标签
-1. [A Sovereign, Open-Source Foundation Model for German and English](/202607/16/2607.09424v2-a-sovereign-open-source-foundation-model-for-german-and-english)  
+1. [A Modern Multimodal Assistant on a 6 GB 2011 GPU: Stage-Validated, All-GPU CUDA Inference for Fermi](/202607/17/2607.14568v1-a-modern-multimodal-assistant-on-a-6-gb-2011-gpu-stage-validated-all-gpu-cuda-inference-for-fermi)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：混合专家模型，高效推理
+   evidence：在旧GPU上进行量化混合专家模型推理，使用8位权重
 
 ### 速读区论文标签
-1. [LiteTopK: Exploiting the Curse of Dimensionality for a Fused Indexer-TopK Kernel in Long-Context Sparse Attention](/202607/16/2607.11976v2-litetopk-exploiting-the-curse-of-dimensionality-for-a-fused-indexer-topk-kernel-in-long-context-sparse-attention)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：提出了用于稀疏注意力的融合索引器-TopK核，与MoE分组计算中的核融合技术相关
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">

@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-17 <!--dpr-date:20260717-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/17/2607.14568v1-a-modern-multimodal-assistant-on-a-6-gb-2011-gpu-stage-validated-all-gpu-cuda-inference-for-fermi" data-sidebar-item="{&quot;title&quot;: &quot;A Modern Multimodal Assistant on a 6 GB 2011 GPU: Stage-Validated, All-GPU CUDA Inference for Fermi&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.14568v1-a-modern-multimodal-assistant-on-a-6-gb-2011-gpu-stage-validated-all-gpu-cuda-inference-for-fermi&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;在旧GPU上进行量化混合专家模型推理，使用8位权重&quot;}">A Modern Multimodal Assistant on a 6 GB 2011 GPU: Stage-Validated, All-GPU CUDA Inference for Fermi</a>
   * 2026-07-16 <!--dpr-date:20260716-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/16/2607.09424v2-a-sovereign-open-source-foundation-model-for-german-and-english" data-sidebar-item="{&quot;title&quot;: &quot;A Sovereign, Open-Source Foundation Model for German and English&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.09424v2-a-sovereign-open-source-foundation-model-for-german-and-english&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;混合专家模型，高效推理&quot;}">A Sovereign, Open-Source Foundation Model for German and English</a>

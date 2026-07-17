@@ -1,0 +1,202 @@
+Title: A Modern Multimodal Assistant on a 6 GB 2011 GPU: Stage-Validated, All-GPU CUDA Inference for Fermi
+
+URL Source: https://arxiv.org/pdf/2607.14568v1
+
+Published Time: Fri, 17 Jul 2026 00:55:01 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+# A Modern Multimodal Assistant on a 6 GB 2011 GPU: Stage-Validated, All-GPU CUDA Inference for Fermi 
+
+A. C. Opus, J. Q. Lu ∗
+
+Department of Physics, University of Puerto Rico, Mayaguez, PR 00680, USA 
+
+July 2026 
+
+Abstract 
+
+A companion study ran a 35B mixture-of-experts model on a 2011 NVIDIA Tesla C2075 (Fermi, compute capability sm_20 , 6 GB) by splitting work between a streaming GPU prefill and a CPU decode, because the 4-bit model did not fit in device memory [ 1]. This report keeps the hardware and asks what a model that fits can do: we deploy MiniCPM-V-4.6, a modern multimodal assistant pairing a SigLIP2 vision encoder with a window-attention merger ( 16 ×
+
+visual token compression) and a compact hybrid gated-delta-net language backbone, entirely on the GPU. Three results. (i) An all-GPU engine for the hybrid backbone , built on three measured foundations: projections that dequantize 8-bit weights once and call the vendor sgemm still shipped in the last Fermi toolchain — 64% of FP32 peak, where our best hand-written GEMM reached 37% and we had wrongly called that the ceiling; a chunked delta-rule rewrite of the recurrent layers whose first version measured 2.4× slower until component attribution exposed one bad kernel, after which it is 2.8× faster; and a measured negative — 4-bit weights make decode slower than 8-bit on this GPU, because Fermi issues the nibble-unpacking shifts at half rate. (ii) The vision side is a port with a proof obligation : we translate the SigLIP2 tower, its mid-stack window-attention merger, and the final downsampling projector to hand-written sm_20 CUDA, validating every stage against a locally generated reference forward; the full tower matches to 1.4 × 10 −5 per element, and one failure — position-embedding bucketization differing on exact rational ties — generalizes to a rule: floating-point tie-breaking in index arithmetic is implementation-defined and must be reproduced by calling the reference operator, not by reimplementing it. (iii) Long context exposes an O(N 2) wall that short benchmarks hide : prefill that sustains 114 tok/s at 2k tokens collapses to 21 tok/s at 10k because of a naive attention kernel; rewriting it as per-head vendor-GEMM calls that write into the existing score buffer (zero additional memory) restores a flat profile — 408 tok/s at 2k, 361 at 10k, a 17 × prefill-time reduction at 10k — verified by exact retrieval of a needle planted at 60% depth. The same GEMM rewrite cuts image encoding 6×, to 0.93 s per image. The production system answers an image question end-to-end in 1.7 s on hardware older than the transformer literature it runs. 
+
+# 1 Introduction 
+
+A companion study [ 1] asked how much of the modern inference stack can be rebuilt, by hand, for a GPU the ecosystem abandoned: the NVIDIA Tesla C2075 (Fermi, 2011) — 6 GB, no tensor cores, no fast FP16, no DP4A , no CUDA toolkit after 8.0. There, a 35B mixture-of-experts model did not fit in device memory, and the defining problem was memory movement: experts streamed from host RAM for GPU prefill while decode ran on the CPU’s integer SIMD units. This paper studies the opposite regime on the same machine, with a more ambitious target than raw language modeling: a current-generation multimodal assistant , run entirely on the GPU. The model is MiniCPM-V-4.6 [ 2, 3], which couples a SigLIP2 vision encoder [ 4, 5] to a mid-stack 
+
+> ∗
+
+Correspondence: junqiang.lu@upr.edu .
+
+1arXiv:2607.14568v1 [cond-mat.other] 16 Jul 2026 window-attention merger and a final downsampling projector — 16 × patch-to-token compression, so a 448 2 image costs 64 language tokens — with a 0.8B-parameter hybrid gated-delta-net [ 8]language backbone. At 8-bit weights the backbone is under 1 GB and the FP32 vision tower another ≈2.1 GB, so everything is resident: no streaming, no CPU decode, no expert offload. With the memory constraint gone, the questions become speed and correctness, and this report answers three of them: 1. How fast can a hybrid-attention backbone run all-GPU on Fermi? We build the language engine on three measured foundations. First, prefill projections are genuine matrix–matrix products, and the achievable ceiling is not where intuition puts it: our best hand-written register-tiled GEMM reaches 37% of FP32 peak, but the CUDA 8.0 
+
+cuBLAS sgemm — tuned for this architecture a decade ago and still shipped in the last toolchain that targets it — reaches 66%; we therefore dequantize each 8-bit weight once into an FP32 scratch and call the vendor kernel (64% of peak end-to-end). Second, the recurrent gated-delta-net layers are rewritten from a token-by-token scan into the chunked intra-/inter-chunk delta-rule form, built entirely from batched small cuBLAS GEMMs — a rewrite whose first version measured 2.4× slower and was nearly abandoned until per-component timing showed 92% of the time in one badly written forward-substitution kernel; fixed, the chunked scan is 2.8× faster than the sequential recurrence. Third, decode — a bandwidth-bound integer matrix-vector product — stays at 8-bit by measurement : 4-bit weights halve the bytes but require nibble-unpacking shifts that Fermi issues at half rate, making the 4-bit kernel 12% slower despite reading half the data. Greedy decode runs at 48.6 tok/s. 2. Can a modern vision stack be hand-ported with confidence on a machine that cannot run its reference implementation natively? Yes, by stage-validated porting :we dump a 31-stage reference trace of the tower — running the reference forward on the no-AVX host via a CPU-capability override that forces the tensor library onto a legacy code path — then port and validate stage by stage: encoder layers, the window-attention merger (the only genuinely new kernel), and the downsampling projector, gating each stage at ∼10 −3 agreement before proceeding. The full tower matches to 1.4 × 10 −5; the multi-slice variable-resolution path to 1.2 × 10 −4. One stage initially failed by 1.8 (not 
+
+10 −3): position-embedding bucketization, where an exact rational tie ( 10 /28 = 25 /70 ) falls on a bucket boundary and the reference’s float32 tie-breaking is implementation-defined. Every reimplementation we tried — float64, float32, exact integer arithmetic — flipped 
+
+some grid size. The fix, and the generalizable rule, is to call the reference operator itself for index arithmetic. 3. Does the system survive long context? Not initially — and short benchmarks said it did. At 2k tokens, prefill sustains 114 tok/s; a tiered test (2k/5k/8k/10k) exposes a collapse to 21 tok/s at 10k, super-quadratic in wall-clock, caused by the one kernel the batching pass had left in per-position form: softmax attention over the growing key/value history. We rewrite it as per-head vendor-GEMM calls with a causal masked softmax, laid out so the score matrix lands in the existing attention buffer (zero new device memory). The 10k prefill drops from 479 to 27.7 s ( 17 ×); the throughput profile flattens (408 at 2k, 361 at 10k); and a needle planted at 60% depth of a 10k-token document is retrieved exactly, before and after the rewrite. The same layout trick applied to the vision tower’s (bidirectional) attention cuts image encoding 6×.As with the companion study, this is an engineering and measurement report on one machine, not an algorithmic novelty claim. Its recurring lesson is methodological: every ceiling and every bug yielded to measurement against a ground truth — a vendor BLAS call, a per-component timer, a reference trace, a tiered benchmark, a planted needle — and resisted intuition. Four 2confident conclusions (“37% is the GEMM wall,” “the chunked scan is slower,” “4-bit decode must be faster,” “2k benchmarks represent prefill”) were each overturned by a measurement; a fifth — that index arithmetic can always be reimplemented — fell to an exact rational tie. 
+
+# 2 Background 
+
+2.1 The target hardware 
+
+The NVIDIA Tesla C2075 is a Fermi (GF110) compute card from 2011: 448 CUDA cores, 6 GB GDDR5 ( ≈5.3 GB usable with ECC) at ∼144 GB/s, ∼1.03 TFLOP FP32 peak, compute capability sm_20 , and a PCIe 2.0 host link. It has no tensor cores, no fast FP16, and no DP4A ; it is limited to 48 KB of shared memory per block and a 65,535 grid-dimension cap, and it issues logical shifts at half the rate of a fused multiply-add — a detail that decides the decode weight format (Section 3.3). Its compute capability was dropped from the CUDA toolkit years ago; the last toolchain that targets it is CUDA 8.0, which we run inside a container and use only to build. Crucially, the CUDA 8.0 runtime still ships cuBLAS , so a hand-written engine can call the vendor sgemm — a fact this paper leans on three separate times. The host is a dual-socket Westmere-class Xeon that predates AVX, so host SIMD is limited to SSE4.2/SSSE3; it matters here only for the reference forwards we are forced to run in a degraded mode (Section 4). 
+
+2.2 The model 
+
+MiniCPM-V-4.6 [ 2, 3] is a multimodal assistant with three parts. (a) A SigLIP2 vision encoder [ 4,5]: a 27-layer, 1152-wide vision transformer (16 heads of dimension 72, 14 × 14 patches) with 
+
+learned position embeddings over a 70 × 70 reference grid, resampled to arbitrary patch grids by fractional-coordinate bucketization in the NaViT variable-resolution style [ 6] — no rotary embedding anywhere in the tower. (b) A two-stage spatial compressor: after encoder layer 6, a window-attention merger runs self-attention within each 2 × 2 patch window, restores order, and concatenates each window into one vector that a wide MLP (4608 →17216 →1152) projects back down, quartering the sequence; after the final layer, a second 2 × 2 merge-and-project (4608 →4608 →1024, this time into the language model’s width) quarters it again. Net: 16 ×
+
+compression, so a 32 × 32 -patch image ( 448 2 pixels) becomes 64 language-model tokens. (c) A0.8B-parameter language backbone from the Qwen3 family [ 7]: 24 blocks, 18 gated-delta-net [ 8](in the state-space lineage of Mamba [ 9]) and 6 softmax-attention, hidden width 1024, a tied output head, and a plain 1-D rotary embedding. The delta-net layers carry a recurrent state 
+
+S ∈ RHk ×Hv per value head, with 16 value heads and Hk = Hv = 128 , updated token-by-token. Large images are handled by slicing: the processor cuts the image into up to nine ∼448 2 slices plus a downscaled overview, each encoded independently. 
+
+2.3 Quantization and residency 
+
+Language weights are 8-bit, group-wise symmetric, one FP32 scale per group of 64 — under 1 GB, so there is no reason to pay the accuracy cost of 4-bit (and Section 3.3 shows 4-bit would also be slower ). The vision tower runs in FP32 ( ≈2.1 GB; the wide merger MLP alone is a 300 MB matrix). Model, tower, KV cache, and all scratch are resident: at rest the system holds 1.6 GB (engine) plus 2.7 GB (tower) of the 5.3 usable GB, with ≈0.8 GB headroom. There is no host →device transfer inside any forward pass — the structural opposite of the companion design [ 1], and what makes prefill throughput, not memory movement, the object of optimization. 3Table 1: GEMM throughput on the C2075 for a representative prefill projection shape (FP32, 1,030 GFLOP/s peak). The vendor cuBLAS sgemm is the true ceiling, nearly 2× the best hand-written tile; the dequantize-then-sgemm pipeline used in the engine reaches it, and is 7.2×
+
+the per-token GEMV it replaces. Kernel GFLOP/s % of FP32 peak Per-token GEMV (naive prefill) 91 9% Hand-written tiled GEMM ( 6 × 6) 378 37% Dequantize + cuBLAS sgemm (engine) 659 64% 
+
+cuBLAS sgemm (FP32 reference) 675 66% 
+
+# 3 An All-GPU Engine for the Hybrid Backbone 
+
+The engine descends from the companion study’s [ 1]: a single CUDA source, 8-bit resident weights, a resident serving process with the position-indexed prefix-snapshot cache that work introduced. This section describes the three measured foundations of its prefill and decode paths. 
+
+3.1 Prefill projections: dequantize, then call the vendor 
+
+Prefill projections are genuine matrix–matrix products (all prompt positions against a weight matrix), so they should run at GEMM, not GEMV, efficiency. Two questions arise: what is the achievable GEMM efficiency on Fermi, and how does one feed 8-bit quantized weights to a floating-point GEMM? We first measured the ceiling . A hand-written register-tiled GEMM ( 6 × 6 micro-tiles, chosen by a sweep) reaches 378 GFLOP/s, 37% of FP32 peak. We had initially concluded this was the Fermi SGEMM wall — and were wrong. The CUDA 8.0 cuBLAS sgemm on the same shapes reaches 675 GFLOP/s, 66% of peak (Table 1). The vendor kernel, tuned for this architecture a decade ago, nearly doubles the best hand-written tile. The lesson is blunt: on hardware one no longer fully understands, the achievable ceiling should be measured against a vendor library before it is asserted. The remaining obstacle is the 8-bit weight format. Rather than fuse dequantization into a bespoke GEMM (which reintroduces the hand-kernel inefficiency), we dequantize each weight 
+
+once into an FP32 scratch buffer and call cuBLAS on the result. The dequantization is a cheap, bandwidth-bound pass ( <1 ms for a 12.6-million-weight projection); its cost is amortized across all prompt positions in the chunk. The composite “dequantize + sgemm ” pipeline reaches 659 GFLOP/s — within a few percent of raw cuBLAS , and 7.2× the per-token GEMV it replaces. All per-position kernels around the projections (norms, rotary embedding, gating) are batched over the whole chunk, bit-identically to their sequential forms. 
+
+3.2 A chunked delta-rule scan for the recurrent layers 
+
+Eighteen of the model’s 24 layers are gated-delta-net recurrences: the state St = diag (γt) St−1 +
+
+kt δ⊤ 
+
+> t
+
+depends on St−1, so a chunk of C tokens is C dependent steps — the structure that resists batching. The linear-attention literature resolves this with a chunked (intra-/inter-chunk) formulation [ 8], which we implement by hand for sm_20 . Within a chunk, the gated delta rule becomes a lower-triangular system whose right-hand sides do not depend on the incoming state, so all C positions are solved together: two small matrix products form the token–token interaction matrices, a forward substitution resolves the triangular dependence, and a few batched GEMMs assemble the per-chunk correction and the chunk’s output. Across chunks, only a short recurrence of small state-matrix products S(c+1) = Mc S(c) + Nc remains sequential, with Mc, N c
+
+4Table 2: Attributing the chunked delta-rule scan for one recurrent layer (16 heads, 512-token chunk, Hk=Hv=128 ). The batched small GEMMs are fast on Fermi; the entire apparent slowdown of the first attempt was one forward-substitution kernel that recomputed an already-computed matrix and over-synchronized. Fixing it makes the chunked scan 2.8× faster than the sequential recurrence, not 2.4× slower. Sequential Chunked (first) Chunked (fixed) Total (ms) 25.1 59.4 9.0 
+
+forward substitution — 54.5 4.2 
+
+batched GEMMs — 4.8 4.8 Speedup vs. sequential — 0.42 × 2.8×
+
+precomputed in parallel. Every matrix operation is issued as a batched small GEMM over the (head, chunk) pairs via cuBLAS .We verified the formulation numerically at three levels before trusting it: the chunked algebra against the sequential recurrence on the host ( ∼3 × 10 −5 relative error on the output), the GPU implementation against the host ( ∼2 × 10 −5), and the full engine against the sequential path (identical greedy tokens on prompts of several lengths). The result is token-consistent, not bit-identical — the floating-point order differs — but the ∼10 −4 per-element difference flips no greedy tokens. This step is where measurement most sharply corrected intuition, and the story is worth telling because it nearly ended in a wrong conclusion. Our first end-to-end microbenchmark reported the chunked scan at 2.4× slower than the sequential kernel, and we were prepared to conclude that the many small GEMMs were simply the wrong shape for Fermi. Attributing the time to components overturned this completely (Table 2): the batched small GEMMs took only 4.8 ms — they are fast — while 92% of the time was a single badly written forward-substitution kernel that recomputed, at every step, a token–token dot product the GEMM stage had already produced , and did so with O(C2) synchronizations. Reading the precomputed matrix and reducing the synchronization to O(C) took that kernel from 54 to 4.2 ms, and the chunked scan from 
+
+2.4× slower to 2.8× faster than the sequential recurrence. (The inverse temptation is also real: a thread-serial reduction over a mere 128 elements looked like an obvious next target, and its tree-reduce “fix” measured 54% slower — on Fermi, seven synchronization barriers cost more than 128 serial adds. Attribution cuts both ways.) 
+
+3.3 Decode, and why 4-bit is slower 
+
+Decode produces one token per step and is bandwidth-bound: each weight is read once, so the fewest bytes per parameter should win. Our decode kernel is an 8-bit integer matrix-vector product that reads four signed 8-bit weights at a time with a single vector load — no shifts, no unpacking — and reaches ≈48 GB/s of effective bandwidth; the production model decodes at 48.6 tok/s greedy. The obvious lever is to halve the bytes with 4-bit weights. It does not work on this GPU, and the reason is instructive. A 4-bit weight must be unpacked from a packed byte with a shift and a mask; Fermi issues shifts at half the rate of a fused multiply-add, so the two nibbles cost enough arithmetic to move the kernel off its bandwidth bound. We wrote the best 4-bit decode kernel we could — the same register-blocking and wide loads as the 8-bit path — and it is 12% slower, at less than half the effective bandwidth (Table 3). Formats below 4 bits, not even byte-aligned, are worse still. We keep decode at 8-bit. (The regime where lower bits pay is a model too large for memory — exactly the MoE regime of the companion work [1], not this one.) 5Table 3: Decode matrix-vector throughput on the C2075 for a representative projection. Halving the weight bytes with 4-bit packing does not speed decode up: unpacking nibbles needs shifts, which Fermi issues at half rate, turning a bandwidth-bound kernel compute-bound. Direct 8-bit reads (four signed bytes per load, no shift) win. Weight format Time (ms) Eff. bandwidth (GB/s) vs. 8-bit 8-bit, four-wide signed load 0.28 48.4 —4-bit, register-blocked 0.31 22.9 1.12 × slower 4-bit, naive 0.69 10.2 2.5× slower 
+
+3.4 Checkpoint export and reference-identical decoding 
+
+The engine reads every model dimension — width, layer count and types, head counts, vocabulary, recurrent-state sizes — from the checkpoint header, and the exporter consumes the assistant’s checkpoint directly: its language weights use the standard VLM submodule layout, its tied output head maps onto the exporter’s shared-classifier flag, and its lack of a multi-token-prediction head selects the engine’s no-speculation format (production disables speculative decoding regardless: at the ∼70% draft-acceptance rates we measure on realistic content, the extra verification passes outweigh the tokens saved). Correctness is a measurement, not an assumption: engine greedy decoding was compared token-by-token against the reference implementation on held-out prompts and is identical — e.g., a geography question and an arithmetic question decode to the same token sequences, ending in the same end-of-turn token. One pitfall is worth recording. When generating the reference on the host, the framework’s generic model loader silently returns the 
+
+headless backbone; taking an argmax over its output produces indices bounded by the hidden width rather than the vocabulary — every “generated token” was suspiciously smaller than 1024, which is the tell. The conditional-generation wrapper class must be loaded explicitly. 
+
+# 4 Porting the Vision Tower, Stage by Stage 
+
+The vision stack is where the new work is, and where the port needed a methodology. The obstacle is that the reference implementation — the framework forward of the SigLIP2 tower — will not run natively on the no-AVX host: its vectorized kernels use instructions the CPU lacks and abort. Forcing the tensor library onto a legacy, non-AVX code path (a CPU-capability override) makes the reference run, slowly but exactly, on this machine — so ground truth is available locally , without a second computer. We industrialized this into stage-validated porting: a single script hooks all 31 stages of the reference tower (embeddings, 27 encoder layers, the window-attention merger, the final layer norm, the downsampling projector) and dumps each output for a test image; the port then proceeds stage by stage, and no stage is trusted until it matches its reference dump to ∼10 −3 absolute (in practice every passing stage matched to 10 −4
+
+or better). 
+
+4.1 The encoder 
+
+A SigLIP2 encoder layer — layer norm, biased QKV projections, bidirectional softmax attention (16 heads, dimension 72), residual, layer norm, MLP with tanh-GELU, residual — is a standard pre-norm vision transformer block; notably, SigLIP2 has no rotary embedding (position information enters once, additively, at the patch embedding), which makes the block simpler than its language-side counterparts. Validation: patch embedding exact to 10 −6 (it is one GEMM), and the first seven encoder layers match the reference at 5.1 × 10 −5 max per element. 64.2 Position embeddings, and the tie-breaking rule 
+
+The one stage that failed was the one that looked most trivial. NaViT-style resampling computes, for a gh × gw patch grid, fractional coordinates k/g and buckets them against 69 boundaries j/ 70 
+
+— integer index arithmetic, no learned weights involved. Our NumPy reimplementation matched the reference on the 32 × 32 test grid, then failed on a 28 × 36 grid — by 1.8 max per element, in an embedding whose values span ±2: one row of patches took its position embedding from the wrong bucket row. The root cause: at k= 10 , g=28 , the fractional coordinate 10 /28 = 25 /70 is an exact rational tie with boundary 25. In exact arithmetic the reference’s tie rule (“right”) puts it in bucket 25; but both sides of the comparison are float32 values computed by different arithmetic (a vectorized fused multiply-add inside the reference’s range constructor), and which side of the boundary each lands on is implementation-defined rounding , not semantics. We tried three reimplementations — float64 (then cast), float32 mimicry, and exact integer arithmetic ⌊70 k/g ⌋ —and each disagreed with the reference on some grid in {1, . . . , 70 } (grids 25, 28, 49, 50, and 55 flip, each differently, because the tie set depends on gcd (g, 70) ). There is no portable reimplementation of an implementation-defined tie. The fix is a rule we now apply generally: for index arithmetic with reachable exact ties, call the reference operator; do not reimplement it. The preprocessor imports the reference library (already present for checkpoint reading) and evaluates exactly the two-line bucketization the model uses — small host-side tensor ops that are safe even on the degraded-CPU path. After the change, positions match to 2 × 10 −6 on every grid. A secondary lesson for debuggers: our first attribution split the error into a “patch term” and a “position term” that turned out to be the same number algebraically — the two diffs were identities of each other, not independent evidence. Component attribution must compare each component against its own reference output (here, hooking the reference’s convolution output separately), not against algebra that cancels. 
+
+4.3 The window-attention merger, the only new kernel 
+
+The mid-stack merger is genuinely new code: layer-norm the 1024-patch sequence; reorder it so each 2 × 2 spatial window is contiguous (a precomputed index gather); run self-attention within each 4-token window (a dedicated kernel: one block per (window, head), the 4 × 4 score matrix and its softmax entirely in shared memory); scatter back to spatial order; add the residual; then concatenate each window’s 4 vectors (4608 wide), layer-norm, and project through the wide MLP with tanh-GELU, adding the window-mean as a residual — output one vector per window, 256 from 1024. The downsampling projector after the final layer is the same merge shape with exact-GELU and no mean-residual — two easy-to-miss asymmetries (activation flavor; residual presence) that the stage gate catches immediately if transcribed wrongly. A further reuse dividend: the window-index computation that orders patches for the merger’s attention is the same grouping the concatenation step needs, and the same formula again (on the halved grid) for the final projector. Validation: merger output 3.2 × 10 −4 max per element against its reference dump; full tower — patch embedding through projector, 64 language-space vectors — 1.4 × 10 −5. The tower runs as a resident GPU service holding the FP32 weights, beside the language engine. 
+
+4.4 Variable resolution and multi-slice 
+
+Large images arrive as several independent ∼1000 -patch slices. The reference encoder processes them packed in one sequence with block-diagonal attention (explicit cumulative-length bound-aries); reading that code establishes that slices never attend across boundaries, so the port may run the tower once per slice and concatenate outputs — verified end-to-end: a five-slice 896 × 672 
+
+test image matches the packed reference at 1.2 × 10 −4 over all 5 × 63 output vectors. The 7preprocessor reproduces the reference’s slice packing (patchify layout, per-slice grids) and emits, per slice, the patch matrix, gathered position embeddings, and the two window-index vectors — all shape-driven, nothing learned. 
+
+# 5 Two cuBLAS Attention Rewrites 
+
+Sections 3.1–3.2 drove projections and the recurrence to the cuBLAS ceiling, but softmax attention remained a hand-written kernel: one block per (position, head), a serial dot-product loop over the history, a single-thread softmax reduction. Two workloads exposed it from two directions — the vision tower (bidirectional attention over 1024 patches, 27 layers deep) and long-context prefill (causal attention over a growing history) — and both were fixed by the same rewrite with the same memory trick. 
+
+5.1 The layout trick 
+
+Attention scores S = QK ⊤ per head are a genuine matrix product, so they belong in sgemm .The obstacle on a 6 GB card is that S is large ( heads × N × P floats), and a GEMM normally wants a fresh contiguous buffer. The observation that makes the rewrite free: the engine’s existing 
+
+per-(position, head) attention-score buffer, row-major over positions and heads, is byte-for-byte a valid column-major score matrix for head h if the GEMM is issued with a leading dimension of heads × seq — each score row becomes column b of Sh. The vendor GEMM writes scores into the buffer the old kernel already owned (zero new device memory), a batched softmax kernel normalizes each contiguous column with a parallel tree reduction, and a second GEMM multiplies by V . Grouped-query attention falls out by pointing multiple query heads’ GEMMs at the same key/value sub-block. 
+
+5.2 Tower attention: 6×
+
+In the tower (no causality, all positions valid) the rewrite is two GEMMs and a plain column softmax per layer. Encoding a 1024-patch image drops from 5.7 s to 0.93 s (6.1×); a five-slice image from 27.5 to 4.6 s — with outputs unchanged at 1.2 × 10 −4 vs. the reference (the softmax reduction order changes, the results do not). The naive kernel had been ∼85% of tower time. 
+
+5.3 Prefill attention: finding and removing the O(N 2) wall 
+
+On the language side the issue only appears at length. We built a tiered prompt — one document truncated to 2k, 5k, 8k, and 10k tokens — and measured prefill at each tier (Table 4). The collapse is unmistakable: 114 tok/s at 2k, 21 at 10k, and the wall-clock grows faster than quadratically (the kernel’s serial history loop also loses coalescing as the history grows). At 10k tokens, over 90% of prefill is one kernel. The causal rewrite adds two details to the tower version: scores for positions beyond each query’s causal horizon are garbage from the full rectangular GEMM, so the masked softmax normalizes only the valid prefix ps +b+1 and zeroes the tail , letting the P V GEMM run the full rectangle and multiply exact zeros — trading a few wasted FLOPs (cheap, Section 3.1) for kernel simplicity. Greedy outputs are token-identical to the naive kernel on short prompts, and the planted needle at 60% depth of the 10k document — a fabricated code phrase — is retrieved exactly both before and after the rewrite. 
+
+# 6 Production Integration 
+
+The serving layer mirrors the reference’s prompt format exactly: each image becomes an indexed tag, an overview segment of image-placeholder tokens, and — for sliced images — per-row slice 8Table 4: Tiered prefill on the production model, before and after rewriting softmax attention as per-head cuBLAS GEMMs. The naive kernel is invisible at 2k and is over 90% of wall-clock at 10k; the GEMM path is flat. Needle: a code phrase planted at 60% depth of the full document, retrieved exactly (only the 10k tier contains it). Prompt tokens 2,000 5,000 8,000 10,000 Naive attention (tok/s) 114.2 45.7 26.8 20.9 prefill wall (s) 17.5 109.4 298.5 479.3 GEMM attention (tok/s) 408.5 — — 361.2 
+
+prefill wall (s) 4.9 — — 27.7 
+
+Speedup 3.6× 17 .3×
+
+Needle at 60% depth retrieved exactly (10k tier, before and after)    
+
+> prompt tokens
+> prefill tok/s
+> 2000 5000 8000 10000
+> 100
+> 200
+> 300
+> 400
+> naive
+> GEMM attention
+
+Figure 1: The O(N 2) wall and its removal. The naive attention kernel’s throughput collapses with prompt length ( 114 → 21 tok/s); the per-head cuBLAS rewrite — writing scores into the pre-existing attention buffer, zero new device memory — is nearly flat ( 408 → 361 tok/s). A 2k-token benchmark alone would never have shown the wall. segments, every delimiter a single token of the model’s vocabulary. The engine replaces each placeholder position with the next tower embedding during prefill. Two correctness guards: image requests bypass the prefix-snapshot cache (placeholder tokens are identical across images, so a cache hit would silently reuse the previous image’s recurrent state — with a recurrent backbone this is a correctness rule, not a tuning choice), and the tower’s embedding count must equal the placeholder count by construction (the preprocessor computes both from the same slice grids). End-to-end production measurements, all on the serving path: a single-image question (shape and color) answers in 1.7 s ; an image-plus-question prompt is ≈92 tokens ( 16 × compression leaves image cost almost invisible); a five-slice 896 × 672 image with rendered text and shapes answers in ≈7 s (measured on the serving path; tower 4.6 s of it), reading the rendered text exactly. An eight-item smoke battery — plain text, color/shape, rendered-text OCR, two images in one prompt (correctly described per image ), the multi-slice image, a multi-turn follow-up about an earlier image, plain text after vision (cache-guard check), and Spanish — passes in full. Device memory at rest: 1.6 GB engine (weights + 16k-token KV cache + score buffer) plus 2.7 GB tower, 4.4 of 5.3 usable GB, leaving ≈0.8 GB headroom. 
+
+# 7 Evaluation Summary 
+
+On the same 2011 GPU as the companion study, the production system now runs a modern multimodal assistant, entirely on-device. Language: decode 48.6 tok/s greedy; prefill flat at 9GPU (Tesla C2075, 6 GB, sm_20 )   
+
+> preprocessor
+> slice, patchify, positions, window indexes (host)
+> SigLIP2 tower (GPU)
+> 27 layers +window merger
+> +projector; GEMM attention
+> 0.8B hybrid LLM (GPU)
+> embeds injected at image-token positions
+> per slice
+> 64 tok/slice
+
+Figure 2: Production pipeline. The host preprocessor reproduces the reference’s slicing and index arithmetic (calling the reference operator for bucketization, Section 4.2); the resident tower encodes each slice independently ( 16 × compression); the language engine replaces image-placeholder tokens with the tower’s embeddings during prefill. 361–408 tok/s through 10k tokens ( 17 × at 10k over the naive attention path), 16k-token context capacity, exact needle retrieval at 60% of 10k. Vision: the SigLIP2 tower matches its reference to 1.4 × 10 −5 (multi-slice 1.2 × 10 −4), encodes an image in 0.93 s ( 6× over the naive kernel), and costs 64 language tokens per slice; a single-image question answers end-to-end in 1.7 s. Every stage of the vision port was gated on agreement with a locally generated reference trace; the engine’s greedy decoding is token-identical to the reference implementation; and the two attention rewrites left outputs unchanged (token-identical greedy decoding; tower agreement unchanged). The contrast with the companion 35B study [ 1] is the point. There, the model did not fit, the design was forced into a streaming GPU-prefill / integer-SIMD-CPU-decode hybrid, and the interesting results were the systems work to make an over-sized model run. Here, the model fits, the design collapses to a single all-GPU pipeline serving a current-generation multimodal assistant, and the interesting results are a prefill-throughput study, a stage-validated port, and a set of measured reversals of intuition. 
+
+# 8 Related Work 
+
+The engine descends from llama2.c [12 ] and its CUDA port [ 14 ], and shares its lineage and the larger MoE deployment with the companion study [ 1]; low-bit weight handling follows the post-training quantization literature [ 10 , 11 ] and the integer kernel style of llama.cpp [13 ]. The model is MiniCPM-V-4.6 [ 2, 3]; its vision encoder is SigLIP2 [ 5] (sigmoid-loss pretraining [ 4]) with NaViT-style variable-resolution position handling [ 6], and its language backbone is a gated-delta-net hybrid [ 8] in the Mamba lineage [ 9] from the Qwen3 family [ 7]; the chunked scan we implement is the standard intra-/inter-chunk formulation of that family, here written by hand for 
+
+sm_20 and built from batched vendor GEMMs. Our contribution is not any single technique but their all-GPU composition on an unsupported architecture: the stage-validated port of a modern vision stack, the tie-breaking rule for index arithmetic, the zero-allocation GEMM formulation of both bidirectional and causal attention, and the measured negatives (hand-GEMM ceiling, 4-bit decode) that guided the design. 
+
+# 9 Conclusion 
+
+A fourteen-year-old GPU is now serving a current-generation multimodal assistant, entirely on-device: a stage-validated hand port of a SigLIP2 tower with 16 × visual token compression, a hybrid delta-net backbone running on dequantize-then-sgemm projections and a chunked delta-rule scan, and a prompt path whose O(N 2) attention wall — invisible at benchmark lengths, dominant at 10k tokens — was removed by two vendor-GEMM calls per head writing into memory the engine already owned. The methodological refrain of this series held throughout, twice in new forms: a benchmark is only as honest as its longest tier, and an index computation with reachable exact ties cannot be reimplemented, only invoked. On hardware the software 10 ecosystem has abandoned, the performance ceiling and the location of a bug are unreliable when reasoned about and reliable when measured — against a vendor BLAS call, a per-component timer, a reference trace, a planted needle — and that discipline, more than any single kernel, is what turns a 2011 GPU into a working multimodal inference engine. 
+
+# Artifact and reproducibility 
+
+The engine is a single CUDA/C source compiled with CUDA 8.0 for sm_20 (in a container) and linked against the CUDA 8.0 cuBLAS ; the vision tower is a second, self-contained CUDA source with the same build; the preprocessor is a short host-side script that calls the reference library only for image slicing and the bucketization operator. All experiments run on one workstation; we report wall-clock seconds and tokens/second directly, and GEMM efficiencies as a fraction of the device’s published FP32 peak. Stage-validation dumps are regenerable from the public model checkpoint with the scripts described in Section 4. 
+
+# References 
+
+[1] A. C. Opus and J. Q. Lu. A 35B Hybrid-Attention Mixture-of-Experts Model on a 6GB 2011 GPU: Hand-Written 4-bit CUDA Inference for Fermi. arXiv:2606.24031, 2026. [2] Y. Yao, T. Yu, A. Zhang, et al. MiniCPM-V: A GPT-4V Level MLLM on Your Phone. arXiv:2408.01800, 2024. [3] OpenBMB. MiniCPM-V-4.6. Hugging Face model card, [Online]. Available: https:// huggingface.co/openbmb/MiniCPM-V-4.6 . Accessed: Jul. 15, 2026. [4] X. Zhai, B. Mustafa, A. Kolesnikov, and L. Beyer. Sigmoid Loss for Language Image Pre-Training. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , pp. 11975–11986, 2023. [5] M. Tschannen, A. Gritsenko, X. Wang, et al. SigLIP 2: Multilingual Vision-Language Encoders with Improved Semantic Understanding, Localization, and Dense Features. arXiv:2502.14786, 2025. [6] M. Dehghani, B. Mustafa, J. Djolonga, et al. Patch n’ Pack: NaViT, a Vision Transformer for Any Aspect Ratio and Resolution. In Advances in Neural Information Processing Systems ,vol. 36, 2023. [7] A. Yang, A. Li, B. Yang, et al. Qwen3 Technical Report. arXiv:2505.09388, 2025. [8] S. Yang, J. Kautz, and A. Hatamizadeh. Gated Delta Networks: Improving Mamba2 with Delta Rule. In Proceedings of the Thirteenth International Conference on Learning Representations (ICLR) , 2025. [9] A. Gu and T. Dao. Mamba: Linear-Time Sequence Modeling with Selective State Spaces. In Proceedings of the First Conference on Language Modeling (COLM) , 2024. [10] E. Frantar, S. Ashkboos, T. Hoefler, and D. Alistarh. GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers. arXiv:2210.17323, 2022. [11] J. Lin, J. Tang, H. Tang, et al. AWQ: Activation-aware Weight Quantization for On-Device LLM Compression and Acceleration. In Proceedings of Machine Learning and Systems ,vol. 6, 2024. 11 [12] A. Karpathy. llama2.c: Inference Llama 2 in One File of Pure C. GitHub repository, [Online]. Available: https://github.com/karpathy/llama2.c . Accessed: Jul. 15, 2026. [13] G. Gerganov and the llama.cpp contributors. llama.cpp: LLM Inference in C/C++. GitHub repository, [Online]. Available: https://github.com/ggml-org/llama.cpp . Ac-cessed: Jul. 15, 2026. [14] R. Allen. llama2.cu: A CUDA Port of llama2.c. GitHub repository, [Online]. Available: 
+
+https://github.com/rogerallen/llama2.cu . Accessed: Jul. 15, 2026. 12
