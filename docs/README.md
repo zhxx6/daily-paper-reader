@@ -6,23 +6,19 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-17
-- 运行时间：2026-07-17 21:07:02 UTC
+- 最新运行日期：2026-07-18
+- 运行时间：2026-07-18 21:05:17 UTC
 - 运行状态：成功
-- 本次总论文数：1
-- 精读区：1
+- 本次总论文数：0
+- 精读区：0
 - 速读区：0
 
 ### 今日简报（AI）
-今日精读一篇高分论文，探索如何在2011年的6GB Fermi显卡上运行现代多模态助手的全部GPU推理。  
-其核心结论是：通过分段验证和全CUDA优化，老旧GPU也能支撑一定规模的AI推理任务。  
-若你手头有低显存旧显卡，可参考该论文的Stage-Validated方法和CUDA调优思路，尝试部署轻量模型。
-- 详情：[/202607/17/README](/202607/17/README)
+> 今日无新推荐，系统未产出可展示论文。
+- 详情：[/202607/18/README](/202607/18/README)
 
 ### 精读区论文标签
-1. [A Modern Multimodal Assistant on a 6 GB 2011 GPU: Stage-Validated, All-GPU CUDA Inference for Fermi](/202607/17/2607.14568v1-a-modern-multimodal-assistant-on-a-6-gb-2011-gpu-stage-validated-all-gpu-cuda-inference-for-fermi)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：在旧GPU上进行量化混合专家模型推理，使用8位权重
+- 本次无精读推荐。
 
 ### 速读区论文标签
 - 本次无速读推荐。
