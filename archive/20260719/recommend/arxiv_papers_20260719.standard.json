@@ -1,0 +1,91 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-19T20:01:50.109105+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2607.14630v1",
+      "source": "arxiv",
+      "title": "Cross-Layer Error Compensation and Finite-Sample Feature-Statistics Matching for Extreme Low-Bit Quantization of Large Language Models",
+      "abstract": "Layer-wise post-training quantization of large language models minimizes each layer's reconstruction error in isolation, allowing quantization errors to accumulate across depth and causing severe degradation in extreme low-bit regimes. We formulate quantization as a joint optimization over the discrete codes and scales of all layers, driven by two mechanisms: (i) cross-layer error compensation, which maintains the network-level accumulated error through the recursion e_{l+1} = A_l e_l + q_l, with a propagation operator A_l derived from the layer's input differential and a local quantization residual q_l evaluated at teacher features; and (ii) finite-sample feature-statistics matching, which aligns means, projected covariances, and centered empirical kernels between the full-precision and quantized networks under relative normalization. We prove that instantiating the propagation operator as a finite difference of the quantized network makes the recursion exact for arbitrary nonlinear layers, enabling an efficient forward-difference implementation. Binary weights are optimized via a mirror-descent parameterization u = tanh(beta*z) with annealed inverse temperature and group-wise log-scales. On Qwen2.5-1.5B with 1.125-bit group-binary weights, error compensation alone reaches a perplexity ratio of 9.56 +/- 0.15 over the FP16 teacher, outperforming logit distillation (14.09 +/- 0.53; 32 percent relative, more than 8 sigma over 3 seeds) and layer-local reconstruction by two orders of magnitude. The same objective transfers unchanged to 4-bit quantization (1.060 vs. 1.088 for layer-local). Out-of-domain evaluations (C4, CNN/DailyMail) show the advantage of error compensation grows off-domain, while statistics matching keeps feature-statistics discrepancy low off-domain (0.42-0.88 vs. 1.41-2.99 without it), revealing a complementary division of labor between the two mechanisms.",
+      "authors": [
+        "Ryona Noda"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE"
+      ],
+      "published": "2026-07-16T06:47:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.14630v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "extreme low-bit quantization for large language models",
+      "llm_evidence_cn": "大语言模型极低比特量化",
+      "llm_evidence": "大语言模型极低比特量化",
+      "canonical_evidence": "大语言模型极低比特量化",
+      "llm_tldr_en": "Proposes cross-layer error compensation and finite-sample feature-statistics matching for extreme low-bit quantization of LLMs, addressing error accumulation across layers.",
+      "llm_tldr_cn": "现有逐层后训练量化在大语言模型上导致误差逐层累积，在极低比特下性能严重下降。本文提出联合优化所有层的离散码和缩放因子，通过跨层误差补偿和有限样本特征统计匹配来保持网络级误差，从而在极低比特（如2比特）下显著提升量化模型性能。实验表明该方法优于现有后训练量化方法。",
+      "llm_tldr": "现有逐层后训练量化在大语言模型上导致误差逐层累积，在极低比特下性能严重下降。本文提出联合优化所有层的离散码和缩放因子，通过跨层误差补偿和有限样本特征统计匹配来保持网络级误差，从而在极低比特（如2比特）下显著提升量化模型性能。实验表明该方法优于现有后训练量化方法。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.11976v1",
+      "source": "arxiv",
+      "title": "LiteTopK: Exploiting the Curse of Dimensionality for a Fused Indexer-TopK Kernel in Long-Context Sparse Attention",
+      "abstract": "Indexer-TopK, the operation to compute the scores and select the top-k candidates, is widely used by sparse attention kernels in large language models and vector retrieval in recommendation systems and vector databases. However, existing GPU-based Indexer-TopK kernels like DeepSeek Sparse Attention (DSA) remain inefficient due to excessive global memory traffic, costly synchronization, and prohibitive memory overhead. In this work, we exploit the curse of dimensionality in high-dimensional spaces, where distances between high-dimensional vectors tend to concentrate within a narrow range, to design LITETOPK, a novel and efficient fused Indexer-TopK kernel. LITETOPK first samples a small subset of data to estimate query-data score ranges, then uses these estimates to partition candidate results into bins online. This organization allows the LITETOPK kernel to maintain a tight approximate threshold, write back only promising candidates, reduce unnecessary I/O, substantially lower memory overhead, and still preserve exact Top-k correctness. Experimental results show that LITETOPK accelerates the prefill stage of GLM 5.2 by 1.2x in real-world deployment scenarios while incurring lower memory overhead.",
+      "authors": [
+        "Ziqi Yin",
+        "Jianyang Gao",
+        "Peiqi Yin",
+        "Jiangneng Li",
+        "Gao Cong"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-13T03:53:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.11976v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "fused indexer-topk kernel for sparse attention",
+      "llm_evidence_cn": "用于稀疏注意力机制的融合索引器-前K核",
+      "llm_evidence": "用于稀疏注意力机制的融合索引器-前K核",
+      "canonical_evidence": "用于稀疏注意力机制的融合索引器-前K核",
+      "llm_tldr_en": "Proposes LiteTopK, a fused kernel for efficient indexer-topk in long-context sparse attention, reducing memory traffic and synchronization. Not directly about MoE but provides a kernel fusion approach transferable to group kernel optimization.",
+      "llm_tldr_cn": "针对大语言模型长上下文稀疏注意力中索引器-前K操作效率低下的问题，本文提出LiteTopK融合核。通过利用高维空间距离集中的特性，先采样估计阈值再用二分搜索确定top-k，显著减少全局内存访问和同步开销。该方法虽面向注意力机制，但其核融合技术可为混合专家模型中的分组核优化提供借鉴。",
+      "llm_tldr": "针对大语言模型长上下文稀疏注意力中索引器-前K操作效率低下的问题，本文提出LiteTopK融合核。通过利用高维空间距离集中的特性，先采样估计阈值再用二分搜索确定top-k，显著减少全局内存访问和同步开销。该方法虽面向注意力机制，但其核融合技术可为混合专家模型中的分组核优化提供借鉴。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
