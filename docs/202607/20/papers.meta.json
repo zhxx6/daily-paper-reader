@@ -1,0 +1,54 @@
+{
+  "label": "2026-07-20",
+  "date": "2026-07-20",
+  "generated_at": "2026-07-20T21:37:46",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202607/20/2607.15810v1-quads-stabilizing-nvfp4-reinforcement-learning-for-moe-via-quantization-error-alignment-across-dual-sides",
+      "section": "deep",
+      "title_en": "QUADS: Stabilizing NVFP4 Reinforcement Learning for MoE via QUantization-error Alignment across Dual Sides",
+      "authors": "Zhengyang Zhuge, Hao Yu, Xin Wang, Zheng Li, Yizhong Cao, Dayiheng Liu, Jianwei Zhang",
+      "date": "2026-07-17",
+      "pdf": "https://arxiv.org/pdf/2607.15810v1",
+      "score": "9.0",
+      "evidence": "使用NVFP4格式的量化MoE强化学习推理",
+      "tldr": "MoE强化学习的rollout生成是主要瓶颈，NVFP4低精度格式具有高吞吐潜力，但直接应用会导致训练崩溃。通过分析发现激活量化误差是主因，提出QUADS方法：在训练端进行非对称量化感知训练，在rollout端对高误差激活通道进行残差补偿。实验表明QUADS达到BF16精度，pass@1比朴素NVFP4提升21.49点，吞吐量比FP8高约16%。该方法有效稳定了NVFP4的MoE强化学习，兼顾精度与效率。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Rollout generation is a major bottleneck in Reinforcement Learning (RL) for Mixture-of-Experts (MoE) Large Language Models, motivating low-precision rollout acceleration such as FP8. As an emerging low-precision format, NVFP4 combines fine-grained scaling for accuracy preservation with native W4A4 FP4 GEMMs for higher throughput than FP8. However, we find that directly applying NVFP4 to MoE RL rollout is impractical. NVFP4 rollout with BF16 training collapses after roughly 150 steps, accompanied by rapidly growing rollout-trainer log-probability gaps. Through training-inference error analysis and controlled ablations, we identify activation error, rather than weight error, as the dominant source of FP4 RL instability: weights can be synchronized and aligned by a shared quantization-dequantization path, whereas activations are recomputed online and error is amplified by the coarse E2M1 grid. Therefore, to stabilize NVFP4 RL for MoE, we propose QUantization-error Alignment across Dual Sides (QUADS). On the trainer side, we introduce Asymmetric Quantization-Aware Training fake-quantizing weights while keeping activations unquantized for better alignment. On the rollout side, Residual Activation Compensation corrects high-error activation channels while preserving native W4A4 GEMMs. In our MoE RL experiments on several benchmarks, QUADS achieves BF16-level accuracy, improves average pass@1 by 21.49 points over naive NVFP4 RL, and delivers ~16% higher rollout throughput than FP8.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/20/2607.16184v1-pagedweight-efficient-moe-llm-serving-with-dynamic-quality-aware-weight-quantization",
+      "section": "deep",
+      "title_en": "PagedWeight: Efficient MoE LLM Serving with Dynamic Quality-Aware Weight Quantization",
+      "authors": "Yuchen Yang, Yifan Zhao, Anisha Dasgupta, Sasa Misailovic",
+      "date": "2026-07-17",
+      "pdf": "https://arxiv.org/pdf/2607.16184v1",
+      "score": "9.0",
+      "evidence": "针对MoE推理的动态权重量化",
+      "tldr": "MoE大语言模型在KV缓存密集型场景中面临权重与缓存间GPU内存竞争。PagedWeight提出运行时动态量化专家权重，自适应平衡精度与KV缓存大小。该方法实现FP16等效精度，节省72%GPU内存，吞吐量提升1.94倍，相同内存预算下质量提升39.3%。有效优化质量-内存权衡，显著提升服务效率。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) is a popular class of large language models (LLMs), offering high efficiency and accuracy. However, in KV-cache-intensive serving scenarios, MoEs often exhibit a tension between the GPU memory requirements of the model weights and the growing KV cache. We propose PagedWeight, a novel management method for MoE LLM serving that dynamically quantizes MoE model's weights at runtime and balances expert-weight precision with the KV cache sizes. PagedWeight exposes and effectively navigates the complex tradeoff between the model's task accuracy, memory consumption, and throughput/latency. Across several memory-sensitive MoE serving scenarios, PagedWeight improves the quality-memory tradeoff over several existing quantization baselines. PagedWeight achieves FP16-equivalent accuracy with up to 72.0% GPU memory savings and 1.94$\\times$ throughput improvement, and improves quality over quantization methods by up to 39.3% at a similar memory budget with at most 4.1% throughput loss.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/20/2607.15933v1-distributional-matching-for-vector-quantization-a-unified-theoretical-and-empirical-framework",
+      "section": "quick",
+      "title_en": "Distributional Matching for Vector Quantization: A Unified Theoretical and Empirical Framework",
+      "authors": "Xianghong Fang, Litao Guo, Hengchao Chen, Yuxuan Zhang, XiaofanXia, Dingjie Song, Yexin Liu, Hao Wang, Harry Yang, Qiang Sun, Yuan Yuan",
+      "date": "2026-07-17",
+      "pdf": "https://arxiv.org/pdf/2607.15933v1",
+      "score": "6.0",
+      "evidence": "提出向量量化的分布匹配方法，可能适用于大语言模型的权重量化",
+      "tldr": "向量量化（VQ）中直通估计器导致梯度失配、码矢利用率低，引发训练不稳定和码本崩溃。本文提出分布匹配框架，通过对齐特征向量与码向量的分布来统一解决这些问题。理论分析和实验表明，基于Wasserstein距离的闭形式目标或最大均值差异的非参数方法均能有效缓解上述缺陷。该框架为VQ提供了统一的理论基础和实践方案，显著提升了视觉表示的鲁棒性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "The effectiveness of modern visual representation learning and autoregressive models critically depends on vector quantization (VQ), which discretizes continuous feature representations using a learnable codebook. Despite its widespread use, existing VQ methods often suffer from training instability and codebook collapse, arising from gradient mismatch induced by the straight-through estimator and the under-utilization of code vectors. In this work, we show that both issues can be traced to a fundamental mismatch between the distributions of feature vectors and code vectors, leading to inefficient representation and information loss. Building on this observation, we propose a distributional matching framework for vector quantization. We introduce principled criteria for desirable VQ behavior and demonstrate through theoretical analysis and empirical evaluation that aligning feature and code vector distributions provides a unifying mechanism for mitigating training instability and codebook collapse. We instantiate this framework using a Wasserstein-based objective with an efficient closed-form under a mild Gaussian approximation, and further show that a nonparametric alternative based on maximum mean discrepancy yields comparable performance. Extensive experiments on visual tokenization benchmarks support the effectiveness and robustness of the proposed approach.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
