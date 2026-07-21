@@ -1,0 +1,248 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-21T21:26:09.345911+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2607.16721v1",
+      "source": "arxiv",
+      "title": "Half the Experts, All the Code: One-Shot Domain Pruning of Mixture-of-Experts LLMs for Coding",
+      "abstract": "The strongest open-weight coding models are mixture-of-experts (MoE) networks: most of their size comes from large pools of \"expert\" subnetworks, of which only a few act on any token. That pool is why these models do not fit on the machines most developers own, yet for a user who only wants coding help, most experts encode abilities that will never be invoked. We ask how many experts can be removed, and which, by pruning two recent open-weight MoE models from different families (Qwen3.6-35B-A3B and Gemma-4-26B-A4B) under five selection strategies, judged the way a user would: by whether the model still writes correct code. Half the experts can be removed from either model with no statistically detectable loss on the primary code benchmark, and the damage lands almost entirely on abilities outside coding, the intended trade. But the winning strategy flips between the two models, so a recipe validated on one family cannot be assumed to work on another. We further show that perplexity, the metric much of the pruning literature leans on, can rate a broken model above an intact one; that a lightweight fine-tune recovers about half of what aggressive pruning loses; and that against quantizing the full model to the same memory, pruning wins only where quantization would have to drop below 3 bits per weight. Five attempts to overturn that crossover, with failure criteria fixed in advance (better calibration, guarded selection, causal expert importance, failure attribution, and an agentic evaluation letting each model repair its failures from execution feedback), all leave it standing; the last shows single-shot benchmarks overstate compression penalties broadly, as one repair turn erases the 2-bit quantization penalty entirely. Expert pruning works, but it demands per-model validation on the task the model will actually serve.",
+      "authors": [
+        "Anik Jha"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-18T09:17:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.16721v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "pruning half experts from MoE coding LLMs with no accuracy loss",
+      "llm_evidence_cn": "从MoE代码大模型中剪枝一半专家且无准确率损失",
+      "llm_evidence": "从MoE代码大模型中剪枝一半专家且无准确率损失",
+      "canonical_evidence": "从MoE代码大模型中剪枝一半专家且无准确率损失",
+      "llm_tldr_en": "One-shot domain pruning removes half the experts from MoE coding LLMs without statistically significant loss on code tasks, enabling efficient inference.",
+      "llm_tldr_cn": "最强的开源代码模型多为MoE架构，但专家池极大导致部署困难。本文通过一次性领域剪枝，在Qwen3.6-35B和Gemma-4-26B上移除一半专家，在代码任务上无统计显著性能下降。采用五种选择策略评估，发现剪枝后模型仍能生成正确代码。该方法直接减少了专家数量，大幅提升MoE推理效率，且无需重新训练。",
+      "llm_tldr": "最强的开源代码模型多为MoE架构，但专家池极大导致部署困难。本文通过一次性领域剪枝，在Qwen3.6-35B和Gemma-4-26B上移除一半专家，在代码任务上无统计显著性能下降。采用五种选择策略评估，发现剪枝后模型仍能生成正确代码。该方法直接减少了专家数量，大幅提升MoE推理效率，且无需重新训练。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16726v1",
+      "source": "arxiv",
+      "title": "Can Experts Adapt Without Training? On Test-Time Modality Generalization in MVLMs",
+      "abstract": "Medical vision-language models (MVLMs) promise broad zero-shot generalization, yet their reliability collapses when confronted with unseen modalities and domains, precisely where clinical robustness matters most. To address this gap, we revisit test-time modality generalization from the perspective of Mixture-of-Experts (MoE) and ask: can experts route-and-adapt without any optimization during inference? We identify a fundamental specialization-generalization dilemma at test time, where blindly aggregating modality experts dilutes modality-specific knowledge, while selecting one highly confident expert risks mismatch under shift. To address this, we propose MoBE: a fully optimization-free framework that performs dynamic expert selection and adaptation at test time. MoBE combines entropy-guided dynamic routing in MoE settings with expert-wise Bayesian adaptation, enabling experts to update their confidence and adapt online without gradient updates. Without parametric updates, MoBE augments a static MVLM with test-time routing and online statistics, achieving average accuracy gains of +4.72, +7.17, and +4.3 over state-of-the-art TTA methods across seen, unseen, and heterogeneous medical benchmarks, highlighting the effectiveness of training-free expert adaptation for robust modality generalization.",
+      "authors": [
+        "Raza Imam",
+        "Darakshan Rashid",
+        "Yutong Xie",
+        "Dwarikanath Mahapatra",
+        "Brejesh Lall",
+        "Mohammad Yaqub"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-18T09:24:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.16726v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "optimization-free MoE expert selection for test-time adaptation",
+      "llm_evidence_cn": "无需优化的MoE专家选择用于测试时适应",
+      "llm_evidence": "无需优化的MoE专家选择用于测试时适应",
+      "canonical_evidence": "无需优化的MoE专家选择用于测试时适应",
+      "llm_tldr_en": "MoBE proposes a fully optimization-free framework for dynamic expert selection in MoE, enabling efficient inference without training.",
+      "llm_tldr_cn": "现有MVLM在未见模态下泛化能力差，原因在于专家聚合方式存在困境。MoBE提出完全无需优化的框架，通过动态专家选择实现测试时适应，无需任何训练或微调。在多种模态偏移场景下，MoBE显著提升了MVLM的鲁棒性。该方法直接提升了MoE推理效率，无需额外计算开销。",
+      "llm_tldr": "现有MVLM在未见模态下泛化能力差，原因在于专家聚合方式存在困境。MoBE提出完全无需优化的框架，通过动态专家选择实现测试时适应，无需任何训练或微调。在多种模态偏移场景下，MoBE显著提升了MVLM的鲁棒性。该方法直接提升了MoE推理效率，无需额外计算开销。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17074v1",
+      "source": "arxiv",
+      "title": "ThAME: 3D Memory-Enabled Heterogeneous Accelerator for LLM Mixture of Experts",
+      "abstract": "Mixture of Experts (MoE) architectures have emerged as a dominant paradigm for scaling Large Language Models (LLMs). However, MoE inference on conventional hardware is constrained by three fundamental bottlenecks. These encompass the massive memory bandwidth required to fetch non-contiguous expert weights, the non-deterministic scatter-gather traffic generated by input-dependent token routing, and the tail-latency dependency imposed by synchronous expert output aggregation. To address these challenges, we propose ThAME, a three-dimensional (3D) heterogeneous multi-chiplet architecture for MoE inference. ThAME employs Ferroelectric Field-Effect Transistor (FeFET)-based non-volatile and DRAM-based volatile memory chiplets with a co-designed compute mapping strategy that aligns the distinct computational profiles of attention mechanisms and expert routing. Furthermore, we design a specialized Network-on-Chip communication backbone optimized to mitigate the bottlenecks associated with non-deterministic token routing traffic across the combinatorial space of input-dependent MoE traffic patterns. Experimental results demonstrate that ThAME outperforms state-of-the-art counterparts by up to 15.7x in terms of speedup and improves energy efficiency by up to 9.8x.",
+      "authors": [
+        "Pratyush Dhingra",
+        "Pramit Kumar Pal",
+        "Janardhan Rao Doppa",
+        "Partha Pratim Pande"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.AI",
+        "cs.DC"
+      ],
+      "published": "2026-07-19T04:45:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.17074v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "heterogeneous 3D multi-chiplet architecture for MoE inference with FeFET and DRAM memory",
+      "llm_evidence_cn": "使用FeFET和DRAM存储芯粒的异构3D多芯粒MoE推理架构",
+      "llm_evidence": "使用FeFET和DRAM存储芯粒的异构3D多芯粒MoE推理架构",
+      "canonical_evidence": "使用FeFET和DRAM存储芯粒的异构3D多芯粒MoE推理架构",
+      "llm_tldr_en": "Proposes ThAME, a 3D heterogeneous accelerator for MoE LLM inference, addressing memory bandwidth, scatter-gather traffic, and tail-latency bottlenecks using FeFET non-volatile and DRAM memory chiplets.",
+      "llm_tldr_cn": "MoE大语言模型推理在传统硬件上面临内存带宽、非确定性令牌路由通信和同步聚合尾延迟三大瓶颈。本文提出ThAME，一种3D异构多芯粒加速器，采用FeFET非易失存储和DRAM易失存储芯粒，并设计协同计算架构，有效缓解这些瓶颈。实验表明ThAME显著提升了推理吞吐并降低了延迟。",
+      "llm_tldr": "MoE大语言模型推理在传统硬件上面临内存带宽、非确定性令牌路由通信和同步聚合尾延迟三大瓶颈。本文提出ThAME，一种3D异构多芯粒加速器，采用FeFET非易失存储和DRAM易失存储芯粒，并设计协同计算架构，有效缓解这些瓶颈。实验表明ThAME显著提升了推理吞吐并降低了延迟。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17154v1",
+      "source": "arxiv",
+      "title": "OrderMoE: An expert similarity driven distributed edge MoE inference",
+      "abstract": "Although mixture-of-experts, MoE, models have been increasingly adopted to scale large language models with moderate computation cost, it remains challenging to deploy MoE inference over resource-constrained and bandwidth-limited edge infrastructures. Existing distributed MoE serving methods mainly rely on exact expert placement, caching, replication, or communication scheduling, while overlooking the functional similarity among experts, which provides an opportunity to reduce cross-server token transmission. Therefore, this paper introduces a similarity-aware expert allocation and distributed deployment framework, dubbed OrderMoE, which aims to accelerate edge MoE inference while balancing inference latency, communication overhead, server workload, and inference quality. OrderMoE first constructs an expert similarity model based on router-induced logits representations and partitions experts in each MoE layer into multiple similarity groups. Then, it develops a similarity-aware expert grouping and deployment strategy to improve local similarity coverage across edge servers. Since reducing remote expert invocation and preserving exact inference quality are conflicting objectives, OrderMoE further designs a quality-aware and trajectory-aware runtime server-expert selection algorithm to decide whether a token should invoke its remote target expert or use a feasible local substitute expert. Experimental results on a real distributed edge testbed show that OrderMoE significantly reduces average latency, tail latency, cross-server traffic, and remote expert invocation ratio, while introducing only small and controllable inference quality degradation.",
+      "authors": [
+        "Xin Yuan",
+        "Ning Li",
+        "Quan Chen",
+        "Wenchao Xu",
+        "Athanasios V. Vasilakos",
+        "Song Guo",
+        "Haijun Zhang"
+      ],
+      "primary_category": "cs.NI",
+      "categories": [
+        "cs.NI",
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-07-19T09:20:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.17154v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "expert similarity driven distributed MoE inference for edge deployment",
+      "llm_evidence_cn": "基于专家相似性的分布式边缘MoE推理加速",
+      "llm_evidence": "基于专家相似性的分布式边缘MoE推理加速",
+      "canonical_evidence": "基于专家相似性的分布式边缘MoE推理加速",
+      "llm_tldr_en": "OrderMoE accelerates edge MoE inference by allocating experts with functional similarity to reduce cross-server token transmission, balancing latency, communication, and workload.",
+      "llm_tldr_cn": "边缘部署混合专家（MoE）模型面临带宽和资源限制。现有方法忽略专家功能相似性，导致不必要的跨服务器传输。OrderMoE提出基于专家相似性的分配与部署框架，通过将相似专家局部化来减少通信开销。实验表明，该方法在平衡延迟、通信和工作负载方面优于基线，实现更高效的分布式MoE推理。",
+      "llm_tldr": "边缘部署混合专家（MoE）模型面临带宽和资源限制。现有方法忽略专家功能相似性，导致不必要的跨服务器传输。OrderMoE提出基于专家相似性的分配与部署框架，通过将相似专家局部化来减少通信开销。实验表明，该方法在平衡延迟、通信和工作负载方面优于基线，实现更高效的分布式MoE推理。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.17880v1",
+      "source": "arxiv",
+      "title": "Mixture-of-Experts Serving",
+      "abstract": "Mixture-of-Experts (MoE) models route each token to only a few expert networks, distributing the serving load across experts whose popularity shifts over time. A serving system must therefore dynamically decide how many GPUs to assign to each expert, trading off service latency against the cost of reconfiguring the assignment. We introduce a formal model of MoE Serving and initiate a principled study of online and offline algorithms for it. Our main result is a polynomial-time $O(\\sqrt{\\log k})$-competitive online algorithm, where $k$ is the number of GPUs beyond one per expert. We complement it with a matching $Ω(\\sqrt{\\log k})$ barrier for the online dual problem underlying our analysis. In the offline setting, we give a constant-factor approximation, show that MoE Serving is NP-hard, and rule out an FPTAS assuming ETH.",
+      "authors": [
+        "Zhiyi Huang",
+        "Qinpei Lou",
+        "Tao Xiao"
+      ],
+      "primary_category": "cs.DS",
+      "categories": [
+        "cs.DS"
+      ],
+      "published": "2026-07-20T12:30:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.17880v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "formal model and algorithms for MoE serving efficiency",
+      "llm_evidence_cn": "混合专家服务的形式化模型与高效算法",
+      "llm_evidence": "混合专家服务的形式化模型与高效算法",
+      "canonical_evidence": "混合专家服务的形式化模型与高效算法",
+      "llm_tldr_en": "Introduces a formal model for MoE serving and provides online/offline algorithms for GPU assignment to minimize latency.",
+      "llm_tldr_cn": "混合专家模型服务面临专家热度动态变化下的GPU分配难题。本文建立MoE服务的理论模型，并设计在线O(sqrt(log k))竞争比算法和离线常数近似算法。理论最优性界线被证明。该工作为MoE推理系统提供理论基础和实用方法。",
+      "llm_tldr": "混合专家模型服务面临专家热度动态变化下的GPU分配难题。本文建立MoE服务的理论模型，并设计在线O(sqrt(log k))竞争比算法和离线常数近似算法。理论最优性界线被证明。该工作为MoE推理系统提供理论基础和实用方法。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17019v1",
+      "source": "arxiv",
+      "title": "Regularize or Localize: When Training-Time KV-Cache Geometry Pays Under Quantization",
+      "abstract": "We study whether \\sigreg -- LeJEPA's anti-collapse objective -- can reshape representations during standard autoregressive language-model pretraining, and when the resulting geometry helps \\kv-cache quantization. We train 110M-parameter models on 10B FineWeb tokens and report three findings. \\textbf{(1)} At $λ{=}0.01$, \\sigreg reduces hidden-state pairwise-cosine anisotropy by $38\\%$ across three paired seeds. Perplexity increases by less than $0.35\\%$ in every pair, with no consistent zero-shot loss. \\textbf{(2)} This change does not propagate from hidden states to the \\kv cache. Applying \\sigreg directly to K and V during continued training, however, reduces mean cache anisotropy by $94\\%$ across four checkpoints. A matched continuation without the \\kv term leaves cache geometry nearly unchanged, and the frozen-trunk retrofits we tested do not reproduce the effect. \\textbf{(3)} Under untransformed symmetric group-free quantization, direct \\kv regularization is the only training condition that prefers per-channel scaling in all three seeds, and under that same 3-bit per-channel scheme the baseline incurs $4.3$--$7.9\\times$ the directly regularized model's \\dnll. Under the full simulated KIVI-style configuration (mixed arrangement, zero-points, grouped scales), however, all models reach near-parity, including when storage overhead is approximately matched. In this 110M regime, the training intervention helps when quantizer scales are coarse; the advantage vanishes under the tested combination of token-local grouping, mixed \\kv scaling, and zero-points. To our knowledge this is the first training-time \\emph{distributional} regularization of standard \\kv-cache geometry evaluated against post-hoc cache quantization.",
+      "authors": [
+        "Libo Sun",
+        "Po-Wei Harn",
+        "Zewei Zhang",
+        "Peixiong He",
+        "Xiao Qin"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-19T01:13:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.17019v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "KV-cache quantization using regularization to reshape geometry, improving quantization effectiveness",
+      "llm_evidence_cn": "利用正则化重塑表示几何以提升KV缓存量化效果",
+      "llm_evidence": "利用正则化重塑表示几何以提升KV缓存量化效果",
+      "canonical_evidence": "利用正则化重塑表示几何以提升KV缓存量化效果",
+      "llm_tldr_en": "This paper studies whether regularization can reshape LLM representations to aid KV-cache quantization. Applying the anti-collapse objective to K and V reduces cache anisotropy by 94% with minimal perplexity loss, enabling better quantization.",
+      "llm_tldr_cn": "KV缓存量化是大语言模型推理加速的关键技术，但缓存表示的各向异性影响量化效果。本文研究在预训练中引入正则化目标（sigreg）能否重塑表示几何以有利于量化。实验表明，直接对K和V应用正则化可将缓存各向异性降低94%，几乎不损失困惑度，为后续量化提供了更友好的分布。",
+      "llm_tldr": "KV缓存量化是大语言模型推理加速的关键技术，但缓存表示的各向异性影响量化效果。本文研究在预训练中引入正则化目标（sigreg）能否重塑表示几何以有利于量化。实验表明，直接对K和V应用正则化可将缓存各向异性降低94%，几乎不损失困惑度，为后续量化提供了更友好的分布。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
