@@ -1,0 +1,24 @@
+{
+  "label": "2026-07-22",
+  "date": "2026-07-22",
+  "generated_at": "2026-07-22T21:17:08",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202607/22/2607.16427v1-multi-level-context-modeling-for-consistent-expert-selection-in-mixture-of-experts",
+      "section": "quick",
+      "title_en": "Multi-level context Modeling for consistent expert selection in Mixture-of-Experts",
+      "authors": "Shuhan Huang, Naifan Zhang, Yuanbo Tang, Yang Li, Wai Kin Victor Chan",
+      "date": "2026-07-17",
+      "pdf": "https://arxiv.org/pdf/2607.16427v1",
+      "score": "7.0",
+      "evidence": "通过多级上下文融合改进专家选择一致性",
+      "tldr": "混合专家模型（MoE）中现有路由器基于浅层或孤立token表示，导致专家选择不稳定且语义不一致。本文提出MCF-MOE，通过多级上下文融合，整合跨层语义聚合和局部token交互，构建上下文丰富的专家路由表示。在语言建模和理解任务上，MCF-MOE显著提升了路由一致性和下游性能，优于强MoE基线。该工作揭示了上下文完整性在专家路由中的重要性，为MoE的有效扩展提供了新视角。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) enables efficient scaling of Transformer models by routing tokens to a small subset of experts. However, existing routers typically condition expert selection on shallow or isolated token representations, which often produce unstable and semantically inconsistent routing decisions across layers. In this work, we revisit expert selection from a representation perspective and identify context incompleteness as a key bottleneck limiting effective expert specialization. To address this issue, we propose Multi-level Context Fusion MOE (MCF-MOE), a framework that constructs context-aware representations by integrating complementary signals from cross-layer semantic aggregation and local token-level interactions, enabling more informative and consistent expert selection. Experiments on language modeling and understanding benchmarks demonstrate that MCF-MOE consistently improves routing consistency and downstream performance over strong MoE baselines, highlighting the importance of contextual completeness in expert routing. The code is available at https://anonymous.4open.science/r/MCFMOE.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

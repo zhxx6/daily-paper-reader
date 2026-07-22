@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-22 <!--dpr-date:20260722-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/22/2607.16427v1-multi-level-context-modeling-for-consistent-expert-selection-in-mixture-of-experts" data-sidebar-item="{&quot;title&quot;: &quot;Multi-level context Modeling for consistent expert selection in Mixture-of-Experts&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.16427v1-multi-level-context-modeling-for-consistent-expert-selection-in-mixture-of-experts&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;通过多级上下文融合改进专家选择一致性&quot;}">Multi-level context Modeling for consistent expert selection in Mixture-of-Experts</a>
   * 2026-07-21 <!--dpr-date:20260721-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/21/2607.16721v1-half-the-experts-all-the-code-one-shot-domain-pruning-of-mixture-of-experts-llms-for-coding" data-sidebar-item="{&quot;title&quot;: &quot;Half the Experts, All the Code: One-Shot Domain Pruning of Mixture-of-Experts LLMs for Coding&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.16721v1-half-the-experts-all-the-code-one-shot-domain-pruning-of-mixture-of-experts-llms-for-coding&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;从MoE代码大模型中剪枝一半专家且无准确率损失&quot;}">Half the Experts, All the Code: One-Shot Domain Pruning of Mixture-of-Experts LLMs for Coding</a>

@@ -1,0 +1,56 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-22T21:16:16.676600+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.16427v1",
+      "source": "arxiv",
+      "title": "Multi-level context Modeling for consistent expert selection in Mixture-of-Experts",
+      "abstract": "Mixture-of-Experts (MoE) enables efficient scaling of Transformer models by routing tokens to a small subset of experts. However, existing routers typically condition expert selection on shallow or isolated token representations, which often produce unstable and semantically inconsistent routing decisions across layers. In this work, we revisit expert selection from a representation perspective and identify context incompleteness as a key bottleneck limiting effective expert specialization. To address this issue, we propose Multi-level Context Fusion MOE (MCF-MOE), a framework that constructs context-aware representations by integrating complementary signals from cross-layer semantic aggregation and local token-level interactions, enabling more informative and consistent expert selection. Experiments on language modeling and understanding benchmarks demonstrate that MCF-MOE consistently improves routing consistency and downstream performance over strong MoE baselines, highlighting the importance of contextual completeness in expert routing. The code is available at https://anonymous.4open.science/r/MCFMOE.",
+      "authors": [
+        "Shuhan Huang",
+        "Naifan Zhang",
+        "Yuanbo Tang",
+        "Yang Li",
+        "Wai Kin Victor Chan"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-17T18:22:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.16427v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves expert selection consistency with multi-level context fusion",
+      "llm_evidence_cn": "通过多级上下文融合改进专家选择一致性",
+      "llm_evidence": "通过多级上下文融合改进专家选择一致性",
+      "canonical_evidence": "通过多级上下文融合改进专家选择一致性",
+      "llm_tldr_en": "This paper identifies context incompleteness as a bottleneck in MoE routing and proposes MCF-MoE, which integrates cross-layer and local token interactions for stable expert selection.",
+      "llm_tldr_cn": "混合专家模型中的路由器通常基于浅层表示，导致专家选择不稳定且语义不一致。本文提出MCF-MoE框架，通过跨层语义聚合和局部token交互构建上下文感知表示，提升路由稳定性。实验表明该方法显著提高了专家专业化程度和模型性能，为MoE高效推理提供了更好的路由基础。",
+      "llm_tldr": "混合专家模型中的路由器通常基于浅层表示，导致专家选择不稳定且语义不一致。本文提出MCF-MoE框架，通过跨层语义聚合和局部token交互构建上下文感知表示，提升路由稳定性。实验表明该方法显著提高了专家专业化程度和模型性能，为MoE高效推理提供了更好的路由基础。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
