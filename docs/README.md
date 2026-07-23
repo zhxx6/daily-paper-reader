@@ -6,24 +6,29 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-22
-- 运行时间：2026-07-22 21:17:03 UTC
+- 最新运行日期：2026-07-23
+- 运行时间：2026-07-23 21:37:19 UTC
 - 运行状态：成功
-- 本次总论文数：1
-- 精读区：0
-- 速读区：1
+- 本次总论文数：2
+- 精读区：2
+- 速读区：0
 
 ### 今日简报（AI）
-今日推荐1篇论文，聚焦MoE专家选择一致性。值得关注：多级上下文建模提升混合专家模型的专家选择稳定性和效果。建议对MoE结构感兴趣的读者深入阅读该文，探索上下文信息如何优化专家分配。
-- 详情：[/202607/22/README](/202607/22/README)
+今日精读两篇MoE高分论文，聚焦细粒度计算通信重叠与空中协作智能。
+Tile级信号调度和统计增强空中MoE是两大核心方向，分别提升效率与协作效果。
+建议关注通信优化与模型协作设计，对MoE实际部署有重要参考价值。
+- 详情：[/202607/23/README](/202607/23/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Fine-grained Computation-Communication Overlap via Tile-level Signaling and Scheduling for Mixture-of-Experts](/202607/23/2607.19539v1-fine-grained-computation-communication-overlap-via-tile-level-signaling-and-scheduling-for-mixture-of-experts)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：用于混合专家推理的细粒度计算-通信重叠
+2. [AirMoE: Statistic-Augmented Over-the-Air MoE for Collaborative Intelligence](/202607/23/2607.16562v1-airmoe-statistic-augmented-over-the-air-moe-for-collaborative-intelligence)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：通过统计增强的空中聚合提升MoE推理效率
 
 ### 速读区论文标签
-1. [Multi-level context Modeling for consistent expert selection in Mixture-of-Experts](/202607/22/2607.16427v1-multi-level-context-modeling-for-consistent-expert-selection-in-mixture-of-experts)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：通过多级上下文融合改进专家选择一致性
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">

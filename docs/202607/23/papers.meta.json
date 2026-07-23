@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-23",
+  "date": "2026-07-23",
+  "generated_at": "2026-07-23T21:37:26",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/23/2607.19539v1-fine-grained-computation-communication-overlap-via-tile-level-signaling-and-scheduling-for-mixture-of-experts",
+      "section": "deep",
+      "title_en": "Fine-grained Computation-Communication Overlap via Tile-level Signaling and Scheduling for Mixture-of-Experts",
+      "authors": "Minyu Cui, Anna Wingkvist, Morgan Ericsson",
+      "date": "2026-07-21",
+      "pdf": "https://arxiv.org/pdf/2607.19539v1",
+      "score": "9.0",
+      "evidence": "用于混合专家推理的细粒度计算-通信重叠",
+      "tldr": "MoE架构通过专家并行实现模型扩展，但其两层all-to-all通信（令牌分发与结果返回）成为性能瓶颈，传统方法在专家计算后才启动返回通信，导致延迟暴露和GPU利用率低。本文提出基于tile级信号与调度的细粒度重叠方法，通过持久化生产者内核覆盖本地专家计算并以远程关键tile优先，同时在少量SM上运行持久化通信消费者内核，按段粒度即时传输就绪tile。在4×A100上对三个MoE模型评测，相比四个先进系统取得最高2.64倍端到端加速，且无需修改底层算子或通信原语。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) architectures increase model capacity without proportionally increasing computation cost and have become a key building block for scaling large language models (LLMs) to trillion-parameter regimes. Efficient deployment of these MoE models relies on distributed execution across multiple GPUs, where each MoE layer involves two all-to-all communications: dispatching tokens to expert ranks and returning the expert outputs to their source ranks. Conventional MoE implementations launch this return all-to-all after expert compute completes, exposing communication latency on the critical path and reducing GPU utilization. We present a fine-grained approach that overlaps expert compute with the second all-to-all via tile-level signaling and scheduling. Our producer-consumer co-design combines: (1) a persistent per-rank computation kernel (producer) that covers all local experts on the rank to eliminate repeated kernel launch overhead and prioritizes remote-critical tiles, and (2) a persistent communication kernel (consumer) on a small dedicated partition of streaming multiprocessors (SMs) that issues segment-granular transfers as tiles become ready. Our co-design avoids intrusive changes to the underlying computation operators or communication primitives, making it practical for improving distributed MoE execution efficiency on multi-GPU systems. On a 4-A100 GPU platform, evaluated on three MoE models against four state-of-the-art MoE systems, our approach achieves up to 2.64x end-to-end speedup and 2.74x MoE-layer speedup. Compared with a conventional non-overlap baseline, our approach consistently improves both operator- and MoE-layer-level performance across varying GEMM shapes, router modes, and a broad range of producer/consumer SM partitions, while preserving correctness.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/23/2607.16562v1-airmoe-statistic-augmented-over-the-air-moe-for-collaborative-intelligence",
+      "section": "deep",
+      "title_en": "AirMoE: Statistic-Augmented Over-the-Air MoE for Collaborative Intelligence",
+      "authors": "Wei-Bin Kou, Jingreng Lei, Guangxu Zhu, Yujiu Yang",
+      "date": "2026-07-18",
+      "pdf": "https://arxiv.org/pdf/2607.16562v1",
+      "score": "8.0",
+      "evidence": "通过统计增强的空中聚合提升MoE推理效率",
+      "tldr": "分布式MoE在无线云边网络中面临上行链路开销大和空中聚合噪声干扰的双重瓶颈。提出AirMoE范式：客户端用本地特征检索库生成统计量数字上报，云端根据JS散度选择专家；选中专家通过功率控制实现加权空中计算。语义分割实验显示AirMoE优于MoE基线和单模型。该工作解耦了路由与聚合，显著降低通信开销。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture of Experts (MoE) are increasingly deployed over wireless cloud-edge networks, as a single edge device lacks sufficient resources to host large-scale models locally. In this distributed architecture, a cloud-hosted pretrained Large Model (LM) acts as a shared backbone for latent feature extraction, while heterogeneous experts deployed across distributed, wirelessly-connected clients collaboratively form the task head. However, deploying MoE over wireless links exposes two coupled bottlenecks. On the one hand, routing which clients to activate generally overloads bandwidth-limited uplinks due to required raw feature transmission. On the other hand, aggregating the activated experts' outputs over wireless links is hindered by channel noise and poor scalability. To break these bottlenecks, we propose a statistic-augmented over-the-air MoE (AirMoE) paradigm. Specifically, on the routing side, each client queries its local Feature Retrieval Library (FRL) with a cloud-broadcast compact query, retrieves a prototype-induced statistic, and reports it digitally to the cloud, drastically reducing uplink traffic; the cloud then selects the most relevant clients by aligning these statistics with the LM-extracted features via Jensen--Shannon (JS) divergence. On the aggregating side, selected experts simultaneously transmit their outputs over the multiple-access channel, which physically computes the reweighted sum via waveform superposition, with reweighting coefficients realized through channel-aware power control. The two mechanisms are thus decoupled both algorithmically and physically. We further provide theoretical analyses on convergence and iteration complexity. Taking semantic segmentation task as an example, extensive experiments demonstrate that AirMoE outperforms MoE baselines and single-model competitors. Ablations further confirm the effectiveness of each incorporated component.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
