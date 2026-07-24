@@ -1,0 +1,54 @@
+{
+  "label": "2026-07-24",
+  "date": "2026-07-24",
+  "generated_at": "2026-07-24T21:14:48",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202607/24/2607.20981v1-beyond-independent-optimization-compression-moe-routing-and-quantization-interactions-in-multimodal-edge-intelligence",
+      "section": "quick",
+      "title_en": "Beyond Independent Optimization: Compression, MoE Routing, and Quantization Interactions in Multimodal Edge Intelligence",
+      "authors": "Jay Gor, Karm Dave, Akshita Abrol, Rajesh Gupta, Sudeep Tanwar, Zhengkui Wang",
+      "date": "2026-07-23",
+      "pdf": "https://arxiv.org/pdf/2607.20981v1",
+      "score": "7.0",
+      "evidence": "综述覆盖MoE路由、量化与压缩的相互影响，面向高效多模态推理",
+      "tldr": "多模态边缘智能推理受限于模型质量与计算成本，视觉token压缩、MoE路由与低比特量化等优化方法存在强交互依赖。压缩改变特征分布影响路由决策，路由行为影响专家利用与量化敏感度，量化路由器logits影响专家分配，KV-cache策略决定多模态证据保留。本文系统性梳理交互关系，引入时序路由一致性诊断视频MoE模型，并指出路由感知压缩、跨模态缓存管理及统一基准测试等开放方向。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Efficient multimodal inference is increasingly constrained not only by model quality or FLOP count, but also by the cost of preserving, moving, routing, caching, and quantizing multimodal representations under latency, memory, and energy constraints. This paper reviews recent advances in efficient vision-language and multimodal large language models, covering visual token compression, video token management, KV-cache optimization, Mixture-of-Experts (MoE) routing, low-bit quantization, edge deployment, and hardware-aware benchmarking. We argue that these techniques cannot be treated as independent optimizations. Visual token compression alters downstream feature distributions and MoE routing decisions, routing behavior affects expert utilization and quantization sensitivity, quantized router logits influence expert assignment, KV-cache policies determine retained multimodal evidence, and hardware constraints often transform computational savings into memory and communication bottlenecks. We organize the literature around these interactions and identify key design trade-offs, including accuracy versus token budget, static versus adaptive compression, sparse routing efficiency versus expert collapse, and low-bit inference versus modality-specific degradation. Finally, we introduce Temporal Routing Consistency as a diagnostic for video MoE models and highlight open research directions in routing-aware compression, cross-modal cache management, hardware-aware co-design, and unified benchmarking for multimodal edge intelligence.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/24/2607.21076v1-c-ptq-fisher-weighted-channel-wise-sensitivity-for-post-training-quantization-of-mllms",
+      "section": "quick",
+      "title_en": "C-PTQ: Fisher-weighted Channel-wise Sensitivity for Post-training Quantization of MLLMs",
+      "authors": "Jiameng Li, Han Zhou, Matthew B. Blaschko",
+      "date": "2026-07-23",
+      "pdf": "https://arxiv.org/pdf/2607.21076v1",
+      "score": "7.0",
+      "evidence": "大语言模型的后训练量化",
+      "tldr": "多模态大语言模型量化时，异常通道严重影响精度。现有方法未考虑通道对任务损失的贡献，导致缩放因子不匹配。C-PTQ采用Fisher加权目标近似二阶导数，将任务敏感度融入通道缩放，无需LoRA等辅助模块。在Qwen2.5VL等模型上，权重与激活量化均达最先进性能，兼顾高效。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Multimodal large language models (MLLMs) require huge memory and computational costs, which limits their practical deployment. Post-training quantization (PTQ) techniques offer an efficient solution for model compression and inference acceleration. Yet, the quantized model faces performance degradation due to outlier channels, which are highly sensitive to quantization and substantially impair activation fidelity and task accuracy. To protect these salient channels during quantization, existing PTQ methods leverage modality- or token-level metrics to guide channel-wise scaling (CWS) of LLM decoders. However, these orthogonal measurements fail to capture channel-wise impacts on task-specific loss, and the misalignment between importance and scaling factors ultimately leads to suboptimal performance. To address this issue, we propose C-PTQ, a unified channel-wise PTQ method that harmonizes task-specific loss perturbation and quantization error. Motivated by second-order derivatives, we design a Fisher-weighted objective as a tractable Hessian approximation, seamlessly injecting task sensitivity into the scaling process. Notably, we achieve state-of-the-art performance without auxiliary modules like LoRA, thereby maintaining high efficiency. Experiments on Qwen2.5VL, InternVL2 and LLaVA-OV across 8 benchmarks demonstrate our effectiveness in both weight-only and weight-activation settings.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/24/2607.21446v1-kroquant-kronecker-structured-block-transforms-for-efficient-post-training-quantization-of-diffusion-transformers",
+      "section": "quick",
+      "title_en": "KroQuant: Kronecker-Structured Block Transforms for Efficient Post-Training Quantization of Diffusion Transformers",
+      "authors": "Yann Bouquet, Alireza Khodamoradi, Kristof Denolf, Mathieu Salzmann",
+      "date": "2026-07-23",
+      "pdf": "https://arxiv.org/pdf/2607.21446v1",
+      "score": "7.0",
+      "evidence": "使用Kronecker结构块变换进行变换器后训练量化以处理激活异常值",
+      "tldr": "扩散Transformer后训练量化到4-bit激活时，离群点导致质量严重下降。现有可逆变换方法存在精度与计算成本的矛盾。KroQuant对每个32元素块应用学习的克罗内克结构可逆变换，仅需少于半通道缩放参数，并以小张量核高效运行。结合离线LoRaQ校准，在W4A4下PixArt-Σ等模型输出质量接近浮点参考，优于SVDQuant和LoRaQ，且量化内核比SmoothQuant快14%。该方法以极低在线计算开销实现了高精度量化，推动了扩散模型高效部署。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Post-training quantization (PTQ) of diffusion transformers (DiTs) to W4A4 severely degrades output quality, because activations entering each linear layer contain outliers that 4-bit formats cannot represent. The standard fix applies an invertible linear transform to the activations and its inverse to the weights before quantizing both. Normalization layers between blocks force this transform to run online at every denoising step, making its inference computation cost the binding design constraint. Existing options trade quantization quality for inference cost: per-channel scaling (SmoothQuant) is computationally cheap but impacts the magnitude of the channels, which can harm quantization accuracy; fixed Hadamard transforms yield better quantization accuracy but require large block sizes that incur a high online cost; learned full-$d$ invertible transforms calibrate best but entail a prohibitive dense $d \\times d$ matrix multiplication (GEMM) per layer per step.   We propose KroQuant, a PTQ method that applies a learned Kronecker-structured invertible transform to each 32-element block of the activation, storing less than half the parameters of per-channel scaling. The block-local structure runs as small tensor-core GEMMs, and on an MI350 GPU the KroQuant quantizer kernel is up to $14\\%$ faster than the SmoothQuant kernel. Offline LoRaQ weight calibration then absorbs the residual per-weight quantization error. On PixArt-$Σ$, SANA, and FLUX.1-schnell at W4A4 (MXFP4e2), KroQuant produces outputs closer to the FP reference than SVDQuant and LoRaQ on MJHQ-30K and SDCI, while preserving or improving image quality.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

@@ -6,29 +6,30 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-23
-- 运行时间：2026-07-23 21:37:19 UTC
+- 最新运行日期：2026-07-24
+- 运行时间：2026-07-24 21:14:42 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：2
-- 速读区：0
+- 本次总论文数：3
+- 精读区：0
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读两篇MoE高分论文，聚焦细粒度计算通信重叠与空中协作智能。
-Tile级信号调度和统计增强空中MoE是两大核心方向，分别提升效率与协作效果。
-建议关注通信优化与模型协作设计，对MoE实际部署有重要参考价值。
-- 详情：[/202607/23/README](/202607/23/README)
+今日精读3篇多模态边缘智能量化与压缩论文，均获7分。重点关注MoE路由与量化交互机制、Fisher加权通道敏感后训练量化（C-PTQ）及Kronecker块变换量化（KroQuant）。建议后续优先跟进后训练量化在扩散Transformer和多模态大模型中的落地实践。
+- 详情：[/202607/24/README](/202607/24/README)
 
 ### 精读区论文标签
-1. [Fine-grained Computation-Communication Overlap via Tile-level Signaling and Scheduling for Mixture-of-Experts](/202607/23/2607.19539v1-fine-grained-computation-communication-overlap-via-tile-level-signaling-and-scheduling-for-mixture-of-experts)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：用于混合专家推理的细粒度计算-通信重叠
-2. [AirMoE: Statistic-Augmented Over-the-Air MoE for Collaborative Intelligence](/202607/23/2607.16562v1-airmoe-statistic-augmented-over-the-air-moe-for-collaborative-intelligence)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：通过统计增强的空中聚合提升MoE推理效率
+- 本次无精读推荐。
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [Beyond Independent Optimization: Compression, MoE Routing, and Quantization Interactions in Multimodal Edge Intelligence](/202607/24/2607.20981v1-beyond-independent-optimization-compression-moe-routing-and-quantization-interactions-in-multimodal-edge-intelligence)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：综述覆盖MoE路由、量化与压缩的相互影响，面向高效多模态推理
+2. [C-PTQ: Fisher-weighted Channel-wise Sensitivity for Post-training Quantization of MLLMs](/202607/24/2607.21076v1-c-ptq-fisher-weighted-channel-wise-sensitivity-for-post-training-quantization-of-mllms)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：大语言模型的后训练量化
+3. [KroQuant: Kronecker-Structured Block Transforms for Efficient Post-Training Quantization of Diffusion Transformers](/202607/24/2607.21446v1-kroquant-kronecker-structured-block-transforms-for-efficient-post-training-quantization-of-diffusion-transformers)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：使用Kronecker结构块变换进行变换器后训练量化以处理激活异常值
 
 
 <div class="dpr-home-promo-card">
