@@ -6,30 +6,24 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-24
-- 运行时间：2026-07-24 21:14:42 UTC
+- 最新运行日期：2026-07-25
+- 运行时间：2026-07-25 21:08:24 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：0
-- 速读区：3
+- 本次总论文数：1
+- 精读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日精读3篇多模态边缘智能量化与压缩论文，均获7分。重点关注MoE路由与量化交互机制、Fisher加权通道敏感后训练量化（C-PTQ）及Kronecker块变换量化（KroQuant）。建议后续优先跟进后训练量化在扩散Transformer和多模态大模型中的落地实践。
-- 详情：[/202607/24/README](/202607/24/README)
+今日精读一篇关于多模态边缘智能中压缩、MoE路由与量化交互的高分论文。核心发现是三者联合优化而非独立设计可大幅提升边缘设备效率。建议研究者转向系统级协同调优，而非孤立地改进单个模块。
+- 详情：[/202607/25/README](/202607/25/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Beyond Independent Optimization: Compression, MoE Routing, and Quantization Interactions in Multimodal Edge Intelligence](/202607/25/2607.20981v1-beyond-independent-optimization-compression-moe-routing-and-quantization-interactions-in-multimodal-edge-intelligence)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：MoE路由、量化与压缩交互的综述
 
 ### 速读区论文标签
-1. [Beyond Independent Optimization: Compression, MoE Routing, and Quantization Interactions in Multimodal Edge Intelligence](/202607/24/2607.20981v1-beyond-independent-optimization-compression-moe-routing-and-quantization-interactions-in-multimodal-edge-intelligence)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：综述覆盖MoE路由、量化与压缩的相互影响，面向高效多模态推理
-2. [C-PTQ: Fisher-weighted Channel-wise Sensitivity for Post-training Quantization of MLLMs](/202607/24/2607.21076v1-c-ptq-fisher-weighted-channel-wise-sensitivity-for-post-training-quantization-of-mllms)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：大语言模型的后训练量化
-3. [KroQuant: Kronecker-Structured Block Transforms for Efficient Post-Training Quantization of Diffusion Transformers](/202607/24/2607.21446v1-kroquant-kronecker-structured-block-transforms-for-efficient-post-training-quantization-of-diffusion-transformers)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：使用Kronecker结构块变换进行变换器后训练量化以处理激活异常值
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
