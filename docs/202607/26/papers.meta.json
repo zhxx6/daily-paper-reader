@@ -1,0 +1,24 @@
+{
+  "label": "2026-07-26",
+  "date": "2026-07-26",
+  "generated_at": "2026-07-26T21:00:22",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202607/26/2607.20981v1-beyond-independent-optimization-compression-moe-routing-and-quantization-interactions-in-multimodal-edge-intelligence",
+      "section": "deep",
+      "title_en": "Beyond Independent Optimization: Compression, MoE Routing, and Quantization Interactions in Multimodal Edge Intelligence",
+      "authors": "Jay Gor, Karm Dave, Akshita Abrol, Rajesh Gupta, Sudeep Tanwar, Zhengkui Wang",
+      "date": "2026-07-23",
+      "pdf": "https://arxiv.org/pdf/2607.20981v1",
+      "score": "9.0",
+      "evidence": "综述了MoE路由、量化与压缩在高效推理中的相互作用",
+      "tldr": "多模态边缘推理面临延迟、内存和能量约束，现有压缩、MoE路由、量化技术常被独立优化，但实际存在强耦合。本文系统综述这些技术的交互，发现视觉令牌压缩改变下游特征分布和路由决策，路由行为影响专家利用和量化敏感度。引入时序路由一致性作为视频MoE诊断指标，识别准确率-令牌预算、静态-自适应压缩等权衡。贡献在于提出路由感知压缩、跨模态缓存管理等方向，呼吁统一基准与硬件感知协同设计。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Efficient multimodal inference is increasingly constrained not only by model quality or FLOP count, but also by the cost of preserving, moving, routing, caching, and quantizing multimodal representations under latency, memory, and energy constraints. This paper reviews recent advances in efficient vision-language and multimodal large language models, covering visual token compression, video token management, KV-cache optimization, Mixture-of-Experts (MoE) routing, low-bit quantization, edge deployment, and hardware-aware benchmarking. We argue that these techniques cannot be treated as independent optimizations. Visual token compression alters downstream feature distributions and MoE routing decisions, routing behavior affects expert utilization and quantization sensitivity, quantized router logits influence expert assignment, KV-cache policies determine retained multimodal evidence, and hardware constraints often transform computational savings into memory and communication bottlenecks. We organize the literature around these interactions and identify key design trade-offs, including accuracy versus token budget, static versus adaptive compression, sparse routing efficiency versus expert collapse, and low-bit inference versus modality-specific degradation. Finally, we introduce Temporal Routing Consistency as a diagnostic for video MoE models and highlight open research directions in routing-aware compression, cross-modal cache management, hardware-aware co-design, and unified benchmarking for multimodal edge intelligence.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
