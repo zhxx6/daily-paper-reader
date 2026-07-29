@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-29",
+  "date": "2026-07-29",
+  "generated_at": "2026-07-29T20:59:48",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/29/2607.24653v1-kimi-k3-open-frontier-intelligence",
+      "section": "deep",
+      "title_en": "Kimi K3: Open Frontier Intelligence",
+      "authors": "Kimi Team, Tongtong Bai, Yifan Bai, Yiping Bao, M. C., Jianfeng Cai, Xinyuan Cai, Peizhou Cao, Yuxuan Cao, Ziwei Chai, Y. Charles, H. S. Che, Guanduo Chen, Guangyu Chen, Guanzheng Chen, Huarong Chen, Jia Chen, Jianlong Chen, Jun Chen, Kexin Chen, Peng Chen, Ruijue Chen, Wentao Chen, Xin Chen, Yang Chen, Yanru Chen, Yifei Chen, Yingjiang Chen, Yuankun Chen, Yujie Chen, Yutian Chen, Zhirong Chen, Dazhi Cheng, Yean Cheng, Jialei Cui, Jingbing Cui, Anqi Dai, Jiaqi Deng, Hao Ding, Rui Ding, Shaofeng Ding, Mengfan Dong, Mengnan Dong, Yuhao Dong, Yuxin Dong, Angang Du, Chenzhuang Du, Dikang Du, Jusen Du, Yulun Du, Yu Fan, Jing Feng, Qiulin Feng, Yichen Feng, Kelin Fu, Qiang Fu, Fuxuan Gao, Hongcheng Gao, Jingyue Gao, Tong Gao, Weijia Gao, Shangyi Geng, Jie Gong, Linhu Gong, Shengao Gong, Xiaochen Gong, Qizheng Gu, Yicheng Gu, Shuhao Guan, Haiqing Guo, Shiqi Guo, Xiang Guo, Zhengyan Guo, Beixi Hao, Wenxin Hao, Xiaoru Hao, Dailan He, Haotian He, Lehan He, Qi He, Weiran He, Xinran He, Xinyi He, Yibo He, Yunjia He, Chao Hong, Tiange Hong, Hao Hu, Jiaxi Hu, Ruikun Hu, Weiming Hu, Yangyang Hu, Zhenxing Hu, Liang Hua, Jinbin Huang, Ke Huang, Ruiyuan Huang, Siying Huang, Weixiao Huang, Yan Huang, Zhengjie Huang, Zhiqi Huang, Yulong Hui, Chaobo Jia, Yutong Jiang, Zhejun Jiang, Zuoyou Jiang, Wenyi Jin, Xinyi Jin, Yu Jing, Huanjun Kong, Guokun Lai, Aidi Li, Cheng Li, Chengyuan Li, Cong Li, Fang Li, Guanyu Li, Haoyang Li, Jia Li, Junxiong Li, Lei Li, Letian Li, Lincan Li, Weihong Li, Wentao Li, Xintong Li, Yang Li, Yishen Li, Yiwei Li, Yuxiao Li, Zhaowei Li, Zhaoxi Li, Zheming Li, Zhengxiao Li, Zhiyuan Li, Jiawei Lin, Xiaohan Lin, Yibo Lin, Zichao Lin, Ziyan Lin, Bill Liu, Boxiao Liu, Chuan Liu, Liang Liu, Shaowei Liu, Shudong Liu, Shuran Liu, Tianwei Liu, Weizhou Liu, Yangyang Liu, Yanming Liu, Yibo Liu, Yipeng Liu, Zhengying Liu, Zhiheng Liu, Enzhe Lu, Haoyu Lu, Linqiang Lu, Tingzhan Lu, Zhiyuan Lu, Aotian Luo, G. Luo, Junyu Luo, Yifan Luo, B. Lyu, Wenzhou Lyu, Shaoguang Mao, Yuan Mei, Xin Men, Minqing Ni, Yixuan Niu, Siyuan Pan, Shujun Peng, Zhangyang Qi, Ruoyu Qin, ZeChao Qin, Zeyu Qin, Haiquan Qiu, Jianxin Qiu, Jiezhong Qiu, Bowen Qu, Yuhao Qu, Zeyu Shang, Youbo Shao, Han Shen, Jincheng Shi, Juanfeng Shi, Lidong Shi, Shengyuan Shi, Wingchun Siu, Pengwei Song, Xiaoxi Song, Jianlin Su, Yunfeng Su, Zhaochen Su, Lin Sui, Jingsong Sun, Junyao Sun, Shaoning Sun, Shuzhe Sun, Tongyu Sun, Yujun Sun, Yunpeng Tai, Chuning Tang, Heyi Tang, Sirui Tang, Zecheng Tang, Chaoran Tian, Rongpeng Tian, Yu Tian, Wei Tu, Chensi Wang, Chuang Wang, Chunjie Wang, Dinglu Wang, Feng Wang, Hailong Wang, Haiming Wang, Hao Wang, Hao Wang, Huaqing Wang, Hui Wang, Jiayi Wang, Jinglong Wang, Jinhong Wang, Jiuzheng Wang, Linian Wang, Shaobo Wang, Shenzhi Wang, Shuyi Wang, Si Wang, Siyuan Wang, Tianfu Wang, Wenjue Wang, Xingran Wang, Xinmei Wang, Xinyuan Wang, Xusheng Wang, Yalin Wang, Yangkun Wang, Yao Wang, Yaoyu Wang, Yejie Wang, Yiqin Wang, Yucheng Wang, Yuzhi Wang, Zhaoji Wang, Zhaowei Wang, Zhengtao Wang, Zhenhao Wang, Zhongsheng Wang, Zifan Wang, Chu Wei, Ming Wei, Shouxin Wei, Zichen Wen, Fan Wu, Haoning Wu, Rucong Wu, Wenhao Wu, Xiaoxue Wu, Yingcong Wu, Yongqi Wu, Yuxin Wu, Zijian Wu, Xinglang Xian, Chenxuan Xiang, Yuye Xiang, Bocheng Xiao, Chenjun Xiao, Xin Xiao, Jin Xie, Xiaotong Xie, Yifeng Xie, Zhe Xie, Bowei Xing, Yiming Xiong, Baosheng Xu, Boyu Xu, Jiale Xu, Jianfan Xu, Jing Xu, Jinjing Xu, L. H. Xu, Qingtao Xu, Shuyao Xu, Suting Xu, Tiantian Xu, Tianxiang Xu, Weixin Xu, Xinran Xu, Yangchuan Xu, Ye Xu, Yueni Xu, Ziyao Xu, Haonan Xue, Junjie Yan, Yaoyao Yan, Fan Yang, Guangyao Yang, Hao Yang, Junwei Yang, Ruoyu Yang, Wenjie Yang, Xiaofei Yang, Xinyu Yang, Yi Yang, Yiling Yang, Ying Yang, Yuchen Yang, Zhen Yang, Zhilin Yang, Zian Yang, Zuhao Yang, Haotian Yao, Dan Ye, Haoran Ye, Wenjie Ye, Zhanbo Ye, Bohong Yin, Haoxiang Yin, Xietong Yin, Chengzhen Yu, Haozhen Yu, Longhui Yu, Shengnan Yu, Shuying Yu, Tianxiang Yu, Enming Yuan, Mengjie Yuan, Tongtian Yue, Wei Yue, Yang Yue, Dunyuan Zha, Haobing Zhan, B. H. Zhang, Dehao Zhang, Fei Zhang, Hao Zhang, Haoyuan Zhang, Huanyu Zhang, Jiapei Zhang, Jiaxuan Zhang, Jin Zhang, Kaiyi Zhang, Miaozhen Zhang, Puqi Zhang, Qinglei Zhang, Rong Zhang, Rui Zhang, Shaoshuai Zhang, Shiyi Zhang, Xiaobin Zhang, Xiaoyun Zhang, Y. Zhang, Yangkun Zhang, Ye Zhang, Yichi Zhang, Yikun Zhang, Yizhi Zhang, Yongting Zhang, Yu Zhang, Yutao Zhang, Yutong Zhang, Zheng Zhang, Zijing Zhang, Bin Zhao, Chenguang Zhao, Feifan Zhao, Jinglun Zhao, Jinxiang Zhao, Shuai Zhao, Wenshuo Zhao, Xiangyu Zhao, Xuanle Zhao, Yikai Zhao, Zijia Zhao, Haozhi Zheng, Huabin Zheng, Ruihan Zheng, Shaojie Zheng, Tengyang Zheng, Haofeng Zhong, Lei Zhong, Longguang Zhong, M. Zhou, Qiankang Zhou, Runjie Zhou, Ruozhang Zhou, Xinyu Zhou, Yiqiao Zhou, Zaida Zhou, Jinguo Zhu, Liya Zhu, Xinhao Zhu, Yangjunfeng Zhu, Yuxuan Zhu, Zhen Zhu, Chen Zhuang, Weiyu Zhuang, Xinxing Zu",
+      "date": "2026-07-27",
+      "pdf": "https://arxiv.org/pdf/2607.24653v1",
+      "score": "9.0",
+      "evidence": "大规模MoE模型，高效路由和专家激活",
+      "tldr": "为突破开放模型性能瓶颈，Kimi K3采用2.8T参数MoE架构，创新Kimi Delta Attention与Attention Residuals增强信息流动，结合Stable LatentMoE每token激活16/896专家，并通过多领域强化学习提升泛化能力。在长程编码、智能体、知识推理及视觉任务中达到前沿水平，虽不及Claude Fable 5和GPT-5.6 Sol，但优于所有其他开源及多数闭源模型。开放完整权重以加速前沿智能研究与应用。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We introduce Kimi K3, a 2.8T parameter Mixture-of-Experts model with 104 billion activated parameters, native vision capabilities, and a 1-million-token context window. Kimi K3 is built on Kimi Delta Attention and Attention Residuals, which improve information flow across sequence length and model depth. Together with Stable LatentMoE, which effectively activates 16 of 896 routed experts per token, and refined training and data recipes, these advances yield an approximately 2.5x improvement in overall scaling efficiency over Kimi K2. Post-training highlights reinforcement learning across general, agentic, and coding domains and multiple reasoning-effort levels, enabling compositional generalization and robust long-horizon execution. At 2.8T scale, Kimi K3 is supported by infrastructure advances in multiple areas: algorithm-system co-design for KDA, perfectly balanced expert-parallel training with efficient memory management, million-token agentic RL with persistent rollout and sandbox states, and deployment innovations. Extensive evaluations show that Kimi K3 achieves frontier-level performance across long-horizon coding, agentic, knowledge, reasoning, and vision tasks. While its overall performance still trails the most powerful proprietary models, namely Claude Fable 5 and GPT-5.6 Sol, Kimi K3 consistently outperforms other open and proprietary models evaluated in our suite. We release the full Kimi K3 model weights to facilitate future research and accelerate the broader deployment and adoption of frontier intelligence.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/29/2607.23099v2-decoding-the-skew-distribution-aware-moe-inference-with-adaptive-kernel-dispatch",
+      "section": "deep",
+      "title_en": "Decoding the Skew: Distribution-Aware MoE Inference with Adaptive Kernel Dispatch",
+      "authors": "En-Ming Huang, An-Cheng Chang, Bai-Cheng Jeng, Shih-Hao Hung, H. T. Kung",
+      "date": "2026-07-25",
+      "pdf": "https://arxiv.org/pdf/2607.23099v2",
+      "score": "8.0",
+      "evidence": "分布感知的MoE推理与自适应内核调度",
+      "tldr": "现有MoE推理系统使用静态token-count桶选择融合内核，忽略了专家路由分布对内核效率的影响。提出分布感知框架，结合有效专家指标和Dirichlet反向建模生成可控路由分布，揭示最佳内核随路由偏斜和token数量变化。进一步提出DA-MoE，一种GPU驻留内核调度系统，无需CPU-GPU同步即可匹配实时路由直方图与离线调优分布，选择近最优内核。在HumanEval-X上，DA-MoE在DeepSeek-V3和Kimi K2上分别提升1.16倍和1.29倍延迟，峰值加速达1.40倍和1.56倍。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) inference consists of sparse expert GEMMs whose shapes vary with the runtime routing distribution. Existing serving systems typically select fused-MoE kernels using static token-count buckets, ignoring the per-expert routing distribution that determines tile padding, memory reuse, and kernel efficiency. We introduce a distribution-aware framework for modeling and benchmarking MoE inference. The framework combines the compact Effective Experts metric with a Dirichlet-based reverse-modeling procedure that generates controllable routing distributions for systematic hardware studies. Using it, we show that the best fused-MoE kernel changes with routing skew and token count. We further present DA-MoE, a GPU-resident kernel-dispatch runtime for NVIDIA GPUs that matches the live routing histogram to offline-tuned distributions and selects a near-optimal fused-MoE kernel without CPU--GPU synchronization. On HumanEval-X serving traces, DA-MoE improves geomean fused-MoE latency by 1.16X on DeepSeek-V3 and 1.29X on Kimi K2, with peak speedups of 1.40X and 1.56X.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/29/2607.25451v1-bits-and-memories-measuring-verbatim-extraction-across-llm-quantization",
+      "section": "deep",
+      "title_en": "Bits and Memories: Measuring Verbatim Extraction Across LLM Quantization",
+      "authors": "Akshay Sasi",
+      "date": "2026-07-28",
+      "pdf": "https://arxiv.org/pdf/2607.25451v1",
+      "score": "8.0",
+      "evidence": "直接研究权重量化对LLM记忆的影响",
+      "tldr": "语言模型部署前通常被量化，但现有研究多使用成员推理评估隐私风险，忽略了训练数据逐字提取的实际威胁。本文直接测量Pythia模型在不同量化精度下对已记忆序列的逐字提取能力，发现量化选择性遗忘：逐字记忆下降快于模型能力，但不足以作为隐私防御。在最大模型上4-bit量化仍复制大部分记忆序列，且幸存比例随模型增大而增长。结论：压缩不能移除记忆数据，应关注提取而非成员推理。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Language models are almost always quantized before they are deployed, and a growing line of work asks whether quantization also lowers their privacy risk. That work measures privacy almost entirely with membership inference. We think this is the wrong thing to measure for the risk that most people actually worry about, namely a model reproducing its training data word for word, and we measure that directly. Using the Pythia models and the public set of sequences each of them is known to have memorized, we track verbatim extraction across five precision levels, from full precision down to four bits, and across three model sizes, while measuring general capability (perplexity) at every point. We find two things. Quantization is a selective forgetter: verbatim memorization falls off faster than capability at every precision and every model size we tried, and this holds under two unrelated quantization algorithms and two evaluation corpora. But the selectivity is not enough to make quantization a privacy defense, which cuts against the optimistic reading of earlier membership-inference results. At the largest model we study, four-bit quantization still reproduces most of the memorized sequences while giving up only a few percent of capability, and the fraction of memorized data that survives quantization grows with model size. We conclude that compression should not be treated as a way to remove memorized training data, and that extraction, not membership inference, is the number practitioners should be watching. All code, sampled evaluation data, and per-configuration results are released.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/29/2607.26052v1-spend-experts-where-you-are-unsure-confidence-adaptive-routing-for-mixture-of-experts-lora",
+      "section": "quick",
+      "title_en": "Spend Experts Where You Are Unsure: Confidence-Adaptive Routing for Mixture-of-Experts LoRA",
+      "authors": "Tom Saliencro, Rohan Desai, Priya Nair, Maya Lindqvist, Daniel Whitmore",
+      "date": "2026-07-28",
+      "pdf": "https://arxiv.org/pdf/2607.26052v1",
+      "score": "7.0",
+      "evidence": "置信自适应路由优化专家使用",
+      "tldr": "现有MoE-LoRA固定激活专家数量，未考虑token不确定性差异，易token过度计算而难token不足。本文提出CARE，利用路由器输出分布作为置信度信号，按权重降序核式激活专家直至累积质量达阈值，若已激活专家不一致则微扩，并由预算恒温器调控平均激活数。在多个基准上，CARE在等计算量下优于固定top-k，且以更少专家媲美k=4基线，同时改进OOD检测。该方法无需额外参数，单前向可替换。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) variants of Low-Rank Adaptation (LoRA) route every token to a fixed number of experts $k$. Tokens differ in how uncertain the model is about them, so a single k over-spends on easy tokens and under-serves hard ones. We observe that the router's output distribution is already a per-token uncertainty signal: peaked mass indicates confidence, while a flat distribution indicates ambiguity. We introduce CARE (Confidence-Adaptive Routing of Experts), which admits experts in a nucleus fashion. Experts are activated in decreasing router weight until their cumulative mass reaches a threshold, with a small extension when the admitted experts disagree. A budget thermostat calibrates the threshold so that the average number of active experts matches any target. CARE is a drop-in, single-forward-pass rule with no extra parameters. Across eight commonsense benchmarks on LLaMA-3.1-8B and Qwen2.5-7B, as well as math, code, and knowledge tasks, CARE improves over fixed top-k MoE-LoRA at matched compute and matches the fixed-k=4 baseline while activating fewer experts. The same confidence and disagreement signals also improve out-of-distribution detection over MSP, entropy, and multi-pass proxies. We support the design with nucleus fidelity, budget optimality, and an epistemic reading of disagreement, and we release code.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
