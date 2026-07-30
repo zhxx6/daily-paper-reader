@@ -1,0 +1,213 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-30T21:36:16.469949+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2607.26316v1",
+      "source": "arxiv",
+      "title": "Route-Block Membership Selects Packed-AWQ Arithmetic: A Controlled Single-Fixture Mechanism Study",
+      "abstract": "Mixture-of-experts (MoE) inference first aligns routed tokens into padded expert blocks, then executes packed quantized matrix multiplication over those blocks. This preprocessing is often treated as bookkeeping. In one pre-specified Qwen3-Coder AWQ layer-6 fixture on a pinned vLLM/Marlin build and RTX 3090 runtime, we show that the tested route-block interventions select exact packed arithmetic trajectories. Two fixed preconstruction histories produced distinct native alignments and exact trajectories. Injecting the opposite alignment transferred W13, activation, routed-W2, and final outputs. Permuting two routes within one block preserved each native trajectory, while exchanging two prior-data-selected routes across the boundary between expert-106 blocks 40 and 41 transferred the complete opposite trajectory. Source- and binary-derived schedule geometry maps those blocks to direct/full-K and split/global-reduction classes. Forcing a single-slice 200-block grid made W13 bitwise equal. Stable canonical construction made both histories converge to a third exact trajectory. The confirmatory cohort contains 70 valid cold processes and seven required perturbation rejections. This is a causal mechanism result for one fixture, not a prevalence, allocator, portability, or serving-impact claim.",
+      "authors": [
+        "Lukas Stepanek"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-07-28T22:25:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.26316v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "MoE inference with packed quantized matrix multiplication and route block alignment",
+      "llm_evidence_cn": "MoE推理中的打包量化矩阵乘法和路由块对齐",
+      "llm_evidence": "MoE推理中的打包量化矩阵乘法和路由块对齐",
+      "canonical_evidence": "MoE推理中的打包量化矩阵乘法和路由块对齐",
+      "llm_tldr_en": "Shows how route-block membership in MoE inference selects exact packed-AWQ arithmetic trajectories, demonstrating that preconstruction histories determine native alignments and quantified outputs.",
+      "llm_tldr_cn": "MoE推理中路由块对齐常被当作无关紧要的预处理步骤，但本文通过固定Qwen3-Coder AWQ层实验证明，路由块成员选择直接决定了打包量化矩阵乘法的算术执行轨迹。不同预构建历史产生不同的原生对齐和精确轨迹，注入相反对齐可迁移权重、激活等输出，而同一块内交换路线则保留轨迹。这一发现揭示了路由块成员对量化MoE推理性能的重要影响，为优化分组专家计算提供了新视角。",
+      "llm_tldr": "MoE推理中路由块对齐常被当作无关紧要的预处理步骤，但本文通过固定Qwen3-Coder AWQ层实验证明，路由块成员选择直接决定了打包量化矩阵乘法的算术执行轨迹。不同预构建历史产生不同的原生对齐和精确轨迹，注入相反对齐可迁移权重、激活等输出，而同一块内交换路线则保留轨迹。这一发现揭示了路由块成员对量化MoE推理性能的重要影响，为优化分组专家计算提供了新视角。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "grouped kernel decoding for moe models",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.24331v1",
+      "source": "arxiv",
+      "title": "DynaCalKV: Key-Value Cache Compression via Head Grouping and Adaptive Rank Allocation",
+      "abstract": "As the inference phase of Large Language Models (LLMs) requires handling long context windows, the Key-Value (KV) cache initially appears to address this challenge but eventually becomes a significant bottleneck as the context window continues to grow. Low-rank compression has recently been studied as an effective approach to reduce KV cache memory while maintaining model performance. However, only a few existing methods treat the Key and Value caches differently, despite their distinct roles. Moreover, these methods typically employ fixed attention-head grouping, which may not fully exploit the structural similarity among attention heads. In this paper, we propose an improved low-rank KV cache compression framework. For the Key cache, we dynamically group attention heads based on Centered Kernel Alignment (CKA) similarity and allocate the rank budget adaptively under a parameter budget. For the Value cache, we adopt the same approach as ReCalKV, refining the low-rank decomposition through offline calibration to improve reconstruction quality. Experimental results on three instruction-tuned LLMs show that our method reduces the number of Key cache parameters while maintaining competitive accuracy. We further observe that the proposed strategy is particularly effective for Multi-Head Attention (MHA) models, whereas it should be applied more conservatively to Grouped-Query Attention (GQA) models, especially in long-context settings.",
+      "authors": [
+        "Tan T. Nguyen",
+        "Quan V. Dang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-27T12:08:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.24331v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "head grouping and adaptive low-rank compression for KV cache",
+      "llm_evidence_cn": "注意力头分组与自适应低秩压缩用于KV缓存",
+      "llm_evidence": "注意力头分组与自适应低秩压缩用于KV缓存",
+      "canonical_evidence": "注意力头分组与自适应低秩压缩用于KV缓存",
+      "llm_tldr_en": "DynaCalKV compresses KV cache via differentiable head grouping and adaptive rank allocation, reducing memory while preserving LLM performance.",
+      "llm_tldr_cn": "大语言模型推理中KV缓存成为长上下文瓶颈，DynaCalKV提出基于可微分头分组与自适应秩分配的低秩压缩框架，在Key和Value缓存上分别处理并动态调整秩，实验表明在保持模型性能的同时显著减少缓存内存占用。",
+      "llm_tldr": "大语言模型推理中KV缓存成为长上下文瓶颈，DynaCalKV提出基于可微分头分组与自适应秩分配的低秩压缩框架，在Key和Value缓存上分别处理并动态调整秩，实验表明在保持模型性能的同时显著减少缓存内存占用。",
+      "llm_tags": [
+        "query:moe-gk-quant:composite"
+      ],
+      "matched_query_tag": "query:moe-gk-quant:composite",
+      "matched_query_text": "Papers central to MoE 推理，带有 group kernel 和量化, especially work that connects or combines: efficient mixture of experts inference techniques; group kernel optimization for transformer models; weight quantization for large language models; grouped kernel decoding for moe models; quantized mixture of experts model inference; efficient inference for mixture of experts models using group kernel and quantization; kernel fusion techniques for grouped expert computation in MoE; quantized mixture of experts inference with group kernel optimization.",
+      "matched_requirement_id": "req-composite-moe-gk-quant",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.20771v1",
+      "source": "arxiv",
+      "title": "Emergent Compositional Skills in Mixture-of-Experts VLAs",
+      "abstract": "We consider the problem of learning compositional robot policies end-to-end from expert demonstrations, without any pre-specified notion of task decomposition or hierarchy. We ask whether a VLA trained with a simplified Mixture-of-Experts (MoE) action head can emergently learn to decompose tasks into reusable, interpretable primitives. We find that learned experts are heavily reused across tasks and consistently correspond to qualitatively distinct low-level behaviors, suggesting that the router implicitly learns to perform high-level sequencing while experts serve as compositional primitives. Our MoE matches the task performance of a monolithic baseline while demonstrating meaningful expert specialization, a step toward modular, interpretable robot policies that emerge from data alone.",
+      "authors": [
+        "Shlok Shah",
+        "Rhiaan Jhaveri",
+        "Tharun Kumar Tiruppali Kalidoss",
+        "Chirayu Nimonkar",
+        "Ishaan Javali"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-22T22:36:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.20771v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Mixture-of-Experts in robot learning, relevant to MoE inference techniques",
+      "llm_evidence_cn": "机器人学习中的混合专家模型，与MoE推理技术相关",
+      "llm_evidence": "机器人学习中的混合专家模型，与MoE推理技术相关",
+      "canonical_evidence": "机器人学习中的混合专家模型，与MoE推理技术相关",
+      "llm_tldr_en": "MoE action head in VLAs can emergently learn compositional skills with reusable experts, providing insights for MoE inference design.",
+      "llm_tldr_cn": "针对机器人策略学习中的任务分解问题，论文在视觉-语言-动作模型中使用简化MoE动作头，发现专家可被重用并对应不同低级行为，路由器隐式学习高层序列，为MoE推理架构设计提供启发。",
+      "llm_tldr": "针对机器人策略学习中的任务分解问题，论文在视觉-语言-动作模型中使用简化MoE动作头，发现专家可被重用并对应不同低级行为，路由器隐式学习高层序列，为MoE推理架构设计提供启发。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.24030v1",
+      "source": "arxiv",
+      "title": "MoLGE: Mixture of Language Group Experts for Efficient Scaling of Massively Multilingual Speech Recognition",
+      "abstract": "Massively multilingual automatic speech recognition (ASR) models covering hundreds of languages must maintain robust performance across diverse linguistic and acoustic conditions. However, these models often encounter the curse of multilinguality, where model capacity is diluted across languages. To address this challenge, we propose Mixture of Language Group Experts (MoLGE), built upon speech self-supervised models (S3Ms). MoLGE assigns dedicated expert modules to clusters of similar languages, reducing the number of required submodules compared to conventional language-specific Mixture-of-Experts (MoE) schemes. It further integrates a hierarchical Low-Rank Adaptation (LoRA) strategy into the disentangled acoustic and linguistic components of the S3M architecture, enabling efficient modeling of language-specific characteristics while maintaining parameter efficiency. Further, we investigate the impact of language grouping strategies based on both linguistic and data-driven criteria on overall performance, providing an interpretable perspective on how language structure influences scalability in multilingual speech systems. In experiments, we evaluate MoLGE on a multilingual benchmark encompassing 495 languages. Results demonstrate that MoLGE consistently outperforms dense multilingual baselines with a minimal increase in trainable parameters. Notably, these language grouping strategies yield substantial improvements for both phonetic and orthographic aspects of ASR modeling. Our findings suggest that structured language specialization provides an effective pathway for massively scaling language coverage of multilingual ASR.",
+      "authors": [
+        "Sangmin Lee",
+        "Woojin Chung",
+        "Woongjib Choi",
+        "Hong-Goo Kang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.SD"
+      ],
+      "published": "2026-07-27T05:55:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.24030v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "MoE with grouped experts for multilingual ASR",
+      "llm_evidence_cn": "基于分组专家的多语言语音识别MoE",
+      "llm_evidence": "基于分组专家的多语言语音识别MoE",
+      "canonical_evidence": "基于分组专家的多语言语音识别MoE",
+      "llm_tldr_en": "Proposes Mixture of Language Group Experts (MoLGE) for multilingual ASR, assigning dedicated experts to language clusters and integrating hierarchical LoRA, addressing the curse of multilinguality.",
+      "llm_tldr_cn": "多语言语音识别模型常因容量稀释而性能下降。本文提出混合语言组专家（MoLGE），为相似语言簇分配专用专家模块，相比传统语言级MoE减少子模块数。进一步集成层次化LoRA策略到解耦声学模型中。虽面向语音，但分组专家和LoRA融合的思想与MoE推理中的group kernel优化有共通之处，提供方法参考。",
+      "llm_tldr": "多语言语音识别模型常因容量稀释而性能下降。本文提出混合语言组专家（MoLGE），为相似语言簇分配专用专家模块，相比传统语言级MoE减少子模块数。进一步集成层次化LoRA策略到解耦声学模型中。虽面向语音，但分组专家和LoRA融合的思想与MoE推理中的group kernel优化有共通之处，提供方法参考。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "grouped kernel decoding for moe models",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.24865v1",
+      "source": "arxiv",
+      "title": "Tokens are All You Need: Dual-purpose Semantic IDs for Achieving LLM-Level I/O Efficiency in recommendation systems",
+      "abstract": "Large-scale recommendation systems face \"Memory Wall\" bottlenecks due to massive, dense embedding tables. While generative retrieval uses discrete tokens for IDs, high-dimensional context still relies on inefficient dense formats. Inspired by computer vision data compression, we propose Dual-purpose Semantic IDs to achieve LLM-level I/O efficiency. Our methodology uses hierarchical quantization to condense continuous embeddings into discrete Semantic IDs performing two concurrent roles: (1) Collaborative Identity: modeling user-item interactions via learnable embedding table; and (2) Content Reconstruction: using a lightweight Semantic Decoder for on-the-fly embedding approximation. This approach replaces massive vector storage with on-demand reconstruction, reducing system overhead and data footprints. We demonstrate the efficacy of our framework through offline evaluations and successful online deployment in production-scale ranking and retrieval systems at a major video sharing platform, showing that discrete tokens are indeed all you need for highly efficient, content-rich recommendation.",
+      "authors": [
+        "Baolei Li",
+        "Yiping Yuan",
+        "Yilin Zheng",
+        "Likang Yin",
+        "Ling Liu",
+        "Fabio Soldo",
+        "Romer Rosales",
+        "Xinyang Yi",
+        "Lichan Hong"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-26T18:04:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.24865v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "hierarchical quantization for embedding compression",
+      "llm_evidence_cn": "层次量化用于嵌入压缩",
+      "llm_evidence": "层次量化用于嵌入压缩",
+      "canonical_evidence": "层次量化用于嵌入压缩",
+      "llm_tldr_en": "Proposes Dual-purpose Semantic IDs using hierarchical quantization to compress embeddings, achieving LLM-level I/O efficiency in recommendation systems.",
+      "llm_tldr_cn": "大规模推荐系统面临嵌入表的内存墙瓶颈。受图像压缩启发，本文提出双用途语义ID，通过层次量化将连续嵌入压缩为离散语义ID，同时承担协同身份和内容重建两个角色。该方法替代了大部分密集嵌入表，显著降低I/O开销。虽然面向推荐系统，但层次量化技术可迁移到LLM量化场景，为高效推理提供思路。",
+      "llm_tldr": "大规模推荐系统面临嵌入表的内存墙瓶颈。受图像压缩启发，本文提出双用途语义ID，通过层次量化将连续嵌入压缩为离散语义ID，同时承担协同身份和内容重建两个角色。该方法替代了大部分密集嵌入表，显著降低I/O开销。虽然面向推荐系统，但层次量化技术可迁移到LLM量化场景，为高效推理提供思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
