@@ -6,35 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-30
-- 运行时间：2026-07-30 21:38:59 UTC
+- 最新运行日期：2026-07-31
+- 运行时间：2026-07-31 21:52:47 UTC
 - 运行状态：成功
-- 本次总论文数：5
+- 本次总论文数：2
 - 精读区：1
-- 速读区：4
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读一篇10分路由块成员选择机制研究，并速读KV缓存压缩、MoE组合技能及多语言语音识别三篇。最值得关注的是精读的Route-Block成员选择机制（10分）和速读中DynaCalKV的KV缓存压缩方案（7分）。普通读者可优先跟进KV缓存压缩技术，其对提升大模型推理效率有直接实用价值。
-- 详情：[/202607/30/README](/202607/30/README)
+今日精读1篇、速读1篇，聚焦低比特大模型推理与开源模型新进展。最值得关注的是满分论文《GyRot》，提出旋转与细粒度分组量化协同，显著优化低比特LLM推理效率。建议优先阅读全文，理解量化与旋转变换结合的实操思路。
+- 详情：[/202607/31/README](/202607/31/README)
 
 ### 精读区论文标签
-1. [Route-Block Membership Selects Packed-AWQ Arithmetic: A Controlled Single-Fixture Mechanism Study](/202607/30/2607.26316v1-route-block-membership-selects-packed-awq-arithmetic-a-controlled-single-fixture-mechanism-study)  
-   标签：评分：10.0/10、query:moe-gk-quant
-   evidence：MoE推理中的打包量化矩阵乘法和路由块对齐
+1. [GyRot: Leveraging Hidden Synergy between Rotation and Fine-grained Group Quantization for Low-bit LLM Inference](/202607/31/2607.27694v1-gyrot-leveraging-hidden-synergy-between-rotation-and-fine-grained-group-quantization-for-low-bit-llm-inference)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：针对低比特大模型推理的权重量化，结合细粒度分组量化与旋转，并提出硬件加速器
 
 ### 速读区论文标签
-1. [DynaCalKV: Key-Value Cache Compression via Head Grouping and Adaptive Rank Allocation](/202607/30/2607.24331v1-dynacalkv-key-value-cache-compression-via-head-grouping-and-adaptive-rank-allocation)  
+1. [Kimi K3: Open Frontier Intelligence](/202607/31/2607.24653v1-kimi-k3-open-frontier-intelligence)  
    标签：评分：7.0/10、query:moe-gk-quant
-   evidence：注意力头分组与自适应低秩压缩用于KV缓存
-2. [Emergent Compositional Skills in Mixture-of-Experts VLAs](/202607/30/2607.20771v1-emergent-compositional-skills-in-mixture-of-experts-vlas)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：机器人学习中的混合专家模型，与MoE推理技术相关
-3. [MoLGE: Mixture of Language Group Experts for Efficient Scaling of Massively Multilingual Speech Recognition](/202607/30/2607.24030v1-molge-mixture-of-language-group-experts-for-efficient-scaling-of-massively-multilingual-speech-recognition)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：基于分组专家的多语言语音识别MoE
-4. [Tokens are All You Need: Dual-purpose Semantic IDs for Achieving LLM-Level I/O Efficiency in recommendation systems](/202607/30/2607.24865v1-tokens-are-all-you-need-dual-purpose-semantic-ids-for-achieving-llm-level-io-efficiency-in-recommendation-systems)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：层次量化用于嵌入压缩
+   evidence：2.8T参数MoE模型通过Stable LatentMoE提升激活效率
 
 
 <div class="dpr-home-promo-card">
