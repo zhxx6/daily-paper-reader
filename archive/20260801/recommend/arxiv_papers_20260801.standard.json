@@ -1,0 +1,103 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-01T21:14:47.200726+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.28418v1",
+      "source": "arxiv",
+      "title": "WIDE: Boosting Adaptive LLM Inference via Token-level Dynamic Width Pruning",
+      "abstract": "Pruning is a promising approach for improving the efficiency of LLMs. Existing static structured pruning methods are hardware-friendly and can deliver practical throughput gains, but their input-agnostic computation allocation often causes substantial accuracy degradation under aggressive sparsity. Recent dynamic sparsity methods improve quality retention by adapting computation to individual inputs, yet they remain largely limited to coarse-grained structural decisions and their practical acceleration under real-world inference scenarios remains challenging. To address these challenges, we present WIDE, the first end-to-end differentiable token-level dynamic width pruning framework designed for both prefill and decode scenarios. WIDE enables fine-grained computation allocation by allowing each token to dynamically select attention-head groups and FFN-channel groups, extending dynamic pruning beyond layer-level decisions to neuron-block-level granularity. Through a two-stage training pipeline, WIDE learns effective token-wise sparse execution patterns and achieves substantially better quality retention than existing approaches. To make such fine-grained dynamic pruning practical, we further propose a pruning--kernel co-design framework that decomposes dynamic sparsity acceleration into mask reordering, hardware-agnostic block-level skipping, and hardware-dependent intra-block skipping, enabling efficient execution across different granularities. At 50% sparsity, WIDE provides 55.1% performance boost when compared to the state-of-the-art dynamic depth pruning under calibration-only settings. Under prefill and decoding inference workloads, WIDE achieves close-to-theoretical kernel-level speedups of up to 1.98x for prefill and 4.95x for decoding, as well as 1.68x and 1.55x end-to-end acceleration. Our code is available at https://github.com/EIT-NLP/LLM-Pruning/tree/main/WIDE.",
+      "authors": [
+        "Haozhe Hu",
+        "Hao Wu",
+        "Peiran Yin",
+        "Chao Han",
+        "Yunpu Ma",
+        "Xiaoyu Shen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-07-30T16:01:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.28418v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Token-level dynamic width pruning for adaptive LLM inference, applicable to efficient MoE inference",
+      "llm_evidence_cn": "面向自适应LLM推理的词元级动态宽度剪枝，可迁移至高效MoE推理",
+      "llm_evidence": "面向自适应LLM推理的词元级动态宽度剪枝，可迁移至高效MoE推理",
+      "canonical_evidence": "面向自适应LLM推理的词元级动态宽度剪枝，可迁移至高效MoE推理",
+      "llm_tldr_en": "WIDE is an end-to-end differentiable token-level dynamic width pruning framework for LLM prefill and decode, achieving practical inference speedups while preserving accuracy through input-adaptive computation.",
+      "llm_tldr_cn": "WIDE针对现有静态结构化剪枝在激进稀疏下精度下降、动态方法多为粗粒度的问题，提出端到端可微的词元级动态宽度剪枝框架。该方法在预填充和解码阶段按输入动态调整计算量，兼顾硬件友好性与精度保持。实验表明在真实推理场景中可获得实际加速，同时保持模型性能。该思路可作为一般的高效推理技术，对MoE等动态路由模型的推理优化具有迁移价值。",
+      "llm_tldr": "WIDE针对现有静态结构化剪枝在激进稀疏下精度下降、动态方法多为粗粒度的问题，提出端到端可微的词元级动态宽度剪枝框架。该方法在预填充和解码阶段按输入动态调整计算量，兼顾硬件友好性与精度保持。实验表明在真实推理场景中可获得实际加速，同时保持模型性能。该思路可作为一般的高效推理技术，对MoE等动态路由模型的推理优化具有迁移价值。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.24953v1",
+      "source": "arxiv",
+      "title": "Stable FP4 Training via Transposition-Invariant Block Quantization",
+      "abstract": "Reducing training precision is a key lever for improving the e ciency of large language model (LLM) training, but pushing beyond FP8 to 4-bit oating point (FP4) remains challenging due to instability during optimization. We identify a fundamental source of this instability in existing microscaling approaches: scale inconsistency induced by tensor transposition. In conventional 1D block quantization, forward and backward passes assign di erent scaling factors to the same values after transposition, leading to biased and unstable gradient updates. To address this issue, we propose a low-precision training framework based on 2D block FP4 quantization, which enforces transposition-invariant scaling and preserves consistency between forward and backward computations. We further combine this with truncation-free scaling and stochastic rounding to control quantization error and maintain unbiased gradients. To handle the sensitivity of attention mechanisms, we adopt MXFP8 quantization for query and key projections, yielding a practical mixed-precision design. We evaluate our method on dense LLMs up to 7B parameters and a 30B Mixture-of-Experts model, trained on up to 100B tokens. Across all settings, our approach achieves stable end-to-end FP4 training and closely matches BF16 performance, with less than 1.3% degradation in perplexity and downstream accuracy. These results demonstrate that enforcing forwardbackward scaling consistency is su cient to enable practical FP4 training at scale, providing a simple and e ective pathway toward more e cient LLM training.",
+      "authors": [
+        "Mehdi Rahimifar",
+        "Amin Darabi",
+        "Mehran Taghian Jazi",
+        "Xing Huang",
+        "Yao Wang",
+        "Zhijun Tu",
+        "Yufei Cui",
+        "Yunke Peng",
+        "Hongliang Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-27T18:03:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.24953v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "stable FP4 training via transposition-invariant block quantization, relevant to LLM weight quantization",
+      "llm_evidence_cn": "通过转置不变分块量化实现稳定FP4训练，涉及大语言模型量化",
+      "llm_evidence": "通过转置不变分块量化实现稳定FP4训练，涉及大语言模型量化",
+      "canonical_evidence": "通过转置不变分块量化实现稳定FP4训练，涉及大语言模型量化",
+      "llm_tldr_en": "Presents a low-precision training framework using 2D block FP4 quantization to avoid scale inconsistency caused by transposition, improving stability of FP4 LLM training while preserving forward-backward consistency.",
+      "llm_tldr_cn": "将LLM训练精度推至FP4常因转置引起缩放不一致而不稳定。本文提出基于二维分块FP4量化的低精度训练框架，强制转置不变的缩放，保证前后向计算一致，从而稳定梯度更新。实验表明该方案减轻了优化不稳定问题，为更低位训练提供可行路径。",
+      "llm_tldr": "将LLM训练精度推至FP4常因转置引起缩放不一致而不稳定。本文提出基于二维分块FP4量化的低精度训练框架，强制转置不变的缩放，保证前后向计算一致，从而稳定梯度更新。实验表明该方案减轻了优化不稳定问题，为更低位训练提供可行路径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
