@@ -1,0 +1,24 @@
+{
+  "label": "2026-08-03",
+  "date": "2026-08-03",
+  "generated_at": "2026-08-03T20:33:08",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202608/03/2607.29397v1-studying-quantization-trade-offs-for-efficient-inference-deployment-in-machine-translation",
+      "section": "deep",
+      "title_en": "Studying quantization trade-offs for efficient inference deployment in machine translation",
+      "authors": "Jim Zhao, Sohir Maskey, Koen Oostermeijer, Douglas Orr, Teryn Jones",
+      "date": "2026-07-31",
+      "pdf": "https://arxiv.org/pdf/2607.29397v1",
+      "score": "8.0",
+      "evidence": "面向LLM翻译模型高效推理的量化权衡研究",
+      "tldr": "大语言模型部署在真实服务器中需兼顾质量与延迟，量化虽可降低内存占用，但对其在受控负载下对延迟和吞吐的影响研究不足。本文针对EuroLLM与Hy-MT2五个模型（1.7B-22B），在单GPU上结合文档分块与W4A8/W8A8量化，改善延迟-吞吐Pareto曲线。基于WMT24++的文档级评测表明，标准句子级评估无法预测长上下文下的量化影响；Hy-MT2表现鲁棒，EuroLLM质量迅速退化。结论是量化格式与分块策略共同决定效率-质量权衡。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Deploying large language models in realistic server environments poses challenges, as the system needs to provide high-quality responses with low latency. Quantization is a common approach to reduce the memory footprint and improve inference efficiency, yet its impact on latency and throughput is rarely evaluated under controlled, orchestration-level workloads. In this work we study the quantization trade-offs of two translation model families, EuroLLM \\citep{martins2025eurollm} and Hy-MT2 \\citep{zheng2026hy} across five models ranging from 1.7B to 22B for efficient deployment on a single A100 or H100 GPU. We demonstrate that combining a document-chunking strategy with W4A8 or W8A8 quantization improves the latency-throughput Pareto-curve under a wide range of workloads. Furthermore, since standard machine translation (MT) benchmarks rely on isolated sentences and fail to capture long-context dynamics, we introduce a document-level evaluation from WMT24++ to assess how text chunking strategies affect translation quality under quantization. Our results reveal that standard segment-level evaluation can fail to predict the interaction between quantization and long-context document translation. While Hy-MT2 remains robust under quantization, EuroLLM shows strong sensitivity and translation quality collapses rapidly for all considered quantization formats. Overall, our experiments show that the trade-off between inference efficiency and translation quality depends not only on the quantization format, but also on the choice of text chunking strategy.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

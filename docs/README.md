@@ -6,28 +6,24 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-02
-- 运行时间：2026-08-02 20:51:09 UTC
+- 最新运行日期：2026-08-03
+- 运行时间：2026-08-03 20:33:03 UTC
 - 运行状态：成功
 - 本次总论文数：1
-- 精读区：0
-- 速读区：1
+- 精读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日仅速读1篇论文，聚焦视觉Transformer量化压缩方向。
-
-最值得关注的是《MixFrag》提出的“脆弱性引导混合精度后训练量化”思路，为轻量化部署提供新视角。
-
-若对模型加速感兴趣，可进一步查阅该论文细节，并留意同类混合精度量化方法的后续对比。
-- 详情：[/202608/02/README](/202608/02/README)
+今日精读1篇机器翻译量化部署论文，聚焦高效推理的权衡分析。最值得关注的是量化精度与推理速度的取舍结论，适合部署场景参考。下一步可结合自身算力需求实验不同量化层级。
+- 详情：[/202608/03/README](/202608/03/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Studying quantization trade-offs for efficient inference deployment in machine translation](/202608/03/2607.29397v1-studying-quantization-trade-offs-for-efficient-inference-deployment-in-machine-translation)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：面向LLM翻译模型高效推理的量化权衡研究
 
 ### 速读区论文标签
-1. [MixFrag: Fragility-Guided Mixed-Precision Post-Training Quantization for Vision Transformers](/202608/02/2607.28589v1-mixfrag-fragility-guided-mixed-precision-post-training-quantization-for-vision-transformers)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：面向视觉Transformer的脆弱性引导混合精度PTQ，方法可迁移至大语言模型量化
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">

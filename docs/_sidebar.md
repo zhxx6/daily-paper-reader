@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-03 <!--dpr-date:20260803-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/03/2607.29397v1-studying-quantization-trade-offs-for-efficient-inference-deployment-in-machine-translation" data-sidebar-item="{&quot;title&quot;: &quot;Studying quantization trade-offs for efficient inference deployment in machine translation&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.29397v1-studying-quantization-trade-offs-for-efficient-inference-deployment-in-machine-translation&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;面向LLM翻译模型高效推理的量化权衡研究&quot;}">Studying quantization trade-offs for efficient inference deployment in machine translation</a>
   * 2026-08-02 <!--dpr-date:20260802-->
     * 速读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/02/2607.28589v1-mixfrag-fragility-guided-mixed-precision-post-training-quantization-for-vision-transformers" data-sidebar-item="{&quot;title&quot;: &quot;MixFrag: Fragility-Guided Mixed-Precision Post-Training Quantization for Vision Transformers&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.28589v1-mixfrag-fragility-guided-mixed-precision-post-training-quantization-for-vision-transformers&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;面向视觉Transformer的脆弱性引导混合精度PTQ，方法可迁移至大语言模型量化&quot;}">MixFrag: Fragility-Guided Mixed-Precision Post-Training Quantization for Vision Transformers</a>
