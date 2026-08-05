@@ -1,0 +1,181 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-05T21:31:52.474805+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.25504v1",
+      "source": "arxiv",
+      "title": "At-the-Roofline Sparse Tensor Contractions on Vector Processors for Transformer Inference",
+      "abstract": "Fine-grained weight pruning and activation sparsification have emerged as effective approaches for reducing the compute and memory cost of inference for Transformer models. In the moderate-sparsity regime, Gustavson's dataflow provides a natural execution model for exploiting both activation and weight sparsity on vector processors through metadata-driven indexed accumulation. However, existing RVV architectures lack native support for this pattern, forcing kernels to rely on software index decoding and L1-backed indexed memory operations that keep sparse tensor contractions far below their roofline performance bound. We present Ventaglio, a runtime-configurable sparse execution unit coupled with RVV ISA extensions that drives sparse tensor contractions toward their roofline through indexed gather-accumulate-scatter support. Integrated into an open-source vector processing cluster and implemented in 12nm FinFET, Ventaglio accelerates sparse tensor contraction kernels by $6.9\\text{--}7.4\\times$ over optimized RVV baselines, with only $3.1\\%$ area overhead for a cluster of tightly-L1 coupled vector processing elements. We build a performance-accurate instruction-level model of the Ventaglio extension, calibrate it against RTL implementation, and leverage it for scale-out performance analysis on a large $4\\times4$ multi-cluster system. Using a DuoGPT-pruned LLaMA-3-8B model with practical $40\\text{--}60\\%$ dual sparsity, Ventaglio achieves $2.40\\text{--}5.25\\times$ and $2.06\\text{--}3.16\\times$ speedup over dense baselines during prefill and autoregressive decoding, respectively.",
+      "authors": [
+        "Bowen Wang",
+        "Chi Zhang",
+        "Diyou Shen",
+        "Renzo Andri",
+        "Navaneeth Kunhi Purayil",
+        "Luca Benini"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.AI"
+      ],
+      "published": "2026-07-28T09:38:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.25504v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Sparse tensor contraction kernels and hardware support for efficient Transformer inference",
+      "llm_evidence_cn": "面向高效Transformer推理的稀疏张量收缩内核及硬件支持",
+      "llm_evidence": "面向高效Transformer推理的稀疏张量收缩内核及硬件支持",
+      "canonical_evidence": "面向高效Transformer推理的稀疏张量收缩内核及硬件支持",
+      "llm_tldr_en": "Ventaglio proposes a runtime-configurable sparse execution unit with RVV ISA extensions, enabling metadata-driven sparse tensor contractions to approach roofline performance for Transformer inference.",
+      "llm_tldr_cn": "针对Transformer推理中细粒度剪枝和激活稀疏化后稀疏张量收缩远低于roofline性能的问题，论文提出Ventaglio，一种可运行时配置的稀疏执行单元并配套RVV指令扩展，支持基于元数据的稀疏张量收缩。在向量处理器上，该方法能够大幅提升权重和激活稀疏场景下的内核执行效率，逼近硬件roofline上界。该工作为分组专家等稀疏结构的Transformer高效内核优化提供了底层硬件和指令支持。",
+      "llm_tldr": "针对Transformer推理中细粒度剪枝和激活稀疏化后稀疏张量收缩远低于roofline性能的问题，论文提出Ventaglio，一种可运行时配置的稀疏执行单元并配套RVV指令扩展，支持基于元数据的稀疏张量收缩。在向量处理器上，该方法能够大幅提升权重和激活稀疏场景下的内核执行效率，逼近硬件roofline上界。该工作为分组专家等稀疏结构的Transformer高效内核优化提供了底层硬件和指令支持。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.01343v1",
+      "source": "arxiv",
+      "title": "DeVIT: Low-Power Vision Transformer Acceleration Using Delta Computation",
+      "abstract": "The emergence of transformer-based deep learning models has brought unprecedented performance across various domains, particularly in natural language processing and computer vision. However, deploying these models, especially on resource-constrained devices, poses significant challenges due to their high computational complexity and large memory size and bandwidth requirements. This complexity has led researchers to use low-bit model weights to reduce memory usage and improve efficiency. In addition to reducing processing and memory demands, quantization introduces another useful property: value locality, where the extremely large number of parameters are restricted to a limited range of values. To fully take advantage of this locality, this paper presents DeVIT, an acceleration method for vision transformers that leverages differential computation to enable multiplier-less matrix multiplication.",
+      "authors": [
+        "Reyhaneh Hosseinzadeh",
+        "Parham Zilouchian Moghaddam",
+        "Mehdi Modarressi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.AR"
+      ],
+      "published": "2026-08-02T16:08:44+00:00",
+      "link": "https://arxiv.org/pdf/2608.01343v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Low-bit weight quantization and value locality for efficient transformer inference",
+      "llm_evidence_cn": "利用低比特权重量化和数值局部性加速Transformer推理",
+      "llm_evidence": "利用低比特权重量化和数值局部性加速Transformer推理",
+      "canonical_evidence": "利用低比特权重量化和数值局部性加速Transformer推理",
+      "llm_tldr_en": "DeVIT accelerates low-power vision transformer inference by combining low-bit weight quantization with delta computation that exploits value locality, reducing memory and compute costs on resource-constrained devices.",
+      "llm_tldr_cn": "针对Transformer模型在资源受限设备上部署时计算复杂度和内存带宽开销大的问题，DeVIT提出采用低比特权重量化，并利用量化带来的数值局部性，通过增量计算减少不必要的处理与访存。论文在低功耗视觉Transformer加速场景中验证了该方法能够显著降低推理功耗和存储需求。该工作为通用Transformer模型的高效量化推理提供了可迁移的硬件友好思路。",
+      "llm_tldr": "针对Transformer模型在资源受限设备上部署时计算复杂度和内存带宽开销大的问题，DeVIT提出采用低比特权重量化，并利用量化带来的数值局部性，通过增量计算减少不必要的处理与访存。论文在低功耗视觉Transformer加速场景中验证了该方法能够显著降低推理功耗和存储需求。该工作为通用Transformer模型的高效量化推理提供了可迁移的硬件友好思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.02691v1",
+      "source": "arxiv",
+      "title": "Output-Aware Rotation for INT2 KV-Cache Quantization",
+      "abstract": "The key-value (KV) cache has become a major memory and bandwidth bottleneck in long-context large language model inference, making ultra-low-bit quantization increasingly important. However, existing rotation-based INT2 methods optimize cache statistics or proxy errors before the complete attention readout, even though the model is ultimately affected by the error propagated through attention and the output projection $W_O$. To address this mismatch, we propose \\textit{OptR}, an output-aware rotation method that minimizes post-$W_O$ attention-output error. OptR decomposes the post-$W_O$ attention-output error into key- and value-induced terms and learns per-head orthogonal corrections through the full INT2 quantization and attention path. OptR further applies an attention-equivalent key reparameterization to reduce large channel-wise offsets without changing the softmax distribution. Across three models and five reasoning and coding benchmarks, OptR consistently improves both QuaRot and OSCAR and strengthens long-context retrieval, while preserving the paged KV-cache format with negligible inference overhead.",
+      "authors": [
+        "Vincent-Daniel Yun",
+        "Woosang Lim",
+        "Minsoo Cheong",
+        "Sunwoo Lee",
+        "Murali Annavaram",
+        "Sai Praneeth Karimireddy",
+        "Sungjoo Yoo"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-03T09:24:23+00:00",
+      "link": "https://arxiv.org/pdf/2608.02691v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Quantization technique for LLM inference tensors, methodologically relevant to weight quantization",
+      "llm_evidence_cn": "面向LLM推理的量化方法（INT2 KV缓存），与权重量化方法论相关",
+      "llm_evidence": "面向LLM推理的量化方法（INT2 KV缓存），与权重量化方法论相关",
+      "canonical_evidence": "面向LLM推理的量化方法（INT2 KV缓存），与权重量化方法论相关",
+      "llm_tldr_en": "OptR proposes an output-aware rotation method for INT2 KV-cache quantization, minimizing post-output-projection attention error. It decomposes error into key/value terms and learns per-head orthogonal corrections, improving low-bit LLM inference.",
+      "llm_tldr_cn": "长上下文大模型推理中KV缓存成为主要内存与带宽瓶颈，超低位宽量化愈发重要。现有基于旋转的INT2方法仅优化缓存统计量或代理误差，未考虑经注意力与输出投影传播后的真实误差。本文提出输出感知旋转方法OptR，将注意力输出误差分解为键项和值项，并在完整INT2量化与注意力路径中学习逐头正交修正。该方法在长上下文场景下显著提升量化模型的推理质量，为LLM低比特量化提供了新的优化视角。",
+      "llm_tldr": "长上下文大模型推理中KV缓存成为主要内存与带宽瓶颈，超低位宽量化愈发重要。现有基于旋转的INT2方法仅优化缓存统计量或代理误差，未考虑经注意力与输出投影传播后的真实误差。本文提出输出感知旋转方法OptR，将注意力输出误差分解为键项和值项，并在完整INT2量化与注意力路径中学习逐头正交修正。该方法在长上下文场景下显著提升量化模型的推理质量，为LLM低比特量化提供了新的优化视角。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.03537v1",
+      "source": "arxiv",
+      "title": "ComFuse: Fusing Complex Memory-Intensive Subgraphs with Compute-Intensive Kernels For Modern GPU Architectures",
+      "abstract": "Modern deep learning workloads increasingly comprise heterogeneous computation graphs that combine compute-intensive operators with memory-intensive subgraphs. Existing deep learning compilers typically optimize these operator classes separately, creating rigid fusion boundaries that limit cross-operator optimization and on-chip data reuse. We observe that downstream memory-intensive operations can execute concurrently with compute-intensive operators, allowing their execution to be hidden behind computation; however, automatically exploiting this opportunity poses new compilation challenges.   In this paper, we present ComFuse, an automated GPU compilation system that employs a novel operator fusion strategy to generate high-performance kernels for complex graph structures comprising compute-intensive operators and dependency-rich, memory-intensive elementwise-reduction subgraphs. ComFuse further supports the fusion of back-to-back GEMM (B2BGEMM) patterns, extending its applicability to more complex compute-memory interaction patterns. Additionally, it automatically lowers high-level tensor subprograms into optimized fused kernels, reducing the need for manual kernel engineering. Experimental results show that the fused kernels generated by ComFuse outperform those produced by TorchInductor across post-norm workloads and various complex computation scenarios, while supporting more flexible fusion patterns.",
+      "authors": [
+        "Di Mu",
+        "Tengyuan Jin",
+        "Zhenkun Wang",
+        "Jialin Yang",
+        "Yusen Li",
+        "Mian Huo",
+        "Shusong Guo",
+        "Gang Wang",
+        "Xiaoguang Liu"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR"
+      ],
+      "published": "2026-08-04T12:15:28+00:00",
+      "link": "https://arxiv.org/pdf/2608.03537v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Kernel fusion strategy for GPU operators transferable to grouped MoE kernels",
+      "llm_evidence_cn": "GPU算子融合策略，可迁移至分组MoE内核",
+      "llm_evidence": "GPU算子融合策略，可迁移至分组MoE内核",
+      "canonical_evidence": "GPU算子融合策略，可迁移至分组MoE内核",
+      "llm_tldr_en": "ComFuse is an automated GPU compilation system that fuses memory-intensive subgraphs with compute-intensive kernels, enabling concurrency and data reuse to speed up heterogeneous DL workloads.",
+      "llm_tldr_cn": "现代深度学习计算图由计算密集算子和内存密集子图混合组成，现有编译器通常分开优化，形成刚性的融合边界，限制了跨算子优化与片上数据复用。ComFuse提出自动化GPU编译系统，通过新的算子融合策略把下游内存密集操作与计算密集内核并发执行，将其隐于计算之后。实验表明该方法能有效利用并发性和数据复用，提升异构计算图的执行效率，为内核融合与硬件利用提供了通用编译方案。",
+      "llm_tldr": "现代深度学习计算图由计算密集算子和内存密集子图混合组成，现有编译器通常分开优化，形成刚性的融合边界，限制了跨算子优化与片上数据复用。ComFuse提出自动化GPU编译系统，通过新的算子融合策略把下游内存密集操作与计算密集内核并发执行，将其隐于计算之后。实验表明该方法能有效利用并发性和数据复用，提升异构计算图的执行效率，为内核融合与硬件利用提供了通用编译方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "kernel fusion techniques for grouped expert computation in MoE",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

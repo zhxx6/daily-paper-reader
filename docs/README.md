@@ -6,35 +6,33 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-04
-- 运行时间：2026-08-04 21:24:24 UTC
+- 最新运行日期：2026-08-05
+- 运行时间：2026-08-05 21:33:49 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：3
-- 速读区：2
+- 本次总论文数：4
+- 精读区：0
+- 速读区：4
 
 ### 今日简报（AI）
-今日精读聚焦大模型高效推理：MoE LoRA按置信度自适应路由、1.58-bit量化突破推理模型后训练瓶颈，双双获9.0高分。速读关注异构边缘MoE协作与扩散语言模型计算分配，总分7.0。建议优先深入精读两篇高分论文，理解“不确定性路由”与“低比特推理”的实战价值。
-- 详情：[/202608/04/README](/202608/04/README)
+今日速读4篇论文，聚焦Transformer推理优化与KV缓存量化。最值得关注：稀疏张量收缩在向量处理器上的性能提升，以及INT2 KV缓存量化的旋转感知方案。下一步可深入研读这两篇高价值工作，探索其在实际部署中的可行性。
+- 详情：[/202608/05/README](/202608/05/README)
 
 ### 精读区论文标签
-1. [Spend Experts Where You Are Unsure: Confidence-Adaptive Routing for Mixture-of-Experts LoRA](/202608/04/2607.26052v2-spend-experts-where-you-are-unsure-confidence-adaptive-routing-for-mixture-of-experts-lora)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：基于置信度自适应路由的MoE推理效率优化
-2. [Attend to Your Own Thoughts: Breaking the Barrier for Post-Training Quantization of Reasoning LLMs through the Lens of 1.58-Bit Quantization](/202608/04/2608.01078v1-attend-to-your-own-thoughts-breaking-the-barrier-for-post-training-quantization-of-reasoning-llms-through-the-lens-of-158-bit-quantization)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：大语言模型后训练权重量化，1.58比特三值量化框架
-3. [TrimMoE A communication aware and adaptive depth framework for distributed edge inference](/202608/04/2608.00573v1-trimmoe-a-communication-aware-and-adaptive-depth-framework-for-distributed-edge-inference)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向分布式MoE推理的通信感知自适应深度框架，通过跳层和提前退出降低跨服务器专家传输开销
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [HetRoute Heterogeneous and Cost-aware Collaborative Routing Framework for Distributed Edge MoE Inference](/202608/04/2608.00577v1-hetroute-heterogeneous-and-cost-aware-collaborative-routing-framework-for-distributed-edge-moe-inference)  
+1. [At-the-Roofline Sparse Tensor Contractions on Vector Processors for Transformer Inference](/202608/05/2607.25504v1-at-the-roofline-sparse-tensor-contractions-on-vector-processors-for-transformer-inference)  
    标签：评分：7.0/10、query:moe-gk-quant
-   evidence：面向异构边缘服务器MoE推理的统一成本感知路由优化
-2. [REFLEX: Rethinking MoE Inference as Refinement-Aware Compute Allocation in Diffusion Language Models](/202608/04/2608.01784v1-reflex-rethinking-moe-inference-as-refinement-aware-compute-allocation-in-diffusion-language-models)  
+   evidence：面向高效Transformer推理的稀疏张量收缩内核及硬件支持
+2. [Output-Aware Rotation for INT2 KV-Cache Quantization](/202608/05/2608.02691v1-output-aware-rotation-for-int2-kv-cache-quantization)  
    标签：评分：7.0/10、query:moe-gk-quant
-   evidence：通过细化感知的计算分配提升扩散语言模型中MoE推理效率
+   evidence：面向LLM推理的量化方法（INT2 KV缓存），与权重量化方法论相关
+3. [DeVIT: Low-Power Vision Transformer Acceleration Using Delta Computation](/202608/05/2608.01343v1-devit-low-power-vision-transformer-acceleration-using-delta-computation)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：利用低比特权重量化和数值局部性加速Transformer推理
+4. [ComFuse: Fusing Complex Memory-Intensive Subgraphs with Compute-Intensive Kernels For Modern GPU Architectures](/202608/05/2608.03537v1-comfuse-fusing-complex-memory-intensive-subgraphs-with-compute-intensive-kernels-for-modern-gpu-architectures)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：GPU算子融合策略，可迁移至分组MoE内核
 
 
 <div class="dpr-home-promo-card">
