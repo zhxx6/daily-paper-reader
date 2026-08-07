@@ -6,33 +6,30 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-05
-- 运行时间：2026-08-05 21:33:49 UTC
+- 最新运行日期：2026-08-07
+- 运行时间：2026-08-07 00:58:59 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：0
-- 速读区：4
+- 本次总论文数：3
+- 精读区：3
+- 速读区：0
 
 ### 今日简报（AI）
-今日速读4篇论文，聚焦Transformer推理优化与KV缓存量化。最值得关注：稀疏张量收缩在向量处理器上的性能提升，以及INT2 KV缓存量化的旋转感知方案。下一步可深入研读这两篇高价值工作，探索其在实际部署中的可行性。
-- 详情：[/202608/05/README](/202608/05/README)
+今日精读2篇推荐论文，聚焦大模型量化压缩与专家路由优化。最值得关注的是递归残差量化实现多精度LLM表示，以及基于肘部法则的无训练MoE路由插件。建议优先精读这两篇，它们分别可提升部署效率与推理性能。
+- 详情：[/202608/07/README](/202608/07/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs](/202608/07/2608.04048v1-recurrent-residual-quantization-a-progressive-multi-precision-representation-for-llms)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：面向大语言模型的训练后权重量化，支持单检查点多精度
+2. [Elbow-Based MoE Routing: A Training-Free Inference Time Plugin for Expert Selection](/202608/07/2608.04401v1-elbow-based-moe-routing-a-training-free-inference-time-plugin-for-expert-selection)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：免训练的动态专家选择以提升MoE推理效率
+3. [Beyond Global Routing Aggregation: Phase-Aware Expert Merging for MoE Vision-Language Models](/202608/07/2608.04454v1-beyond-global-routing-aggregation-phase-aware-expert-merging-for-moe-vision-language-models)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：面向高效MoE视觉语言模型推理的阶段感知免训练专家合并
 
 ### 速读区论文标签
-1. [At-the-Roofline Sparse Tensor Contractions on Vector Processors for Transformer Inference](/202608/05/2607.25504v1-at-the-roofline-sparse-tensor-contractions-on-vector-processors-for-transformer-inference)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：面向高效Transformer推理的稀疏张量收缩内核及硬件支持
-2. [Output-Aware Rotation for INT2 KV-Cache Quantization](/202608/05/2608.02691v1-output-aware-rotation-for-int2-kv-cache-quantization)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：面向LLM推理的量化方法（INT2 KV缓存），与权重量化方法论相关
-3. [DeVIT: Low-Power Vision Transformer Acceleration Using Delta Computation](/202608/05/2608.01343v1-devit-low-power-vision-transformer-acceleration-using-delta-computation)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：利用低比特权重量化和数值局部性加速Transformer推理
-4. [ComFuse: Fusing Complex Memory-Intensive Subgraphs with Compute-Intensive Kernels For Modern GPU Architectures](/202608/05/2608.03537v1-comfuse-fusing-complex-memory-intensive-subgraphs-with-compute-intensive-kernels-for-modern-gpu-architectures)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：GPU算子融合策略，可迁移至分组MoE内核
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,130 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-07T00:55:36.276300+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2608.04048v1",
+      "source": "arxiv",
+      "title": "Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs",
+      "abstract": "Serving large language models (LLMs) under diverse deployment constraints requires flexible trade-offs between accuracy, memory footprint, and throughput. However, conventional quantization methods typically require a separate checkpoint for each target bit-width. We introduce Recurrent Residual Quantization (RRQ), a post-training quantization (PTQ) framework that represents weights as a low-bit quantized base together with a sequence of quantized residual corrections, enabling multiple effective precisions from a single checkpoint. Starting from a 2-bit model obtained via post-training quantization (PTQ) or round-to-nearest (RTN), RRQ progressively adds lightweight 2-bit residuals generated via RTN to construct 4-, 6-, and 8-bit representations. The method is calibration-free and avoids joint multi-bit optimization. In our Qwen3-8B setup, the full all-RTN 2-/4-/6-/8-bit package is constructed in 1,293 seconds, 3.3 times faster than the measured MatGPTQ construction. Experiments on six recent LLMs show competitive accuracy at 6 and 8 bits, with model-dependent behavior at 4 bits. The code will be made publicly available upon publication.",
+      "authors": [
+        "Yu Luo",
+        "Bo Dong",
+        "Wenhua Cheng",
+        "Haihao Shen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-04T08:32:05+00:00",
+      "link": "https://arxiv.org/pdf/2608.04048v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Post-training weight quantization for LLMs with multi-bit precision from one checkpoint",
+      "llm_evidence_cn": "面向大语言模型的训练后权重量化，支持单检查点多精度",
+      "llm_evidence": "面向大语言模型的训练后权重量化，支持单检查点多精度",
+      "canonical_evidence": "面向大语言模型的训练后权重量化，支持单检查点多精度",
+      "llm_tldr_en": "RRQ represents LLM weights as a low-bit base plus quantized residual corrections, enabling multiple effective precisions from a single checkpoint to flexibly trade off accuracy, memory, and throughput.",
+      "llm_tldr_cn": "针对现有量化方法需为每个位宽单独保存模型的问题，论文提出递归残差量化（RRQ），用低比特基向量加一系列量化残差来重构权重。从2比特模型出发逐级添加2比特残差，即可由单份检查点得到4/6/8比特精度。该方法属于训练后量化，便于灵活调整部署精度与内存占用，为多场景LLM推理提供更实用的压缩方案。",
+      "llm_tldr": "针对现有量化方法需为每个位宽单独保存模型的问题，论文提出递归残差量化（RRQ），用低比特基向量加一系列量化残差来重构权重。从2比特模型出发逐级添加2比特残差，即可由单份检查点得到4/6/8比特精度。该方法属于训练后量化，便于灵活调整部署精度与内存占用，为多场景LLM推理提供更实用的压缩方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.04401v1",
+      "source": "arxiv",
+      "title": "Elbow-Based MoE Routing: A Training-Free Inference Time Plugin for Expert Selection",
+      "abstract": "Mixture-of-Experts (MoE) models enable model scaling while maintaining low inference-time compute by activating only a subset of experts per token. However, conventional routing relies on a fixed top-k selection, forcing the model to spend the same compute regardless of how many experts are relevant. We introduce elbow-based routing, a training-free inference-time modification that dynamically adjusts the number of experts on a per-token basis. Our method examines the sorted router probability distribution and identifies an elbow point that separates high- and low-probability experts. We find that most router distributions exhibit clear inflection points suitable for this strategy, and we show both theoretically and empirically that elbow-based routing preserves expert load balance. Experiments on a state-of-the-art MoE model demonstrate an average latency reduction of 5.3% while maintaining accuracy across six benchmarks.",
+      "authors": [
+        "Robin Pan",
+        "Raymond Liu",
+        "Daniel Fang",
+        "Adelina Andrei",
+        "Rosa Wu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-05T03:10:17+00:00",
+      "link": "https://arxiv.org/pdf/2608.04401v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Training-free dynamic expert selection for efficient MoE inference",
+      "llm_evidence_cn": "免训练的动态专家选择以提升MoE推理效率",
+      "llm_evidence": "免训练的动态专家选择以提升MoE推理效率",
+      "canonical_evidence": "免训练的动态专家选择以提升MoE推理效率",
+      "llm_tldr_en": "Proposes elbow-based routing, a training-free inference-time plugin that dynamically adjusts the number of active experts per token in MoE models, reducing compute while maintaining quality, based on identifying an elbow point in router probability distributions.",
+      "llm_tldr_cn": "混合专家模型通过固定top-k路由选择专家，导致计算量不随输入变化。本文提出基于肘部法则的路由方法，在推理时动态调整每个token激活的专家数量。通过分析排序后的路由器概率分布中的拐点，分离高、低概率专家。理论与实验表明该方法在保持性能的同时降低推理成本，可作为即插即用的免训练推理优化插件。",
+      "llm_tldr": "混合专家模型通过固定top-k路由选择专家，导致计算量不随输入变化。本文提出基于肘部法则的路由方法，在推理时动态调整每个token激活的专家数量。通过分析排序后的路由器概率分布中的拐点，分离高、低概率专家。理论与实验表明该方法在保持性能的同时降低推理成本，可作为即插即用的免训练推理优化插件。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.04454v1",
+      "source": "arxiv",
+      "title": "Beyond Global Routing Aggregation: Phase-Aware Expert Merging for MoE Vision-Language Models",
+      "abstract": "Mixture-of-experts vision-language models (MoE-VLMs) increase model capacity with sparse expert activation, yet deployment requires storing the full expert pool. Training-free expert merging reduces this burden, and many routing-based methods aggregate routing statistics across all tokens to determine merge compatibility. However, MoE-VLM inference is phase-structured: image-context tokens carry visual content, question tokens specify the query, and answer tokens produce the output, with different counts and routing distributions. Because image-context tokens are far more numerous, global aggregation can overemphasize image-context processing and obscure phase-conditioned expert roles, making experts serving different phases appear interchangeable and degrading model performance. We therefore argue that MoE-VLM expert merging should preserve phase-conditioned expert roles, judging compatibility by how experts serve different phases rather than globally aggregated routing statistics. Based on this view, we propose RoleMerge, a training-free method that constructs each expert's Routing Role Profile (RRP) from phase-normalized routing statistics, capturing its relative phase preference. Guided by expert-phase information loss, RoleMerge merges experts with compatible profiles and their corresponding router entries while preserving answer-decoding expert distinctions. Experiments on three models and multiple benchmarks show that RoleMerge preserves more of the full model's performance than alternative expert-merging methods at matched expert-retention ratios, with relative improvements of up to 9.6 percent in six-task macro-average performance. These results validate phase-conditioned expert roles as a more effective basis than global routing aggregation for MoE-VLM expert merging.",
+      "authors": [
+        "Hongyu Zhang",
+        "Cheng Yan",
+        "Xiang Xia",
+        "Wuyang Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-08-05T05:09:20+00:00",
+      "link": "https://arxiv.org/pdf/2608.04454v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Phase-aware training-free expert merging for efficient MoE vision-language model inference",
+      "llm_evidence_cn": "面向高效MoE视觉语言模型推理的阶段感知免训练专家合并",
+      "llm_evidence": "面向高效MoE视觉语言模型推理的阶段感知免训练专家合并",
+      "canonical_evidence": "面向高效MoE视觉语言模型推理的阶段感知免训练专家合并",
+      "llm_tldr_en": "Proposes a phase-aware expert merging method that considers the distinct routing distributions of image, question, and answer tokens, improving MoE-VLM inference efficiency over global aggregation.",
+      "llm_tldr_cn": "MoE视觉语言模型的推理具有阶段性：图像上下文token、问题token和答案token的计数与路由分布不同，全局聚合会掩盖各阶段专家的角色。作者提出阶段感知的专家合并方法，按阶段条件计算专家兼容性，在免训练条件下减少专家存储。实验表明该方法能更高效地压缩模型，同时保持多阶段任务的性能。",
+      "llm_tldr": "MoE视觉语言模型的推理具有阶段性：图像上下文token、问题token和答案token的计数与路由分布不同，全局聚合会掩盖各阶段专家的角色。作者提出阶段感知的专家合并方法，按阶段条件计算专家兼容性，在免训练条件下减少专家存储。实验表明该方法能更高效地压缩模型，同时保持多阶段任务的性能。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
