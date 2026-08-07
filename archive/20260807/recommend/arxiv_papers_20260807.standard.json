@@ -1,54 +1,17 @@
 {
   "mode": "standard",
-  "generated_at": "2026-08-07T00:55:36.276300+00:00",
+  "generated_at": "2026-08-07T20:17:09.924269+00:00",
   "stats": {
     "mode": "standard",
     "tag_count": 1,
-    "deep_divecandidates": 3,
+    "deep_divecandidates": 2,
     "deep_cap": 6,
-    "deep_selected": 3,
-    "quick_candidates": 0,
+    "deep_selected": 2,
+    "quick_candidates": 1,
     "quick_skim_target": 11,
-    "quick_selected": 0
+    "quick_selected": 1
   },
   "deep_dive": [
-    {
-      "id": "2608.04048v1",
-      "source": "arxiv",
-      "title": "Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs",
-      "abstract": "Serving large language models (LLMs) under diverse deployment constraints requires flexible trade-offs between accuracy, memory footprint, and throughput. However, conventional quantization methods typically require a separate checkpoint for each target bit-width. We introduce Recurrent Residual Quantization (RRQ), a post-training quantization (PTQ) framework that represents weights as a low-bit quantized base together with a sequence of quantized residual corrections, enabling multiple effective precisions from a single checkpoint. Starting from a 2-bit model obtained via post-training quantization (PTQ) or round-to-nearest (RTN), RRQ progressively adds lightweight 2-bit residuals generated via RTN to construct 4-, 6-, and 8-bit representations. The method is calibration-free and avoids joint multi-bit optimization. In our Qwen3-8B setup, the full all-RTN 2-/4-/6-/8-bit package is constructed in 1,293 seconds, 3.3 times faster than the measured MatGPTQ construction. Experiments on six recent LLMs show competitive accuracy at 6 and 8 bits, with model-dependent behavior at 4 bits. The code will be made publicly available upon publication.",
-      "authors": [
-        "Yu Luo",
-        "Bo Dong",
-        "Wenhua Cheng",
-        "Haihao Shen"
-      ],
-      "primary_category": "cs.LG",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "published": "2026-08-04T08:32:05+00:00",
-      "link": "https://arxiv.org/pdf/2608.04048v1",
-      "tags": [
-        "keyword:moe-gk-quant"
-      ],
-      "llm_score": 9.0,
-      "llm_evidence_en": "Post-training weight quantization for LLMs with multi-bit precision from one checkpoint",
-      "llm_evidence_cn": "面向大语言模型的训练后权重量化，支持单检查点多精度",
-      "llm_evidence": "面向大语言模型的训练后权重量化，支持单检查点多精度",
-      "canonical_evidence": "面向大语言模型的训练后权重量化，支持单检查点多精度",
-      "llm_tldr_en": "RRQ represents LLM weights as a low-bit base plus quantized residual corrections, enabling multiple effective precisions from a single checkpoint to flexibly trade off accuracy, memory, and throughput.",
-      "llm_tldr_cn": "针对现有量化方法需为每个位宽单独保存模型的问题，论文提出递归残差量化（RRQ），用低比特基向量加一系列量化残差来重构权重。从2比特模型出发逐级添加2比特残差，即可由单份检查点得到4/6/8比特精度。该方法属于训练后量化，便于灵活调整部署精度与内存占用，为多场景LLM推理提供更实用的压缩方案。",
-      "llm_tldr": "针对现有量化方法需为每个位宽单独保存模型的问题，论文提出递归残差量化（RRQ），用低比特基向量加一系列量化残差来重构权重。从2比特模型出发逐级添加2比特残差，即可由单份检查点得到4/6/8比特精度。该方法属于训练后量化，便于灵活调整部署精度与内存占用，为多场景LLM推理提供更实用的压缩方案。",
-      "llm_tags": [
-        "query:moe-gk-quant"
-      ],
-      "matched_query_tag": "query:moe-gk-quant",
-      "matched_query_text": "weight quantization for large language models",
-      "matched_requirement_id": "req-3",
-      "selection_source": "fresh_fetch"
-    },
     {
       "id": "2608.04401v1",
       "source": "arxiv",
@@ -71,14 +34,14 @@
         "keyword:moe-gk-quant",
         "query:moe-gk-quant"
       ],
-      "llm_score": 8.0,
-      "llm_evidence_en": "Training-free dynamic expert selection for efficient MoE inference",
-      "llm_evidence_cn": "免训练的动态专家选择以提升MoE推理效率",
-      "llm_evidence": "免训练的动态专家选择以提升MoE推理效率",
-      "canonical_evidence": "免训练的动态专家选择以提升MoE推理效率",
-      "llm_tldr_en": "Proposes elbow-based routing, a training-free inference-time plugin that dynamically adjusts the number of active experts per token in MoE models, reducing compute while maintaining quality, based on identifying an elbow point in router probability distributions.",
-      "llm_tldr_cn": "混合专家模型通过固定top-k路由选择专家，导致计算量不随输入变化。本文提出基于肘部法则的路由方法，在推理时动态调整每个token激活的专家数量。通过分析排序后的路由器概率分布中的拐点，分离高、低概率专家。理论与实验表明该方法在保持性能的同时降低推理成本，可作为即插即用的免训练推理优化插件。",
-      "llm_tldr": "混合专家模型通过固定top-k路由选择专家，导致计算量不随输入变化。本文提出基于肘部法则的路由方法，在推理时动态调整每个token激活的专家数量。通过分析排序后的路由器概率分布中的拐点，分离高、低概率专家。理论与实验表明该方法在保持性能的同时降低推理成本，可作为即插即用的免训练推理优化插件。",
+      "llm_score": 9.0,
+      "llm_evidence_en": "Training-free MoE inference routing that dynamically selects experts per token for efficiency.",
+      "llm_evidence_cn": "提出免训练的MoE推理路由，按token动态选择专家以提升效率。",
+      "llm_evidence": "提出免训练的MoE推理路由，按token动态选择专家以提升效率。",
+      "canonical_evidence": "提出免训练的MoE推理路由，按token动态选择专家以提升效率。",
+      "llm_tldr_en": "Elbow-based MoE routing dynamically adjusts the number of active experts per token using router probability distribution inflection points, improving inference efficiency without any training. By finding an elbow point in the sorted router distribution, it separates low- from high-probability experts and activates only the relevant number per token, yielding theoretical and empirical gains.",
+      "llm_tldr_cn": "传统MoE路由固定选择top-k专家，导致计算量恒定，与token的实际难度不匹配。本文提出肘部路由，通过分析排序后的路由器概率分布找到肘点，将高概率与低概率专家分离，从而按token动态调整激活专家数。理论和实验表明大多数路由器分布存在清晰拐点，该方法在免训练条件下提升推理效率。此外，该插件无需训练即可直接应用，可灵活适配现有MoE模型，在保持生成质量的同时减少推理开销。",
+      "llm_tldr": "传统MoE路由固定选择top-k专家，导致计算量恒定，与token的实际难度不匹配。本文提出肘部路由，通过分析排序后的路由器概率分布找到肘点，将高概率与低概率专家分离，从而按token动态调整激活专家数。理论和实验表明大多数路由器分布存在清晰拐点，该方法在免训练条件下提升推理效率。此外，该插件无需训练即可直接应用，可灵活适配现有MoE模型，在保持生成质量的同时减少推理开销。",
       "llm_tags": [
         "query:moe-gk-quant"
       ],
@@ -110,13 +73,13 @@
         "query:moe-gk-quant"
       ],
       "llm_score": 8.0,
-      "llm_evidence_en": "Phase-aware training-free expert merging for efficient MoE vision-language model inference",
-      "llm_evidence_cn": "面向高效MoE视觉语言模型推理的阶段感知免训练专家合并",
-      "llm_evidence": "面向高效MoE视觉语言模型推理的阶段感知免训练专家合并",
-      "canonical_evidence": "面向高效MoE视觉语言模型推理的阶段感知免训练专家合并",
-      "llm_tldr_en": "Proposes a phase-aware expert merging method that considers the distinct routing distributions of image, question, and answer tokens, improving MoE-VLM inference efficiency over global aggregation.",
-      "llm_tldr_cn": "MoE视觉语言模型的推理具有阶段性：图像上下文token、问题token和答案token的计数与路由分布不同，全局聚合会掩盖各阶段专家的角色。作者提出阶段感知的专家合并方法，按阶段条件计算专家兼容性，在免训练条件下减少专家存储。实验表明该方法能更高效地压缩模型，同时保持多阶段任务的性能。",
-      "llm_tldr": "MoE视觉语言模型的推理具有阶段性：图像上下文token、问题token和答案token的计数与路由分布不同，全局聚合会掩盖各阶段专家的角色。作者提出阶段感知的专家合并方法，按阶段条件计算专家兼容性，在免训练条件下减少专家存储。实验表明该方法能更高效地压缩模型，同时保持多阶段任务的性能。",
+      "llm_evidence_en": "Phase-aware expert merging reduces MoE-VLM deployment cost through improved routing aggregation.",
+      "llm_evidence_cn": "面向MoE-VLM高效推理，提出阶段感知的专家合并以降低部署开销",
+      "llm_evidence": "面向MoE-VLM高效推理，提出阶段感知的专家合并以降低部署开销",
+      "canonical_evidence": "面向MoE-VLM高效推理，提出阶段感知的专家合并以降低部署开销",
+      "llm_tldr_en": "This paper proposes phase-aware expert merging for MoE vision-language models, aggregating routing statistics separately for image-context, question, and answer tokens to avoid global aggregation bias and improve deployment efficiency.",
+      "llm_tldr_cn": "MoE视觉语言模型的推理具有阶段结构，图像上下文、问题与答案token的计数和路由分布差异很大。现有专家合并方法全局聚合所有token的路由统计，容易忽略阶段化的专家角色。本文提出阶段感知的专家合并方法，分别对各阶段进行路由聚合再决定合并。实验显示该方案相比全局聚合能获得更高的合并质量和更低的推理成本。这项工作为MoE压缩提供了新的阶段感知视角。",
+      "llm_tldr": "MoE视觉语言模型的推理具有阶段结构，图像上下文、问题与答案token的计数和路由分布差异很大。现有专家合并方法全局聚合所有token的路由统计，容易忽略阶段化的专家角色。本文提出阶段感知的专家合并方法，分别对各阶段进行路由聚合再决定合并。实验显示该方案相比全局聚合能获得更高的合并质量和更低的推理成本。这项工作为MoE压缩提供了新的阶段感知视角。",
       "llm_tags": [
         "query:moe-gk-quant"
       ],
@@ -126,5 +89,48 @@
       "selection_source": "fresh_fetch"
     }
   ],
-  "quick_skim": []
+  "quick_skim": [
+    {
+      "id": "2608.02691v2",
+      "source": "arxiv",
+      "title": "Output-Aware Rotation for INT2 KV-Cache Quantization",
+      "abstract": "The key-value (KV) cache has become a major memory and bandwidth bottleneck in long-context large language model inference, making ultra-low-bit quantization increasingly important. However, existing rotation-based INT2 methods optimize cache statistics or proxy errors before the complete attention readout, even though the model is ultimately affected by the error propagated through attention and the output projection $W_O$. To address this mismatch, we propose \\textit{OptR}, an output-aware rotation method that minimizes post-$W_O$ attention-output error. OptR decomposes the post-$W_O$ attention-output error into key- and value-induced terms and learns per-head orthogonal corrections through the full INT2 quantization and attention path. OptR further applies an attention-equivalent key reparameterization to reduce large channel-wise offsets without changing the softmax distribution. Across three models and five reasoning and coding benchmarks, OptR consistently improves both QuaRot and OSCAR and strengthens long-context retrieval, while preserving the paged KV-cache format with negligible inference overhead.",
+      "authors": [
+        "Vincent-Daniel Yun",
+        "Woosang Lim",
+        "Minsoo Cheong",
+        "Sunwoo Lee",
+        "Murali Annavaram",
+        "Sai Praneeth Karimireddy",
+        "Sungjoo Yoo"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-03T09:24:23+00:00",
+      "link": "https://arxiv.org/pdf/2608.02691v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "INT2 KV-cache quantization for efficient LLM inference, close to weight quantization objectives",
+      "llm_evidence_cn": "面向LLM高效推理的INT2 KV缓存量化，与权重量化目标紧密相关",
+      "llm_evidence": "面向LLM高效推理的INT2 KV缓存量化，与权重量化目标紧密相关",
+      "canonical_evidence": "面向LLM高效推理的INT2 KV缓存量化，与权重量化目标紧密相关",
+      "llm_tldr_en": "OptR proposes an output-aware rotation method for INT2 KV-cache quantization, minimizing post-attention-output error via per-head orthogonal corrections, improving long-context LLM inference efficiency.",
+      "llm_tldr_cn": "针对长上下文大模型推理中KV缓存成为内存与带宽瓶颈、现有旋转式INT2量化只优化缓存统计量或代理误差的问题，OptR提出输出感知的旋转量化方法。它将注意力输出后的误差分解为键与值两部分，并通过可学习的逐头正交校正端到端优化INT2量化与注意力通路。实验表明该方法能有效降低量化误差，在极低比特下保持模型性能，为超低位宽KV缓存量化提供了更好的优化方向。",
+      "llm_tldr": "针对长上下文大模型推理中KV缓存成为内存与带宽瓶颈、现有旋转式INT2量化只优化缓存统计量或代理误差的问题，OptR提出输出感知的旋转量化方法。它将注意力输出后的误差分解为键与值两部分，并通过可学习的逐头正交校正端到端优化INT2量化与注意力通路。实验表明该方法能有效降低量化误差，在极低比特下保持模型性能，为超低位宽KV缓存量化提供了更好的优化方向。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
 }

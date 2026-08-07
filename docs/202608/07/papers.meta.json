@@ -1,24 +1,9 @@
 {
   "label": "2026-08-07",
   "date": "2026-08-07",
-  "generated_at": "2026-08-07T00:59:05",
+  "generated_at": "2026-08-07T20:18:54",
   "count": 3,
   "papers": [
-    {
-      "paper_id": "202608/07/2608.04048v1-recurrent-residual-quantization-a-progressive-multi-precision-representation-for-llms",
-      "section": "deep",
-      "title_en": "Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs",
-      "authors": "Yu Luo, Bo Dong, Wenhua Cheng, Haihao Shen",
-      "date": "2026-08-04",
-      "pdf": "https://arxiv.org/pdf/2608.04048v1",
-      "score": "9.0",
-      "evidence": "面向大语言模型的训练后权重量化，支持单检查点多精度",
-      "tldr": "大语言模型服务需在不同精度间灵活权衡，但传统量化方法每个位宽需单独检查点。本文提出递归残差量化（RRQ）框架，以低比特量化基和量化残差序列表示权重，从2比特模型出发逐步添加2比特残差构造4/6/8比特表示，无需校准且避免联合优化。在Qwen3-8B上构建全精度包仅需1293秒，比MatGPTQ快3.3倍，六个模型上6/8比特精度有竞争力，4比特因模型而异。",
-      "tags": "query:moe-gk-quant",
-      "abstract_en": "Serving large language models (LLMs) under diverse deployment constraints requires flexible trade-offs between accuracy, memory footprint, and throughput. However, conventional quantization methods typically require a separate checkpoint for each target bit-width. We introduce Recurrent Residual Quantization (RRQ), a post-training quantization (PTQ) framework that represents weights as a low-bit quantized base together with a sequence of quantized residual corrections, enabling multiple effective precisions from a single checkpoint. Starting from a 2-bit model obtained via post-training quantization (PTQ) or round-to-nearest (RTN), RRQ progressively adds lightweight 2-bit residuals generated via RTN to construct 4-, 6-, and 8-bit representations. The method is calibration-free and avoids joint multi-bit optimization. In our Qwen3-8B setup, the full all-RTN 2-/4-/6-/8-bit package is constructed in 1,293 seconds, 3.3 times faster than the measured MatGPTQ construction. Experiments on six recent LLMs show competitive accuracy at 6 and 8 bits, with model-dependent behavior at 4 bits. The code will be made publicly available upon publication.",
-      "source": "arxiv",
-      "selection_source": "fresh_fetch"
-    },
     {
       "paper_id": "202608/07/2608.04401v1-elbow-based-moe-routing-a-training-free-inference-time-plugin-for-expert-selection",
       "section": "deep",
@@ -46,6 +31,21 @@
       "tldr": "MoE视觉语言模型推理具有阶段结构，但现有专家合并依赖全局路由聚合，会因图像token过多而掩盖不同阶段专家角色。为此提出RoleMerge，通过相位归一化路由统计构建每个专家的“路由角色画像”，依据相位信息损失合并兼容专家并保留回答解码差异。在三个模型多基准上，同等保留率下相对性能提升最高9.6%，证明相位条件专家角色比全局聚合更适合MoE-VLM专家合并。",
       "tags": "query:moe-gk-quant",
       "abstract_en": "Mixture-of-experts vision-language models (MoE-VLMs) increase model capacity with sparse expert activation, yet deployment requires storing the full expert pool. Training-free expert merging reduces this burden, and many routing-based methods aggregate routing statistics across all tokens to determine merge compatibility. However, MoE-VLM inference is phase-structured: image-context tokens carry visual content, question tokens specify the query, and answer tokens produce the output, with different counts and routing distributions. Because image-context tokens are far more numerous, global aggregation can overemphasize image-context processing and obscure phase-conditioned expert roles, making experts serving different phases appear interchangeable and degrading model performance. We therefore argue that MoE-VLM expert merging should preserve phase-conditioned expert roles, judging compatibility by how experts serve different phases rather than globally aggregated routing statistics. Based on this view, we propose RoleMerge, a training-free method that constructs each expert's Routing Role Profile (RRP) from phase-normalized routing statistics, capturing its relative phase preference. Guided by expert-phase information loss, RoleMerge merges experts with compatible profiles and their corresponding router entries while preserving answer-decoding expert distinctions. Experiments on three models and multiple benchmarks show that RoleMerge preserves more of the full model's performance than alternative expert-merging methods at matched expert-retention ratios, with relative improvements of up to 9.6 percent in six-task macro-average performance. These results validate phase-conditioned expert roles as a more effective basis than global routing aggregation for MoE-VLM expert merging.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/07/2608.02691v2-output-aware-rotation-for-int2-kv-cache-quantization",
+      "section": "quick",
+      "title_en": "Output-Aware Rotation for INT2 KV-Cache Quantization",
+      "authors": "Vincent-Daniel Yun, Woosang Lim, Minsoo Cheong, Sunwoo Lee, Murali Annavaram, Sai Praneeth Karimireddy, Sungjoo Yoo",
+      "date": "2026-08-03",
+      "pdf": "https://arxiv.org/pdf/2608.02691v2",
+      "score": "7.0",
+      "evidence": "面向LLM高效推理的INT2 KV缓存量化，与权重量化目标紧密相关",
+      "tldr": "KV缓存已成为长上下文大模型推理的显存与带宽瓶颈，超低位宽量化日益关键。现有基于旋转的INT2方法仅优化缓存统计量或代理误差，未考虑经注意力与输出投影W_O传播后的最终误差。为此提出输出感知旋转方法OptR，将W_O后的注意力输出误差分解为键与值两项，并通过完整INT2量化与注意力路径学习每头正交校正，同时利用注意力等价键重参数化减小通道偏移而不改变softmax分布。在三个模型及推理与编码基准上，OptR一致提升QuaRot与OSCAR，增强长上下文检索，且保持分页KV缓存格式，推理开销可忽略。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "The key-value (KV) cache has become a major memory and bandwidth bottleneck in long-context large language model inference, making ultra-low-bit quantization increasingly important. However, existing rotation-based INT2 methods optimize cache statistics or proxy errors before the complete attention readout, even though the model is ultimately affected by the error propagated through attention and the output projection $W_O$. To address this mismatch, we propose \\textit{OptR}, an output-aware rotation method that minimizes post-$W_O$ attention-output error. OptR decomposes the post-$W_O$ attention-output error into key- and value-induced terms and learns per-head orthogonal corrections through the full INT2 quantization and attention path. OptR further applies an attention-equivalent key reparameterization to reduce large channel-wise offsets without changing the softmax distribution. Across three models and five reasoning and coding benchmarks, OptR consistently improves both QuaRot and OSCAR and strengthens long-context retrieval, while preserving the paged KV-cache format with negligible inference overhead.",
       "source": "arxiv",
       "selection_source": "fresh_fetch"
     }
