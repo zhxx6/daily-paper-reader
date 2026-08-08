@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-08 <!--dpr-date:20260808-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/08/2608.04048v1-recurrent-residual-quantization-a-progressive-multi-precision-representation-for-llms" data-sidebar-item="{&quot;title&quot;: &quot;Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.04048v1-recurrent-residual-quantization-a-progressive-multi-precision-representation-for-llms&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;面向LLM的循环残差量化框架，单检查点多精度&quot;}">Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs</a>
   * 2026-08-07 <!--dpr-date:20260807-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/07/2608.04401v1-elbow-based-moe-routing-a-training-free-inference-time-plugin-for-expert-selection" data-sidebar-item="{&quot;title&quot;: &quot;Elbow-Based MoE Routing: A Training-Free Inference Time Plugin for Expert Selection&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.04401v1-elbow-based-moe-routing-a-training-free-inference-time-plugin-for-expert-selection&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;提出免训练的MoE推理路由，按token动态选择专家以提升效率。&quot;}">Elbow-Based MoE Routing: A Training-Free Inference Time Plugin for Expert Selection</a>

@@ -1,0 +1,54 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-08T20:45:29.052917+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2608.04048v1",
+      "source": "arxiv",
+      "title": "Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs",
+      "abstract": "Serving large language models (LLMs) under diverse deployment constraints requires flexible trade-offs between accuracy, memory footprint, and throughput. However, conventional quantization methods typically require a separate checkpoint for each target bit-width. We introduce Recurrent Residual Quantization (RRQ), a post-training quantization (PTQ) framework that represents weights as a low-bit quantized base together with a sequence of quantized residual corrections, enabling multiple effective precisions from a single checkpoint. Starting from a 2-bit model obtained via post-training quantization (PTQ) or round-to-nearest (RTN), RRQ progressively adds lightweight 2-bit residuals generated via RTN to construct 4-, 6-, and 8-bit representations. The method is calibration-free and avoids joint multi-bit optimization. In our Qwen3-8B setup, the full all-RTN 2-/4-/6-/8-bit package is constructed in 1,293 seconds, 3.3 times faster than the measured MatGPTQ construction. Experiments on six recent LLMs show competitive accuracy at 6 and 8 bits, with model-dependent behavior at 4 bits. The code will be made publicly available upon publication.",
+      "authors": [
+        "Yu Luo",
+        "Bo Dong",
+        "Wenhua Cheng",
+        "Haihao Shen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-04T08:32:05+00:00",
+      "link": "https://arxiv.org/pdf/2608.04048v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Post-training weight quantization framework for LLMs enabling multi-precision from one checkpoint",
+      "llm_evidence_cn": "面向LLM的循环残差量化框架，单检查点多精度",
+      "llm_evidence": "面向LLM的循环残差量化框架，单检查点多精度",
+      "canonical_evidence": "面向LLM的循环残差量化框架，单检查点多精度",
+      "llm_tldr_en": "Proposes Recurrent Residual Quantization (RRQ), a PTQ framework that represents LLM weights as a low-bit base plus quantized residuals, enabling multiple precisions from a single checkpoint.",
+      "llm_tldr_cn": "大语言模型传统量化方法需要针对每种目标位宽分别保存检查点，部署开销大。本文提出循环残差量化（RRQ），将权重表示为低位量化基和一系列量化残差之和，从单个检查点即可获得2、4、6、8比特等不同精度的模型。实验显示该方法在多种位宽下保持准确性，并显著节省存储。RRQ为资源受限环境下的LLM部署提供了灵活的多精度方案。",
+      "llm_tldr": "大语言模型传统量化方法需要针对每种目标位宽分别保存检查点，部署开销大。本文提出循环残差量化（RRQ），将权重表示为低位量化基和一系列量化残差之和，从单个检查点即可获得2、4、6、8比特等不同精度的模型。实验显示该方法在多种位宽下保持准确性，并显著节省存储。RRQ为资源受限环境下的LLM部署提供了灵活的多精度方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

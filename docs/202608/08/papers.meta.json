@@ -1,0 +1,24 @@
+{
+  "label": "2026-08-08",
+  "date": "2026-08-08",
+  "generated_at": "2026-08-08T20:47:04",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202608/08/2608.04048v1-recurrent-residual-quantization-a-progressive-multi-precision-representation-for-llms",
+      "section": "deep",
+      "title_en": "Recurrent Residual Quantization: A Progressive Multi-Precision Representation for LLMs",
+      "authors": "Yu Luo, Bo Dong, Wenhua Cheng, Haihao Shen",
+      "date": "2026-08-04",
+      "pdf": "https://arxiv.org/pdf/2608.04048v1",
+      "score": "9.0",
+      "evidence": "面向LLM的循环残差量化框架，单检查点多精度",
+      "tldr": "传统LLM量化方法需要为每个目标位宽单独保存检查点，难以适应多样部署约束。本文提出循环残差量化(RRQ)，以2-bit量化作为基础，逐步添加2-bit残差构建4/6/8-bit表示，仅需单个检查点即可获得多种有效精度。该方法是免校准的，且避免了联合多位优化。在Qwen3-8B上构造全套2/4/6/8-bit量化比MatGPTQ快3.3倍，在6/8-bit下精度具有竞争力。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Serving large language models (LLMs) under diverse deployment constraints requires flexible trade-offs between accuracy, memory footprint, and throughput. However, conventional quantization methods typically require a separate checkpoint for each target bit-width. We introduce Recurrent Residual Quantization (RRQ), a post-training quantization (PTQ) framework that represents weights as a low-bit quantized base together with a sequence of quantized residual corrections, enabling multiple effective precisions from a single checkpoint. Starting from a 2-bit model obtained via post-training quantization (PTQ) or round-to-nearest (RTN), RRQ progressively adds lightweight 2-bit residuals generated via RTN to construct 4-, 6-, and 8-bit representations. The method is calibration-free and avoids joint multi-bit optimization. In our Qwen3-8B setup, the full all-RTN 2-/4-/6-/8-bit package is constructed in 1,293 seconds, 3.3 times faster than the measured MatGPTQ construction. Experiments on six recent LLMs show competitive accuracy at 6 and 8 bits, with model-dependent behavior at 4 bits. The code will be made publicly available upon publication.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
