@@ -1,0 +1,93 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-09T20:44:16.366354+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2608.05303v1",
+      "source": "arxiv",
+      "title": "EdgeXpert: An Edge Device for Memory-Efficient LLM Inference with Mixture-of-Experts and Speculative Decoding",
+      "abstract": "On-device deployment of Large Language Models (LLMs) has become essential for personalized edge applications. A primary bottleneck is external memory access (EMA) in feed-forward network (FFN) layers. Speculative decoding and mixture-of-experts (MoE) are promising solutions. Speculative decoding reduces the number of decoding stages by generating multiple tokens per stage, and MoE minimizes per-stage cost through sparse expert activation. However, there is an incompatibility when combining these two techniques. We propose EdgeXpert, a software-hardware co-designed LLM accelerator that resolves this incompatibility. In the prefill stage, the prompt-wise expert reuse reformulates routing as prompt-level expert reuse rather than independent per-token expert selection. It identifies important tokens using a lightweight encoder, constructs a shared expert set from them, and routes less important tokens with a reduced expert budget to lower expert EMA. In the decode stage, depth-aware expert coalescing exploits the contextual similarity and mutual exclusivity of same-depth candidate tokens. Rather than loading the union of all required channels, EdgeXpert loads only salient channels and applies computational calibration to recover accuracy without additional memory access. Synthesized in Samsung 28nm technology at 800 MHz, EdgeXpert achieves up to 56.3% latency reduction and 44.1% energy reduction compared to prior works, while maintaining near-baseline accuracy.",
+      "authors": [
+        "Sangwoo Ha",
+        "Hyunwoo Seo",
+        "Yurim Jo",
+        "Youngjin Moon",
+        "Hoi-Jun Yoo"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-08-05T18:03:47+00:00",
+      "link": "https://arxiv.org/pdf/2608.05303v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Efficient mixture-of-experts inference on edge devices",
+      "llm_evidence_cn": "面向混合专家模型的存算高效推理加速器",
+      "llm_evidence": "面向混合专家模型的存算高效推理加速器",
+      "canonical_evidence": "面向混合专家模型的存算高效推理加速器",
+      "llm_tldr_en": "EdgeXpert is a software-hardware co-designed accelerator that reconciles speculative decoding with mixture-of-experts sparse activation via prompt-wise expert reuse, reducing external memory access in FFN layers and enabling efficient on-device LLM inference.",
+      "llm_tldr_cn": "边缘设备部署大语言模型时，前馈层的外部内存访问是性能瓶颈。投机解码和混合专家稀疏激活分别能减少解码阶段数量和单阶段开销，但二者难以直接结合。EdgeXpert作为软硬件协同设计的LLM加速器，通过提示级专家重用重构路由来解决这一冲突，降低外部内存访问。实验表明，该设计能在边缘条件下提升MoE推理的吞吐与能效，为高效端侧LLM推理提供了新的硬件软件协同路径。",
+      "llm_tldr": "边缘设备部署大语言模型时，前馈层的外部内存访问是性能瓶颈。投机解码和混合专家稀疏激活分别能减少解码阶段数量和单阶段开销，但二者难以直接结合。EdgeXpert作为软硬件协同设计的LLM加速器，通过提示级专家重用重构路由来解决这一冲突，降低外部内存访问。实验表明，该设计能在边缘条件下提升MoE推理的吞吐与能效，为高效端侧LLM推理提供了新的硬件软件协同路径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.06291v1",
+      "source": "arxiv",
+      "title": "BaKron: Efficient Quantization with Kronecker-Factored Hessians",
+      "abstract": "We accelerate a family of algorithms for neural network quantization whose geometry is informed by any Kronecker-factored approximation of the Hessian. GPTQ-style adaptive rounding typically uses one-sided information derived from input activations. Two-sided Kronecker-factored Hessian approximations can additionally capture correlations across output coordinates, but applying GPTQ directly in the vectorized weight domain is computationally expensive. Building on the two-sided adaptive-rounding formulation used by BoA and YAQA, we introduce BaKron, an efficient solver that combines anti-diagonal parallelism with a recursive divide-and-conquer construction. For an $m\\times n$ weight matrix, BaKron uses $O(m+n)$ sequential steps while reducing the total work from $O(m^2n^2)$ to $O(mn(m+n))$. Thus, it matches the cubic scaling of GPTQ while exploiting richer curvature information. Moreover, BaKron is modular with respect to both the base quantizer and the Hessian estimator. We also provide practical benchmarks, consider a range of Hessians that BaKron can be called with, find an efficient technique to compute these Hessians, and evaluate the algorithm experimentally.",
+      "authors": [
+        "Johann Birnick",
+        "Rayan Saab"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-06T17:15:37+00:00",
+      "link": "https://arxiv.org/pdf/2608.06291v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "efficient neural network weight quantization using Kronecker-factored Hessians",
+      "llm_evidence_cn": "利用Kronecker因子海森矩阵实现高效神经网络权重量化",
+      "llm_evidence": "利用Kronecker因子海森矩阵实现高效神经网络权重量化",
+      "canonical_evidence": "利用Kronecker因子海森矩阵实现高效神经网络权重量化",
+      "llm_tldr_en": "BaKron accelerates GPTQ-style adaptive rounding using two-sided Kronecker-factored Hessian approximations, combining anti-diagonal parallelism with recursive divide-and-conquer to lower sequential steps and total work.",
+      "llm_tldr_cn": "BaKron针对基于Kronecker因子海森近似的神经网络量化算法效率低下问题，提出反斜对角并行与递归分治结合的高效求解器，在向量化权重域中实现两侧自适应舍入，将顺序步骤降至O(m+n)并显著减少总工作量，为大规模语言模型的权重量化提供更高效实现路径。",
+      "llm_tldr": "BaKron针对基于Kronecker因子海森近似的神经网络量化算法效率低下问题，提出反斜对角并行与递归分治结合的高效求解器，在向量化权重域中实现两侧自适应舍入，将顺序步骤降至O(m+n)并显著减少总工作量，为大规模语言模型的权重量化提供更高效实现路径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

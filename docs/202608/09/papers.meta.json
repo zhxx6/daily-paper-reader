@@ -1,0 +1,39 @@
+{
+  "label": "2026-08-09",
+  "date": "2026-08-09",
+  "generated_at": "2026-08-09T20:46:59",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202608/09/2608.05303v1-edgexpert-an-edge-device-for-memory-efficient-llm-inference-with-mixture-of-experts-and-speculative-decoding",
+      "section": "deep",
+      "title_en": "EdgeXpert: An Edge Device for Memory-Efficient LLM Inference with Mixture-of-Experts and Speculative Decoding",
+      "authors": "Sangwoo Ha, Hyunwoo Seo, Yurim Jo, Youngjin Moon, Hoi-Jun Yoo",
+      "date": "2026-08-05",
+      "pdf": "https://arxiv.org/pdf/2608.05303v1",
+      "score": "9.0",
+      "evidence": "面向混合专家模型的存算高效推理加速器",
+      "tldr": "边缘部署LLM受外部内存访问瓶颈制约，投机解码与MoE结合存在不兼容问题。EdgeXpert提出软硬件协同设计，prefill阶段采用prompt级专家重用，decode阶段采用深度感知专家融合，仅加载关键通道并校准。在Samsung 28nm工艺下，相比现有方案延迟降低56.3%，能量降低44.1%，且精度接近基线，为高效边缘LLM推理提供了可行路径。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "On-device deployment of Large Language Models (LLMs) has become essential for personalized edge applications. A primary bottleneck is external memory access (EMA) in feed-forward network (FFN) layers. Speculative decoding and mixture-of-experts (MoE) are promising solutions. Speculative decoding reduces the number of decoding stages by generating multiple tokens per stage, and MoE minimizes per-stage cost through sparse expert activation. However, there is an incompatibility when combining these two techniques. We propose EdgeXpert, a software-hardware co-designed LLM accelerator that resolves this incompatibility. In the prefill stage, the prompt-wise expert reuse reformulates routing as prompt-level expert reuse rather than independent per-token expert selection. It identifies important tokens using a lightweight encoder, constructs a shared expert set from them, and routes less important tokens with a reduced expert budget to lower expert EMA. In the decode stage, depth-aware expert coalescing exploits the contextual similarity and mutual exclusivity of same-depth candidate tokens. Rather than loading the union of all required channels, EdgeXpert loads only salient channels and applies computational calibration to recover accuracy without additional memory access. Synthesized in Samsung 28nm technology at 800 MHz, EdgeXpert achieves up to 56.3% latency reduction and 44.1% energy reduction compared to prior works, while maintaining near-baseline accuracy.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/09/2608.06291v1-bakron-efficient-quantization-with-kronecker-factored-hessians",
+      "section": "deep",
+      "title_en": "BaKron: Efficient Quantization with Kronecker-Factored Hessians",
+      "authors": "Johann Birnick, Rayan Saab",
+      "date": "2026-08-06",
+      "pdf": "https://arxiv.org/pdf/2608.06291v1",
+      "score": "9.0",
+      "evidence": "利用Kronecker因子海森矩阵实现高效神经网络权重量化",
+      "tldr": "GPTQ式自适应舍入通常只利用输入激活的单侧信息，而双侧Kronecker因子化Hessian可捕获输出相关性但计算昂贵。为此提出BaKron，结合反对角并行与递归分治，高效求解双侧自适应舍入。对m×n权重矩阵，总工作量从O(m^2n^2)降至O(mn(m+n))，顺序步骤O(m+n)，匹配GPTQ立方复杂度。该算法模块化，支持多种基础量化器与Hessian估计，并在实验中验证了其高效性和更丰富曲率信息的利用。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We accelerate a family of algorithms for neural network quantization whose geometry is informed by any Kronecker-factored approximation of the Hessian. GPTQ-style adaptive rounding typically uses one-sided information derived from input activations. Two-sided Kronecker-factored Hessian approximations can additionally capture correlations across output coordinates, but applying GPTQ directly in the vectorized weight domain is computationally expensive. Building on the two-sided adaptive-rounding formulation used by BoA and YAQA, we introduce BaKron, an efficient solver that combines anti-diagonal parallelism with a recursive divide-and-conquer construction. For an $m\\times n$ weight matrix, BaKron uses $O(m+n)$ sequential steps while reducing the total work from $O(m^2n^2)$ to $O(mn(m+n))$. Thus, it matches the cubic scaling of GPTQ while exploiting richer curvature information. Moreover, BaKron is modular with respect to both the base quantizer and the Hessian estimator. We also provide practical benchmarks, consider a range of Hessians that BaKron can be called with, find an efficient technique to compute these Hessians, and evaluate the algorithm experimentally.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
