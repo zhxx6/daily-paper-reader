@@ -1,0 +1,92 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-10T20:32:40.068939+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2608.06763v1",
+      "source": "arxiv",
+      "title": "CubicQuant: Parametric Non-Uniform Codebooks for High-Throughput LLM Inference with 1-8-Bit Weights",
+      "abstract": "Weight quantization for large-language-model inference must balance adaptive reconstruction levels with representations regular enough for efficient GPU execution. Uniform integers constrain each group to a linear grid. Low-bit floating-point formats use a fixed exponent-mantissa structure, while learned codebooks gain flexibility at the cost of irregular decoding and additional metadata.   We introduce CubicQuant, a parametric non-uniform scalar format that preserves a dense integer code stream while adapting reconstruction levels within each weight group. A monotonic cubic curve, specified by two shape parameters and one scale, maps uniformly spaced magnitude codes to non-uniform levels. The family spans 1-8-bit weight payloads, contains symmetric uniform integer quantization as an exact special case, and has effective width B + 64/G bits per weight for payload width B and group size G. We derive population distortion under Uniform, Gaussian, and Laplace distributions, formulate continuous and Dynamic-A8-carrier-aware fitting objectives, and describe direct packed-weight GPU execution.   For finite groups of G=128 with 15,360 samples per distribution, W4 CubicQuant reduced reconstruction RMSE relative to optimally clipped four-bit uniform integer quantization by 3.90% on Uniform, 13.49% on Gaussian, and 28.14% on Laplace samples. Relative to the best enumerated four-bit finite floating-point format, the reductions were 3.90%, 9.44%, and 6.27%. Preliminary H200 kernel measurements show a workload-dependent crossover: model-dtype execution is faster for narrow GEMV, while Dynamic A8 becomes favorable as row count grows. The results establish the format's representational promise and direct executability; downstream model quality and cross-device end-to-end performance remain open evaluation questions.",
+      "authors": [
+        "Xuetian Gao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "published": "2026-08-07T03:36:07+00:00",
+      "link": "https://arxiv.org/pdf/2608.06763v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Weight quantization for high-throughput LLM inference with 1-8-bit weights; direct match to weight quantization requirement",
+      "llm_evidence_cn": "面向高吞吐LLM推理的1-8位权重量化，直接匹配权重量化需求",
+      "llm_evidence": "面向高吞吐LLM推理的1-8位权重量化，直接匹配权重量化需求",
+      "canonical_evidence": "面向高吞吐LLM推理的1-8位权重量化，直接匹配权重量化需求",
+      "llm_tldr_en": "CubicQuant introduces a parametric non-uniform scalar format with monotonic cubic curves to adapt reconstruction levels within each weight group, enabling high-throughput LLM inference across 1-8-bit weights with a dense integer code stream and efficient GPU execution.",
+      "llm_tldr_cn": "大语言模型推理中的权重量化需要在自适应重建水平与GPU高效执行之间取得平衡。CubicQuant提出一种参数化非均匀标量格式，利用单调三次曲线将均匀间隔的幅值码映射为非均匀重建电平，覆盖1-8位权重。该格式保持密集整数码流，使得解码规则且元数据开销低，从而在高吞吐推理中兼顾精度与性能。",
+      "llm_tldr": "大语言模型推理中的权重量化需要在自适应重建水平与GPU高效执行之间取得平衡。CubicQuant提出一种参数化非均匀标量格式，利用单调三次曲线将均匀间隔的幅值码映射为非均匀重建电平，覆盖1-8位权重。该格式保持密集整数码流，使得解码规则且元数据开销低，从而在高吞吐推理中兼顾精度与性能。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.07019v1",
+      "source": "arxiv",
+      "title": "ReQuant: Fixed-Grid Discrete Refinement for Post-Training Quantization",
+      "abstract": "Post-training quantization (PTQ) is widely used to reduce the memory and computational cost of large language models. Existing PTQ methods typically obtain an initial quantized model through heuristic rules or greedy optimization, and once quantization is completed the resulting integer assignments are usually treated as final. This observation motivates a complementary optimization stage within PTQ that keeps quantized weights improvable after an executable quantized model has been produced, while preserving the quantized format. We introduce ReQuant, a backpropagation-free fixed-grid refinement procedure for this stage. Agnostic to the PTQ initializer, ReQuant takes an existing quantized model as a feasible starting point and iteratively revisits its discrete weight assignments on the fixed quantization grid. Accepted updates strictly reduce the mean squared reconstruction error and remain on the original grid. In this way, ReQuant turns the initially fixed PTQ output into an iteratively optimizable discrete solution and serves as a plug-and-play post-processing stage for existing PTQ pipelines. Experiments across diverse model families, bit-widths, and downstream tasks show that ReQuant consistently improves quantized models from heterogeneous PTQ initializers, with especially large gains on simple initializers and lower bit-widths. Notably, ReQuant can refine a simple round-to-nearest initialization across multiple sweeps until it approaches or surpasses GPTAQ under the same quantization format. These results establish ReQuant as a practical complementary stage for further improving existing PTQ pipelines.",
+      "authors": [
+        "Yongge Ma",
+        "Guoan Wang",
+        "Feiyu Wang",
+        "Yaoming Li",
+        "Qian Zhang",
+        "Zihan Yan",
+        "Yinjun Han",
+        "Tong Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-07T09:27:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.07019v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Post-training quantization refinement for large language models; direct match to weight quantization requirement",
+      "llm_evidence_cn": "面向大语言模型的训练后量化细化方法，直接匹配权重量化需求",
+      "llm_evidence": "面向大语言模型的训练后量化细化方法，直接匹配权重量化需求",
+      "canonical_evidence": "面向大语言模型的训练后量化细化方法，直接匹配权重量化需求",
+      "llm_tldr_en": "ReQuant introduces a backpropagation-free fixed-grid refinement procedure for post-training quantization of large language models, iteratively improving quantized weights while preserving the quantized format, agnostic to the PTQ initializer.",
+      "llm_tldr_cn": "训练后量化是降低大语言模型存储和计算成本的常用手段，但现有方法在量化完成后通常不再调整整数赋值。ReQuant提出一种无需反向传播的固定网格细化阶段，在保持量化格式的前提下，以已有量化模型为起点迭代优化权重。该方法与任何PTQ初始化器兼容，可在不增加推理开销的情况下进一步提升量化模型精度。",
+      "llm_tldr": "训练后量化是降低大语言模型存储和计算成本的常用手段，但现有方法在量化完成后通常不再调整整数赋值。ReQuant提出一种无需反向传播的固定网格细化阶段，在保持量化格式的前提下，以已有量化模型为起点迭代优化权重。该方法与任何PTQ初始化器兼容，可在不增加推理开销的情况下进一步提升量化模型精度。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
