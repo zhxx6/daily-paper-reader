@@ -6,27 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-10
-- 运行时间：2026-08-10 20:36:59 UTC
+- 最新运行日期：2026-08-11
+- 运行时间：2026-08-11 21:04:23 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：2
-- 速读区：0
+- 本次总论文数：5
+- 精读区：3
+- 速读区：2
 
 ### 今日简报（AI）
-今日精读2篇高分解码器量化论文，均获9.0分，聚焦LLM推理效率与后训练量化。最值得关注CubicQuant的非均匀码本设计（1-8比特权重）及ReQuant的固定网格细化方法。建议普通读者优先了解非均匀量化在内存压缩与吞吐提升上的实际收益。
-- 详情：[/202608/10/README](/202608/10/README)
+今日精读聚焦MoE效率优化，两篇高分论文直击部署痛点。最值得关注RotaryQuant在消费硬件上运行120B模型，及Motif 3的技术细节。建议优先阅读RotaryQuant的压缩注意力方案，对实际部署最有启发。
+- 详情：[/202608/11/README](/202608/11/README)
 
 ### 精读区论文标签
-1. [CubicQuant: Parametric Non-Uniform Codebooks for High-Throughput LLM Inference with 1-8-Bit Weights](/202608/10/2608.06763v1-cubicquant-parametric-non-uniform-codebooks-for-high-throughput-llm-inference-with-1-8-bit-weights)  
+1. [RotaryQuant: Fitting 120B MoE Models on Consumer Hardware via Fused Compressed-Space Attention](/202608/11/2608.08081v1-rotaryquant-fitting-120b-moe-models-on-consumer-hardware-via-fused-compressed-space-attention)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：面向高吞吐LLM推理的1-8位权重量化，直接匹配权重量化需求
-2. [ReQuant: Fixed-Grid Discrete Refinement for Post-Training Quantization](/202608/10/2608.07019v1-requant-fixed-grid-discrete-refinement-for-post-training-quantization)  
+   evidence：面向端侧推理的MoE混合精度量化
+2. [Motif 3: Technical Report](/202608/11/2608.09119v1-motif-3-technical-report)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：面向大语言模型的训练后量化细化方法，直接匹配权重量化需求
+   evidence：面向推理效率设计的解码器专用MoE语言模型，每层384个路由专家，细粒度稀疏激活
+3. [EasyBalance: Cross-Layer Load Balancing in Distributed MoE Inference](/202608/11/2608.07964v1-easybalance-cross-layer-load-balancing-in-distributed-moe-inference)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：提出面向分布式MoE推理的跨层负载均衡策略
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [UniMoMo: Expert Merging-Based MoE Acceleration for Large Recommendation Models](/202608/11/2608.08627v1-unimomo-expert-merging-based-moe-acceleration-for-large-recommendation-models)  
+   标签：评分：7.0/10、query:moe-gk-quant
+   evidence：面向大型推荐模型的基于专家合并的MoE加速
+2. [The Evolution of Mixture-of-Experts Architectures in Large Language Models: Routing, Topology, Load Balancing, and Expert Parallelism](/202608/11/2608.08650v1-the-evolution-of-mixture-of-experts-architectures-in-large-language-models-routing-topology-load-balancing-and-expert-parallelism)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：覆盖MoE路由、拓扑与执行结构的综述
 
 
 <div class="dpr-home-promo-card">
