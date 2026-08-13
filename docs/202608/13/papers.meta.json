@@ -1,0 +1,54 @@
+{
+  "label": "2026-08-13",
+  "date": "2026-08-13",
+  "generated_at": "2026-08-13T21:25:24",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202608/13/2608.11688v1-apex-adaptive-expert-prefetching-for-memory-efficient-edge-moe-inference",
+      "section": "deep",
+      "title_en": "APEX: Adaptive Expert Prefetching for Memory-Efficient Edge MoE Inference",
+      "authors": "Alish Kanani, Layan Badawi, Umit Y. Ogras",
+      "date": "2026-08-12",
+      "pdf": "https://arxiv.org/pdf/2608.11688v1",
+      "score": "9.0",
+      "evidence": "面向边缘内存高效 MoE 推理的自适应专家预取",
+      "tldr": "边缘部署中，MoE模型虽计算高效，但专家参数庞大且多驻留于外存，导致加载数据成为推理关键路径。APEX提出自适应专家预取，通过轻量级预取路由和置信度模型预测并预取额外专家，使数据加载与计算高度重叠。实验显示，其重叠精度超过99%，正确性保持模式降低每token延迟至多26%，能量延迟积改善至多41%；免停顿模式在不显著影响精度的前提下进一步增效。这验证了自适应、置信度驱动的预取策略对边缘MoE推理的有效性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models are attractive for edge deployment because they provide high model capacity while activating only a small subset of parameters per token, improving compute efficiency. However, MoE inference at the edge is fundamentally limited by memory. Expert parameters are large and often reside in off-chip memory due to capacity, cost, and power constraints, putting expert loading to the critical path. We present APEX: Adaptive Expert Prefetching, a predictive resource management framework that overlaps expert loading with useful computation. APEX introduces a lightweight prefetch router that predicts candidate experts before the attention block to dynamically fetch additional experts using a learned confidence model. This adaptive strategy achieves over 99% overlap accuracy, significantly outperforming fixed top-k prefetching techniques. APEX supports two execution modes: a correctness-preserving mode that guarantees exact routing semantics, and a stall-free mode that eliminates residual stalls by operating on available experts with negligible impact on application accuracy. Across multiple MoE models, the correctness-preserving mode reduces per-token latency by up to 26% and improves energy-delay product (EDP) by up to 41% over state-of-the-art baselines, while the stall-free mode provides additional efficiency gains with negligible impact on application accuracy. These results establish adaptive, confidence-driven expert prefetching as an effective approach for efficient MoE inference on edge systems.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/13/2608.12103v1-who-should-own-the-expert-cache-kernel-managed-tiering-for-trillion-parameter-moe-inference",
+      "section": "deep",
+      "title_en": "Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference",
+      "authors": "Yuan Si, Yufeng Lin, Daming Li, Jialu Zhang",
+      "date": "2026-08-12",
+      "pdf": "https://arxiv.org/pdf/2608.12103v1",
+      "score": "9.0",
+      "evidence": "面向万亿参数MoE推理的OS内核页缓存分层管理，直接针对高效MoE服务",
+      "tldr": "MoE模型专家池常超出DRAM，现有系统普遍使用用户态频率分级缓存。本文研究以OS页缓存作为专家层，利用三个模型的真实路由轨迹在GH200上重放，发现未调优的内核LRU命中率与同域oracle频率表相当，且端到端解码性能提升1.09-1.10倍。建议让内核负责驱逐，模型知识用于准入和预取。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-experts models whose expert pools dwarf DRAM force every serving system to contain a cache, yet existing systems typically implement this cache in user space using expert-granular, frequency-ranked, explicitly pinned tiers. We characterize the alternative already provided by the OS: the page cache as the expert tier. We use router traces from three MoE models spanning 128 to 896 experts per layer, including a production trillion-parameter model with a 1.45 TB expert pool, and replay them natively against the full pool on GH200 nodes with capacity enforced by three independent mechanisms.   We find four main results. First, iteration time and device traffic are smooth, reproducible functions of cache capacity, making DRAM a practical sizing knob for trillion-parameter serving. Second, the deep-pressure knee is a reclaim artifact requiring both MGLRU and balloon-style mostly-mlocked memory; cgroup limits and physical-memory configurations show no such amplification, indicating that balloon-based studies can overstate pressured-end device traffic by approximately 2$\\times$. Third, under an enforced equal-memory wall, untuned kernel LRU serves essentially as much demand as a same-domain oracle frequency table (75.3% versus 74.6% at 256 GB), while the oracle's mechanism advantage is only 1.09$\\times$ and disappears off-domain, where LRU remains at 70--71% hit rate. Fourth, router lookahead with 64.7% measured recall provides only a 0.3% benefit as kernel readahead advice and no benefit as synchronous prefetch. End to end, enabling kernel-managed caching improves decode performance by 1.09--1.10$\\times$ with token-identical outputs across nine balanced pairs. The resulting design principle is simple: in this regime, let the kernel own eviction, while model-specific knowledge is best spent on admission and advice.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/13/2608.08188v1-quantization-degradation-in-large-language-models-a-signal-noise-perspective",
+      "section": "deep",
+      "title_en": "Quantization Degradation in Large Language Models: A Signal-Noise Perspective",
+      "authors": "Chenxi Zhou, Pengfei Cao, Jinyu Ye, Bohan Yu, Haida Yu, Jiang Li, Jun Zhao, Kang Liu",
+      "date": "2026-08-08",
+      "pdf": "https://arxiv.org/pdf/2608.08188v1",
+      "score": "8.0",
+      "evidence": "对LLM权重量化的系统性研究",
+      "tldr": "大模型量化退化并非仅由位宽决定，四位通常保持性能，两位明显退化，三位则依任务、方法和模型规模而异。为解释该变异性，从信号噪声比角度，将退化分解为源误差的产生与跨层累积两个过程。源误差受权重误差幅度、任务信号强度及误差-激活对齐三因素影响，而跨层传播可衰减、保持或放大误差，且大模型误差放大更弱。由此揭示量化退化由源误差与网络累积共同决定，为评估与优化量化方案提供依据。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Post-training quantization reduces the deployment cost of large language models, yet how severely a quantized model degrades is not determined by bit-width alone. We systematically study weight-only post-training quantization across bit-widths, quantization methods, model scales and downstream tasks on multiple model families. We observe that such degradation varies substantially across these factors: 4-bit quantization usually preserves performance, 2-bit often causes broad degradation, and at 3-bit, degradation becomes apparent but varies markedly with task type, quantization method and model scale. To explain this variability, we use the signal-to-noise ratio (SNR) to measure how strongly quantization perturbs full-precision representations. We trace degradation back to two linked processes: how quantization errors arise within individual modules, and how they accumulate across layers. First, a source SNR decomposition shows that newly introduced errors depend on three factors: the magnitude of the weight error, the strength of the task-specific signal, and how strongly the quantization error aligns with task-specific activations. Different factors affect these components in distinct ways. Second, a cross-layer propagation analysis shows that these errors can be attenuated, preserved, or amplified as they pass across layers, and that larger models benefit from weaker error amplification. Together, these results establish that quantization degradation is governed by how errors are introduced at the source and how they accumulate across the network.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

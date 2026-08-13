@@ -1,0 +1,471 @@
+Title: Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference
+
+URL Source: https://arxiv.org/pdf/2608.12103v1
+
+Published Time: Thu, 13 Aug 2026 00:59:17 GMT
+
+Number of Pages: 13
+
+Markdown Content:
+# Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference 
+
+## Yuan Si 
+
+University of Waterloo Waterloo, Canada 
+
+## Yufeng Lin 
+
+Independent Researcher Macau, China 
+
+## Daming Li 
+
+Independent Researcher Mountain View, USA 
+
+## Jialu Zhang ∗
+
+University of Waterloo Waterloo, Canada 
+
+## Abstract 
+
+Mixture-of-experts models whose expert pools dwarf DRAM force every serving system to contain a cache, and the field builds those caches in user space: expert-granular, frequency-ranked, explicitly pinned. We characterize the alternative the OS already ships—the page cache as the expert tier—through router traces from three MoE models spanning 128 to 896 experts per layer (including a production trillion-parameter model with a 1.45 TB pool), replayed natively against the full pool on GH200 nodes, with capacity enforced by three independent mechanisms. Four results. Capacity: iteration time and device bytes are smooth, reproducible functions of cache size (run spread ≤4%), making DRAM a sizing knob for trillion-parameter serving on a $2.29/hour node. Reclaim: the deep-pressure knee needs two ingredients at once—MGLRU 
+
+and balloon-style mostly-mlock ed memory (reproduced on two machines); cgroup walls and physical mem= boots show none, so balloon-based capacity studies on default kernels can overstate pressured-end device traffic ∼2×. Policy and mechanism: under an enforced equal-memory wall, untuned kernel recency serves as much demand as a same-domain oracle frequency table (75.3 versus 74.6% at 𝐶 =256 GB); the 
+
+mlock ed arena keeps a residual 1.09 × mechanism edge, while off-domain the oracle collapses to 21–34% and LRU holds 70–71% everywhere. Advice: the router’s measured 64.7%-recall lookahead, replayed from the predictor’s own dumped plan, buys 0.3% as kernel readahead hints and nothing as synchronous prefetch. End to end, admitting the cache is worth 1.09–1.10 × in a healthy CUDA engine with token-identical outputs across nine balanced pairs. The design consequence: in this regime the kernel tier is never the wrong configuration—let it own eviction, and spend model knowledge on admission and advice. 
+
+## 1 Introduction 
+
+A trillion-parameter mixture-of-experts model routes every token through a small, input-dependent subset of its weights: in the production model we study, an accepted token costs on average 1585 expert reads of 17.5 MB each—27.8 GB drawn 
+
+> ∗Corresponding author.
+
+from a 1.45 TB pool. No single node holds that pool in DRAM. Every serving system for this regime therefore contains a cache, whether its authors describe it that way or not, and the design space has converged on one shape: a user-space tier that ranks experts by observed frequency, pins the hottest ones whole, and streams the rest [1, 11, 16, 18, 33, 36]. The engine we instrument shipped the most extreme form of this consensus: it applied F_NOCACHE to the entire expert stream, on the theory that a cache smaller than the working set only churns. This paper characterizes the alternative that requires no code at all— mmap the pool and let the kernel page cache be the expert tier —and, in the process of measuring it honestly, arrives at a more precise verdict than either camp holds. We capture router traces from three MoE models spanning 128 to 896 experts per layer and replay them natively against the full 1.45 TB pool on a GH200 node: three randomized runs per point, block-layer instrumentation throughout, and ca-pacity enforced by three independent mechanisms—balloon, cgroup wall, physical mem= boot—that agree wherever re-claim policy is not itself the variable; where they disagree, the disagreement is a finding (§5), and no single capacity trick carries the study. 
+
+• Capacity is a smooth, measurable knob. Iteration time and measured device bytes are smooth functions of cache size (run spread 0.5–4.0%; device reads track an inverse-capacity reference), and a constant-free demand model turns the device counters into a per-capacity amplification diagnostic (§4). 
+
+• The knee is a reclaim artifact—and the balloon is in it. The deep-pressure amplification requires both 
+
+MGLRU and a balloon-style mostly-mlock ed host (81% locked fails, 74% does not); cgroup walls and physical 
+
+mem= boots show none at any tested capacity. Doubly replicated across two machines; balloon-based sizing studies on default kernels overstate pressured-end device traffic ∼2× (§5). 
+
+• Recency is the right policy at host-tier budgets. 
+
+Under fair windows, plain LRU matches or beats a same-domain oracle frequency table from 𝐵 =32 per layer up (reaching ∼75% of Belady); below ∼2𝑘 per 
+
+> 1arXiv:2608.12103v1 [cs.OS] 12 Aug 2026 Yuan Si, Yufeng Lin, Daming Li, and Jialu Zhang
+
+layer the ranking inverts. Off-domain the oracle col-lapses to 21–34% while LRU holds 71–70% everywhere; global-pool and per-layer simulation agree within 2.7 pp (§3, §6). 
+
+• Ownership’s true price is single-digit. Under an enforced equal-memory wall— mlock fail-stop, VmLck 
+
+recorded, warm state charged to the same budget— the oracle-pinned arena’s edge over the page cache is 1.09 × at 𝐶 =256 GB (not the 1.5 × a broken balloon once showed us), with near-identical device traffic: the residue is kernel lookup and reclaim work, and it buys none of the oracle’s drift-fragility (§6). 
+
+• Advice works; advisors must not do I/O. The router’s measured 64.7%-recall lookahead—replayed from the predictor’s own dumped plan, not an oracle stand-in—buys 0.3% as fadvise hints and nothing as synchronous prefetch; Belady bounds the remaining advice-addressable headroom at roughly a quarter of misses (§7). 
+
+• It composes into a derived placement policy. 
+
+Measured bandwidth constants give closed-form admission and promotion rules (ownership pays after 
+
+𝑘 ∗=1.06 reuse on a coherent link; adopt and stream tie within 5.6%), and the end-to-end engine A/B—strict backend gate, token-identical outputs, nine balanced pairs—prices cache admission at 1.09–1.10 × (§8, §9). This evidence has survived two adversarial audits—the first exposed a Python-era harness, the second a balloon whose arithmetic could not sum—and both times the re-paired measurement moved the number and sharpened the claim. The paper reports only measurements whose account-ing it can prove per run (§10), and we believe the resulting evidence chain—canonical parser, policy-isolated native har-ness, enforced capacity with per-run accounting proofs, and block-layer truth—is the study’s most transferable contribu-tion. 
+
+## 2 Background and the Incumbent Design 
+
+The workload. A decoder-only MoE layer routes each token to 𝑘 of 𝐸 experts; the model we study uses 𝑘 =16, 𝐸 =896 across 92 routed layers (82 ,432 experts totalling 1.45 TB at int4), and its dense “spine” (attention, shared projections, routers) occupies a further 114 GB. During decode the spine is read every step and the routed subset changes step to step. The per-step expert traffic—1663 experts, 29.2 GB—is the object of this paper. Our comparison model, Qwen3-30B-A3B, has the same architecture at small scale ( 𝑘 =8, 𝐸 =128, 48 layers, 17.6 GB), which turns out to matter: several folk theorems about MoE caching are true at 128 experts per layer and false at 896 (§3). 
+
+The incumbent design. Systems that serve larger-than-DRAM MoE models—MoE-Infinity [36], PowerInfer [33], LLM in a Flash [1], DeepSpeed-Inference offload [2]—share a design: a user-space cache that tracks expert activation statistics, pins hot experts whole, and fetches misses with direct or unbuffered I/O. The design embeds three testable assumptions—popularity is stable enough to rank, the expert is the right granule, the OS cache would only interfere—and the engine behind our traces held the strongest form of the third: it applied F_NOCACHE to every expert read. §3–6 test all three. 
+
+Capturing routing. Both capture paths are shallow: a trace hook in the production engine, a 40-line eval-callback in llama.cpp. Two hygiene rules mattered: decode records only (batched prefill mixes positions, and llama.cpp’s sched-uler dry-run emits a plausible-looking synthetic first pass— caught because four prompts produced bit-identical “step 0” coverage), and replay runs against the same per-expert files the engine reads, so replay I/O is the engine’s I/O. 
+
+Capacity, precisely. “Capacity 𝐶 ” is a control target, kept distinct from what it controls: the nominal target handed to a mechanism; MemAvailable ; file-backed resident pages (the cache replay actually hits); locked anonymous pages (VmLck ); block-device reads (/proc/diskstats 
+
+sectors—guest block traffic, not physical-media bytes); and logical expert accesses (trace demand). Three independent mechanisms enforce 𝐶 —balloon, cgroup-v2 MemoryMax 
+
+wall, boot-time mem= —and §4 shows where they agree and where their disagreement is itself a finding. Every run records MemAvailable /Cached /Mlocked /Unevictable at the measured loop’s entry, plus the cgroup peak where one exists. 
+
+A canonical trace parser. Speculative decoding makes “one token” a treacherous unit: an engine iteration may carry two positions (a 32-index record when speculation succeeds) or route a layer twice (a failed speculation followed by its fallback pass). Our first parser silently collapsed these cases and contaminated every denominator downstream. The trace JSONL carries no explicit event tag, so the canonical parser 
+
+reconstructs the type of every record— normal , spec-accept , or 
+
+spec-fallback —from record width and per-layer duplication, and validates the reconstruction: across all four domains the typed accounting reconstructs exactly 299 accepted tokens per trace against the engine’s requested 300, and every statis-tic in this paper states its unit—engine iterations for replay timing, accepted tokens for serving arithmetic. One parser feeds the analyzers, the simulators, the predictions, the na-tive replay plans, and the batch merge : the round-2 audit caught our batch path re-implementing (and silently trun-cating) the load, and that path was rebuilt on the canonical parser and its experiments rerun (§4). 
+
+The read path. A companion submission [4] establishes the mechanism this paper builds on: a three-condition execution contract under which file-backed weights reach accelerator-class bandwidth with zero copies—perform                      
+
+> 2Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference
+> Qwen3-30B DeepSeek-V3 Kimi-K3
+> 𝐸 =128 𝐸 =256 𝐸 =896 Zipf slope 𝛼 1.10–1.26 0.86–0.93 1.00–1.04 Reuse, 𝑊 138–45% 26–31% 32–36% Reuse, 𝑊 64 95–96% 83–85% 80–82% Domain Jaccard 0.066–0.454 0.032–0.085 0.101–0.188 LRU vs. static ( 𝐵 ≥32) tie LRU wins LRU wins
+
+Table 1. Decode-time routing locality across four domains and three models. the adoption inside the framework’s execution path, keep activations on the accelerator, and order work on the accel-erator’s queue. Under that contract a page-cache-resident expert is read by the GPU at the same bandwidth as a framework-owned allocation (§8 re-measures this on our node), so residency policy, not copy mechanics, decides performance. This paper is the policy layer: which bytes should be resident behind the zero-copy read path, and who should decide. We show the kernel’s default answer—admit on miss, evict by recency, at page granularity—is the right one, and quantify exactly where it stops being right. 
+
+## 3 Router Locality at Three Scales 
+
+We captured per-layer top-𝑘 router selections for four work-load domains (systems prose, code generation, mathematics, travel planning) on three models spanning the deployed MoE design space [8, 17, 19, 28]: the production model via its serving engine’s trace hook (250–312 decode steps per do-main), and Qwen3-30B-A3B [28] and 671B DeepSeek-V3 [8] (𝐸 =256, 𝑘 =8, 61 layers) via an eval-callback tool added to llama.cpp [14] (400 and 300 steps per domain, plus 4,000-step Qwen3-30B-A3B runs for coverage asymptotics). Prefill records are excluded throughout: batched prefill mixes many positions per record and, in llama.cpp, a scheduler dry-run contaminates the first pass. Table 1 and Fig. 1 summarize what decode-time routing actually looks like. 
+
+Skew is real, and flattens with expert count. Rank– frequency slopes are Zipf-like in all three models, and the head thins as 𝐸 grows: 𝛼 falls from up to 1.26 at 𝐸 =128 to ≈ 1and below at 𝐸 =256 and 𝐸 =896. At trillion scale there is no small stable head for a pinning scheme to live off: the top-8 experts per layer carry only 13–16% of selections, versus 34–42% at 𝐸 =128. 
+
+Concentration grows with depth. The flatness is not uniform through the network. In the production model the first routed layer spreads its top-8 mass to just 3.9% while the most concentrated deep layers reach 18.0%—a 4.6 × gradient— and per-layer union coverage falls from 890 of 896 experts near the input to 646 at depth. DeepSeek-V3 shows the same monotone shape. Early layers are the cache’s adversary and deep layers its friend; any per-layer budget split inherits this gradient for free under global LRU, while a static per-layer quota must be retuned per model. 
+
+Long contexts sharpen, not flatten. The 4,000-step Qwen3-30B-A3B runs rule out short-context artifacts: the fitted slope rises to 1.54–1.71 and 64-token reuse holds near 99%—longer sessions are more cacheable, not less. 
+
+Recency is strong at every scale. At 𝑊 1, 32–36% of the production model’s selections repeat the previous token’s experts, rising to 80–82% within 64 tokens—and most of that is already present at 𝑊 8 (57–59%), so even a small cache earns most of the recency dividend. Locality is abundant; the question is which mechanism harvests it. 
+
+Where recency wins—and where it thrashes. Fig. 1 eval-uates static frequency pinning, LRU, and Belady’s offline op-timum under fair windows: every policy warms on the first 60% of iterations and is scored on the last 40%. (An earlier draft evaluated LRU cold-start over the whole trace while scoring static on the warm tail; a reviewer’s audit caught the asymmetry, and the “crossover” it manufactured does not survive.) The verdict is budget-dependent, and we state both halves. Below roughly 2 𝑘 experts per layer, LRU thrashes: at 𝐵 =8 with 𝑘 =16 every K3 pass evicts its own reuse dis-tance, and LRU hits 0.5% while LFU holds 12.7% and static 9.8%—frequency wins the tiny-cache regime outright (the same inversion appears at 𝐸 =128: 30.1 vs. 36.0%). From 𝐵 =32 upward—every budget a host-memory tier actually runs at, 
+
+≥0.6% of the pool—the ranking flips and stays flipped: at 
+
+𝐸 =128 the two policies land within the domain spread (73 vs. 75% at 𝐵 =32); at 𝐸 =256 and 𝐸 =896 LRU leads at every budget we simulate (35 vs. 48%; 23 vs. 44%), and at trillion scale LRU captures ∼75% of Belady’s optimum (44 of 62%) while frequency captures barely half of it. The pattern behind the numbers: as 𝐸 grows the frequency head thins (Table 1) and the hot set drifts, so a rank list ages while recency tracks. §6 shows the end-to-end consequence, including the one place frequency still wins—and why it cannot keep the win. 
+
+The global pool behaves like the per-layer panels. Apage cache is not 92 fixed per-layer caches; it is one pool keyed by (layer, expert) in which demand sets the split. Layered-paging theory says the distinction can matter ar-bitrarily much—fixed per-layer partitions have unbounded competitive ratio in the worst case [3]. We therefore ran both allocation regimes on the same trace and window: a global-capacity simulator (one budget of 𝑁 experts shared across layers) against the equal-split per-layer simulator above. On our routing the theoretical gap does not materialize: global and equal-split LRU stay within 2.7 pp of each other at every budget, the policy ranking (recency above frequency above tiny-budget inversion) is identical in both regimes, and the global pool self-allocates the depth gradient without tuning (it simply holds fewer distinct experts for concentrated deep       
+
+> 3Yuan Si, Yufeng Lin, Daming Li, and Jialu Zhang 2.5 5.0 7.5 10.0 12.5 15.0 17.5
+
+cache budget (GB, all layers)     
+
+> 0.4 0.6 0.8 1.0
+> hit rate (test window)  Qwen3-30B ( E= 128): fair windows
+> Belady (o ffl ine optimal) LRU LFU static (frequency) 50 100 150 200
+
+cache budget (GB, all layers)  
+
+> 0.0 0.2 0.4 0.6 0.8
+> hit rate (test window)  Kimi-K3 ( E= 896): fair windows
+> Belady (o ffl ine optimal) LRU LFU static (frequency)
+
+Figure 1. Fair-window hit rates at the two ends of the expert-count range (4-domain mean ±range); 𝐸 =256 sits between them (Table 1). layers). The per-layer panels of Fig. 1 therefore transfer to the kernel’s global pool as measured, not assumed. 
+
+Reading the panels. Two structural facts sit in Fig. 1 be-yond the ranking: the Belady bound falls with 𝐸 (larger pools are intrinsically harder workloads), and the LRU-to-Belady gap widens with 𝐸 —the headroom advice (§7) competes for grows exactly where the pools are growing. Whatever closes it at trillion scale will not be a rank list. 
+
+Hot sets drift across domains. Offline frequency ranking cannot be repaired by better statistics: the top expert sets of different domains overlap by as little as 0.066 (Jaccard) in Qwen3-30B-A3B and at most 0.188 in the production model (Table 1). A pin set learned on one workload is mostly wrong for the next. 
+
+Batching: simulated misses rise, measured seconds fall. Merging the four domain traces iteration-by-iteration through the canonical parser (every speculative and fallback pass preserved; denominator 1078 accepted tokens) gives a batch-4 union of 108 GB per step—deduplication only 1.08 ×.Four streams sharing one budget do lose hit rate under the same 60/40 window (at a 25%-of-pool budget: 78% single-stream to 64% batch-4)—far less than 4 × demand would suggest, but a real simulated per-token miss surcharge of 1.45 × at a fixed ∼200 GB budget (1.54 × for Qwen3-30B-A3B). The timed replay then shows the surcharge does not reach  
+
+> Algorithm 1: One measurement cell. Warm-up and measurement share one scope: a dead scope’s file pages reparent uncharged (§10).
+
+Input: plan 𝑃 , mode 𝑀 , capacity 𝐶 , scope name 𝑢  
+
+> 1
+
+stop stale 𝑢 ; sync ; drop caches; snapshot 𝑆 pre  
+
+> 2
+
+start scope 𝑢 : MemoryMax = 𝐶 +6 GiB, MemorySwapMax = 0 
+
+> 3
+
+in 𝑢 : replay (𝑃, 𝑀 ) // warm; mlock failure aborts (exit 3)  
+
+> 4
+
+in 𝑢 : snapshot diskstats/meminfo/ VmLck at loop entry 
+
+// preload excluded  
+
+> 5
+
+in 𝑢 : replay (𝑃, 𝑀 ) → per-iteration wall, bytes 
+
+// measured pass  
+
+> 6
+
+snapshot 𝑆 post ; record memory.current peak, dmesg tail  
+
+> 7
+
+accept iff VmLck as requested ∧ OOM flag empty ∧ scope alive throughout 
+
+wall-clock: batch-4 time per accepted token is -13% versus single-stream at 𝐶 =448 GB and +0% at 256 (§4), because the union smooths the miss stream and overlaps device work four ways. Simulated misses and measured seconds point in opposite directions, and the seconds are what a server pays. 
+
+Finding (routing): At trillion scale routing is flat ( 𝛼 ≈ 1), recency-dominated ( 𝑊 64 =80–82%), domain-drifting, depth-graded. The frequency-versus-recency verdict crosses between 𝐸 =128 and 256 at host-tier budgets; below ∼2𝑘 /layer LRU thrashes. Global and per-layer allocation agree to 2.7 pp. 
+
+Coverage grows without saturating—so cache, don’t prune. Within 300 steps every domain touches 64–69% of the production pool. The 4,000-step Qwen3-30B-A3B runs show the asymptote: coverage reaches 73–81% of the pool and is still creeping at 4000 steps, while the marginal step reuses recent experts at ∼99%. Any static subset small enough to fit in DRAM will eventually miss; the pool must remain mappable, and the cache must adapt. This is the “cache, don’t prune” shape: prune-style expert dropping trades unbounded tail error for capacity, while an adaptive cache pays only a bounded, measured latency (§4). 
+
+## 4 The Capacity Response 𝑇 (𝐶 )
+
+Method. We replay the production model’s prose trace against the full 1.45 TB pool on a GH200 node [27] (480 GB Grace DRAM, 3.9 TB NVMe), through a native harness that reads exactly the experts each recorded router pass selected (canonical parser semantics: 285 iterations, 299 accepted tokens, speculative and fallback passes replayed as issued). For the principal sweep, capacity 𝐶 is set by an mlock ed balloon [34]; every point drops caches, verifies the locked size, runs one warm-up replay, and measures the second. The sweep runs three independent times in randomized capacity order , and every pass snapshots /proc/diskstats ,
+
+/proc/vmstat , and pressure-stall accounting, so device bytes are measured at the block layer, never inferred.    
+
+> 4Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference 448 256 128 64
+> C(GB) 1.0 1.5 2.0 2.5 s / iteration
+> measured (3 runs)
+> 448 256 128 64
+> C(GB) 23
+> 24
+> 25
+> device GB / iter
+> device reads nominal miss demand
+> k/Creference (not a fit)
+
+Figure 2. Capacity response: iteration time (left, three ran-domized runs shown individually) and block-layer device traffic (right, against an inverse-capacity reference—a rail, not a fit). 
+
+𝐶 (GB) med (s) spread GB/it 𝑘 /𝐶 dev miss (GB) amp 448 0.99 0.5% 5.3 +0.0% 5.3 0.99 ×
+
+256 1.37 2.1% 9.8 +5.0% 8.1 1.22 ×
+
+128 1.95 4.0% 17.4 -6.7% 11.6 1.50 ×
+
+64 2.76 1.4% 33.6 -9.7% 15.1 2.22 ×
+
+Table 2. The capacity sweep: three-run medians and spread; device traffic against the inverse-capacity reference and against the constant-free demand model (simulated miss GB per iteration); amp = measured device bytes over nomi-nal misses. 
+
+Three mechanisms, one curve—and one deliberate disagreement. A balloon is an inference (lock anonymous memory, assume the file tier gets the rest), and round-2 showed that inference failing (§10). So capacity control is itself cross-validated: key points re-measured under a cgroup-v2 MemoryMax wall (Algorithm 1) and again under 
+
+mem= boots (the kernel never sees the remaining DRAM). Wherever reclaim policy is not the variable, the mechanisms agree to within 14.9%—5% at the hit-dominated end, and within the off-mode run spread in deep cells (Fig. 3, right); the one larger gap in our grid pairs two machines whose devices differ 3 ×, not two mechanisms—which licenses reading nominal 𝐶 as cache size. Where the mechanisms genuinely disagree, only the balloon-shaped configuration amplifies: §5 turns that contrast into the paper’s sharpest finding. 
+
+The observed curve. Median iteration time degrades smoothly and monotonically, 0.99 s at 𝐶 =448 GB to 2.76 s at 64 GB, with run-level spread of 0.5–4.0% (Table 2). This is an empirical characterization of one trace on one host, not a law: four capacities, one workload, one kernel. What it supports is the engineering use we put it to—DRAM is a sizing knob; pick a floor, read the required capacity off two curves measured in an afternoon on a $2.29/hour node—and the mechanism analyses of §§5–6, which perturb points on this curve under controlled toggles. 
+
+An inverse reference for device bytes. Measured device traffic tracks an inverse-capacity rail anchored at the 448 GB point (Fig. 2, right): halving the cache roughly doubles the NVMe bytes, from 5.3 to 33.6 GB per iteration, with per-point deviations of +5.0% to -9.7% (Table 2). We label the rail a reference : it has no fitted parameter, and its deviations are reported per point rather than summarized into a band. 
+
+A constant-free demand model as the diagnostic. An earlier draft priced iteration time from two bandwidth con-stants; the audit showed them carried across machines, and our recalibration shows why no such model can be honest— raw probe rates (27.0 GB/s cold, 61.4 warm) exceed the re-play path’s effective 29.6 GB/s by ∼2×. The model the pa-per carries has no constants: simulate LRU at capacity 𝐶 ,multiply misses by expert size, compare against measured device bytes (Table 2). Where the ratio exceeds 1 the excess is re-read amplification, rising from 0.99 × at ease to 2.22 × at 
+
+𝐶 =64—the balloon-conditioned surcharge §5 dissects. The demand model is exact about what is amplified and silent about wall-clock: the right division of labor for a diagnostic. 
+
+Batched capacity. Replaying the canonical batch-4 union plan (§3: all speculative and fallback passes preserved, 1078 accepted tokens) through the same protocol: per-accepted-token time is 0.82 s at 𝐶 =448 GB and 1.30 s at 256 GB—-13% and +0% versus single-stream at the same capacity, i.e., batch-ing at fixed capacity makes the tier more efficient per token, because concurrent streams share a head and their union smooths the miss stream. The union stream also smooths the tail: batch-4’s per-iteration variance is visibly tighter than single-stream at the same capacity, because four in-dependent routers rarely miss in the same place at once— a convoy-avoidance property that arrival-driven batching should inherit and that per-stream capacity planning can treat as free margin. 
+
+Cross-OS check (retained round-2 measurement). 
+
+An M-series Mac (128 GB, Darwin, 16 KB pages) replaying Qwen3-30B-A3B against its 17.6 GB pool reproduces smooth degradation (20.6 →26.3 ms per step at a 9 GB cache); desktop-safe ballooning cannot reach Darwin’s deep-pressure regime, so §5 is Linux-scoped. For reproducers: the Darwin compressor absorbs balloon pressure before the file cache yields, and Metal-wired pages do not evict. 
+
+Finding (capacity): Iteration time and device bytes are smooth, reproducible (spread ≤4%) functions of capacity; reclaim-neutral cells agree across mechanisms to 14.9%, and batch-4 is cheaper per accepted token. The demand model’s per-point amplification column flags §5’s mechanisms. 
+
+> 5Yuan Si, Yufeng Lin, Daming Li, and Jialu Zhang
+
+## 5 The Knee Is a Reclaim Artifact—and the Balloon Is in It 
+
+Below 𝐶 ≈ 128 GB the balloon-measured capacity curve steep-ens beyond miss arithmetic, and the device counters say why: at 𝐶 =64 GB the tier reads 33.6 GB per iteration—more than the entire nominal miss demand (15 GB). Pages are evicted and re-read within an iteration. Toggling the reclaim genera-tion isolated the proximate cause: with MGLRU (the default), 36 GB per iteration, run-unstable, kswapd scanning 5.5–6.9 pages per page reclaimed; with classic LRU, 14 GB (13.8– 19.0 across runs), scan/steal 1.0 (Fig. 3). That A/B is real and replicated—but attributing the knee to MGLRU alone, as an earlier draft did, is half the diagnosis. 
+
+Three mechanisms, one machine: the pathology has two ingredients. The round-6 campaign re-created the same capacity under three independent mechanisms on a single second machine, with MGLRU toggled inside each (Fig. 3, middle). Under a cgroup MemoryMax wall at 𝐶 =64: MGLRU on and off are identical (16.5 versus 16.5 GB per iteration)—no amplification at the memcg wall. Under a physical mem= boot (102 GB visible): again none—MGLRU is actually mildly better 
+
+(16.4 versus 18.1 GB). Under a balloon on the same machine, same capacity: the pathology returns exactly (33.6 GB with MGLRU, scan/steal 2.4, against 16.8 GB without—and the r3 machine, with a 3 × slower device, had measured 36 GB in the same cell). The amplification therefore requires both 
+
+MGLRU and balloon-style pressure: a host whose memory is mostly one giant mlock ed anonymous region (81% locked in the failing cell). Ease the locked fraction to 74% (the 𝐶 ≈93 balloon) and the pathology vanishes on the same machine— MGLRU then beats classic LRU (18.5 versus 23.7 GB). Classic LRU under the balloon is near-nominal in median but wide in spread (13.8–19.0 GB across the r3-box repetitions), where the cgroup wall’s repetitions sit within 0.1 GB of each other— even when the balloon does not amplify, it measures less cleanly than the wall. 
+
+What this means for the capacity curve. The 𝑇 (𝐶 )
+
+sweep was measured under balloons with the kernel default—standard practice—so its deep-pressure points carry the balloon ×MGLRU surcharge: the physical floor at 𝐶 eff ≈ 93 GB is 16.4 GB per iteration under mem= , where the balloon-conditioned curve implies ∼24. We keep the balloon curve as the characterization—internally consistent, three-run replicated, conservative—and label its low end balloon-conditioned, with the physical points as the honest floor. 
+
+The methodological finding. Ballooning is the standard instrument for emulating small-memory machines, from ESX [34] onward, and MGLRU ships enabled on current ker-nels. Our measurements say the combination lies : a balloon-based cache-capacity study on an MGLRU kernel can over-state device traffic at the pressured end by 2 × (2.0 × against a cgroup wall at matched capacity on one machine; 2.6 × on/off on another), while the same experiment run behind a cgroup wall, or on a host with physically less DRAM, shows no such regime. Studies that size caches by ballooning should cross-check at least one point against a cgroup limit or a mem= boot; ours is, to our knowledge, the first to run all three on one workload and machine. We leave the generation-counter au-dit of why MGLRU ages pages pathologically behind a giant unevictable region to work with the memory-management community [40]. 
+
+Scope. Two machines, one kernel line (6.8), one NVMe class each, one workload family. Within that scope the local-ization is behavioral and doubly replicated: same-box trian-gles at two locked fractions, cross-box reproduction of the failing cell to within run spread, toggle verified before every run. 
+
+Operator guidance. The practical hazard is not “MGLRU under pressure” but unevictable-heavy hosts : engines that 
+
+mlock large arenas (§6’s pinned tier, HBM staging pools, DPDK-style reservations) recreate the balloon’s memory shape in production. On such hosts, watch kswapd scan/steal against 1.0 and block-device bytes against nominal miss de-mand; in our cells scan/steal > 2 accompanied every ampli-fied configuration and no healthy one (an observed indicator, not a rule). Remedies in order: confine the streaming reader in a memory-limited cgroup (clean at every capacity we tested), shrink the locked region, or benchmark the lru_gen 
+
+toggle (worth 2.6 × in the failing regime). Pressure-stall ac-counting [35] remains the always-on early-warning channel.       
+
+> Finding (knee): The deep-pressure knee needs two ingredients: MGLRU and balloon-style mostly-mlock ed memory (81% locked fails, 74% does not); cgroup walls and mem= boots show none. Balloon-based capacity studies on default kernels can overstate pressured-end device traffic ∼2×.
+
+## 6 Mechanism vs. Policy: the Pinning Verdict 
+
+The incumbent design pins hot experts in user space by fre-quency. Whether that beats the kernel’s cache is really two questions—is pinning the right mechanism , and is frequency the right policy ? This section answers both under a compari-son we can finally call equal-memory with a straight face, and the answers are narrower and more interesting than our own earlier draft claimed: the oracle arena keeps a single-digit speed edge, loses the hit-rate comparison to plain kernel LRU at the same capacity, and forfeits everything off-domain. 
+
+Setup. All configurations run through one native harness—same thread pool, same destination buffers, one copy per access; only where a hit’s bytes come from differs. 
+
+Pinned preloads the top experts by frequency (computed from the replayed trace itself, an oracle no deployed system has) into one mlock ed arena; misses read the pool. Page     
+
+> 6Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference r1 r2 r3
+> 020 40 device GB / iter
+> balloon C= 64, machine A (3 randomized runs)
+> MGLRU on MGLRU o ff
+> balloon 88% lock cgroup wall physical mem= balloon 74% lock
+> 010 20 30
+> deep pressure, machine B (mechanism matrix)
+> balloon 448 (A) cgroup 448 (B) mem= 339 (B)
+> 0.0 0.5 1.0 s / iter
+> reclaim-neutral cells
+
+Figure 3. The reclaim finding. Left: the original MGLRU A/B at 𝐶 =64 GB under balloon pressure on machine A (rail = nominal miss demand). Middle: the same capacity on machine B under three mechanisms—only the high-locked-fraction balloon amplifies. Right: reclaim-neutral cells agree across mechanisms and machines. 256 128      
+
+> C(GB) 0.0 0.5 1.0 1.5 2.0 s per iteration
+> page cache + FADV_RANDOM
+> 256 128
+> C(GB) 0510 15 device GB / iteration  measured interval only (preload excluded)
+> oracle-pinned (mlock) page cache hybrid split
+
+Figure 4. Equal-memory comparison under one cgroup wall: iteration time (left) and measured-interval device traffic (right). The pinned arena’s one-time preload ( 𝐶 GB, snapshot-ted out of the measured interval) is excluded; VmLck shown as proof of locking. 
+
+cache gets the same gigabytes as kernel cache, untuned. 
+
+Hybrid splits the budget. Equal memory is not inferred from balloon arithmetic (round-2 showed that inference failing); it is enforced per Algorithm 1, every accepted cell carrying its proof: VmLck 238 GiB at 𝐶 =256, memory.current pinned at the wall, empty OOM flag, preload bytes snapshotted out of the measured interval (256 GB one-time, reported). Two interleaved repetitions per point, order randomized. 
+
+Mechanism: the arena’s edge survives, smaller and honest. At 𝐶 =256 GB the oracle arena runs an iteration in 1.04 s against the page cache’s 1.13 s—an 1.09 × gap (1.11 ×
+
+at 128 GB; Fig. 4); our earlier draft’s 1.50 × came from runs whose balloon had silently died. The device counters relo-cate the cause: the two modes read almost the same bytes 
+
+(7.4 versus 7.2 GB per iteration), so the gap is not fewer misses—it is the cost of being the kernel: lookup and mapping work on hits, reclaim work at the wall. Disabling readahead (POSIX_FADV_RANDOM ) makes the page cache slower (1.80 s) with device bytes unchanged—no one-hint fix on the read side. prose code math chat 020 40 60 80  
+
+> hit rate, test window (%)  pinned: prose-trained oracle table LRU (no table)
+
+Figure 5. The oracle table off-domain: prose-trained pinning versus table-free LRU at equal budget, fair windows. 
+
+Policy: the kernel already keeps the right bytes. The same-denominator comparison the old draft never ran: what fraction of total demand does each mode serve without touch-ing the device? Page cache: 75.3%. Oracle frequency arena: 74.6% (arena hits 73.2% plus its ∼6 GiB slack). Plain kernel recency, tuned by nobody, matches an unattainable same-domain frequency oracle at equal capacity—on-domain. Off-domain the oracle collapses: serving any other domain with the prose-trained table drops its hit rate to 34–21% while table-free LRU holds 71–70% everywhere (Fig. 5, fair win-dows both sides; §3 measured the cause, cross-domain Jac-card as low as 0.101). A deployed pin set is always some-body’s yesterday. 
+
+Hybrid sits between. Splitting the budget (1.11 s at 
+
+𝐶 =256) lands between the pure modes: half an arena cap-tures half the churn immunity and leaves the kernel half the capacity to run recency in. There is no free crossover—under an enforced wall the three modes differ by mechanism costs, not by which bytes they chose. 
+
+The honest ledger. Kernel ownership costs a measured 1.09 × against an oracle no deployment has. What it buys: equal hit rate with no table, drift survival (Fig. 5), zero con-figuration, cross-process sharing [4], restart survival, page-granular eviction. A system wanting the last 1.09 × must 
+
+> 7Yuan Si, Yufeng Lin, Daming Li, and Jialu Zhang no prefetch fadvise oracle fadvise PILOT blocking oracle blocking PILOT
+> 0.0 0.5 1.0
+> s per iteration
+
+Figure 6. One bounded prefetch worker: no prefetch, oracle next-pass hints, and the real PILOT prediction plan, each delivered as advice or as blocking reads. Axis starts at zero. maintain per-workload tables and accept the off-domain cliff; §9 argues the better spend is admission and advice above the kernel tier. This comparison has flipped direction twice under audit—5.9 × pro-kernel (a GIL artifact), then 1.50 ×
+
+pro-arena (a dead balloon)—which underscores that policy comparisons are only as good as the mechanism isolation beneath them; ours is now enforced and proven per run.   
+
+> Finding (policy): Under an enforced equal-memory wall the oracle arena’s mechanism edge is 1.09 ×(was “1.50 ×” under a broken balloon); at the same capacity plain kernel LRU serves 75.3% of demand versus the oracle’s 74.6%, and off-domain the oracle collapses while LRU holds. The kernel tier remains the only configuration that is never the wrong one.
+
+## 7 The Router as a Prefetch Advisor 
+
+MoE routing announces part of its own future: once layer 
+
+ℓ routes, layer ℓ+1’s selections are computable ahead of their reads. An earlier draft paired a predictor’s measured recall with a replay that consumed the oracle next pass; the round-2 audit refused the composite. This version runs both hint sources through the same bounded worker: the ora-cle next pass (the one-layer lookahead upper bound) and the dumped output of the real PILOT predictor —the same run that reports recall below writes its predicted sets to a plan file, and replay consumes it verbatim. One worker thread, one overwritable slot, one branch between modes: 
+
+posix_fadvise(WILLNEED) (advisory) or pread (blocking). The worker counts submitted, overwritten, and completed hints, so dropped work is visible instead of assumed. 
+
+Delivery. At 𝐶 =256 GB under the cgroup wall, advisory oracle lookahead improves median iteration time from 1.13 to 1.08 s (5.0%); the real PILOT plan delivers 1.13 s (0.3%) at 64.7% measured recall. Blocking delivery of the same hints lands at 1.15 s (oracle; 1.15 s PILOT)—indistinguishable from no prefetch within run spread (Fig. 6). A bounded synchro-nous prefetcher simply cannot stay ahead of an 8-thread demand stream, while hints ride the kernel’s readahead for free. (An earlier draft reported blocking prefetch as 3–4 ×
+
+worse than nothing; that came from an unbounded Python implementation whose speculative threads piled up, and does not survive the bounded rework. The asymmetry that survives is modest and one-sided: advice helps, synchronous execution merely fails to.) 
+
+Advice quality, measured. The engine’s own one-layer lookahead predictor (gate weights cached for the next layer) recalls 64.7% of decode-time selections. Recall, the per-layer range (1–84%), and the dumped prediction plan all come from 
+
+one completed engine run, so the number the text quotes and the hints the replay consumed cannot drift apart. The per-layer spread is itself a finding: some layers route near-unpredictably one layer ahead, so uniform prefetch depth wastes its budget on them. Previous-token recurrence, the advice a model-blind prefetcher could use, sits at only 32– 36%. 
+
+Depth, targeting, and headroom. One layer is the natu-ral lookahead horizon (the advice window equals the time the demand stream spends in the current layer; deeper hori-zons compound recall multiplicatively), and the per-layer spread suggests withholding advice below a recall threshold— a policy the drop-friendly fadvise interface makes free to get wrong. Belady bounds what better admission could still buy: LRU’s 44% against 62% at 𝐵 =32 leaves roughly a quarter of misses advice-addressable. Learning-augmented caching theory [5, 23, 30] prices exactly this setting; our contribu-tion is empirical—the delivery interface, and at this recall the hint’s lead time, decide the outcome, not advice quality alone.   
+
+> Finding (advice): Real-predictor advice buys 0.3% at 64.7% recall (oracle bound: 5.0%); the same hints executed synchronously buy nothing. Belady says ∼25% of misses remain advice-addressable.
+
+## 8 An Ownership Calculus for the Three Tiers 
+
+The capacity response of §4 governs the DRAM tier. A full serving node has three: HBM (2938 GB/s measured weight bandwidth), host DRAM readable directly by the GPU over the coherent link (327 GB/s for file-backed pages, 330 GB/s for hostAlloc ; 23 GB/s for unregistered malloc ), and NVMe (27.0 GB/s). With overlapped copy-then-compute streaming at 346 GB/s against the 368.5 GB/s link ceiling (all rates re-produced in a second independent run within 0.8%), three closed-form rules follow. 
+
+Rule 1: admission to DRAM is free. A miss already pays the NVMe read; letting the pages enter the cache adds no read cost. Admission is therefore always correct unless it evicts a hotter working set—the one legitimate argument for 
+
+F_NOCACHE , which dissolves once the spine is accelerator-resident or pinned. Refusing admission buys nothing on the miss path and forfeits every future hit (the 5.3 × of §9). 
+
+> 8Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference
+
+Rule 2: on a coherent link, ownership pays after one reuse. Promoting an expert of 𝐸 bytes to HBM costs one overlapped copy 𝐸 /346 and saves 𝐸 (1/327 − 1/2938 ) per subsequent use; the breakeven reuse count is 
+
+𝑘 ∗ = 1/346 1/327 − 1/2938 = 1.06 ,
+
+so HBM placement is not a delicate threshold decision but pure capacity rationing: fill it with the highest-expected-reuse experts and stop. On PCIe machines with no coherent read path the adopt row disappears and the calculus col-lapses to own-or-restream—the regime where user-space HBM caches genuinely earn their complexity. 
+
+Rule 3: adopt and stream tie; buy the simpler one. 
+
+Direct reads of file-backed DRAM run within 5.6% of over-lapped streaming; at that price, zero-copy adoption buys out the copy engine, staging buffers, and double-buffering logic. The calculus is machine-parametric: on unified-memory parts adopt and own collapse into one row and only §4’s ca-pacity response remains (our Darwin replays live there); on PCIe parts the adopt row disappears (23 GB/s-class unregis-tered reads) and own-or-restream is where user-space HBM caches genuinely earn their complexity [4]. The coherent-link middle—GH200 here, GB200-class and Strix-Halo-class parts by the same argument—is where all three rows coexist and the tie-band is a falsifiable prediction. Assembled, the three rules plus 𝑇 (𝐶 ) give a complete, derived placement policy for a 1.45 TB model on a 480 GB node: mmap everything (Rule 1), let recency fill DRAM (§3), promote by expected reuse into HBM until full (Rule 2), read everything zero-copy (Rule 3), keep 𝐶 above the knee (§5), and feed router lookahead to the kernel as advice (§7). Nothing in the policy table is a tunable: every entry is a measured constant of the machine. 
+
+A worked sizing example. The calculus doubles as a procurement formula in the five-minute-rule tradition [15]: “how much DRAM for two iterations per second?” reads off Fig. 2 as 128–256 GB, and the device-byte curve prices the NVMe it must sustain (9.8–17.4 GB per iteration). Two caveats transfer: avoid balloon-shaped memory layouts (§5), and treat the answer as per-stream capacity under batching (§4). The entire study’s serving substrate was a $2.29/hour node; the capacity response, not the accelerator, sets the price of trillion-scale decode.                               
+
+> Finding (tiers): Admission to DRAM is free on the miss path; HBM ownership pays after 𝑘 ∗=1.06 reuse on a coherent link; adopt and stream tie within 5.6%. Placement reduces to capacity rationing with measured constants.
+> Algorithm 2: Kernel-tier expert serving. Eviction stays in the kernel; model knowledge enters only as admission and advice.
+> 1mmap the pool; strip unbuffered/drop-behind flags from expert reads // 5.3 ×on repeat reads
+> 2keep the dense spine accelerator-resident or locked
+> // admission has no victim, §8
+> 3foreach decode layer ℓdo
+> 4read 𝐸 ℓthrough the page cache (demand misses)
+> 5after router (ℓ)predicts b𝐸 ℓ+1:fadvise(WILLNEED,
+> b𝐸 ℓ+1)// never pread, §7
+> 6export kswapd scan/steal + block-device bytes; alert when reads exceed computed misses // §5
+> 7if host is unevictable-heavy then cgroup-confine this reader (§5)
+> 8if domain mix provably static then optionally add an
+> mlock ed tier ( ≤1.09 ×, §6)
+
+## 9 Design Consequences, Validated in Engines 
+
+The prescription that survives §§3–8 is Algorithm 2: every line is justified by a measurement in this paper, and none requires kernel modification. We validated the load-bearing steps in real engines: 
+
+Mechanism ceiling. Through the production engine’s own pread reader—its threads, its buffers, its files—repeat reads of an 11.2 GB expert set run at 13.1 GB/s under the shipped F_NOCACHE policy (every pass pays the device) and 68.9 GB/s with admission enabled: 5.3 × from one flag. 
+
+End to end, healthy and honest. Full decode through the production engine on the GH200, three measured pairs per prompt in balanced order (AB, then BA, then a seeded shuf-fle), each run behind a gate that asserts the exact CUDA MoE backend string and non-degenerate output before the run counts: admitting the cache is worth 1.09–1.10 × (median per prompt) in steady decode time at generous capacity—1.03– 1.04 × including the policy-independent cold model load, both reported—and the paired outputs are token-identical —equal SHA-256 over the 60-token id sequence—in every pair, so the comparison trades no quality. With three pairs per prompt this is demonstration-grade replication, not a distribution; Table 3 therefore reports medians with per-prompt ranges rather than intervals. An earlier draft reported 1.48 × from a run whose accelerator path had silently failed; the gate that now fronts every engine campaign exists because of it. 
+
+Sharing is the quiet second dividend. A page-cache tier is system-wide: processes share one physical copy, gain each other’s warmup, and survive restarts [4]; every user-space arena is per-process— 𝑛 replicas of the hot set, and a crash discards the tier.                    
+
+> 9Yuan Si, Yufeng Lin, Daming Li, and Jialu Zhang
+> prompt kernel (s) drop (s) speedup [range] pairs prose 265 294 1.10 ×[1.10–1.11] 3code 256 282 1.10 ×[1.10–1.10] 3chat 273 296 1.09 ×[1.06–1.10] 3
+
+Table 3. End-to-end decode through the production engine: per-prompt median steady decode time (total minus cold model load) and paired speedup range over three balanced-order pairs; every pair token-identical by output hash. 
+
+What user space should still do. The kernel cannot know the router: lookahead advice (§7), admission control for one-shot prefill scans [25], HBM promotion by expected reuse (§8), and the pinned fast path where justified all stay in the engine. Policy signals from the model, eviction from the kernel. 
+
+Scope note. We could not force an 18.6 GB open model into page-cache streaming on a 480 GB host ( –cpu-moe uses anonymous memory; full offload fits HBM); the Apple-silicon mmap parity result (2%) stands from the earlier campaign, and batched streaming evidence at scale is §4’s union replay.    
+
+> Finding (engines): One admission flag: 5.3 ×on the mechanism ceiling, 1.09–1.10 ×end-to-end with token-identical outputs on a healthy CUDA engine.
+
+## 10 Threats to Validity, and a Methods Ledger 
+
+What replay is and is not. The capacity, policy, and prefetch campaigns replay recorded router passes through the expert I/O tier in isolation; compute is excluded by design, and §9’s end-to-end runs bound how the tier composes with a real engine at generous capacity. Absolute floors therefore characterize the tier, not a deployment. 
+
+The oracle favors the incumbent. The pinned tier’s frequency table is computed from the very trace being replayed—an upper bound no deployed system reaches—so every mechanism number we report for pinning is generous to it, which makes the off-domain collapse (Fig. 5) a conservative statement of frequency’s fragility. 
+
+Scope of the reclaim attribution. Two machines, one kernel line (6.8), one NVMe class each. The two-ingredient localization (MGLRU × balloon-shaped memory) is behav-ioral: same-box mechanism triangles at two locked frac-tions plus a cross-box reproduction of the failing cell, tog-gle verified per run. It is not mechanistic—the generation-counter audit that would explain why aging misbehaves behind a giant unevictable region is future work with the memory-management community. MGLRU-off traffic un-der the balloon itself spreads 38% across repetitions (13.8– 19.0 GB/iteration), so “off” means near-nominal , not noise-free. Darwin reproduces smooth degradation but cannot reach the deep-pressure regime safely. 
+
+Traces. Production-model traces are 242–290 engine it-erations (299 accepted tokens) per domain, speculative and fallback passes replayed as issued; four prompt families stand in for domains, and the 4,000-step asymptote comes from the 128-expert model. Greedy decoding makes runs reproducible; sampling would drift hot sets faster, strengthening the re-cency verdict. Batch-4 unions omit arrival processes [21, 38]. Cross-domain statements compare four workloads, not repe-titions; we report ranges and never significance. 
+
+Correctness invariance. Residency policy changes where bytes are served from, never which bytes: the end-to-end A/B decodes token-identically (equal output hashes) across policies in all nine measured pairs. The same invariance is what licenses replay in the first place—recorded selections are exact under greedy decoding, so the I/O stream we replay is the stream the engine issued, not a model of it. 
+
+What we did not measure. Multi-node serving, the qual-ity side of prune-versus-cache, and arrival processes are out of scope; each composes with, rather than revises, the tier characterized here. 
+
+Methods ledger: two audits, closed in kind. Round-1 found five load-bearing defects: a parser that dropped spec-ulative passes, a GIL-serialized “pinned” baseline, unequal evaluation windows, reclaim counters misread as device bytes, and a failed engine run. Round-2 verified those repairs and found what they missed: balloon arithmetic that could not sum (the pinned condition silently gained memory when the balloon died), non-fail-stop mlock , oracle prefetch labeled as the predictor, a batch path bypassing the canonical parser, two-rep “medians” that were maxima, and a false single-source claim. Each is closed structurally: capacity enforced by a cgroup wall and cross-checked against mem= boots and the balloon (§4); mlock aborts on failure with VmLck as proof; preload I/O snapshotted out of measured intervals; prefetch runs oracle bound and dumped PILOT plan with delivery counters; batch rebuilt on the canonical parser and rerun; and medians are medians. The rebuilt accounting promptly earned its keep: our first cgroup rerun put warm-up and measurement in separate scopes, and the memory.current 
+
+timeline exposed a third silent equal-memory breaker within three cells—a dead scope’s file pages reparent uncharged , so the measured pass inherited the warm state free (the nominal 
+
+𝐶 =256 cell reproduced the 448 point). The final harness runs both passes in one scope; we report the incident because it is 
+
+> 10 Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference
+
+the strongest argument we know for instrumenting account-ing rather than trusting any capacity mechanism, including the one we repaired with. 
+
+## 11 Related Work 
+
+Mixture-of-experts models. Sparse expert layers [31] scaled through GShard [22], Switch [13], and GLaM [10] to today’s open releases—Mixtral [17], Qwen3-30B-A3B [28], DeepSeek-V3 [8], and the trillion-parameter Kimi line [19, 26] we serve. The architectural trend that matters here is widening expert count at roughly constant activated com-pute; §3 shows this trend silently crosses a caching-policy boundary between 𝐸 =128 and 𝐸 =256. 
+
+MoE offload and expert caching. MoE-Infinity [36] tracks per-request activation to prefetch and cache experts in user space; PowerInfer [33] splits hot neurons to the GPU by offline-profiled frequency; LLM in a Flash [1] co-designs flash reads with frequency-based caching; DeepSpeed-Inference and DeepSpeed-MoE [2, 29] page experts with their own tiers; Mixtral-offloading uses an expert LRU [12]; SiDA-MoE [11] predicts activations offline with a hash-based sparsity model; Pre-gated MoE [16] restructures the model so gating precedes fetch; Fiddler [18] orchestrates CPU–GPU expert placement; EdgeMoE [37] specializes expert I/O for mobile SoCs. A newer generation refines the policies: FineMoE schedules fine-grained prefetch and eviction from selection patterns [39]; SpecPrefetch predicts next-layer experts with the real router authorita-tive [20]—our advisor’s contract (§7); and Angelopoulos et al. formalize expert caching as layered paging, proving fixed per-layer partitions have unbounded competitive ratio while one shared pool with layer-aware LRU is near-optimal [3]. That theory argues for the kernel tier—a page cache IS one shared pool with global recency—and §3 measures its effect size on real routing (2.7 pp). These systems differ from ours in ownership layer, allocation granularity, policy input, and tier; none studies the kernel-owned tier—no equal-memory kernel baseline, no accounting of the inherited reclaim regime, none of the page-granular sharing forfeited (§§5–6). Our claims are scoped to that tier. FlexGen [32] schedules dense-model offload, orthogonal to residency policy. 
+
+LLM serving systems. PagedAttention [21] applies pag-ing ideas to the KV cache in user space, and Orca [38] es-tablished continuous batching; both concern activations and scheduling, and both compose with kernel-managed weight tiering. llama.cpp [14] ships mmap-first loading as a prag-matic default; this paper supplies the measurements, curves, and boundaries that turn that default into a defensible design. 
+
+OS memory management. Ballooning as a capacity in-strument descends from VMware ESX [34]. TMO offloads datacenter memory using pressure-stall accounting [35], and TPP places pages across CXL tiers [24]; both manage the DRAM boundary from the supply side, while our capac-ity characterization gives a demand curve those controllers could target. MGLRU [40] is the reclaim generation our knee analysis stresses and attributes (§5). The database literature warns against mmap for buffer management [7]; our work-load sits at the opposite pole (read-only, sequential within experts, shared across processes) and lands on a textured verdict: the page cache is the right owner here, yet §6 hands the database camp a quantified exhibit—at equal capacity and near-equal device traffic an mlock ed arena still runs 1.09 ×
+
+faster, the residual price of the buffered path. 
+
+Caching theory. The classical line runs from Belady [6] and working sets [9] to recency/frequency hedges [25]; our trace study locates real MoE routing on that map. The five-minute rule [15] is the ancestor of §8’s calculus; caching with machine-learned advice [5, 23, 30] bounds what pre-dictions are worth, and §7 contributes the term the theory abstracts away—the delivery interface—which dominated our outcomes. 
+
+Zero-copy weight paths. A companion submission [4] establishes the execution contract for adopting file-backed weights at full bandwidth and measures the mechanism across four hardware classes; this paper is the policy layer above it. That paper asks how to read without copying; this one asks what to keep resident. 
+
+## 12 Conclusion 
+
+A 1.45 TB MoE model cannot hold its experts in DRAM, so its serving system must cache; this paper asked who should own that cache. The measured answer: frequency ranking matches recency only with a same-domain oracle table and shatters under drift, while pinning retains a single-digit edge (1.09 × at equal enforced memory)—the price of kernel lookup and reclaim, not of choosing worse bytes. The kernel tier is the configuration that is never wrong: within 1.09 ×
+
+of an oracle nobody deploys, equal in hit rate, drift-robust, shared, zero-configuration; its one hazard (§5) needs MGLRU and a mostly-mlock ed host at once. Router knowledge belongs above this tier as admission and advice, never as a reimplementation of eviction. The methods lesson: enforce what you would otherwise assume, prove the accounting per run, and measure at the layer that cannot lie. 
+
+> 11
+
+Yuan Si, Yufeng Lin, Daming Li, and Jialu Zhang 
+
+## References 
+
+[1] Keivan Alizadeh, Iman Mirzadeh, Dmitry Belenko, Karen Khatamifard, Minsik Cho, Carlo C. Del Mundo, Mohammad Rastegari, and Mehrdad Farajtabar. 2024. LLM in a Flash: Efficient Large Language Model Inference with Limited Memory. In Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL) .[2] Reza Yazdani Aminabadi, Samyam Rajbhandari, Ammar Ahmad Awan, Cheng Li, Du Li, Elton Zheng, Olatunji Ruwase, Shaden Smith, Minjia Zhang, Jeff Rasley, and Yuxiong He. 2022. DeepSpeed-Inference: En-abling Efficient Inference of Transformer Models at Unprecedented Scale. In Proceedings of the International Conference for High Perfor-mance Computing, Networking, Storage and Analysis (SC) .[3] Spyros Angelopoulos, Loris Marchal, Adrien Obrecht, and Bertrand Simon. 2025. Cache Management for Mixture-of-Experts LLMs. 
+
+arXiv:2509.02408 (2025). [4] Anonymous. 2026. The Ingestion Tax: Adopting File-Backed Weights in Tensor Frameworks. Companion paper, concurrently under sub-mission. [5] Antonios Antoniadis, Christian Coester, Marek Eliáš, Adam Polak, and Bertrand Simon. 2020. Online Metric Algorithms with Untrusted Predictions. In Proceedings of the 37th International Conference on Machine Learning (ICML) .[6] Laszlo A. Belady. 1966. A Study of Replacement Algorithms for a Virtual-Storage Computer. IBM Systems Journal 5, 2 (1966). [7] Andrew Crotty, Viktor Leis, and Andrew Pavlo. 2022. Are You Sure You Want to Use MMAP in Your Database Management System?. In 
+
+Proceedings of the 12th Conference on Innovative Data Systems Research (CIDR) .[8] DeepSeek-AI. 2024. DeepSeek-V3 Technical Report. arXiv:2412.19437 
+
+(2024). [9] Peter J. Denning. 1968. The Working Set Model for Program Behavior. 
+
+Commun. ACM 11, 5 (1968). [10] Nan Du, Yanping Huang, Andrew M. Dai, Simon Tong, Dmitry Lep-ikhin, Yuanzhong Xu, Maxim Krikun, Yanqi Zhou, Adams Wei Yu, Orhan Firat, et al. 2022. GLaM: Efficient Scaling of Language Mod-els with Mixture-of-Experts. In International Conference on Machine Learning (ICML) .[11] Zhixu Du, Shiyu Li, Yuhao Wu, Xiangyu Jiang, Jingwei Sun, Qilin Zheng, Yongkai Wu, Ang Li, Hai (Helen) Li, and Yiran Chen. 2024. SiDA: Sparsity-Inspired Data-Aware Serving for Efficient and Scalable Large Mixture-of-Experts Models. In Proceedings of Machine Learning and Systems (MLSys) .[12] Artyom Eliseev and Denis Mazur. 2023. Fast Inference of Mixture-of-Experts Language Models with Offloading. arXiv:2312.17238 (2023). [13] William Fedus, Barret Zoph, and Noam Shazeer. 2022. Switch Trans-formers: Scaling to Trillion Parameter Models with Simple and Effi-cient Sparsity. Journal of Machine Learning Research 23, 120 (2022). [14] Georgi Gerganov and contributors. 2023. llama.cpp: LLM Inference in C/C++. https://github.com/ggml-org/llama.cpp .[15] Jim Gray and Franco Putzolu. 1987. The 5 Minute Rule for Trading Memory for Disc Accesses and the 10 Byte Rule for Trading Memory for CPU Time. ACM SIGMOD Record 16, 3 (1987). [16] Ranggi Hwang, Jianyu Wei, Shijie Cao, Changho Hwang, Xiaohu Tang, Ting Cao, and Mao Yang. 2024. Pre-gated MoE: An Algorithm-System Co-Design for Fast and Scalable Mixture-of-Expert Inference. In Pro-ceedings of the 51st International Symposium on Computer Architecture (ISCA) .[17] Albert Q. Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch, Blanche Savary, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, et al. 2024. Mixtral of Experts. arXiv:2401.04088 (2024). [18] Keisuke Kamahori, Yile Gu, Kan Zhu, and Baris Kasikci. 2024. Fiddler: CPU-GPU Orchestration for Fast Inference of Mixture-of-Experts Models. arXiv:2402.07033 (2024). [19] Kimi Team. 2025. Kimi K2: Open Agentic Intelligence. arXiv:2507.20534 
+
+(2025). [20] Jinwei Kong, Runqi Meng, Fanyi Wang, Wentao Qiu, Haotian Hu, Yongjian Zhou, and Zhenhua Ge. 2026. SpecPrefetch: Parameter-Efficient Expert Prefetching for Sparse MoE Foundation Models. 
+
+arXiv:2607.24787 (2026). [21] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, Cody Hao Yu, Joseph E. Gonzalez, Hao Zhang, and Ion Stoica. 2023. Efficient Memory Management for Large Language Model Serving with PagedAttention. In Proceedings of the 29th Symposium on Operating Systems Principles (SOSP) .[22] Dmitry Lepikhin, HyoukJoong Lee, Yuanzhong Xu, Dehao Chen, Orhan Firat, Yanping Huang, Maxim Krikun, Noam Shazeer, and Zhifeng Chen. 2021. GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding. In International Conference on Learning Representations (ICLR) .[23] Thodoris Lykouris and Sergei Vassilvitskii. 2018. Competitive Caching with Machine Learned Advice. In Proceedings of the 35th International Conference on Machine Learning (ICML) .[24] Hasan Al Maruf, Hao Wang, Abhishek Dhanotia, Johannes Weiner, Niket Agarwal, Pallab Bhattacharya, Chris Petersen, Mosharaf Chowd-hury, Shobhit Kanaujia, and Prakash Chauhan. 2023. TPP: Transparent Page Placement for CXL-Enabled Tiered-Memory. In Proceedings of the 28th International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS) .[25] Nimrod Megiddo and Dharmendra S. Modha. 2003. ARC: A Self-Tuning, Low Overhead Replacement Cache. In Proceedings of the 2nd USENIX Conference on File and Storage Technologies (FAST) .[26] Moonshot AI. 2026. Kimi-K3 Open-Weights Release. Hugging Face model repository. [27] NVIDIA Corporation. 2023. NVIDIA GH200 Grace Hopper Superchip Architecture Whitepaper. [28] Qwen Team. 2025. Qwen3 Technical Report. arXiv:2505.09388 (2025). [29] Samyam Rajbhandari, Conglong Li, Zhewei Yao, Minjia Zhang, Reza Yazdani Aminabadi, Ammar Ahmad Awan, Jeff Rasley, and Yux-iong He. 2022. DeepSpeed-MoE: Advancing Mixture-of-Experts Infer-ence and Training to Power Next-Generation AI Scale. In International Conference on Machine Learning (ICML) .[30] Dhruv Rohatgi. 2020. Near-Optimal Bounds for Online Caching with Machine Learned Advice. In Proceedings of the 31st ACM-SIAM Sym-posium on Discrete Algorithms (SODA) .[31] Noam Shazeer, Azalia Mirhoseini, Krzysztof Maziarz, Andy Davis, Quoc Le, Geoffrey Hinton, and Jeff Dean. 2017. Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer. In 
+
+International Conference on Learning Representations (ICLR) .[32] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi Chen, Percy Liang, Christopher Ré, Ion Stoica, and Ce Zhang. 2023. FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU. In International Conference on Machine Learning (ICML) .[33] Yixin Song, Zeyu Mi, Haotong Xie, and Haibo Chen. 2024. PowerInfer: Fast Large Language Model Serving with a Consumer-grade GPU. In 
+
+Proceedings of the 30th Symposium on Operating Systems Principles (SOSP) .[34] Carl A. Waldspurger. 2002. Memory Resource Management in VMware ESX Server. In Proceedings of the 5th USENIX Symposium on Operating Systems Design and Implementation (OSDI) .[35] Johannes Weiner, Niket Agarwal, Dan Schatzberg, Leon Yang, Hao Wang, Blaise Sanouillet, Bikash Sharma, Tejun Heo, Mayank Jain, Chunqiang Tang, and Dimitrios Skarlatos. 2022. TMO: Transparent Memory Offloading in Datacenters. In Proceedings of the 27th Interna-tional Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS) .12 Who Should Own the Expert Cache? Kernel-Managed Tiering for Trillion-Parameter MoE Inference 
+
+[36] Leyang Xue, Yao Fu, Zhan Lu, Luo Mai, and Mahesh Marina. 2024. MoE-Infinity: Offloading-Efficient MoE Model Serving. In arXiv:2401.14361 .[37] Rongjie Yi, Liwei Guo, Shiyun Wei, Ao Zhou, Shangguang Wang, and Mengwei Xu. 2023. EdgeMoE: Fast On-Device Inference of MoE-Based Large Language Models. arXiv:2308.14352 (2023). [38] Gyeong-In Yu, Joo Seong Jeong, Geon-Woo Kim, Soojeong Kim, and Byung-Gon Chun. 2022. Orca: A Distributed Serving System for Transformer-Based Generative Models. In Proceedings of the 16th USENIX Symposium on Operating Systems Design and Implementa-tion (OSDI) .[39] Hanfei Yu, Xingqi Cui, Hong Zhang, Hao Wang, and Hao Wang. 2026. Taming Latency-Memory Trade-Off in MoE-Based LLM Serving via Fine-Grained Expert Offloading. In Proceedings of the 21st European Conference on Computer Systems (EuroSys) .[40] Yu Zhao. 2023. Multi-Gen LRU: the Next Generation of the Linux Page Reclaim Mechanism. Linux kernel documentation, 
+
+admin-guide/mm/multigen_lru .13
