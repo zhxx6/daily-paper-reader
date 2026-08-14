@@ -1,0 +1,56 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-14T20:30:02.963876+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2608.13426v1",
+      "source": "arxiv",
+      "title": "Reduced Matrix Multiplication: Input-Adaptive Matrix-Product Reduction for LLM Inference",
+      "abstract": "Transformer-based language models achieve strong performance but incur substantial inference cost due to repeated high-dimensional matrix multiplications. We propose Reduced Matrix Multiplication (RMM), a training-free, input-adaptive inference method that reduces Transformer matrix products by selecting informative slices along their contraction dimensions, without modifying model weights. Under a simple retention-ratio control, RMM provides a smooth and predictable accuracy-efficiency trade-off. Across language models ranging from 1B to 70B parameters, we find that reduction tolerance depends on the model family, task, component, and retention ratio, although it often improves with model scale. Under moderate reduction, RMM remains robust across the evaluated discriminative, autoregressive generation, and long-context settings. We further show that the same principle extends to multimodal vision-language inference. Mechanistic ablations reveal a structural asymmetry within Transformers: attention-side computations are substantially more reducible than MLP components. Finally, wall-clock benchmarks with custom kernels on an NVIDIA A100 show that these computational savings can translate into practical runtime gains, especially at longer sequence lengths. Together, these results position RMM as a scalable direction for input-adaptive inference-time optimization.",
+      "authors": [
+        "Zixuan Lan",
+        "Yanhong Li",
+        "Jiawei Zhou"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-08-13T16:16:04+00:00",
+      "link": "https://arxiv.org/pdf/2608.13426v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free input-adaptive LLM inference acceleration via matrix-product reduction",
+      "llm_evidence_cn": "免训练输入自适应的LLM推理加速，可迁移至MoE线性层",
+      "llm_evidence": "免训练输入自适应的LLM推理加速，可迁移至MoE线性层",
+      "canonical_evidence": "免训练输入自适应的LLM推理加速，可迁移至MoE线性层",
+      "llm_tldr_en": "Proposes training-free input-adaptive Reduced Matrix Multiplication for LLM inference, selecting informative slices along contraction dimensions to compress matrix products. Smooth accuracy-efficiency trade-off across 1B-70B models. Transferable inference optimization, though not MoE-specific or quantized.",
+      "llm_tldr_cn": "Transformer语言模型推理因重复高维矩阵乘而成本高昂，本文提出免训练、输入自适应的约简矩阵乘法（RMM），在收缩维度上选择有信息量的切片来压缩矩阵乘，不改动模型权重。通过简单的保留率控制即可获得平滑可预测的精度-效率权衡。在1B到70B多种模型上，RMM在中等压缩下保持性能，且压缩容忍度随模型规模提高。该方法作为通用LLM推理加速手段，可迁移至MoE线性层，但不涉及分组内核与量化。",
+      "llm_tldr": "Transformer语言模型推理因重复高维矩阵乘而成本高昂，本文提出免训练、输入自适应的约简矩阵乘法（RMM），在收缩维度上选择有信息量的切片来压缩矩阵乘，不改动模型权重。通过简单的保留率控制即可获得平滑可预测的精度-效率权衡。在1B到70B多种模型上，RMM在中等压缩下保持性能，且压缩容忍度随模型规模提高。该方法作为通用LLM推理加速手段，可迁移至MoE线性层，但不涉及分组内核与量化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

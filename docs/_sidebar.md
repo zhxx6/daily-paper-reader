@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-14 <!--dpr-date:20260814-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/14/2608.13426v1-reduced-matrix-multiplication-input-adaptive-matrix-product-reduction-for-llm-inference" data-sidebar-item="{&quot;title&quot;: &quot;Reduced Matrix Multiplication: Input-Adaptive Matrix-Product Reduction for LLM Inference&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.13426v1-reduced-matrix-multiplication-input-adaptive-matrix-product-reduction-for-llm-inference&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;免训练输入自适应的LLM推理加速，可迁移至MoE线性层&quot;}">Reduced Matrix Multiplication: Input-Adaptive Matrix-Product Reduction for LLM Inference</a>
   * 2026-08-13 <!--dpr-date:20260813-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/13/2608.11688v1-apex-adaptive-expert-prefetching-for-memory-efficient-edge-moe-inference" data-sidebar-item="{&quot;title&quot;: &quot;APEX: Adaptive Expert Prefetching for Memory-Efficient Edge MoE Inference&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.11688v1-apex-adaptive-expert-prefetching-for-memory-efficient-edge-moe-inference&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;面向边缘内存高效 MoE 推理的自适应专家预取&quot;}">APEX: Adaptive Expert Prefetching for Memory-Efficient Edge MoE Inference</a>

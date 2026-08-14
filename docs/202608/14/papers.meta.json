@@ -1,0 +1,24 @@
+{
+  "label": "2026-08-14",
+  "date": "2026-08-14",
+  "generated_at": "2026-08-14T20:31:12",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202608/14/2608.13426v1-reduced-matrix-multiplication-input-adaptive-matrix-product-reduction-for-llm-inference",
+      "section": "quick",
+      "title_en": "Reduced Matrix Multiplication: Input-Adaptive Matrix-Product Reduction for LLM Inference",
+      "authors": "Zixuan Lan, Yanhong Li, Jiawei Zhou",
+      "date": "2026-08-13",
+      "pdf": "https://arxiv.org/pdf/2608.13426v1",
+      "score": "6.0",
+      "evidence": "免训练输入自适应的LLM推理加速，可迁移至MoE线性层",
+      "tldr": "Transformer推理受高维矩阵乘法制约。本文提出RMM，一种免训练、输入自适应的矩阵乘积降减方法，沿收缩维度挑选信息性切片且不修改权重。在1B-70B模型上，其精度-效率权衡平稳可预测，注意力侧降减潜力大于MLP。RMM可扩展至多模态场景，并已在A100上实现长序列实际加速，为推理时优化提供新方向。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Transformer-based language models achieve strong performance but incur substantial inference cost due to repeated high-dimensional matrix multiplications. We propose Reduced Matrix Multiplication (RMM), a training-free, input-adaptive inference method that reduces Transformer matrix products by selecting informative slices along their contraction dimensions, without modifying model weights. Under a simple retention-ratio control, RMM provides a smooth and predictable accuracy-efficiency trade-off. Across language models ranging from 1B to 70B parameters, we find that reduction tolerance depends on the model family, task, component, and retention ratio, although it often improves with model scale. Under moderate reduction, RMM remains robust across the evaluated discriminative, autoregressive generation, and long-context settings. We further show that the same principle extends to multimodal vision-language inference. Mechanistic ablations reveal a structural asymmetry within Transformers: attention-side computations are substantially more reducible than MLP components. Finally, wall-clock benchmarks with custom kernels on an NVIDIA A100 show that these computational savings can translate into practical runtime gains, especially at longer sequence lengths. Together, these results position RMM as a scalable direction for input-adaptive inference-time optimization.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
