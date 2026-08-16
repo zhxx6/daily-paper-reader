@@ -1,0 +1,129 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-16T19:36:36.815725+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2608.09160v1",
+      "source": "arxiv",
+      "title": "SwiftQK: Fast and Communication-Efficient Tensor Parallelism for Query-Key Normalization",
+      "abstract": "Query-Key Normalization (QK-Norm) improves the training stability and quality of modern Large Language Models (LLMs). However, under Tensor Parallelism (TP), layerwise QK-Norm introduces additional cross-GPU communication because the normalization factor depends on the full hidden vector. We present SwiftQK, a multi-GPU RMSNorm kernel that exchanges only scalar normalization statistics and overlaps the remaining Peer-to-Peer reduction with independent element-wise computation in a deadlock-safe persistent kernel. Evaluations on recent LLMs show that SwiftQK reduces QK-Norm latency by 81.4--93.9% relative to the standard TP QK-Norm using full-vector All-Gather. In end-to-end serving, SwiftQK reduces TPOT on average by 29.5% over the All-Gather-based baseline and by 14.3% over an optimized scalar-aggregation implementation.",
+      "authors": [
+        "Gyudong Kim",
+        "Wonjun Han",
+        "Young Geun Kim"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "published": "2026-08-10T06:16:24+00:00",
+      "link": "https://arxiv.org/pdf/2608.09160v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Optimized multi-GPU RMSNorm kernel for QK-Norm in transformer inference",
+      "llm_evidence_cn": "面向QK-Norm的多GPU RMSNorm内核优化，降低Transformer推理通信开销",
+      "llm_evidence": "面向QK-Norm的多GPU RMSNorm内核优化，降低Transformer推理通信开销",
+      "canonical_evidence": "面向QK-Norm的多GPU RMSNorm内核优化，降低Transformer推理通信开销",
+      "llm_tldr_en": "Presents SwiftQK, a multi-GPU RMSNorm kernel that exchanges scalar statistics and overlaps P2P reduction with computation, reducing QK-Norm latency by 81-94% and TPOT by 29.5% in LLM serving.",
+      "llm_tldr_cn": "QK-Norm能改善现代大语言模型的训练稳定性与质量，但在张量并行下因归一化因子依赖完整隐藏向量而产生额外跨GPU通信。SwiftQK设计多GPU RMSNorm内核，仅交换标量归一化统计量，并以无死锁的持久化内核将点对点规约与独立逐元素计算重叠。实验显示相对标准全向量All-Gather方法，QK-Norm延迟降低81.4%-93.9%，端到端服务中TPOT平均降低29.5%，显著加快了LLM在线推理。这一方案无需改动现有模型结构即可部署，为大规模并行推理提供了关键的底层优化。",
+      "llm_tldr": "QK-Norm能改善现代大语言模型的训练稳定性与质量，但在张量并行下因归一化因子依赖完整隐藏向量而产生额外跨GPU通信。SwiftQK设计多GPU RMSNorm内核，仅交换标量归一化统计量，并以无死锁的持久化内核将点对点规约与独立逐元素计算重叠。实验显示相对标准全向量All-Gather方法，QK-Norm延迟降低81.4%-93.9%，端到端服务中TPOT平均降低29.5%，显著加快了LLM在线推理。这一方案无需改动现有模型结构即可部署，为大规模并行推理提供了关键的底层优化。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "group kernel optimization for transformer models",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.08853v1",
+      "source": "arxiv",
+      "title": "Beyond Routing: Decoupling Expert Dispatch and Aggregation in Sparse Mixture-of-Experts",
+      "abstract": "Sparse Mixture-of-Experts (MoE) routers commonly use the same scores both to select experts and to weight their already-computed outputs. We study whether these two roles, dispatch and aggregation, should be coupled. On pretrained OLMoE-1B-7B, we keep selected Top-8 expert IDs, expert computation, and total selected router mass fixed and change only within-set aggregation. A structured oracle improves full-horizon cross-entropy by 0.0160 +/- 0.0039 across three seeds; the router's top-scored expert is the counterfactual-best vertex only 17.2% of the time, with router-utility Spearman 0.030. We therefore train Fixed-Dispatch Adaptive Aggregation (FDAA), a 301K-parameter post-compute head optimized directly with the language-modeling objective while freezing the backbone, router, and experts. On OLMoE, FDAA improves fresh WikiText-103 test by Delta CE = -0.1523 +/- 0.0031 across three seeds, and mixed-domain training gives robust gains on WikiText-103, C4, and held-out Penn Treebank under frozen confirmatory evaluation. We also replicate the fixed-dispatch audit on DeepSeek-V2-Lite, which uses Top-6 routed experts plus shared experts. Best-vertex headroom remains significant on WikiText and C4, while router Top1 identifies the best selected expert in only 12.5% and 16.7% of audited examples. In a one-seed mixed-domain replication, FDAA improves locked WikiText and PTB, while C4 is statistically neutral. These results support a cross-architecture distinction between expert selection and expert commitment.",
+      "authors": [
+        "Zongfei Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-09T18:31:16+00:00",
+      "link": "https://arxiv.org/pdf/2608.08853v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "decoupling expert dispatch and aggregation in sparse MoE inference",
+      "llm_evidence_cn": "在稀疏MoE推理中解耦专家调度与聚合",
+      "llm_evidence": "在稀疏MoE推理中解耦专家调度与聚合",
+      "canonical_evidence": "在稀疏MoE推理中解耦专家调度与聚合",
+      "llm_tldr_en": "Sparse Mixture-of-Experts usually couples expert selection and output weighting through the same router scores. This paper shows that decoupling dispatch and aggregation improves MoE language modeling, and trains a lightweight 301K-parameter adaptive aggregation head that outperforms standard router aggregation on OLMoE-1B-7B.",
+      "llm_tldr_cn": "稀疏专家混合（MoE）模型通常用同一路由器分数同时进行专家选择和输出加权。本文研究这两个角色是否应该解耦，并发现通过仅调整聚合方式可以提升语言建模效果。他们训练了一个仅30万参数的轻量自适应聚合头，在OLMoE-1B-7B上取得了优于默认路由器聚合的结果，表明路由器的打分与专家权重分配并非最优绑定关系，为MoE推理提供了新的改进思路。",
+      "llm_tldr": "稀疏专家混合（MoE）模型通常用同一路由器分数同时进行专家选择和输出加权。本文研究这两个角色是否应该解耦，并发现通过仅调整聚合方式可以提升语言建模效果。他们训练了一个仅30万参数的轻量自适应聚合头，在OLMoE-1B-7B上取得了优于默认路由器聚合的结果，表明路由器的打分与专家权重分配并非最优绑定关系，为MoE推理提供了新的改进思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.12573v1",
+      "source": "arxiv",
+      "title": "Prof-K: Probabilistic One-Pass Filtering for Efficient Top-k Selection",
+      "abstract": "Top-k selection is a fundamental computational primitive with applications spanning databases, information retrieval, signal processing, and modern machine learning workloads, including sparse activations and attention pruning. As data sizes grow, existing approaches become inefficient: exact methods incur high memory and compute overhead, while approximate methods often rely on brittle heuristics that degrade under adversarial or heavy-tailed inputs. In this paper, we introduce Prof-K, a fast, scalable, and distribution-agnostic top-k algorithm with probabilistic correctness guarantees. Prof-K performs a single-pass filtering procedure: a small random sample estimates an adaptive threshold, the N input elements are streamed once into a compact buffer, and an exact top-k routine on this buffer recovers the true top-k elements with probability at least 1 - $ε$, where $ε$ > 0 is user specified. We derive high-probability guarantees for correctness and buffer size, together with an approximately optimal sample size that minimizes overhead as a function of N and k. Empirically, Prof-K achieves 1.5x-10x speedups over the highly optimized PyTorch topk and recent RadiK implementations, with the largest gains in the large-scale, small-to-moderate-k regime where prior methods struggle most. Unlike previous approaches, these guarantees hold independently of the input distribution, ensuring robustness to adversarial settings. By relaxing the recall target (e.g., recovering 95% of the true top-k values), Prof-K additionally provides a principled accuracy-speed trade-off. We further demonstrate its impact on training BatchTopK Sparse Autoencoders (SAEs), where top-k selection constitutes a significant portion of the training cost.",
+      "authors": [
+        "Tadeusz Dziarmaga",
+        "Witold Sikora",
+        "Łukasz Struski",
+        "Jacek Tabor",
+        "Marcin Mazur"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-12T20:31:33+00:00",
+      "link": "https://arxiv.org/pdf/2608.12573v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Efficient top-k selection for sparse activations, enabling fast MoE routing",
+      "llm_evidence_cn": "为稀疏激活提供高效top-k选择，可加速MoE路由",
+      "llm_evidence": "为稀疏激活提供高效top-k选择，可加速MoE路由",
+      "canonical_evidence": "为稀疏激活提供高效top-k选择，可加速MoE路由",
+      "llm_tldr_en": "Presents Prof-K, a fast distribution-agnostic top-k algorithm with probabilistic guarantees using single-pass sampling and threshold filtering; applicable to sparse activations and attention pruning, supporting efficient MoE inference.",
+      "llm_tldr_cn": "Top-k选择在数据库、检索和机器学习稀疏激活中广泛使用，但精确方法开销高，近似方法在对抗或重尾输入下不稳定。Prof-K提出单遍过滤算法：先用小随机样本估计自适应阈值，再将N个元素一次性流入紧凑缓冲区，并在任意分布下给出概率正确性保证。该方法不依赖数据分布、内存紧凑且速度快，可直接应用于稀疏激活和注意力剪枝，也为MoE专家路由提供了高效算子。在多种合成数据和大规模负载上验证了其优势。",
+      "llm_tldr": "Top-k选择在数据库、检索和机器学习稀疏激活中广泛使用，但精确方法开销高，近似方法在对抗或重尾输入下不稳定。Prof-K提出单遍过滤算法：先用小随机样本估计自适应阈值，再将N个元素一次性流入紧凑缓冲区，并在任意分布下给出概率正确性保证。该方法不依赖数据分布、内存紧凑且速度快，可直接应用于稀疏激活和注意力剪枝，也为MoE专家路由提供了高效算子。在多种合成数据和大规模负载上验证了其优势。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
