@@ -6,29 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-16
-- 运行时间：2026-08-16 19:39:01 UTC
+- 最新运行日期：2026-08-17
+- 运行时间：2026-08-17 20:48:50 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：1
-- 速读区：2
+- 本次总论文数：5
+- 精读区：4
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读1篇、速读2篇，重点聚焦大模型推理与稀疏专家系统的效率优化。最值得关注的是《SwiftQK》（8.0分），它针对Query-Key归一化提出通信高效张量并行方案，显著降低长序列场景下的并行开销；速读中关于专家路由去耦的思路也值得一瞥。普通读者下一步可优先了解张量并行在长上下文推理中的实际收益，避开Top-k过滤这类偏工程细节的方向。
-- 详情：[/202608/16/README](/202608/16/README)
+今日共读5篇论文，精读4篇、速读1篇，聚焦量化训练、MoE负载均衡与KV缓存压缩。  
+最值得看的是两篇9.0分工作：QUASAR用损失感知重建降低量化训练损失下限，FreeBalance用残差工作负载预测实现预路由MoE均衡。  
+建议优先深入这两篇方法，并留意KV缓存压缩与它们结合优化的潜力。
+- 详情：[/202608/17/README](/202608/17/README)
 
 ### 精读区论文标签
-1. [SwiftQK: Fast and Communication-Efficient Tensor Parallelism for Query-Key Normalization](/202608/16/2608.09160v1-swiftqk-fast-and-communication-efficient-tensor-parallelism-for-query-key-normalization)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向QK-Norm的多GPU RMSNorm内核优化，降低Transformer推理通信开销
+1. [QUASAR: Lowering the Loss Floor of Quantization-Aware Training with Loss-Aware Reconstruction](/202608/17/2608.13966v1-quasar-lowering-the-loss-floor-of-quantization-aware-training-with-loss-aware-reconstruction)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：直接面向大语言模型权重量化，提出损失感知重构的量化感知训练方法
+2. [FreeBalance: Pre-Routing Online Moe Load Balancing via Residual Workload Prediction](/202608/17/2608.14205v1-freebalance-pre-routing-online-moe-load-balancing-via-residual-workload-prediction)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：直接通过在线负载均衡优化分布式MoE推理延迟
+3. [Beyond Capacity: Scalable MoE LLM Inference via High-Bandwidth Flash with Direct GPU and HBM Paths](/202608/17/2608.14333v1-beyond-capacity-scalable-moe-llm-inference-via-high-bandwidth-flash-with-direct-gpu-and-hbm-paths)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：针对MoE大模型推理的显存架构优化，提升推理效率
+4. [DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding](/202608/17/2608.14385v1-deamoe-efficient-moe-structure-for-fast-small-batch-decoding)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：直接面向MoE小批量解码效率，通过对专家分组解决权重加载瓶颈
 
 ### 速读区论文标签
-1. [Beyond Routing: Decoupling Expert Dispatch and Aggregation in Sparse Mixture-of-Experts](/202608/16/2608.08853v1-beyond-routing-decoupling-expert-dispatch-and-aggregation-in-sparse-mixture-of-experts)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：在稀疏MoE推理中解耦专家调度与聚合
-2. [Prof-K: Probabilistic One-Pass Filtering for Efficient Top-k Selection](/202608/16/2608.12573v1-prof-k-probabilistic-one-pass-filtering-for-efficient-top-k-selection)  
+1. [KV Cache Compression Through the Lens of Transform Coding](/202608/17/2608.14191v1-kv-cache-compression-through-the-lens-of-transform-coding)  
    标签：评分：6.0/10、query:moe-gk-quant
-   evidence：为稀疏激活提供高效top-k选择，可加速MoE路由
+   evidence：面向LLM推理的KV缓存量化压缩方法，与权重量化技术紧密相关
 
 
 <div class="dpr-home-promo-card">
