@@ -1,0 +1,207 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-18T20:51:39.491101+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2608.15383v1",
+      "source": "arxiv",
+      "title": "Every Expert Counts: ExactMoE for Memory-Efficient W4A16 Inference",
+      "abstract": "Sparse mixture-of-experts (MoE) language models reduce arithmetic by activating only a small subset of experts per token, yet deployment still requires storing and moving the full expert bank. We present ExactMoE, an inference design that applies symmetric group-128 four-bit weight quantization only to routed experts, stores those experts in kernel-native MARLIN form in pinned host memory, and executes all selected experts through a configurable GPU-resident slot cache and fused grouped MoE kernels. The router, attention, embeddings, normalization layers, and language-model head remain in BF16. \"Exact\" refers to complete expert availability and an unchanged top-k routing procedure: no expert is pruned, substituted, or forced to execute on the CPU. It does not imply numerical identity with the BF16 model. On OLMoE-1B-7B-0924-Instruct, evaluated on a single NVIDIA L4, a 16-slot configuration reduces peak reserved GPU memory from 14.168 to 1.836 GiB (87.04%) while retaining 81.85% of BF16 decode throughput. A fully resident 64-slot configuration reaches 31.923 tokens/s versus 21.662 tokens/s for BF16 while reserving 4.061 GiB. Across 12,450 zero-shot multiple-choice questions, ExactMoE obtains 70.3534% normalized accuracy versus 70.8996% for BF16, retaining 99.23% of the baseline accuracy. In a matched 16-token ablation, fused grouped execution is 1.97x as fast as a sequential W4 reference. These results identify a practical memory-transfer-throughput frontier for complete-expert MoE inference.",
+      "authors": [
+        "Amjad Saab"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-15T19:26:07+00:00",
+      "link": "https://arxiv.org/pdf/2608.15383v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Quantized MoE inference with grouped 4-bit weights and fused grouped kernels",
+      "llm_evidence_cn": "对路由专家应用分组4比特量化，并通过融合分组MoE内核实现高效推理",
+      "llm_evidence": "对路由专家应用分组4比特量化，并通过融合分组MoE内核实现高效推理",
+      "canonical_evidence": "对路由专家应用分组4比特量化，并通过融合分组MoE内核实现高效推理",
+      "llm_tldr_en": "ExactMoE applies symmetric group-128 4-bit quantization to routed experts, stores weights in MARLIN form in host memory, and runs fused grouped MoE kernels with a GPU slot cache, achieving memory-efficient exact MoE inference.",
+      "llm_tldr_cn": "稀疏MoE语言模型部署时仍需存储和搬运全部专家权重，存在内存和带宽瓶颈。ExactMoE仅对路由专家采用对称分组128的4比特量化，并以内核原生的MARLIN格式存放于主机内存，通过GPU驻留槽缓存与融合分组MoE内核执行所有被选中的专家。路由、注意力等层保持BF16，且不改动top-k路由，实现无专家剪枝或替换的精确内存高效推理。",
+      "llm_tldr": "稀疏MoE语言模型部署时仍需存储和搬运全部专家权重，存在内存和带宽瓶颈。ExactMoE仅对路由专家采用对称分组128的4比特量化，并以内核原生的MARLIN格式存放于主机内存，通过GPU驻留槽缓存与融合分组MoE内核执行所有被选中的专家。路由、注意力等层保持BF16，且不改动top-k路由，实现无专家剪枝或替换的精确内存高效推理。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts inference with group kernel optimization",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.15567v1",
+      "source": "arxiv",
+      "title": "SchurQuant: Groupwise Discrete Optimization for Layer-Wise LLM Quantization",
+      "abstract": "Weight-only post-training quantization (PTQ) enables the deployment of large language models under tight memory budgets, but accuracy often collapses at 2-3 bits. Existing backpropagation-free PTQ optimizers have two limitations: group decisions ignore the correction that the remaining continuous suffix can absorb, and discrete refinements typically keep the affine quantization grid fixed. We introduce SCHUROPT, which analytically eliminates the suffix's optimal continuous response, yielding an exact groupwise quadratic with Schur-complement curvature. It then alternates closed-form row-wise scale/zero-point refitting with coordinate descent over integer codes. With the GPTQ objective fixed, SCHUROPT improves mean zero-shot accuracy on 2-bit Qwen3-4B by 11.88 percentage points (pp). At higher precision, however, tighter reconstruction does not consistently improve end-model metrics. SCHURQUANT therefore combines SCHUROPT with quantized-prefix teacher reconstruction, reference-weight regularization, residual-add targets, and teacher-decision token weighting. Across eight Llama and Qwen models, SCHURQUANT achieves the highest mean zero-shot accuracy among the evaluated backpropagation free PTQ baselines, outperforming the strongest baseline by 9.65 pp at 2 bits.",
+      "authors": [
+        "Gunjun Lee",
+        "Sehwan Son",
+        "Younjoo Lee",
+        "Byungjun Kim",
+        "Jung Ho Ahn"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-16T06:29:10+00:00",
+      "link": "https://arxiv.org/pdf/2608.15567v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "groupwise discrete optimization for LLM weight quantization",
+      "llm_evidence_cn": "面向大语言模型权重量化的分组离散优化方法",
+      "llm_evidence": "面向大语言模型权重量化的分组离散优化方法",
+      "canonical_evidence": "面向大语言模型权重量化的分组离散优化方法",
+      "llm_tldr_en": "SchurQuant introduces SCHUROPT, a backpropagation-free optimizer for weight-only LLM post-training quantization. It constructs an exact groupwise quadratic with Schur-complement curvature and alternates scale/zero-point refitting with coordinate descent over integer codes, improving 2-bit zero-shot accuracy.",
+      "llm_tldr_cn": "现有无梯度量化优化器在2-3比特精度下容易崩溃，且分组决策与离散细化存在局限。该方法提出SCHUROPT，利用Schur补解析消除连续后缀影响，构造精确分组二次目标，并交替进行行级缩放/零点重拟合与整数码坐标下降。在GPTQ目标下，2比特Qwen3等模型平均零样本准确率提升。该工作为LLM低位权重量化提供了更有效的优化途径。",
+      "llm_tldr": "现有无梯度量化优化器在2-3比特精度下容易崩溃，且分组决策与离散细化存在局限。该方法提出SCHUROPT，利用Schur补解析消除连续后缀影响，构造精确分组二次目标，并交替进行行级缩放/零点重拟合与整数码坐标下降。在GPTQ目标下，2比特Qwen3等模型平均零样本准确率提升。该工作为LLM低位权重量化提供了更有效的优化途径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.15602v1",
+      "source": "arxiv",
+      "title": "FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy",
+      "abstract": "While binary quantization theoretically promises extreme compression and acceleration for Large Language Models (LLMs), existing research often overlooks the necessity of specialized hardware kernels, thus failing to unleash the full acceleration potential due to persistent reliance on expensive floating-point arithmetic or runtime dequantization overheads. To bridge this gap, we propose FluxBin (\\textbf{F}lexible \\textbf{L}UT-based \\textbf{U}ltra-low-bit e\\textbf{X}ecution with \\textbf{Bin}ary bases), an algorithm-kernel co-design that synergizes post-training quantization with a highly optimized CUDA kernel. Algorithmically, we introduce Decoupled Row-Column Binary Decomposition to enhance representational capacity while maintaining hardware efficiency, complemented by a Hessian-guided saliency-aware hybrid bases that preserve critical information. At the kernel level, we implement a Lookup Table Building Approach with Scale Fusion to reduce floating-point arithmetic, featuring a Virtual Columnar Mapping that transforms irregular, sparse, and salient matrices into dense execution. Extensive evaluations demonstrate FluxBin achieves up to $5.92\\times$ speedup and $10.19\\times$ energy savings across diverse model architectures, delivering comparable accuracy to heavily fine-tuned methods. This effectively enables the deployment of 70B-scale models on one single A100 GPU with a $4\\times$ memory reduction. Code is available at https://github.com/nicyyyy/FluxBin.",
+      "authors": [
+        "Qingyao Yang",
+        "Runming Yang",
+        "He Xiao",
+        "Wendong Xu",
+        "Junyu Chen",
+        "Haobo Liu",
+        "Chenchen Ding",
+        "Ruihan Hu",
+        "Yik-Chung Wu",
+        "Ngai Wong"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-16T08:01:06+00:00",
+      "link": "https://arxiv.org/pdf/2608.15602v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Low-bit LLM inference with specialized LUT-based CUDA kernel",
+      "llm_evidence_cn": "低比特大模型推理与专用LUT-CUDA内核",
+      "llm_evidence": "低比特大模型推理与专用LUT-CUDA内核",
+      "canonical_evidence": "低比特大模型推理与专用LUT-CUDA内核",
+      "llm_tldr_en": "FluxBin co-designs post-training quantization with a specialized CUDA kernel, using lookup tables and decoupled binary decomposition to avoid dequantization overhead and accelerate ultra-low-bit LLM inference.",
+      "llm_tldr_cn": "针对二值量化压缩大语言模型但缺乏专用内核、浮点运算与反量化开销阻碍加速的问题，FluxBin提出算法-内核协同设计，将后训练量化与高度优化的CUDA内核结合。算法上采用解耦行-列二值分解增强表示能力，内核上利用查找表避免运行时反量化。实验显示该方法能够显著提升超低比特LLM推理的加速效果，为极端压缩推理提供了有效途径。",
+      "llm_tldr": "针对二值量化压缩大语言模型但缺乏专用内核、浮点运算与反量化开销阻碍加速的问题，FluxBin提出算法-内核协同设计，将后训练量化与高度优化的CUDA内核结合。算法上采用解耦行-列二值分解增强表示能力，内核上利用查找表避免运行时反量化。实验显示该方法能够显著提升超低比特LLM推理的加速效果，为极端压缩推理提供了有效途径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.15018v1",
+      "source": "arxiv",
+      "title": "S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices",
+      "abstract": "Deploying large language models (LLMs) for inference on edge devices is challenging due to severe memory and bandwidth constraints. While speculative decoding and Mixture-of-Experts (MoE) have been proposed to improve inference efficiency, naively combining them often incurs excessive verification overhead and poor expert reuse, limiting their effectiveness in memory-bound edge settings. In this work, we propose S2-MoE, an efficient self-speculative decoding framework for MoE inference on edge devices. S2-MoE reduces redundant verification through routing-aware adaptive speculative expansion, improves verification efficiency with reuse-aware expert gating, and aligns draft and target execution via shared context. Implemented in llama.cpp, S2-MoE achieves up to 5.3x speedup (about 2.0x on average) over standard autoregressive de?coding across diverse MoE models and datasets on edge devices.Code is available at https://github.com/angerybob/S2-MoE.",
+      "authors": [
+        "Haochen Huang",
+        "Shengxuan Qiu",
+        "Meng Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-15T04:08:04+00:00",
+      "link": "https://arxiv.org/pdf/2608.15018v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Directly addresses efficient MoE inference on edge devices via speculative decoding and expert reuse",
+      "llm_evidence_cn": "直接面向边缘设备MoE推理效率，结合推测解码与专家复用",
+      "llm_evidence": "直接面向边缘设备MoE推理效率，结合推测解码与专家复用",
+      "canonical_evidence": "直接面向边缘设备MoE推理效率，结合推测解码与专家复用",
+      "llm_tldr_en": "Proposes S2-MoE, a self-speculative decoding framework for MoE on edge devices that reduces redundant verification via routing-aware adaptive expansion and improves expert reuse, enabling efficient memory-bound inference.",
+      "llm_tldr_cn": "针对边缘设备上MoE推理受内存和带宽限制的问题，提出S2-MoE自推测解码框架。通过路由感知的自适应推测扩展减少冗余验证，利用复用感知的专家门控提升验证效率，并以共享上下文对齐草稿与目标执行。在相关llama实现上验证了该方法能显著降低边缘端MoE推理开销，为MoE高效推理技术提供了重要补充。",
+      "llm_tldr": "针对边缘设备上MoE推理受内存和带宽限制的问题，提出S2-MoE自推测解码框架。通过路由感知的自适应推测扩展减少冗余验证，利用复用感知的专家门控提升验证效率，并以共享上下文对齐草稿与目标执行。在相关llama实现上验证了该方法能显著降低边缘端MoE推理开销，为MoE高效推理技术提供了重要补充。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.15299v1",
+      "source": "arxiv",
+      "title": "MAPLE: MoE Adaptive Plug-and-play Layer-wise Expert allocation",
+      "abstract": "Sparsely-activated Mixture-of-Experts (MoE) Transformers universally fix the same number of routed experts across all layers, a convention that ignores the well-documented heterogeneity in layer-wise redundancy. We demonstrate that this uniformity is systematically suboptimal and propose MAPLE, a plug-and-play framework that reallocates the routed-expert budget heterogeneously across layers of any pretrained MoE LLM, without modifying weights or requiring retraining. Our core contribution is a closed-form sensitivity-guided allocation: we probe each layer's response to variation in expert count, quantify sensitivity using three measures, and derive an analytically optimal budget assignment that directs capacity towards sensitive layers and absorbs reductions in redundant layers. This closed-form solution is further refined by a sensitivity-constrained genetic search that uses layer-wise sensitivity as a prior to guide exploration, yielding faster convergence and superior allocation quality. On four MoE models spanning different scales and architectures, MAPLE outperforms uniform and pruning-based baselines under a 75% routed-expert budget. Notably, on DeepSeek-MoE-16B, MAPLE uses only 75% of the experts yet surpasses the original 100% expert-uniform baseline on ARC-E, ARC-C, and BoolQ, improving accuracy from 65.09 to 71.40, 48.49 to 51.50, and 80.03 to 82.38, respectively. These accuracy gains translate into measured deployment efficiency: implementing MAPLE in SGLang reduces single-GPU end-to-end serving latency by 32.2% and improves throughput by 47.4%. These results show that well-designed heterogeneous allocation can be more effective than simply activating more experts, establishing it as a principled and practical axis for improving MoE efficiency.",
+      "authors": [
+        "Lie Li",
+        "Wen Li",
+        "Junxiao Shen",
+        "Gusheng Hu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-15T16:10:28+00:00",
+      "link": "https://arxiv.org/pdf/2608.15299v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "adaptive layer-wise expert allocation for efficient MoE inference",
+      "llm_evidence_cn": "面向高效MoE推理的分层自适应专家分配",
+      "llm_evidence": "面向高效MoE推理的分层自适应专家分配",
+      "canonical_evidence": "面向高效MoE推理的分层自适应专家分配",
+      "llm_tldr_en": "MAPLE reallocates routed-expert budgets heterogeneously across layers of pretrained MoE LLMs without retraining, using closed-form sensitivity-guided allocation. It improves efficiency by directing capacity to sensitive layers and reducing experts elsewhere.",
+      "llm_tldr_cn": "传统MoE Transformer在各层固定相同数量的路由专家，忽视了层间冗余的差异性。MAPLE提出即插即用的分配框架，通过敏感度引导分配，在任意预训练MoE大模型上无需修改权重或重训练即可异构重分配专家预算。实验证明该分配能提升模型效率，将容量集中在高敏感层并减少冗余层开销。为MoE大模型部署提供了一种轻量高效的优化手段。",
+      "llm_tldr": "传统MoE Transformer在各层固定相同数量的路由专家，忽视了层间冗余的差异性。MAPLE提出即插即用的分配框架，通过敏感度引导分配，在任意预训练MoE大模型上无需修改权重或重训练即可异构重分配专家预算。实验证明该分配能提升模型效率，将容量集中在高敏感层并减少冗余层开销。为MoE大模型部署提供了一种轻量高效的优化手段。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

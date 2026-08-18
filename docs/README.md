@@ -6,37 +6,36 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-17
-- 运行时间：2026-08-17 20:48:50 UTC
+- 最新运行日期：2026-08-18
+- 运行时间：2026-08-18 20:55:49 UTC
 - 运行状态：成功
 - 本次总论文数：5
-- 精读区：4
-- 速读区：1
+- 精读区：5
+- 速读区：0
 
 ### 今日简报（AI）
-今日共读5篇论文，精读4篇、速读1篇，聚焦量化训练、MoE负载均衡与KV缓存压缩。  
-最值得看的是两篇9.0分工作：QUASAR用损失感知重建降低量化训练损失下限，FreeBalance用残差工作负载预测实现预路由MoE均衡。  
-建议优先深入这两篇方法，并留意KV缓存压缩与它们结合优化的潜力。
-- 详情：[/202608/17/README](/202608/17/README)
+今日精读5篇，聚焦大模型高效推理与量化，其中两篇获高分关注。最值得看的是W4A16低比特推理新方案ExactMoE（10分）与逐层量化离散优化方法SchurQuant（9分），均面向内存与精度平衡。建议普通读者优先把握这两项技术的核心思路，后续可延展对比其他量化方案。
+- 详情：[/202608/18/README](/202608/18/README)
 
 ### 精读区论文标签
-1. [QUASAR: Lowering the Loss Floor of Quantization-Aware Training with Loss-Aware Reconstruction](/202608/17/2608.13966v1-quasar-lowering-the-loss-floor-of-quantization-aware-training-with-loss-aware-reconstruction)  
+1. [Every Expert Counts: ExactMoE for Memory-Efficient W4A16 Inference](/202608/18/2608.15383v1-every-expert-counts-exactmoe-for-memory-efficient-w4a16-inference)  
+   标签：评分：10.0/10、query:moe-gk-quant
+   evidence：对路由专家应用分组4比特量化，并通过融合分组MoE内核实现高效推理
+2. [SchurQuant: Groupwise Discrete Optimization for Layer-Wise LLM Quantization](/202608/18/2608.15567v1-schurquant-groupwise-discrete-optimization-for-layer-wise-llm-quantization)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：直接面向大语言模型权重量化，提出损失感知重构的量化感知训练方法
-2. [FreeBalance: Pre-Routing Online Moe Load Balancing via Residual Workload Prediction](/202608/17/2608.14205v1-freebalance-pre-routing-online-moe-load-balancing-via-residual-workload-prediction)  
+   evidence：面向大语言模型权重量化的分组离散优化方法
+3. [FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy](/202608/18/2608.15602v1-fluxbin-flexible-lut-based-ultra-low-bit-llm-inference-by-algorithm-kernel-synergy)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：直接通过在线负载均衡优化分布式MoE推理延迟
-3. [Beyond Capacity: Scalable MoE LLM Inference via High-Bandwidth Flash with Direct GPU and HBM Paths](/202608/17/2608.14333v1-beyond-capacity-scalable-moe-llm-inference-via-high-bandwidth-flash-with-direct-gpu-and-hbm-paths)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：针对MoE大模型推理的显存架构优化，提升推理效率
-4. [DeaMoE: Efficient MoE Structure for Fast Small-Batch Decoding](/202608/17/2608.14385v1-deamoe-efficient-moe-structure-for-fast-small-batch-decoding)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：直接面向MoE小批量解码效率，通过对专家分组解决权重加载瓶颈
+   evidence：低比特大模型推理与专用LUT-CUDA内核
+4. [S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices](/202608/18/2608.15018v1-s2-moe-enabling-efficient-self-speculative-decoding-for-mixture-of-experts-on-edge-devices)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：直接面向边缘设备MoE推理效率，结合推测解码与专家复用
+5. [MAPLE: MoE Adaptive Plug-and-play Layer-wise Expert allocation](/202608/18/2608.15299v1-maple-moe-adaptive-plug-and-play-layer-wise-expert-allocation)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：面向高效MoE推理的分层自适应专家分配
 
 ### 速读区论文标签
-1. [KV Cache Compression Through the Lens of Transform Coding](/202608/17/2608.14191v1-kv-cache-compression-through-the-lens-of-transform-coding)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：面向LLM推理的KV缓存量化压缩方法，与权重量化技术紧密相关
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
