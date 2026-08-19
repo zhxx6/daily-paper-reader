@@ -6,33 +6,29 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-18
-- 运行时间：2026-08-18 20:55:49 UTC
+- 最新运行日期：2026-08-19
+- 运行时间：2026-08-19 20:55:47 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：5
+- 本次总论文数：3
+- 精读区：3
 - 速读区：0
 
 ### 今日简报（AI）
-今日精读5篇，聚焦大模型高效推理与量化，其中两篇获高分关注。最值得看的是W4A16低比特推理新方案ExactMoE（10分）与逐层量化离散优化方法SchurQuant（9分），均面向内存与精度平衡。建议普通读者优先把握这两项技术的核心思路，后续可延展对比其他量化方案。
-- 详情：[/202608/18/README](/202608/18/README)
+今日精读两篇LLM推理优化论文，聚焦内存高效异常值感知与混合精度注意力加速。  
+最值得关注的方向是稀疏-稠密融合的异常值处理，以及Tile级混合精度策略，均获9.0高分评价。  
+下一步可尝试将这两种方法结合，在实际部署中验证推理速度与显存占用改善。
+- 详情：[/202608/19/README](/202608/19/README)
 
 ### 精读区论文标签
-1. [Every Expert Counts: ExactMoE for Memory-Efficient W4A16 Inference](/202608/18/2608.15383v1-every-expert-counts-exactmoe-for-memory-efficient-w4a16-inference)  
-   标签：评分：10.0/10、query:moe-gk-quant
-   evidence：对路由专家应用分组4比特量化，并通过融合分组MoE内核实现高效推理
-2. [SchurQuant: Groupwise Discrete Optimization for Layer-Wise LLM Quantization](/202608/18/2608.15567v1-schurquant-groupwise-discrete-optimization-for-layer-wise-llm-quantization)  
+1. [FlashQuant: Sparse-Dense Fusion for Memory-Efficient Outlier-Aware LLM Inference](/202608/19/2608.15531v1-flashquant-sparse-dense-fusion-for-memory-efficient-outlier-aware-llm-inference)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：面向大语言模型权重量化的分组离散优化方法
-3. [FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy](/202608/18/2608.15602v1-fluxbin-flexible-lut-based-ultra-low-bit-llm-inference-by-algorithm-kernel-synergy)  
+   evidence：低比特量化、异常值感知的稀疏-密集内核融合用于LLM推理
+2. [TileMix: Tile-Centric Mixed-Precision Attention for LLM Inference Acceleration](/202608/19/2608.17336v1-tilemix-tile-centric-mixed-precision-attention-for-llm-inference-acceleration)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：低比特大模型推理与专用LUT-CUDA内核
-4. [S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices](/202608/18/2608.15018v1-s2-moe-enabling-efficient-self-speculative-decoding-for-mixture-of-experts-on-edge-devices)  
+   evidence：以瓦片为中心的混合精度注意力内核用于LLM推理加速
+3. [MoE-ViE: Mixture of Experts Vision Encoder for Efficient Image and Video Understanding](/202608/19/2608.17402v1-moe-vie-mixture-of-experts-vision-encoder-for-efficient-image-and-video-understanding)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：直接面向边缘设备MoE推理效率，结合推测解码与专家复用
-5. [MAPLE: MoE Adaptive Plug-and-play Layer-wise Expert allocation](/202608/18/2608.15299v1-maple-moe-adaptive-plug-and-play-layer-wise-expert-allocation)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向高效MoE推理的分层自适应专家分配
+   evidence：专门设计MoE内核以降低推理开销；面向视觉编码器的高效MoE设计
 
 ### 速读区论文标签
 - 本次无速读推荐。

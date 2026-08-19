@@ -1,0 +1,54 @@
+{
+  "label": "2026-08-19",
+  "date": "2026-08-19",
+  "generated_at": "2026-08-19T20:55:53",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202608/19/2608.15531v1-flashquant-sparse-dense-fusion-for-memory-efficient-outlier-aware-llm-inference",
+      "section": "deep",
+      "title_en": "FlashQuant: Sparse-Dense Fusion for Memory-Efficient Outlier-Aware LLM Inference",
+      "authors": "Junqing Lin, Jingwei Sun, Zhengding Hu, Guangzhong Sun",
+      "date": "2026-08-16",
+      "pdf": "https://arxiv.org/pdf/2608.15531v1",
+      "score": "9.0",
+      "evidence": "低比特量化、异常值感知的稀疏-密集内核融合用于LLM推理",
+      "tldr": "低比特量化可降低大模型推理开销，但高幅异常权重量化会引发较大误差。现有异常值感知量化将低比特稠密与高精度稀疏路径分离执行，共享激活输出无法片内复用，产生冗余全局内存访问。FlashQuant融合稀疏与稠密计算为单GPU内核，通过Tile-COO编码、瓦片划分和流水线调度实现片上复用。实验显示，相对cuBLAS BF16加速2.74-4.18倍，比非融合基线快1.53倍，为内存受限解码提供高效方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Low-bit quantization reduces the memory footprint and computational cost of large language model (LLM) inference. However, high-magnitude outlier weights can induce substantial quantization errors and degrade model accuracy. Outlier-aware quantization addresses this issue by retaining outliers in high precision while quantizing the remaining weights, resulting in a low-bit dense GEMM path and a high-precision sparse SpMM path. Existing implementations execute these paths in separate GPU kernels, despite their shared activations and outputs, thereby missing opportunities for intra-operator reuse and incurring redundant global-memory accesses. This inefficiency is particularly pronounced in memory-bound decoding workloads. We propose FlashQuant, a content-sharing execution framework for outlier-aware W4A16 decoding. FlashQuant fuses the dense GEMM and sparse outlier SpMM paths into a single GPU kernel, enabling on-chip reuse of activation and output tiles across heterogeneous computations. It introduces three key techniques: sparse-dense tiling, which aligns outlier processing with dense GEMM tiles; Tile-COO outlier encoding, which enables efficient sparse access and reduces shared-memory bank conflicts; and pipelined scheduling, which overlaps computation with data movement. Experiments show that FlashQuant reduces outlier-processing overhead, achieving $2.74\\times - 4.18\\times$ speedup over cuBLAS BF16 and up to $1.53\\times$ speedup over the strongest unfused outlier-aware baseline.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/19/2608.17336v1-tilemix-tile-centric-mixed-precision-attention-for-llm-inference-acceleration",
+      "section": "deep",
+      "title_en": "TileMix: Tile-Centric Mixed-Precision Attention for LLM Inference Acceleration",
+      "authors": "Hanzhi Zhang, Qiao Zhang, Qinglei Cao, Heng Fan, Yan Huang, Kewei Sha, Yunhe Feng",
+      "date": "2026-08-18",
+      "pdf": "https://arxiv.org/pdf/2608.17336v1",
+      "score": "9.0",
+      "evidence": "以瓦片为中心的混合精度注意力内核用于LLM推理加速",
+      "tldr": "大模型长上下文预填充中，稠密自注意力的平方级计算和内存流量成为瓶颈。TileMix提出基于瓦片的混合精度路由机制，将注意力矩阵划分为硬件对齐的分数瓦片，利用位掩码进行空间精度决策，每个瓦片组选择FP16或INT8计算并共享在线softmax状态。该方法无需训练，保留稠密连接，支持GQA、变长批和INT8缓存。在LongEval、LV-Eval和A100预填充基准上，TileMix恢复均匀INT8损失的长上下文质量，并比FP16提升预填充吞吐量，为LLM推理提供可控的精度-效率权衡。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Long-context prefill in large language models (LLMs) incurs substantial computation and memory traffic because dense self-attention computes quadratic query-key scores. Existing methods either use a uniform low-precision path or select token interactions, leaving spatial precision routing over hardware-aligned score tiles outside fused dense attention. We introduce TileMix, a tile-centric precision-routing kernel that makes numerical precision an executable spatial decision over score-tile groups within fused dense attention. TileMix partitions the attention matrix into hardware-aligned score tiles, packs routing decisions into compact bitmasks, and dispatches each tile group through FP16 or INT8 score computation while both paths update a shared online-softmax state. Scalable precision grouping lets each routing bit govern multiple adjacent key tiles, preserving hardware-aligned compute tiles and compact metadata at long contexts. By routing all legal tile groups, TileMix preserves dense token connectivity, requires no training, and supports grouped-query attention, variable-length batches, and INT8 key/value caches. Across LongEval, LV-Eval, and A100 prefill benchmarks on LLaMA, Qwen, and Vicuna, TileMix recovers long-context quality lost under uniform INT8 and improves prefill throughput over FP16, yielding a controllable accuracy-efficiency frontier across model families. The implementation is available at https://github.com/HanzhiZhang-Ulrica/TileMix.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/19/2608.17402v1-moe-vie-mixture-of-experts-vision-encoder-for-efficient-image-and-video-understanding",
+      "section": "deep",
+      "title_en": "MoE-ViE: Mixture of Experts Vision Encoder for Efficient Image and Video Understanding",
+      "authors": "Bonan Zhang, Shiyu Dong, Quan Hung Tran, Katharina Gschwind, Shuqi Yang, Sijia Chen, Adel Ahmadyan, Seungwhan Moon, Lu Zhang, Ahmed Kirmani, Babak Damavandi, Anuj Kumar",
+      "date": "2026-08-18",
+      "pdf": "https://arxiv.org/pdf/2608.17402v1",
+      "score": "8.0",
+      "evidence": "专门设计MoE内核以降低推理开销；面向视觉编码器的高效MoE设计",
+      "tldr": "针对视觉编码器密集扩展带来的高计算成本与推理延迟问题，系统探索了 Mixture-of-Experts 在 CLIP 风格视觉编码器中的设计空间。发现细粒度 MoE 拓扑相比密集和标准 MoE 能带来显著增益，并为此提出无辅助损失的平衡变体与专用融合内核以优化专家利用和降低延迟。结合帧级蒸馏与新颖冻结机制，在保持图像知识的同时增强视频理解能力。预训练一系列 MoE-ViE 编码器，均稳定超越同尺寸密集模型；最大模型在零样本性能上匹敌 1.7 倍规模的 SOTA 编码器，仅需其 76% 延迟，与 LLM 对齐后更在图像和视频基准上超过所有对比编码器。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Vision encoders are a critical component of vision-language models, and scaling their capacity effectively improves performance. However, dense scaling increases compute cost and inference latency. Mixture-of-Experts (MoE) architectures offer a compelling alternative, having enabled efficient scaling in LLMs, yet the MoE design space for CLIP-style vision encoders remains underexplored at State-of-the-Art (SOTA) levels. In this work, we systematically study MoE designs for vision encoder scaling and find that fine-grained MoE topologies yield substantial gains over both dense and standard MoE counterparts. We further propose an auxiliary-loss-free balancing variant for better expert utilization, and design a specialized MoE kernel to mitigate inference latency overhead. To enhance video capabilities while preserving image knowledge, we introduce frame-level distillation paired with a novel freezing mechanism. We pretrain a series of Mixture-of-Experts Vision Encoders (MoE-ViE) across a range of sizes, all consistently outperforming their dense counterparts. Our largest model matches the zero-shot performance of a SOTA encoder 1.7x its size at 76% of its latency. When aligned with an LLM, MoE-ViE surpasses all compared encoders on image and video benchmarks, including those with up to 5x more activated parameters. Code is available at https://github.com/facebookresearch/moe_vie.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
