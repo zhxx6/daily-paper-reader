@@ -6,29 +6,32 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-19
-- 运行时间：2026-08-19 20:55:47 UTC
+- 最新运行日期：2026-08-20
+- 运行时间：2026-08-20 20:16:54 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：3
+- 本次总论文数：4
+- 精读区：4
 - 速读区：0
 
 ### 今日简报（AI）
-今日精读两篇LLM推理优化论文，聚焦内存高效异常值感知与混合精度注意力加速。  
-最值得关注的方向是稀疏-稠密融合的异常值处理，以及Tile级混合精度策略，均获9.0高分评价。  
-下一步可尝试将这两种方法结合，在实际部署中验证推理速度与显存占用改善。
-- 详情：[/202608/19/README](/202608/19/README)
+今日精读4篇论文，核心聚焦混合专家模型（MoE）的高效部署。
+最值得看：S2-MoE为边缘设备带来高效自推测解码，另有常量竞争比算法优化动态MoE服务。
+下一步可重点探索MoE推理加速与调度策略，对落地资源受限场景很有参考价值。
+- 详情：[/202608/20/README](/202608/20/README)
 
 ### 精读区论文标签
-1. [FlashQuant: Sparse-Dense Fusion for Memory-Efficient Outlier-Aware LLM Inference](/202608/19/2608.15531v1-flashquant-sparse-dense-fusion-for-memory-efficient-outlier-aware-llm-inference)  
+1. [S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices](/202608/20/2608.15018v2-s2-moe-enabling-efficient-self-speculative-decoding-for-mixture-of-experts-on-edge-devices)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：低比特量化、异常值感知的稀疏-密集内核融合用于LLM推理
-2. [TileMix: Tile-Centric Mixed-Precision Attention for LLM Inference Acceleration](/202608/19/2608.17336v1-tilemix-tile-centric-mixed-precision-attention-for-llm-inference-acceleration)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：以瓦片为中心的混合精度注意力内核用于LLM推理加速
-3. [MoE-ViE: Mixture of Experts Vision Encoder for Efficient Image and Video Understanding](/202608/19/2608.17402v1-moe-vie-mixture-of-experts-vision-encoder-for-efficient-image-and-video-understanding)  
+   evidence：边缘设备上的高效MoE自推测解码
+2. [A Constant-Competitive Algorithm for Dynamic Mixture-of-Experts Serving](/202608/20/2608.16947v1-a-constant-competitive-algorithm-for-dynamic-mixture-of-experts-serving)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：专门设计MoE内核以降低推理开销；面向视觉编码器的高效MoE设计
+   evidence：针对动态混合专家服务提出常数竞争比算法，优化推理服务成本
+3. [Efficient INT8 Inference of Small NLP Models on Server CPUs with PyTorch Native Stack](/202608/20/2608.18182v1-efficient-int8-inference-of-small-nlp-models-on-server-cpus-with-pytorch-native-stack)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：面向CPU上Transformer推理的INT8量化与算子选择
+4. [Compress and Forget: bitsandbytes Quantization Amplifies Proactive Interference in LLMs](/202608/20/2608.18578v1-compress-and-forget-bitsandbytes-quantization-amplifies-proactive-interference-in-llms)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：评估INT4/INT8后训练量化对LLM的影响
 
 ### 速读区论文标签
 - 本次无速读推荐。

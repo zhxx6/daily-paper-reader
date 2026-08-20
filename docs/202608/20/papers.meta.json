@@ -1,0 +1,69 @@
+{
+  "label": "2026-08-20",
+  "date": "2026-08-20",
+  "generated_at": "2026-08-20T20:17:01",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202608/20/2608.15018v2-s2-moe-enabling-efficient-self-speculative-decoding-for-mixture-of-experts-on-edge-devices",
+      "section": "deep",
+      "title_en": "S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices",
+      "authors": "Haochen Huang, Shengxuan Qiu, Meng Li",
+      "date": "2026-08-15",
+      "pdf": "https://arxiv.org/pdf/2608.15018v2",
+      "score": "9.0",
+      "evidence": "边缘设备上的高效MoE自推测解码",
+      "tldr": "边缘设备部署大语言模型受内存带宽限制，推测解码与MoE结合存在验证冗余和专家重用差的问题。S2-MoE通过路由感知自适应扩展、重用感知专家门控和共享上下文，实现高效自推测解码，在llama.cpp中实现，相比标准自回归解码平均加速2倍，最高5.3倍。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Deploying large language models (LLMs) for inference on edge devices is challenging due to severe memory and bandwidth constraints. While speculative decoding and Mixture-of-Experts (MoE) have been proposed to improve inference efficiency, naively combining them often incurs excessive verification overhead and poor expert reuse, limiting their effectiveness in memory-bound edge settings. In this work, we propose S2-MoE, an efficient self-speculative decoding framework for MoE inference on edge devices. S2-MoE reduces redundant verification through routing-aware adaptive speculative expansion, improves verification efficiency with reuse-aware expert gating, and aligns draft and target execution via shared context. Implemented in llama$.$cpp, S2-MoE achieves up to $5.3\\times$ speedup (about $2.0\\times$ on average) over standard autoregressive decoding across diverse MoE models and datasets on edge devices. Code is available at https://github.com/angerybob/S2-MoE.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/20/2608.16947v1-a-constant-competitive-algorithm-for-dynamic-mixture-of-experts-serving",
+      "section": "deep",
+      "title_en": "A Constant-Competitive Algorithm for Dynamic Mixture-of-Experts Serving",
+      "authors": "Ian D'Ambrosio",
+      "date": "2026-08-15",
+      "pdf": "https://arxiv.org/pdf/2608.16947v1",
+      "score": "8.0",
+      "evidence": "针对动态混合专家服务提出常数竞争比算法，优化推理服务成本",
+      "tldr": "动态混合专家（MoE）服务的在线分配问题此前仅有 O(sqrt(log k)) 竞争比的随机算法，原始问题的真实竞争比是否常数一直开放。本文通过将倒数最大服务成本归约为追逐覆盖行稀疏度 2 的正体，使用有限切线包络近似倒数外图，并设计非扩张平衡投影消除资源增强，再结合 Lazy Threshold 舍入，最终得到期望成本 E[ALG] <= 10C_PB OPT + (5C_PB+2)k + 16，证明随机原始竞争比为 Theta(1)。全部归约、舍入组合和主定理在 Lean 4 中机器验证，为在线算法形式化提供了新范例。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Huang, Lou, and Xiao introduced Dynamic Mixture-of-Experts Serving and gave an O(sqrt(log k))-competitive randomized algorithm for its integral primal problem, where k is the number of replica GPUs beyond the mandatory copy of each expert. Their matching lower barrier applies to an auxiliary dual and leaves the primal order open. We prove that the randomized primal competitive ratio is in fact Theta(1) for arbitrary numbers of experts. The upper bound reduces reciprocal-max service costs to chasing positive bodies with covering row sparsity two. A finite tangent envelope approximates each reciprocal epigraph within a constant factor, summable positive resets convert accumulated service into movement, and a nonexpansive balanced projection removes the positive-body algorithm's resource augmentation. Combining the resulting fractional path with Lazy Threshold Rounding gives   E[ALG] <= 10 C_PB OPT + (5 C_PB + 2) k + 16,   where C_PB is the absolute constant from Chasing Positive Bodies at resource augmentation one and covering sparsity two. The full reduction, rounding composition, and quantified main theorem are machine-checked in Lean 4 relative to exact formal interfaces for the two cited source theorems. Deterministic rational controls and a fresh independent replay accompany the formal proof.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/20/2608.18182v1-efficient-int8-inference-of-small-nlp-models-on-server-cpus-with-pytorch-native-stack",
+      "section": "deep",
+      "title_en": "Efficient INT8 Inference of Small NLP Models on Server CPUs with PyTorch Native Stack",
+      "authors": "Weiwen Xia, Yuxin Cui, E Cao",
+      "date": "2026-08-18",
+      "pdf": "https://arxiv.org/pdf/2608.18182v1",
+      "score": "8.0",
+      "evidence": "面向CPU上Transformer推理的INT8量化与算子选择",
+      "tldr": "小规模NLP模型（尤其BERT家族）在大模型时代仍是工业界分类、排序与检索的中坚力量，其INT8量化在服务器CPU上极具性价比，但用户日益要求原生PyTorch支持。我们将SmoothQuant集成至TorchAO，通过TorchInductor的图级融合以及跨oneDNN、AVX512_VNNI与AMX的高效内核选择，系统优化了Intel Xeon CPU上的INT8推理链路。在BERT、DistilBERT和XLM-RoBERTa等模型上，端到端吞吐量提升最高达5.8倍，而精度相比FP32基线损失可忽略甚至无损。该工作已上游至PyTorch与TorchAO，使开发者无需额外工具即可实现高效部署。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Small NLP models, especially BERT-family encoders, remain important in industrial workloads such as classification, ranking, and retrieval even in the era of large language models. On server CPUs, INT8 quantization offers an attractive latency-throughput-cost trade-off, but users increasingly expect such acceleration to be available directly in the native PyTorch stack. We integrate SmoothQuant into TorchAO and optimize the resulting inference path for Intel Xeon CPUs through graph-level fusion in TorchInductor and efficient INT8 GEMM kernel selection across oneDNN-, AVX512_VNNI-, and AMX-based implementations. Across BERT, DistilBERT, and XLM-RoBERTa benchmarks, the approach delivers up to 5.8x end-to-end throughput speedup with negligible---and in some cases no measurable---accuracy loss relative to the FP32 baseline. We also validated our work by detailed performance analysis with roofline models. The implementation has been upstreamed to PyTorch and TorchAO, enabling out-of-the-box deployment with native PyTorch tooling",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/20/2608.18578v1-compress-and-forget-bitsandbytes-quantization-amplifies-proactive-interference-in-llms",
+      "section": "deep",
+      "title_en": "Compress and Forget: bitsandbytes Quantization Amplifies Proactive Interference in LLMs",
+      "authors": "Shayan Shahrabi-Farahani, Dara Rahmati",
+      "date": "2026-08-19",
+      "pdf": "https://arxiv.org/pdf/2608.18578v1",
+      "score": "8.0",
+      "evidence": "评估INT4/INT8后训练量化对LLM的影响",
+      "tldr": "LLM存在主动干扰：反复覆盖的记忆检索随干扰累积退化。本文首次用bitsandbytes量化测试三种模型（FP16/INT8/INT4）在此失效模式上的表现。INT4显著降低高干扰准确率（如Qwen从81%到68.3%），并增加同类键入侵错误。这表明4-bit量化对长与可更新上下文的应用有额外代价，即使整体基准分数看似未变。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Proactive interference (PI) is a documented failure mode in large language models in which retrieval of a repeatedly overwritten value degrades as prior overwrites accumulate, mirroring a classical phenomenon in human working memory. Post-training quantization (PTQ) is now the default deployment path for open-weight models, yet its effect on this failure mode has not been tested. We evaluate three precision levels (FP16, INT8, INT4/NF4, via bitsandbytes) across three architecturally distinct instruction-tuned models (Qwen2.5-7B-Instruct, Mistral-7B-Instruct-v0.3, Phi-3.5-mini-instruct), holding the retrieval task fixed. INT4 quantization significantly reduces accuracy under high interference in every model (e.g., from 81.0% to 68.3% for Qwen), confirmed by paired McNemar's tests ($p \\le 2.6 \\times 10^{-6}$) and a mixed-effects regression spanning all interference levels; INT8, often assumed safe, also carries a smaller but real penalty in two of three models. The effect is specific to semantically similar (word-type) distractors and reverses sign under a numeric control condition, and is mechanistically linked to a rise in same-key intrusion errors under INT4 (from 21.5% to 24.6% of trials, $p = 4.8 \\times 10^{-7}$). A follow-up ablation shows the effect originates in the quantized transformer backbone rather than the output projection layer. These results suggest that bitsandbytes 4-bit quantization can impose an additional cost on applications relying on long, updatable, semantically dense contexts, even when aggregate benchmark accuracy appears largely unaffected. We release our code and tokenizer-verified vocabulary construction method at https://github.com/ShayanShahrabi/compress-and-forget",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

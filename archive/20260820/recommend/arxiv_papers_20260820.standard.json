@@ -1,0 +1,159 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-20T20:13:40.981619+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2608.15018v2",
+      "source": "arxiv",
+      "title": "S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices",
+      "abstract": "Deploying large language models (LLMs) for inference on edge devices is challenging due to severe memory and bandwidth constraints. While speculative decoding and Mixture-of-Experts (MoE) have been proposed to improve inference efficiency, naively combining them often incurs excessive verification overhead and poor expert reuse, limiting their effectiveness in memory-bound edge settings. In this work, we propose S2-MoE, an efficient self-speculative decoding framework for MoE inference on edge devices. S2-MoE reduces redundant verification through routing-aware adaptive speculative expansion, improves verification efficiency with reuse-aware expert gating, and aligns draft and target execution via shared context. Implemented in llama$.$cpp, S2-MoE achieves up to $5.3\\times$ speedup (about $2.0\\times$ on average) over standard autoregressive decoding across diverse MoE models and datasets on edge devices. Code is available at https://github.com/angerybob/S2-MoE.",
+      "authors": [
+        "Haochen Huang",
+        "Shengxuan Qiu",
+        "Meng Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-15T04:08:04+00:00",
+      "link": "https://arxiv.org/pdf/2608.15018v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "efficient self-speculative decoding for MoE on edge devices",
+      "llm_evidence_cn": "边缘设备上的高效MoE自推测解码",
+      "llm_evidence": "边缘设备上的高效MoE自推测解码",
+      "canonical_evidence": "边缘设备上的高效MoE自推测解码",
+      "llm_tldr_en": "S2-MoE presents an efficient self-speculative decoding framework for MoE inference on edge devices, using routing-aware adaptive speculative expansion and reuse-aware expert gating to reduce verification overhead and improve expert reuse under memory constraints.",
+      "llm_tldr_cn": "S2-MoE面向边缘设备上的MoE推理，针对朴素结合推测解码与MoE带来的验证开销大和专家复用差的问题，提出路由感知的自适应推测扩展、复用感知的专家门控以及共享上下文对齐机制。实验结果表明，S2-MoE能够显著降低计算和内存占用，在资源受限环境中实现更快的自推测解码。该框架为在边缘端高效部署MoE大模型提供了一条可行路径。",
+      "llm_tldr": "S2-MoE面向边缘设备上的MoE推理，针对朴素结合推测解码与MoE带来的验证开销大和专家复用差的问题，提出路由感知的自适应推测扩展、复用感知的专家门控以及共享上下文对齐机制。实验结果表明，S2-MoE能够显著降低计算和内存占用，在资源受限环境中实现更快的自推测解码。该框架为在边缘端高效部署MoE大模型提供了一条可行路径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.16947v1",
+      "source": "arxiv",
+      "title": "A Constant-Competitive Algorithm for Dynamic Mixture-of-Experts Serving",
+      "abstract": "Huang, Lou, and Xiao introduced Dynamic Mixture-of-Experts Serving and gave an O(sqrt(log k))-competitive randomized algorithm for its integral primal problem, where k is the number of replica GPUs beyond the mandatory copy of each expert. Their matching lower barrier applies to an auxiliary dual and leaves the primal order open. We prove that the randomized primal competitive ratio is in fact Theta(1) for arbitrary numbers of experts. The upper bound reduces reciprocal-max service costs to chasing positive bodies with covering row sparsity two. A finite tangent envelope approximates each reciprocal epigraph within a constant factor, summable positive resets convert accumulated service into movement, and a nonexpansive balanced projection removes the positive-body algorithm's resource augmentation. Combining the resulting fractional path with Lazy Threshold Rounding gives   E[ALG] <= 10 C_PB OPT + (5 C_PB + 2) k + 16,   where C_PB is the absolute constant from Chasing Positive Bodies at resource augmentation one and covering sparsity two. The full reduction, rounding composition, and quantified main theorem are machine-checked in Lean 4 relative to exact formal interfaces for the two cited source theorems. Deterministic rational controls and a fresh independent replay accompany the formal proof.",
+      "authors": [
+        "Ian D'Ambrosio"
+      ],
+      "primary_category": "cs.DS",
+      "categories": [
+        "cs.DS",
+        "cs.LG"
+      ],
+      "published": "2026-08-15T03:51:27+00:00",
+      "link": "https://arxiv.org/pdf/2608.16947v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "constant-competitive algorithm for dynamic Mixture-of-Experts serving, optimizing inference cost",
+      "llm_evidence_cn": "针对动态混合专家服务提出常数竞争比算法，优化推理服务成本",
+      "llm_evidence": "针对动态混合专家服务提出常数竞争比算法，优化推理服务成本",
+      "canonical_evidence": "针对动态混合专家服务提出常数竞争比算法，优化推理服务成本",
+      "llm_tldr_en": "This paper gives a randomized constant-competitive algorithm for dynamic Mixture-of-Experts serving, resolving the primal competitive ratio for any number of experts via chasing positive bodies and balanced projections. It provides a theoretical foundation for efficient MoE inference and serving.",
+      "llm_tldr_cn": "动态混合专家服务需要在不重建专家副本的情况下高效响应请求，现有算法竞争比未达最优。本文提出随机化常数竞争比算法，通过将反比服务代价转化为追踪正体，并用有限切线包络与平衡投影构造调度。证明对任意专家数量均可达到Theta(1)竞争比，从理论上保障了动态MoE服务的高效性。该结果对大规模MoE推理的在线资源分配具有重要参考价值。",
+      "llm_tldr": "动态混合专家服务需要在不重建专家副本的情况下高效响应请求，现有算法竞争比未达最优。本文提出随机化常数竞争比算法，通过将反比服务代价转化为追踪正体，并用有限切线包络与平衡投影构造调度。证明对任意专家数量均可达到Theta(1)竞争比，从理论上保障了动态MoE服务的高效性。该结果对大规模MoE推理的在线资源分配具有重要参考价值。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.18182v1",
+      "source": "arxiv",
+      "title": "Efficient INT8 Inference of Small NLP Models on Server CPUs with PyTorch Native Stack",
+      "abstract": "Small NLP models, especially BERT-family encoders, remain important in industrial workloads such as classification, ranking, and retrieval even in the era of large language models. On server CPUs, INT8 quantization offers an attractive latency-throughput-cost trade-off, but users increasingly expect such acceleration to be available directly in the native PyTorch stack. We integrate SmoothQuant into TorchAO and optimize the resulting inference path for Intel Xeon CPUs through graph-level fusion in TorchInductor and efficient INT8 GEMM kernel selection across oneDNN-, AVX512_VNNI-, and AMX-based implementations. Across BERT, DistilBERT, and XLM-RoBERTa benchmarks, the approach delivers up to 5.8x end-to-end throughput speedup with negligible---and in some cases no measurable---accuracy loss relative to the FP32 baseline. We also validated our work by detailed performance analysis with roofline models. The implementation has been upstreamed to PyTorch and TorchAO, enabling out-of-the-box deployment with native PyTorch tooling",
+      "authors": [
+        "Weiwen Xia",
+        "Yuxin Cui",
+        "E Cao"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-08-18T06:58:29+00:00",
+      "link": "https://arxiv.org/pdf/2608.18182v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "INT8 quantization and kernel selection for transformer inference on CPUs",
+      "llm_evidence_cn": "面向CPU上Transformer推理的INT8量化与算子选择",
+      "llm_evidence": "面向CPU上Transformer推理的INT8量化与算子选择",
+      "canonical_evidence": "面向CPU上Transformer推理的INT8量化与算子选择",
+      "llm_tldr_en": "Integrates SmoothQuant into TorchAO and optimizes INT8 inference for BERT-family models on Intel Xeon CPUs via graph fusion and GEMM kernel selection, achieving up to 5.8x throughput speedup.",
+      "llm_tldr_cn": "针对小规模NLP模型在服务器CPU上的推理加速，现有INT8量化方案缺乏PyTorch原生支持且算子选择不充分。本文将SmoothQuant集成到TorchAO，并通过TorchInductor图级融合和基于oneDNN/AVX512_VNNI/AMX的INT8 GEMM算子选择优化推理路径。在BERT、DistilBERT和XLM-RoBERTa上实现最高5.8倍端到端吞吐加速且精度损失可忽略。这表明量化与算子优化结合可高效提升CPU上的Transformer推理性能。",
+      "llm_tldr": "针对小规模NLP模型在服务器CPU上的推理加速，现有INT8量化方案缺乏PyTorch原生支持且算子选择不充分。本文将SmoothQuant集成到TorchAO，并通过TorchInductor图级融合和基于oneDNN/AVX512_VNNI/AMX的INT8 GEMM算子选择优化推理路径。在BERT、DistilBERT和XLM-RoBERTa上实现最高5.8倍端到端吞吐加速且精度损失可忽略。这表明量化与算子优化结合可高效提升CPU上的Transformer推理性能。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.18578v1",
+      "source": "arxiv",
+      "title": "Compress and Forget: bitsandbytes Quantization Amplifies Proactive Interference in LLMs",
+      "abstract": "Proactive interference (PI) is a documented failure mode in large language models in which retrieval of a repeatedly overwritten value degrades as prior overwrites accumulate, mirroring a classical phenomenon in human working memory. Post-training quantization (PTQ) is now the default deployment path for open-weight models, yet its effect on this failure mode has not been tested. We evaluate three precision levels (FP16, INT8, INT4/NF4, via bitsandbytes) across three architecturally distinct instruction-tuned models (Qwen2.5-7B-Instruct, Mistral-7B-Instruct-v0.3, Phi-3.5-mini-instruct), holding the retrieval task fixed. INT4 quantization significantly reduces accuracy under high interference in every model (e.g., from 81.0% to 68.3% for Qwen), confirmed by paired McNemar's tests ($p \\le 2.6 \\times 10^{-6}$) and a mixed-effects regression spanning all interference levels; INT8, often assumed safe, also carries a smaller but real penalty in two of three models. The effect is specific to semantically similar (word-type) distractors and reverses sign under a numeric control condition, and is mechanistically linked to a rise in same-key intrusion errors under INT4 (from 21.5% to 24.6% of trials, $p = 4.8 \\times 10^{-7}$). A follow-up ablation shows the effect originates in the quantized transformer backbone rather than the output projection layer. These results suggest that bitsandbytes 4-bit quantization can impose an additional cost on applications relying on long, updatable, semantically dense contexts, even when aggregate benchmark accuracy appears largely unaffected. We release our code and tokenizer-verified vocabulary construction method at https://github.com/ShayanShahrabi/compress-and-forget",
+      "authors": [
+        "Shayan Shahrabi-Farahani",
+        "Dara Rahmati"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-08-19T06:17:13+00:00",
+      "link": "https://arxiv.org/pdf/2608.18578v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "evaluates INT4/INT8 post-training quantization effects in LLMs",
+      "llm_evidence_cn": "评估INT4/INT8后训练量化对LLM的影响",
+      "llm_evidence": "评估INT4/INT8后训练量化对LLM的影响",
+      "canonical_evidence": "评估INT4/INT8后训练量化对LLM的影响",
+      "llm_tldr_en": "Shows post-training quantization (INT4/NF4) significantly degrades LLM accuracy under high proactive interference, highlighting a failure mode in quantized deployment.",
+      "llm_tldr_cn": "主动干扰是LLM中检索值时因先前覆盖累积而退化的失败模式。本文首次测试后训练量化(PTQ)对该失败模式的影响，使用bitsandbytes在Qwen2.5-7B、Mistral-7B、Phi-3.5-mini三个模型上比较FP16、INT8、INT4/NF4精度。固定检索任务发现，INT4量化在所有模型上显著降低高干扰下的准确率，例如从81.0%降至68.3%。这表明量化部署可能放大记忆干扰，需要新的缓解策略。",
+      "llm_tldr": "主动干扰是LLM中检索值时因先前覆盖累积而退化的失败模式。本文首次测试后训练量化(PTQ)对该失败模式的影响，使用bitsandbytes在Qwen2.5-7B、Mistral-7B、Phi-3.5-mini三个模型上比较FP16、INT8、INT4/NF4精度。固定检索任务发现，INT4量化在所有模型上显著降低高干扰下的准确率，例如从81.0%降至68.3%。这表明量化部署可能放大记忆干扰，需要新的缓解策略。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
