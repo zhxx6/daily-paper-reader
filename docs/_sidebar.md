@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-21 <!--dpr-date:20260821-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/21/2608.15117v1-anatomy-of-a-quantized-agent-vram-stability-and-forecasting-in-code-synthesis-agentic-workloads" data-sidebar-item="{&quot;title&quot;: &quot;Anatomy of a Quantized Agent: VRAM Stability and Forecasting in Code-Synthesis Agentic Workloads&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.15117v1-anatomy-of-a-quantized-agent-vram-stability-and-forecasting-in-code-synthesis-agentic-workloads&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;量化LLM推理显存分析&quot;}">Anatomy of a Quantized Agent: VRAM Stability and Forecasting in Code-Synthesis Agentic Workloads</a>
   * 2026-08-20 <!--dpr-date:20260820-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/20/2608.15018v2-s2-moe-enabling-efficient-self-speculative-decoding-for-mixture-of-experts-on-edge-devices" data-sidebar-item="{&quot;title&quot;: &quot;S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.15018v2-s2-moe-enabling-efficient-self-speculative-decoding-for-mixture-of-experts-on-edge-devices&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;边缘设备上的高效MoE自推测解码&quot;}">S2-MoE: Enabling Efficient Self-Speculative Decoding for Mixture-of-Experts on Edge Devices</a>

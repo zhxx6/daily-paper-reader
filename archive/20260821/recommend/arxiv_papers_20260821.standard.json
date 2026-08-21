@@ -1,0 +1,53 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-21T20:49:05.039323+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2608.15117v1",
+      "source": "arxiv",
+      "title": "Anatomy of a Quantized Agent: VRAM Stability and Forecasting in Code-Synthesis Agentic Workloads",
+      "abstract": "Analytical models of peak VRAM consumption for LLM inference decompose memory into weight-storage, KV-cache, and activation terms parameterized by step count, tool invocations, and context expansion. We evaluate this decomposition empirically within a strictly scoped measurement study: a LangGraph-based CUDA-kernel-synthesis agent (AgentK), a 4-bit quantization family (Q4 K M), a single NVIDIA H100 GPU, and four LLM backbones across 1,920 trajectories. Focusing on peak-memory forecasting behavior, we report two primary observations. First, closed-form analytical models achieve competitive accuracy when provided with two empirical constants: loaded-weight VRAM and a fixed activation-memory overhead. Supplied with live GPU readings and ground-truth trajectory parameters, the closed-form model matches or outperforms the best learned baseline on three of the four backbones (test MAPE 2.2-4.4% vs. 3.4-6.5%, p = 0.76). The exception is the smallest backbone (Phi-4-mini), where minimal VRAM variance (CV 0.3%) causes dynamic modeling to underperform simple regression. Second, compile success strictly bifurcates by backbone capacity (from 5.7% for Phi-4-mini to 62.0% for Qwen2.5-Coder-14B), demonstrating that functional code synthesis remains constrained by intrinsic LLM capabilities rather than available memory. Furthermore, because overall peak-memory variance is remarkably low across all backbones (CV 0.3-9.4%), learned prompt-feature regression offers statistically insignificant improvements over a constant-mean baseline. Consequently, we find no justification for deploying complex predictive VRAM models in highly quantized, weight-dominated regimes. We release the evaluated corpus and anonymized framework to support replication.",
+      "authors": [
+        "Anubhab Banerjee"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-08-15T08:39:43+00:00",
+      "link": "https://arxiv.org/pdf/2608.15117v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "4-bit quantization of LLMs for inference memory analysis",
+      "llm_evidence_cn": "量化LLM推理显存分析",
+      "llm_evidence": "量化LLM推理显存分析",
+      "canonical_evidence": "量化LLM推理显存分析",
+      "llm_tldr_en": "Analyzes peak VRAM in 4-bit quantized LLM inference for agent workloads, decomposing memory into weights, KV cache, and activations; closed-form model with two empirical constants accurately forecasts peak memory.",
+      "llm_tldr_cn": "该论文以代码生成类智能体负载为对象，深入剖析了4比特量化大语言模型推理中的峰值显存行为。作者将显存分解为权重存储、KV缓存和激活项，并在H100上使用Q4 K M量化族进行测量。结果表明，封闭式分析模型配合两个经验常数即可准确预测峰值显存。该研究为量化模型部署中的显存规划提供了实用的预测方法和实证基准。",
+      "llm_tldr": "该论文以代码生成类智能体负载为对象，深入剖析了4比特量化大语言模型推理中的峰值显存行为。作者将显存分解为权重存储、KV缓存和激活项，并在H100上使用Q4 K M量化族进行测量。结果表明，封闭式分析模型配合两个经验常数即可准确预测峰值显存。该研究为量化模型部署中的显存规划提供了实用的预测方法和实证基准。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
