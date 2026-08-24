@@ -1,0 +1,221 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-24T20:03:53.676385+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2608.20953v1",
+      "source": "arxiv",
+      "title": "Quantization-Aware Healing: A Practical Recipe for Recovering Compressed, 4-Bit LLMs",
+      "abstract": "Serving large language models cheaply increasingly means shipping models that are both structurally compressed to a fraction of their parameters and quantized to 4 bits. Together these steps degrade reasoning, mathematics, coding, and long-context behavior enough to require a recovery, or healing, stage before deployment. The default recipe, quantization-aware training (QAT), re-fits the compressed, quantized model to hard labels; in our pipeline it converged slowly and collapsed past its peak. We adopted Quantization-Aware Healing (QAH) instead. Because a structurally compressed model is never independently trained at full precision, its bfloat16 checkpoint is a distillation-recovered approximation of the original; QAH distills the 4-bit student directly from the original, uncompressed model. On a GPT-OSS 120B to 60B to MXFP4 pipeline, the QAH student matches or beats its bfloat16 source on 7 of 9 benchmarks at roughly 4 times less weight memory and half the teacher's parameter count, and is released open-weight as Hypernova-60B. Against a matched QAT baseline it reaches a comparable peak about 7 times faster and stays stable under continued training, without hand-tuned early stopping. We also report deployment lessons, including a large, reproducible quality gap between distributed-training backends. Our aim is a recipe deployable without a multi-week hyper-parameter search.",
+      "authors": [
+        "Bakbergen Ryskulov",
+        "Iker García-Ferrero",
+        "David Montero",
+        "David Jansen",
+        "Ali Hashemi",
+        "Jezabel R. Garcia",
+        "Antonio Tiene",
+        "Román Orús"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG",
+        "cs.PF"
+      ],
+      "published": "2026-08-21T10:19:27+00:00",
+      "link": "https://arxiv.org/pdf/2608.20953v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "4-bit LLM weight quantization and recovery technique",
+      "llm_evidence_cn": "4比特大语言模型权重量化与恢复方法",
+      "llm_evidence": "4比特大语言模型权重量化与恢复方法",
+      "canonical_evidence": "4比特大语言模型权重量化与恢复方法",
+      "llm_tldr_en": "Paper presents Quantization-Aware Healing (QAH), a recovery recipe for 4-bit compressed LLMs that distills from the bfloat16 checkpoint instead of slow QAT, restoring reasoning, math, coding, and long-context performance after quantization.",
+      "llm_tldr_cn": "结构压缩与4比特量化会使大语言模型的推理、数学、代码和长上下文能力下降，传统量化感知训练收敛慢且易过回头。论文提出量化感知修复（QAH），通过蒸馏bfloat16检查点来修复量化模型。该方法避免了QAT的不足，能高效恢复量化模型的各项能力，为低比特LLM的实际部署提供了实用配方。",
+      "llm_tldr": "结构压缩与4比特量化会使大语言模型的推理、数学、代码和长上下文能力下降，传统量化感知训练收敛慢且易过回头。论文提出量化感知修复（QAH），通过蒸馏bfloat16检查点来修复量化模型。该方法避免了QAT的不足，能高效恢复量化模型的各项能力，为低比特LLM的实际部署提供了实用配方。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.20988v1",
+      "source": "arxiv",
+      "title": "Jacobian-guided Noise Injection for Quantization Robustness in Large Language Models",
+      "abstract": "Quantization of Large Language Models (LLMs) is often hindered by the sensitivity of the self-attention mechanism to discretization errors. We identify the softmax operator as a bottleneck for quantization stability due to its sensitivity to outliers and state-dependent Jacobian. We theoretically establish that suppressing the norm of this Jacobian helps in bounding quantization-induced performance degradation. Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm. Unlike prior approaches that rely on heuristic or penalise jacobian directly, our method provides a way to identify the optimal noise variance based on the local attention sensitivity. We evaluate the method on SOTA LLM architectures, where it demonstrates improved robustness over popular PTQ methods. Empirical analysis reveals that the proposed method gives up to +37% relative gains on Top-1 accuracy on ImageNet-1K for SigLIP and improves relative perplexity by upto 40% on WikiText for language models in low bit quantisation settings, proving the efficacy of the approach.",
+      "authors": [
+        "Deepanshu Pandey",
+        "Arnav Chavan",
+        "Nahush Lele",
+        "Sankalp Dayal",
+        "Deepak Gupta"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-08-21T11:16:40+00:00",
+      "link": "https://arxiv.org/pdf/2608.20988v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Jacobian-guided noise injection for quantization robustness in LLMs",
+      "llm_evidence_cn": "利用雅可比范数引导噪声注入提升LLM量化鲁棒性",
+      "llm_evidence": "利用雅可比范数引导噪声注入提升LLM量化鲁棒性",
+      "canonical_evidence": "利用雅可比范数引导噪声注入提升LLM量化鲁棒性",
+      "llm_tldr_en": "This paper identifies the softmax operator as a key bottleneck for LLM quantization stability, and proposes injecting zero-mean Gaussian noise into pre-attention logits with variance derived from the Jacobian Frobenius norm, theoretically bounding quantization-induced performance degradation.",
+      "llm_tldr_cn": "大语言模型量化常受自注意力机制离散化误差影响，其中softmax算子因异常值和状态相关雅可比成为量化稳定性瓶颈。该论文提出雅可比引导的噪声注入训练策略，依据雅可比Frobenius范数推导噪声方差并将其注入注意力前的logits，从理论上抑制量化性能下降，为提升量化鲁棒性提供了新途径。",
+      "llm_tldr": "大语言模型量化常受自注意力机制离散化误差影响，其中softmax算子因异常值和状态相关雅可比成为量化稳定性瓶颈。该论文提出雅可比引导的噪声注入训练策略，依据雅可比Frobenius范数推导噪声方差并将其注入注意力前的logits，从理论上抑制量化性能下降，为提升量化鲁棒性提供了新途径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.21240v1",
+      "source": "arxiv",
+      "title": "SPICE: Speculative Prefetching with Low-Rank Expert Surrogates and Heterogeneous Orchestration for MoE Inference Acceleration",
+      "abstract": "Mixture-of-Experts (MoE) models are increasingly used in LLMs because sparse activation decouples model capacity from compute cost. However, the large expert parameter footprint often exceeds GPU memory capacity, making inference latency dominated by the host-to-device PCIe transfers for expert loading. To address these challenges, this paper presents SPICE, a speculative prefetching framework for MoE offloading that combines lightweight expert prediction with confidence-aware CPU-GPU orchestration. On one hand, SPICE builds a lightweight draft model aligned with the target MoE architecture, using a confidence-aware adaptive lookahead algorithm to prefetch high-confidence experts. On the other hand, when speculative predictions miss, SPICE switches to a cost-aware CPU-GPU heterogeneous orchestration: low-confidence misses are approximated by the resident shared expert with low rank expert (LoRE) surrogates, while exact residual work is offloaded to the CPU and executed asynchronously in parallel with ongoing GPU computation. Evaluated on DeepSeek-V2-Lite and Qwen2-57B-A14B across diverse GPU platforms, SPICE achieves up to 3.12 speedup in Time Per Output Token (TPOT) with minimal quality loss, showing that effective MoE offloading requires not only predicting future experts, but also deciding which misses deserve approximation, which require exact recovery, and where exact residual work should execute.",
+      "authors": [
+        "Yongxiang Lyu",
+        "Ning Li",
+        "Bonian Jia"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR"
+      ],
+      "published": "2026-08-21T15:50:46+00:00",
+      "link": "https://arxiv.org/pdf/2608.21240v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Efficient MoE inference acceleration via speculative prefetching",
+      "llm_evidence_cn": "通过推测性预取加速MoE推理",
+      "llm_evidence": "通过推测性预取加速MoE推理",
+      "canonical_evidence": "通过推测性预取加速MoE推理",
+      "llm_tldr_en": "SPICE accelerates MoE inference by prefetching experts with low-rank surrogates and confidence-aware CPU-GPU orchestration, reducing PCIe transfer latency.",
+      "llm_tldr_cn": "MoE大模型推理常受限于专家权重在主机与GPU间的PCIe传输延迟。SPICE提出一种推测性预取框架，利用轻量级草稿模型预测高置信专家，并通过低秩专家代理与置信感知的自适应前瞻算法，在CPU-GPU异构调度下提前加载所需专家参数。该方法缓解了专家选择不确定性，实验显著降低推理延迟并提升预取命中率，为大模型MoE离线推理提供了高效可扩展的加速方案。",
+      "llm_tldr": "MoE大模型推理常受限于专家权重在主机与GPU间的PCIe传输延迟。SPICE提出一种推测性预取框架，利用轻量级草稿模型预测高置信专家，并通过低秩专家代理与置信感知的自适应前瞻算法，在CPU-GPU异构调度下提前加载所需专家参数。该方法缓解了专家选择不确定性，实验显著降低推理延迟并提升预取命中率，为大模型MoE离线推理提供了高效可扩展的加速方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.21019v1",
+      "source": "arxiv",
+      "title": "Target-Aware Calibration Data Selection for Preserving Uncertainty in Quantized Language Models",
+      "abstract": "Quantization is widely used to deploy large language models, but its effect on uncertainty behavior, such as confidence, margins, and abstention, is rarely treated as a primary objective. We frame calibration-data selection for quantization as a target-dependent uncertainty-preservation problem. Different deployments emphasize different regions of the input distribution, yet prior work mainly optimizes accuracy-oriented compression metrics or adjusts scores after quantization. We formalize this goal with distributional and boundary preservation risks, and provide a simple mixture-mismatch argument explaining why no single calibration recipe should be expected to fit all targets. We introduce Doubt-Preserving Quantization (DPQ), a lightweight pre-quantization recipe family that uses full-precision predictions to construct target-aligned calibration mixtures of high-doubt examples and generic anchors. Across 8 language models, 9 NLP benchmarks, and 22 comparison methods, the leading fixed recipe changes with the preservation target: DPQ-r75 leads on SQuAD2 answerability-boundary preservation, while milder or single-signal variants, including DPQ-r50, confidence-only, and entropy-only, better preserve broad multiple-choice QA behavior. These results show that calibration data should be selected for the specific full-precision score behavior a deployment needs to preserve, rather than treated as a fixed quantization detail.",
+      "authors": [
+        "Zhen Yang",
+        "Sizai Hou",
+        "Kaiwen Zheng",
+        "Yaofang Liu",
+        "Liang He",
+        "Yixuan Chen",
+        "Kangning Cui"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-08-21T12:07:49+00:00",
+      "link": "https://arxiv.org/pdf/2608.21019v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Quantization calibration data selection for preserving uncertainty in language models",
+      "llm_evidence_cn": "面向语言模型量化并保持不确定性的校准数据选择",
+      "llm_evidence": "面向语言模型量化并保持不确定性的校准数据选择",
+      "canonical_evidence": "面向语言模型量化并保持不确定性的校准数据选择",
+      "llm_tldr_en": "Frames calibration-data selection for quantized LLMs as target-aware uncertainty preservation, introducing Doubt-Preserving Quantization to keep confidence and abstention behavior under compression.",
+      "llm_tldr_cn": "该论文指出量化部署大语言模型时，模型的不确定性行为（置信度、间隔、弃权）很少被作为主要目标保护。作者将量化校准数据选择定义为依赖部署目标的不确定性保持问题，并提出Doubt-Preserving Quantization (DPQ)方法，通过分布与边界保持风险显式优化校准集。实验显示该方法在多种量化配置下能更好保留模型的不确定性表现，同时维持精度。该工作为量化语言模型提供了新的目标维度，与权重量化需求高度契合。",
+      "llm_tldr": "该论文指出量化部署大语言模型时，模型的不确定性行为（置信度、间隔、弃权）很少被作为主要目标保护。作者将量化校准数据选择定义为依赖部署目标的不确定性保持问题，并提出Doubt-Preserving Quantization (DPQ)方法，通过分布与边界保持风险显式优化校准集。实验显示该方法在多种量化配置下能更好保留模型的不确定性表现，同时维持精度。该工作为量化语言模型提供了新的目标维度，与权重量化需求高度契合。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.15693v1",
+      "source": "arxiv",
+      "title": "Large Models for Small Devices: Recent Advances and Empirical Analysis of Edge AI Deployment",
+      "abstract": "Running large AI models on resource-constrained edge devices requires model compression to reduce model size and computation. What compresses well, however, need not deploy well. We survey dozens of recent works that report compression results on real hardware and extract practical deployment guidelines from them. Following these guidelines, we deploy compact language and image models on GPU, CPU, and Raspberry Pi platforms across question answering and image segmentation. No single technique wins across tasks. For question answering, Qwen3.5 0.8B reaches 93.85 SQuAD F1 and 92 EM under Q5_K_M GGUF quantization, while structured pruning at the same precision costs 16 F1 at a 1% ratio. For segmentation, the ranking reverses: default quantization leaves parameters and MACs unchanged, whereas pruning cuts model size by nearly 80% at near-constant mIoU. Pruning can even inflate the deployed artifact by 21-49% by breaking k-quant super-block alignment; combined with longer, less format-compliant outputs, this raises Raspberry Pi latency up to 3.4x. Compression can also manufacture the appearance of competence rather than destroy it visibly: one LoRA-recovered variant stays fully parseable and holds 71% strict BoolQ accuracy while sending 97 of 100 predictions to a single class, at 52.6% balanced accuracy. We explain these effects through neural-flow graph analysis and prefill-decode-level latency decomposition, and condense them into task-specific deployment research directions. The right technique depends on the task, the model, and the hardware. Our experiment code and artifacts are open-sourced at https://github.com/Arnavvvkumar/deployment",
+      "authors": [
+        "Subhransu Das",
+        "Jiaming Cheng",
+        "Arnav Kumar",
+        "Sadia Afrose",
+        "Mingzhe Han",
+        "Michael Silagy",
+        "Shreya Palande",
+        "Brijesh Soni",
+        "Rajiv Ramnath"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-08-16T11:52:13+00:00",
+      "link": "https://arxiv.org/pdf/2608.15693v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Empirically evaluates quantization of large language models such as Qwen3.5 under Q5_K_M GGUF for edge deployment",
+      "llm_evidence_cn": "实证评估了Qwen3.5等大模型在Q5_K_M GGUF量化下的边缘部署表现",
+      "llm_evidence": "实证评估了Qwen3.5等大模型在Q5_K_M GGUF量化下的边缘部署表现",
+      "canonical_evidence": "实证评估了Qwen3.5等大模型在Q5_K_M GGUF量化下的边缘部署表现",
+      "llm_tldr_en": "This paper surveys recent model compression works and deploys compact language and image models on GPU, CPU, and Raspberry Pi, empirically evaluating quantization techniques such as Q5_K_M GGUF for question answering and image segmentation.",
+      "llm_tldr_cn": "大模型在资源受限设备上的部署需要压缩技术，但压缩效果好不等于部署效果好。该文调研了众多真实硬件上的压缩结果，并在GPU、CPU和树莓派等平台对问答和图像分割任务进行了量化部署实验。结果表明，Qwen3.5 0.8B在Q5_K_M GGUF量化下SQuAD F1达到93.85，而相同精度下结构化剪枝损失16 F1；不同任务的最优技术并不相同。这为边缘AI模型压缩与量化选型提供了实践指导。",
+      "llm_tldr": "大模型在资源受限设备上的部署需要压缩技术，但压缩效果好不等于部署效果好。该文调研了众多真实硬件上的压缩结果，并在GPU、CPU和树莓派等平台对问答和图像分割任务进行了量化部署实验。结果表明，Qwen3.5 0.8B在Q5_K_M GGUF量化下SQuAD F1达到93.85，而相同精度下结构化剪枝损失16 F1；不同任务的最优技术并不相同。这为边缘AI模型压缩与量化选型提供了实践指导。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
