@@ -6,39 +6,29 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-24
-- 运行时间：2026-08-24 20:08:15 UTC
+- 最新运行日期：2026-08-25
+- 运行时间：2026-08-25 20:44:54 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：4
+- 本次总论文数：3
+- 精读区：2
 - 速读区：1
 
 ### 今日简报（AI）
-今日精读2篇、速读1篇，聚焦4-bit量化LLM的恢复与边缘部署。
-
-最值得关注：两篇9分论文均针对量化压缩后的模型性能恢复，分别提出“量化感知修复”与“雅可比引导噪声注入”两种有效方案。
-
-建议普通读者可优先了解量化感知修复方法，它更贴近实际工程、便于直接应用。
-- 详情：[/202608/24/README](/202608/24/README)
+今日精读聚焦 MoE 大模型压缩与推理优化，3 篇论文均围绕混合专家系统展开；最值得关注的是 9.0 分的压缩技术基准，以及 8.0 分的阶段感知专家管理方案，二者直击内存效率痛点；建议读者优先浏览精读笔记，速读的无线边缘推理可作拓展了解。
+- 详情：[/202608/25/README](/202608/25/README)
 
 ### 精读区论文标签
-1. [Quantization-Aware Healing: A Practical Recipe for Recovering Compressed, 4-Bit LLMs](/202608/24/2608.20953v1-quantization-aware-healing-a-practical-recipe-for-recovering-compressed-4-bit-llms)  
+1. [Benchmarking Composable Compression Techniques in Mixture-of-Experts LLMs](/202608/25/2608.21693v1-benchmarking-composable-compression-techniques-in-mixture-of-experts-llms)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：4比特大语言模型权重量化与恢复方法
-2. [Jacobian-guided Noise Injection for Quantization Robustness in Large Language Models](/202608/24/2608.20988v1-jacobian-guided-noise-injection-for-quantization-robustness-in-large-language-models)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：利用雅可比范数引导噪声注入提升LLM量化鲁棒性
-3. [SPICE: Speculative Prefetching with Low-Rank Expert Surrogates and Heterogeneous Orchestration for MoE Inference Acceleration](/202608/24/2608.21240v1-spice-speculative-prefetching-with-low-rank-expert-surrogates-and-heterogeneous-orchestration-for-moe-inference-acceleration)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：通过推测性预取加速MoE推理
-4. [Target-Aware Calibration Data Selection for Preserving Uncertainty in Quantized Language Models](/202608/24/2608.21019v1-target-aware-calibration-data-selection-for-preserving-uncertainty-in-quantized-language-models)  
+   evidence：系统评测MoE中权重量化与KV缓存压缩等可组合压缩技术，直接面向MoE推理效率
+2. [SAEM: Stage-Aware Expert Management for Memory-Efficient MoE Inference in Chain-of-Thought Reasoning](/202608/25/2608.21614v1-saem-stage-aware-expert-management-for-memory-efficient-moe-inference-in-chain-of-thought-reasoning)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向语言模型量化并保持不确定性的校准数据选择
+   evidence：直接面向内存高效MoE推理，利用思维链推理中的阶段级专家激活模式
 
 ### 速读区论文标签
-1. [Large Models for Small Devices: Recent Advances and Empirical Analysis of Edge AI Deployment](/202608/24/2608.15693v1-large-models-for-small-devices-recent-advances-and-empirical-analysis-of-edge-ai-deployment)  
+1. [AirMoE: Realizing Over-the-Air Distributed Mixture-of-Experts Inference at the Wireless Edge](/202608/25/2608.22932v1-airmoe-realizing-over-the-air-distributed-mixture-of-experts-inference-at-the-wireless-edge)  
    标签：评分：7.0/10、query:moe-gk-quant
-   evidence：实证评估了Qwen3.5等大模型在Q5_K_M GGUF量化下的边缘部署表现
+   evidence：直接针对高效MoE推理，通过空中计算缓解专家输出上传瓶颈
 
 
 <div class="dpr-home-promo-card">
