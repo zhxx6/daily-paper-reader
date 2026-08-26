@@ -1,0 +1,24 @@
+{
+  "label": "2026-08-26",
+  "date": "2026-08-26",
+  "generated_at": "2026-08-26T22:18:43",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202608/26/2608.23806v1-giga-embeddings-mixture-of-experts-encoders-for-high-throughput-text-embeddings",
+      "section": "deep",
+      "title_en": "Giga-Embeddings: Mixture-of-Experts Encoders for High-Throughput Text Embeddings",
+      "authors": "Egor Kolodin, Egor Krasnoperov, Evgeniy Kosarev, Fyodor Minkin",
+      "date": "2026-08-24",
+      "pdf": "https://arxiv.org/pdf/2608.23806v1",
+      "score": "8.0",
+      "evidence": "提出MoE文本编码器系列并用vLLM实现高吞吐服务，直接关联高效MoE推理",
+      "tldr": "文本嵌入模型需兼顾检索质量与服务效率。Giga-Embeddings 提出稀疏10B参数的MoE编码器，每token仅激活1.8B参数，在英、俄、多语和代码MTEB上取得最佳聚合性能，vLLM吞吐达114.5k tokens/s，较dense 3B高25%。同时提供dense 3B和蒸馏480M模型，后者俄语MTEB达70.98，超FRIDA且参数少42%。全部检查点开源。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We introduce Giga-Embeddings, a family of text embedding models designed to combine strong retrieval quality with efficient serving. Its largest member is a sparse 10B-parameter Mixture-of-Experts encoder with approximately 1.8B active parameters per token. Across English, Russian, multilingual, and code MTEB benchmarks, this model achieves the strongest aggregate performance within the family on all four evaluated suites. In our vLLM benchmark with 1024-token inputs, it processes 114.5k tokens per second, providing 25 percent higher throughput than the dense 3B model and 1.56-2.65x the throughput of the evaluated external systems. The family also includes a dense 3B encoder and a distilled 480M encoder for tighter compute and memory budgets. We train the compact model using a dimension-agnostic objective that aligns teacher and student similarity distributions. The resulting 480M model scores 70.98 on Russian MTEB, surpassing FRIDA while using 42 percent fewer parameters. We release all three model checkpoints.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

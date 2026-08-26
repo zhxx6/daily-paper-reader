@@ -6,29 +6,28 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-25
-- 运行时间：2026-08-25 20:44:54 UTC
+- 最新运行日期：2026-08-26
+- 运行时间：2026-08-26 22:18:38 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：2
-- 速读区：1
+- 本次总论文数：1
+- 精读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日精读聚焦 MoE 大模型压缩与推理优化，3 篇论文均围绕混合专家系统展开；最值得关注的是 9.0 分的压缩技术基准，以及 8.0 分的阶段感知专家管理方案，二者直击内存效率痛点；建议读者优先浏览精读笔记，速读的无线边缘推理可作拓展了解。
-- 详情：[/202608/25/README](/202608/25/README)
+今日精读1篇高评分论文，聚焦高效文本嵌入模型。
+
+最值得关注的方向是混合专家（MoE）编码器在提升文本嵌入吞吐量上的应用。
+
+建议普通读者从“吞吐量-性能权衡”角度切入，快速理解该方法的实用价值。
+- 详情：[/202608/26/README](/202608/26/README)
 
 ### 精读区论文标签
-1. [Benchmarking Composable Compression Techniques in Mixture-of-Experts LLMs](/202608/25/2608.21693v1-benchmarking-composable-compression-techniques-in-mixture-of-experts-llms)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：系统评测MoE中权重量化与KV缓存压缩等可组合压缩技术，直接面向MoE推理效率
-2. [SAEM: Stage-Aware Expert Management for Memory-Efficient MoE Inference in Chain-of-Thought Reasoning](/202608/25/2608.21614v1-saem-stage-aware-expert-management-for-memory-efficient-moe-inference-in-chain-of-thought-reasoning)  
+1. [Giga-Embeddings: Mixture-of-Experts Encoders for High-Throughput Text Embeddings](/202608/26/2608.23806v1-giga-embeddings-mixture-of-experts-encoders-for-high-throughput-text-embeddings)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：直接面向内存高效MoE推理，利用思维链推理中的阶段级专家激活模式
+   evidence：提出MoE文本编码器系列并用vLLM实现高吞吐服务，直接关联高效MoE推理
 
 ### 速读区论文标签
-1. [AirMoE: Realizing Over-the-Air Distributed Mixture-of-Experts Inference at the Wireless Edge](/202608/25/2608.22932v1-airmoe-realizing-over-the-air-distributed-mixture-of-experts-inference-at-the-wireless-edge)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：直接针对高效MoE推理，通过空中计算缓解专家输出上传瓶颈
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">

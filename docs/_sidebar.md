@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-26 <!--dpr-date:20260826-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/26/2608.23806v1-giga-embeddings-mixture-of-experts-encoders-for-high-throughput-text-embeddings" data-sidebar-item="{&quot;title&quot;: &quot;Giga-Embeddings: Mixture-of-Experts Encoders for High-Throughput Text Embeddings&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.23806v1-giga-embeddings-mixture-of-experts-encoders-for-high-throughput-text-embeddings&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;提出MoE文本编码器系列并用vLLM实现高吞吐服务，直接关联高效MoE推理&quot;}">Giga-Embeddings: Mixture-of-Experts Encoders for High-Throughput Text Embeddings</a>
   * 2026-08-25 <!--dpr-date:20260825-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/25/2608.21693v1-benchmarking-composable-compression-techniques-in-mixture-of-experts-llms" data-sidebar-item="{&quot;title&quot;: &quot;Benchmarking Composable Compression Techniques in Mixture-of-Experts LLMs&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.21693v1-benchmarking-composable-compression-techniques-in-mixture-of-experts-llms&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;系统评测MoE中权重量化与KV缓存压缩等可组合压缩技术，直接面向MoE推理效率&quot;}">Benchmarking Composable Compression Techniques in Mixture-of-Experts LLMs</a>
