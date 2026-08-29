@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-29 <!--dpr-date:20260829-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/29/2608.25231v1-output-dilution-redundant-but-fragile-representations-in-moe-models" data-sidebar-item="{&quot;title&quot;: &quot;Output Dilution: Redundant but Fragile Representations in MoE Models&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.25231v1-output-dilution-redundant-but-fragile-representations-in-moe-models&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;揭示MoE表示在激活噪声下易崩塌，直接关系到量化MoE推理中的误差鲁棒性&quot;}">Output Dilution: Redundant but Fragile Representations in MoE Models</a>
   * 2026-08-28 <!--dpr-date:20260828-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/28/2608.22613v1-nova-technology-architecture-co-design-of-near-memory-processing-for-attention-ssm-moe-hybrid-llm-inference" data-sidebar-item="{&quot;title&quot;: &quot;NOVA: Technology-Architecture Co-Design of Near-Memory Processing for Attention-SSM-MoE Hybrid LLM Inference&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.22613v1-nova-technology-architecture-co-design-of-near-memory-processing-for-attention-ssm-moe-hybrid-llm-inference&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;面向含MoE层的混合大模型推理，通过近内存处理架构提升推理效率&quot;}">NOVA: Technology-Architecture Co-Design of Near-Memory Processing for Attention-SSM-MoE Hybrid LLM Inference</a>

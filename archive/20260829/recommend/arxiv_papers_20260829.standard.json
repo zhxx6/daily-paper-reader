@@ -1,16 +1,54 @@
 {
   "mode": "standard",
-  "generated_at": "2026-08-29T03:34:52.396469+00:00",
+  "generated_at": "2026-08-29T21:26:27.360526+00:00",
   "stats": {
     "mode": "standard",
     "tag_count": 1,
     "deep_divecandidates": 0,
     "deep_cap": 6,
     "deep_selected": 0,
-    "quick_candidates": 0,
+    "quick_candidates": 1,
     "quick_skim_target": 11,
-    "quick_selected": 0
+    "quick_selected": 1
   },
   "deep_dive": [],
-  "quick_skim": []
+  "quick_skim": [
+    {
+      "id": "2608.25231v1",
+      "source": "arxiv",
+      "title": "Output Dilution: Redundant but Fragile Representations in MoE Models",
+      "abstract": "Mixture-of-Experts (MoE) models appear to encode moral content as robustly as dense models, yet prove far more fragile in their encoding. In OLMoE-1B-7B, linear probes recover moral valence from nearly every expert-layer combination, with mean peak-layer accuracy above 90%. But these representations collapse under levels of activation noise that a dense model of matched size easily tolerates, with a 4.2-fold difference in robustness.   We trace this to output dilution. Because the MoE block averages across active experts before contributing to the residual stream, the feedforward signal reaching downstream layers is nearly two orders of magnitude smaller than in a dense MLP. Moral information, our interest, survives aggregation intact but at a scale trivially overwhelmed by perturbation. Routing itself remains stable under noise while the vulnerability originates entirely in the diluted aggregate.   Checkpoint trajectories confirm this is architectural, not learned. Experts never specialize and accuracy saturates within the first few thousand steps. In sparse architectures, redundant encoding does not imply robust encoding.",
+      "authors": [
+        "Orion Reblitz-Richardson"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-08-25T23:41:07+00:00",
+      "link": "https://arxiv.org/pdf/2608.25231v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Analyzes MoE fragility under activation noise, directly informing robustness challenges in quantized MoE inference",
+      "llm_evidence_cn": "揭示MoE表示在激活噪声下易崩塌，直接关系到量化MoE推理中的误差鲁棒性",
+      "llm_evidence": "揭示MoE表示在激活噪声下易崩塌，直接关系到量化MoE推理中的误差鲁棒性",
+      "canonical_evidence": "揭示MoE表示在激活噪声下易崩塌，直接关系到量化MoE推理中的误差鲁棒性",
+      "llm_tldr_en": "Analyzes why MoE models are far more fragile than dense models under activation noise, tracing it to output dilution where averaging across active experts shrinks the feedforward signal; findings are critical for robust quantized MoE inference.",
+      "llm_tldr_cn": "MoE模型对激活噪声的鲁棒性远弱于同规模稠密模型，而量化等部署手段恰会引入这类扰动，因此该脆弱性直接影响量化MoE推理的可行性。作者在OLMoE-1B-7B上发现，多个专家层组合都能以90%以上峰值精度解码道德效价，但在稠密模型可承受的噪声水平下表示即崩溃，鲁棒性差距达4.2倍。其根源是输出稀释：MoE块对激活专家平均后再加入残差流，使后续层得到的信号比稠密MLP小近两个数量级。该分析提示量化MoE时需避免激活误差被稀释效应放大。",
+      "llm_tldr": "MoE模型对激活噪声的鲁棒性远弱于同规模稠密模型，而量化等部署手段恰会引入这类扰动，因此该脆弱性直接影响量化MoE推理的可行性。作者在OLMoE-1B-7B上发现，多个专家层组合都能以90%以上峰值精度解码道德效价，但在稠密模型可承受的噪声水平下表示即崩溃，鲁棒性差距达4.2倍。其根源是输出稀释：MoE块对激活专家平均后再加入残差流，使后续层得到的信号比稠密MLP小近两个数量级。该分析提示量化MoE时需避免激活误差被稀释效应放大。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
 }

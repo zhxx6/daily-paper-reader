@@ -1,8 +1,24 @@
 {
   "label": "2026-08-29",
   "date": "2026-08-29",
-  "generated_at": "2026-08-29T03:34:52",
-  "count": 0,
-  "papers": [],
+  "generated_at": "2026-08-29T21:27:48",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202608/29/2608.25231v1-output-dilution-redundant-but-fragile-representations-in-moe-models",
+      "section": "quick",
+      "title_en": "Output Dilution: Redundant but Fragile Representations in MoE Models",
+      "authors": "Orion Reblitz-Richardson",
+      "date": "2026-08-25",
+      "pdf": "https://arxiv.org/pdf/2608.25231v1",
+      "score": "6.0",
+      "evidence": "揭示MoE表示在激活噪声下易崩塌，直接关系到量化MoE推理中的误差鲁棒性",
+      "tldr": "MoE模型看似对道德内容的编码与稠密模型一样好，线性探针在专家层组合上平均峰值准确率超90%，但抗噪性极弱。通过激活噪声实验，发现其脆弱性源于输出稀释：专家激活聚合后信号比稠密MLP小近两个数量级，易被扰动淹没。OLMoE-1B-7B中鲁棒性相差4.2倍，路由稳定而聚合信号脆弱。这表明稀疏架构中冗余编码不保证鲁棒编码，鲁棒性受架构影响。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models appear to encode moral content as robustly as dense models, yet prove far more fragile in their encoding. In OLMoE-1B-7B, linear probes recover moral valence from nearly every expert-layer combination, with mean peak-layer accuracy above 90%. But these representations collapse under levels of activation noise that a dense model of matched size easily tolerates, with a 4.2-fold difference in robustness.   We trace this to output dilution. Because the MoE block averages across active experts before contributing to the residual stream, the feedforward signal reaching downstream layers is nearly two orders of magnitude smaller than in a dense MLP. Moral information, our interest, survives aggregation intact but at a scale trivially overwhelmed by perturbation. Routing itself remains stable under noise while the vulnerability originates entirely in the diluted aggregate.   Checkpoint trajectories confirm this is architectural, not learned. Experts never specialize and accuracy saturates within the first few thousand steps. In sparse architectures, redundant encoding does not imply robust encoding.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
   "errors": []
 }
