@@ -6,26 +6,22 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-29
-- 运行时间：2026-08-29 21:27:44 UTC
+- 最新运行日期：2026-08-30
+- 运行时间：2026-08-30 21:36:08 UTC
 - 运行状态：成功
-- 本次总论文数：1
+- 本次总论文数：0
 - 精读区：0
-- 速读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日速读1篇论文，聚焦MoE模型中的“输出稀释”现象，发现冗余但脆弱的表征问题。  
-值得关注的方向：MoE模型在稀疏激活下如何避免关键表征被稀释，推荐阅读这篇6.0分论文。  
-下一步建议：若你关注模型效率与稳定性，可深入研究MoE的容量分配策略。
-- 详情：[/202608/29/README](/202608/29/README)
+> 今日无新推荐，系统未产出可展示论文。
+- 详情：[/202608/30/README](/202608/30/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Output Dilution: Redundant but Fragile Representations in MoE Models](/202608/29/2608.25231v1-output-dilution-redundant-but-fragile-representations-in-moe-models)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：揭示MoE表示在激活噪声下易崩塌，直接关系到量化MoE推理中的误差鲁棒性
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
