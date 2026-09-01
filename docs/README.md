@@ -6,33 +6,36 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-31
-- 运行时间：2026-09-01 00:19:06 UTC
+- 最新运行日期：2026-09-01
+- 运行时间：2026-09-01 22:17:56 UTC
 - 运行状态：成功
 - 本次总论文数：4
-- 精读区：4
-- 速读区：0
+- 精读区：2
+- 速读区：2
 
 ### 今日简报（AI）
-今日精读4篇论文，聚焦大模型推理与量化优化。最值得关注：MoE三种推理优化均未奏效，而量化位宽分配可在质量约束下最大化性能。建议普通读者优先理解量化约束方法，对MoE优化结论保持审慎。
-- 详情：[/202608/31/README](/202608/31/README)
+今日完成4篇论文阅读，其中2篇精读、2篇速读；精读重点为MoE大模型混合精度量化与物理AI基础模型扩展。
+
+最值得关注的是《Q-Strata》（9.0分）提出的MoE分层位分配量化方案，以及《TuringLLM》（8.0分）向物理AI扩展的架构思路。
+
+建议优先精读这两篇高分论文，重点关注量化效率与物理世界部署的实践启发；速读篇目可按需略览。
+- 详情：[/202609/01/README](/202609/01/README)
 
 ### 精读区论文标签
-1. [Launch-Bound and Substitutable: Why Three Inference Optimizations Fail to Pay Off in Mixture-of-Experts Models](/202608/31/2608.26612v2-launch-bound-and-substitutable-why-three-inference-optimizations-fail-to-pay-off-in-mixture-of-experts-models)  
+1. [Q-Strata: Hierarchical Bit Allocation for Mixed-Precision Quantization of Mixture-of-Experts LLMs](/202609/01/2608.30564v1-q-strata-hierarchical-bit-allocation-for-mixed-precision-quantization-of-mixture-of-experts-llms)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：直接评测了面向MoE推理的融合Triton内核与INT4量化，揭示端到端失效与内核启动瓶颈
-2. [A Method for Layer Bit-Width Allocation in LLM Quantization via Performance Maximization Under a Quality-Degradation Constraint](/202608/31/2608.28003v1-a-method-for-layer-bit-width-allocation-in-llm-quantization-via-performance-maximization-under-a-quality-degradation-constraint)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：面向LLM量化的层位宽分配，质量约束下最大化推理性能
-3. [HyQuant: Hybrid-Precision Quantization for LLM Attention](/202608/31/2608.27875v1-hyquant-hybrid-precision-quantization-for-llm-attention)  
+   evidence：提出面向MoE大模型混合精度量化的层级比特分配方法，直接针对量化后MoE推理的质量优化。
+2. [TuringLLM: Efficiently Scaling Foundation Models Toward Physical AI](/202609/01/2608.30567v1-turingllm-efficiently-scaling-foundation-models-toward-physical-ai)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向LLM注意力的混合精度量化框架
-4. [H-Scale: Hessian-Guided Scale Refinement for NVFP4 Sub-Byte LLM Inference](/202608/31/2608.28113v1-h-scale-hessian-guided-scale-refinement-for-nvfp4-sub-byte-llm-inference)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：提出面向NVFP4分组缩放的量化后处理方法，用于大模型推理
+   evidence：通过容量受限路由和混合注意力实现高效MoE推理
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [SA-RSQ: A Versatile Sparse Representation Framework for Multi-modal Recommender Systems](/202609/01/2608.22979v1-sa-rsq-a-versatile-sparse-representation-framework-for-multi-modal-recommender-systems)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：稀疏Top-K路由结合残差软量化，实现存储和延迟高效的推理
+2. [SemKV: Semantic Mixed-Precision KV Cache Quantization Guided by the Quality Cliff for Long-Context LLM Inference](/202609/01/2608.28911v1-semkv-semantic-mixed-precision-kv-cache-quantization-guided-by-the-quality-cliff-for-long-context-llm-inference)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：面向LLM推理的混合精度KV缓存量化
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,69 @@
+{
+  "label": "2026-09-01",
+  "date": "2026-09-01",
+  "generated_at": "2026-09-01T22:18:00",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202609/01/2608.30564v1-q-strata-hierarchical-bit-allocation-for-mixed-precision-quantization-of-mixture-of-experts-llms",
+      "section": "deep",
+      "title_en": "Q-Strata: Hierarchical Bit Allocation for Mixed-Precision Quantization of Mixture-of-Experts LLMs",
+      "authors": "Deokjae Lee, Sihun Chu, Hyun Oh Song",
+      "date": "2026-08-31",
+      "pdf": "https://arxiv.org/pdf/2608.30564v1",
+      "score": "9.0",
+      "evidence": "提出面向MoE大模型混合精度量化的层级比特分配方法，直接针对量化后MoE推理的质量优化。",
+      "tldr": "混合精度量化（MPQ）是一种为每个线性层分配不同位宽的技术，在 MoE 大模型中，由于每个专家都含有多个线性层，其分配空间远比稠密模型大。现有方法要么在块内均匀分配，要么利用加性代理，均不能直接优化模型级目标。Q-Strata 采用双层分配：内层通过廉价代理生成每块的 Pareto 前沿候选，外层在整体量化模型上以模型级目标设置每块预算。在 Mixtral-8x7B 等模型上，低比特设置下 WikiText2 困惑度低于均匀位宽 GPTQ、MxMoE 和 GEMQ。该方法能够捕捉块间耦合，并且保持了高效性，为 MoE 量化提供了新的解决思路。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixed-precision quantization (MPQ) assigns a different bitwidth to each linear layer of a large language model (LLM) to minimize the quantization-induced quality loss under a fixed budget, but Mixture-of-Experts (MoE) models contain these layers in every expert of every MoE block, so the allocation space grows far larger than in a dense model. Existing methods either allocate within each block under a uniform per-block budget, or allocate across blocks through an additive proxy, and neither directly optimizes a model-level objective over the choices that couple the blocks. We propose Q-Strata, a bi-level allocator that ranks within-block assignments with a cheap proxy and allocates across blocks with a model-level objective evaluated on the assembled quantized model. Its inner stage caches a Pareto frontier of candidates per block over finely spaced budgets, leaving the outer stage to set one budget per block instead of a bitwidth for every linear layer. With the search reduced to one budget per block, the outer stage optimizes this model-level objective directly, capturing the inter-block coupling that additive proxies miss. On Mixtral-8x7B-Instruct, Qwen1.5-MoE-A2.7B, and DeepSeek-V2-Lite, Q-Strata consistently achieves lower WikiText2 perplexity than uniform-bitwidth GPTQ and the state-of-the-art MoE MPQ methods MxMoE and GEMQ in the low-bit regime. The code is available at https://github.com/snu-mllab/Q-Strata/tree/main.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/01/2608.30567v1-turingllm-efficiently-scaling-foundation-models-toward-physical-ai",
+      "section": "deep",
+      "title_en": "TuringLLM: Efficiently Scaling Foundation Models Toward Physical AI",
+      "authors": "Yuheng Zhang, Yizhao Wang, Da Zhu, Hua Zhou, Yue He, Jiahui Hu, Shaman Tang, Hanlin Chen, Yuhua Wei, Anhua Liu, Shuang Su, Rui Xin, MingYuan Wang, MingHao Li, HaoJie Yang, Siqi Liu, Jianlei Zheng, WeiChao Huang, Qiman Wu, Hang Zhang, HongGou Yang, Xianming Liu",
+      "date": "2026-08-31",
+      "pdf": "https://arxiv.org/pdf/2608.30567v1",
+      "score": "8.0",
+      "evidence": "通过容量受限路由和混合注意力实现高效MoE推理",
+      "tldr": "面向物理AI的长上下文与低延迟场景，提出Turing-20B-A2B，20B参数MoE模型，每token激活约2B。采用动态top-k量化路由，结合Lightning Attention与少量全注意力层，经三阶段课程预训练扩展至128K原生上下文，并可用YaRN延至512K。基座模型综合能力超Qwen3-8B Base、接近Qwen3.5-9B Base，同时保持长上下文性能与低预填充延迟，实现能力、可扩展性与效率的平衡。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We present Turing-20B-A2B, a 20B-parameter Mixture-of-Experts language model that activates approximately 2B parameters per token, designed for long-context and latency-sensitive physical AI applications. The model adopts Quantile Routing in a dynamic top-k configuration, enabling token-adaptive expert allocation while maintaining balanced expert utilization and a controlled average compute budget. During deployment, we further apply capacity-constrained routing to prompt prefill for more regular and efficient expert execution, while retaining dropless routing during pretraining. Turing-20B-A2B also employs a hybrid attention architecture that combines Lightning Attention with a small number of full-attention layers for efficient long-context modeling. The model is pretrained with a progressive three-stage curriculum and extended to a native context length of 128K through continued pretraining, with further inference-time extension to 512K using YaRN. Despite its compact active-parameter budget, Turing-20B-A2B achieves, at the base-model stage, overall general capability exceeding Qwen3-8B Base and approaching Qwen3.5-9B Base, while maintaining strong long-context performance and favorable prefill-latency scaling. These results demonstrate an effective balance among model capability, long-context scalability, and practical inference efficiency.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/01/2608.22979v1-sa-rsq-a-versatile-sparse-representation-framework-for-multi-modal-recommender-systems",
+      "section": "quick",
+      "title_en": "SA-RSQ: A Versatile Sparse Representation Framework for Multi-modal Recommender Systems",
+      "authors": "Xiang Wang, Shigang Quan, Tingzhen Chang, Kang Yang, Sitong Chen, Yabo Fan, Xingxing Wang, Zhaodian He",
+      "date": "2026-08-24",
+      "pdf": "https://arxiv.org/pdf/2608.22979v1",
+      "score": "6.0",
+      "evidence": "稀疏Top-K路由结合残差软量化，实现存储和延迟高效的推理",
+      "tldr": "工业推荐系统部署高维多模态特征带来显著存储与延迟开销，硬量化边界失真，密集软量化受存储预算制约。提出SA-RSQ框架，以Top-K稀疏路由和softmax权重生成紧凑(Index, Probability)元组，解耦每项存储与码本维度，无需straight-through估计器。在食品配送广告数据集上，8-48字节/项预算下实现良好重建与CTR权衡；在线A/B测试中CTR相对提升2.51%，CPM提升3.66%。为多模态推荐提供通用稀疏表示方案，在存储效率与表示质量间取得有效平衡，具备实际应用潜力。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Deploying high-dimensional multimodal features in industrial recommender systems incurs substantial storage and latency overhead. Hard quantization is compact but introduces boundary distortion, whereas dense soft quantization couples representation quality to the limited storage budget. We propose Sparse Activation-based Residual Soft Quantization (SA-RSQ), which uses Top-K sparse routing and softmax weights to store compact (Index, Probability) tuples. The stored tuples decouple per-item storage from codebook dimensionality; for a fixed selected support, gradients propagate through the routing weights and weighted reconstruction without relying on a straight-through estimator. Experiments on a proprietary food-delivery advertising dataset show favorable reconstruction-performance and CTR trade-offs across storage budgets of 8-48 bytes per item. A preliminary Next-Distribution Prediction study and a one-week online A/B test further demonstrate the practical potential of SA-RSQ, with relative lifts of +2.51% in CTR and +3.66% in CPM.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/01/2608.28911v1-semkv-semantic-mixed-precision-kv-cache-quantization-guided-by-the-quality-cliff-for-long-context-llm-inference",
+      "section": "quick",
+      "title_en": "SemKV: Semantic Mixed-Precision KV Cache Quantization Guided by the Quality Cliff for Long-Context LLM Inference",
+      "authors": "Daeha Lee, Do-Hyung Kim, Jae-Hong Kim",
+      "date": "2026-08-28",
+      "pdf": "https://arxiv.org/pdf/2608.28911v1",
+      "score": "6.0",
+      "evidence": "面向LLM推理的混合精度KV缓存量化",
+      "tldr": "长上下文大模型推理中，KV缓存随上下文线性增长，成为主要内存瓶颈。本文发现均匀量化存在质量悬崖：在2.0至2.322位之间，模型从与FP16无差异骤变为崩溃。为此提出SemKV，保留所有token，依据模型内部重要性得分分配两个相邻高于悬崖的精度，实现6.0倍存储压缩且无统计可检测质量差异；改用失真优化的TurboQuant-MSE后，无损压缩倍率提升至7.9倍。该工作强调'先测量悬崖、高于悬崖插值'的混合精度量化范式，为KV缓存压缩提供了可复用的指导。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "The key-value (KV) cache is the dominant memory bottleneck of long-context large language model (LLM) inference, growing linearly with context length. We show that uniform KV quantization on a fractional-bit grid does not degrade gracefully: under a prespecified multi-seed statistical protocol, Llama-3.1-8B-Instruct with an affine quantizer is statistically indistinguishable from FP16 KV down to 2.322 code bits/value and collapses at 2.0 bits - a quality cliff in (2.0, 2.322] that reappears in generation-time quantization and multi-turn dialogue and transfers to Mistral-7B. The cliff reframes importance-aware mixed precision: above it, eight model-internal importance indicators are statistically interchangeable, so the benefit of mixing is grid interpolation, reaching average precisions uniform quantization cannot realize. SemKV preserves every token, ranks tokens by a model-internal score, and assigns two adjacent above-cliff precisions, achieving a measured 6.0x storage reduction with no statistically detectable quality difference from full KV (n=900, three seeds), and outperforming FP16 token pruning granted a 1.5x larger memory budget. Replacing the affine base with a distortion-optimized quantizer (TurboQuant-MSE) lowers the cliff in every protocol tested, raising the no-detectable-loss operating point to 7.9x. The recipe: measure the cliff for the target deployment setting, then interpolate above it.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
