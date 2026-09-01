@@ -1,0 +1,69 @@
+{
+  "label": "2026-08-31",
+  "date": "2026-08-31",
+  "generated_at": "2026-09-01T00:19:11",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202608/31/2608.26612v2-launch-bound-and-substitutable-why-three-inference-optimizations-fail-to-pay-off-in-mixture-of-experts-models",
+      "section": "deep",
+      "title_en": "Launch-Bound and Substitutable: Why Three Inference Optimizations Fail to Pay Off in Mixture-of-Experts Models",
+      "authors": "Gokulakannan Sakthivel, Jerry Wu, Amogh Rajendra, Giriprasad Radhakrishnan",
+      "date": "2026-08-27",
+      "pdf": "https://arxiv.org/pdf/2608.26612v2",
+      "score": "9.0",
+      "evidence": "直接评测了面向MoE推理的融合Triton内核与INT4量化，揭示端到端失效与内核启动瓶颈",
+      "tldr": "混合专家模型按词元动态路由，标准推理优化常失效。本文在三个模型上实测融合内核、四比特量化、图断点移除三类优化：融合内核虽单点加速五到九倍，但因近千次内核启动端到端仅零点九九九倍；四比特量化改变专家选择，但全精度重放仅复现百分之二点七损失，说明专家可替换；移除全部图断点反而慢三倍。贡献在于证明路由保真度与输出质量可分离，优化应针对启动开销设计。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models route each token to a few of many expert networks, and that routing is data-dependent in a way standard inference optimizations do not expect. This paper measures what three of them actually deliver on OLMoE-1B-7B, DeepSeek-V2-Lite, and Qwen3-30B-A3B. Fused Triton kernels reach 5.6x to 9.0x in isolation but 0.999x end to end against a measured 1.07x ceiling, because the model spends its time waiting on roughly a thousand kernel launches per forward pass rather than on the arithmetic those kernels improve. INT4 quantization changes on average 0.53 of the eight selected experts per token position, yet replaying exactly those changed routes through full-precision weights reproduces only 2.7% of the quality loss, which makes the experts substitutable rather than specialized. Removing all 23 graph breaks from PyTorch's compiler, the step prior work treats as the structural fix, makes the model three times slower. A fourth result ties the three together: leaving the routers in FP16 lowers drift by 20% while raising loss, so routing fidelity and output quality are separable objectives. Every number recomputes from committed per-token route dumps.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/31/2608.28003v1-a-method-for-layer-bit-width-allocation-in-llm-quantization-via-performance-maximization-under-a-quality-degradation-constraint",
+      "section": "deep",
+      "title_en": "A Method for Layer Bit-Width Allocation in LLM Quantization via Performance Maximization Under a Quality-Degradation Constraint",
+      "authors": "Artem Safronov",
+      "date": "2026-08-28",
+      "pdf": "https://arxiv.org/pdf/2608.28003v1",
+      "score": "9.0",
+      "evidence": "面向LLM量化的层位宽分配，质量约束下最大化推理性能",
+      "tldr": "针对大语言模型量化中均匀位宽分配导致资源浪费或加速有限的问题，本文提出一种在质量退化约束下最大化性能的逐层位分配方法。基于层敏感性剖面，在TensorRT-LLM中按分组（5+5、10+10、all26）对FFN、Attention和lm_head分别确定精度，测量RTX 5090上13种W8A8变体。发现FFN和lm_head受益于整数运算补偿量化开销，而Attention在短上下文时反而变慢。最佳方案FFN 5+5+lm_head实现11.0%延迟降低且质量损失可忽略，FFN all26+lm_head可达19.1%加速。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "This paper proposes a layer bit allocation method for Gemma-3-1B, formulating the problem as performance maximization (latency decrease) given a degradation budget constraint (allowable level of generation quality loss). This approach is different from time- and resource-consuming uniform layer quantization methods that are used in the literature (like GPTQ or AWQ) or allocation methods without proven performance-accelerating effect (like MixLLM or TorchAO). The layer sensitivity profile resulting from our prior work SA-PTQ is applied using the activation pass-through mode inside TensorRT-LLM. For each layer precision is determined individually in blocks, according to a grouping introduced in the prior step (5+5, 10+10, all26), differentiating the contribution of FFN, Attention, and lm_head to the overall speedup. The clock speed was measured for 13 W8A8 variants on an RTX 5090. We find that for FFN and lm_head the time cost of quantization/dequantization is compensated for by the use of integer arithmetic, while for short context lengths, the opposite holds true for Attention: an additional step of quantization slows execution down. We propose a manual implementation of SmoothQuant for TensorRT-LLM which was necessary due to export failures, unavailable for lm_head. The best solution found under joint consideration of all three criteria with minimal degradation was FFN 5+5 with lm_head, providing an 11.0% reduction in latency with negligible quality loss (98.90% Top-1 agreement, +0.85% perplexity degradation). With acceptable quality loss for FFN all26 + lm_head, a speedup up to 19.1% was found possible. We suggest further optimizations: fused attention kernels in INT8, KV-cache quantization, using FP8 instead of INT8 and partial Attention quantization analogous to FFN.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/31/2608.27875v1-hyquant-hybrid-precision-quantization-for-llm-attention",
+      "section": "deep",
+      "title_en": "HyQuant: Hybrid-Precision Quantization for LLM Attention",
+      "authors": "Jiatong Ding, Bingxin Xing, Yu Zhang, Dian Ding, Xiaodong Yi, Xianbin Ouyang, Feihu Zhou, Kun Zhang, Zhenyu Guo, Hao Pan, Guangtao Xue, Yiming Zhang",
+      "date": "2026-08-28",
+      "pdf": "https://arxiv.org/pdf/2608.27875v1",
+      "score": "8.0",
+      "evidence": "面向LLM注意力的混合精度量化框架",
+      "tldr": "低比特量化注意力模块常因异常值引入大误差，导致性能下降。HyQuant提出混合精度量化框架，仅将垂直行token与局部窗口状态保留高精度，其余注意力状态低比特量化，并通过轻量级垂直行感知信号选择关键区域。在Prefill与Decode阶段分别应用于注意力算子与KV缓存压缩，兼顾精度与效率。在多种任务、模型和数据集上接近无损，证明混合精度注意力量化的可行性与实用性。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Quantization has been widely adopted in LLM training and inference to reduce cost and improve efficiency. However, low-bit quantization of the \\emph{attention} module often introduces large errors at very low bit-widths, causing performance degradation. Existing methods mainly rely on smoothing techniques to handle outliers, while we propose a hybrid quantization design to better balance accuracy and efficiency. Specifically, we propose \\textbf{HyQuant}, an efficient hybrid quantization framework for LLM attention. HyQuant quantizes most attention states into low-bit formats while retaining a small set of vertical-line tokens and local-window states in high precision. These accuracy-critical regions are selected using lightweight vertical-line-aware attention-pattern signals, reducing quantization error with limited overhead. In the Prefill stage, HyQuant uses a hybrid-precision quantized attention operator that preserves vertical-line tokens and a local sliding window in full precision while quantizing the remaining context. In the Decode stage, HyQuant applies the same principle to KV-cache compression and fuses KV dequantization with attention computation to improve memory and hardware efficiency. Across diverse tasks, models, and datasets, HyQuant maintains nearly lossless accuracy with an extremely simple design, demonstrating the efficiency and practical feasibility of hybrid quantization for LLM attention. Code is available at: https://github.com/jerrysfls/HyQuant .",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/31/2608.28113v1-h-scale-hessian-guided-scale-refinement-for-nvfp4-sub-byte-llm-inference",
+      "section": "deep",
+      "title_en": "H-Scale: Hessian-Guided Scale Refinement for NVFP4 Sub-Byte LLM Inference",
+      "authors": "Hao Yu, Zheng Li, Dayiheng Liu, Jianwei Zhang",
+      "date": "2026-08-28",
+      "pdf": "https://arxiv.org/pdf/2608.28113v1",
+      "score": "8.0",
+      "evidence": "提出面向NVFP4分组缩放的量化后处理方法，用于大模型推理",
+      "tldr": "针对NVFP4微块粒度缩放因子空间大且高度敏感、现有PTQ方法忽视其选择的问题，提出H-Scale，利用校准激活的二阶对角近似直接优化层输出扰动，选取硬件有效的分组缩放。该方法可即插即用地替换RTN式缩放，仅需少量离线校准且零推理开销，在主流大模型上普遍提升多项NVFP4基线，使部分变体逼近BF16参考精度。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "The NVIDIA Blackwell architecture, with native support for the ultra-fine-grained NVFP4 format, opens new opportunities for accelerating large language model (LLM) inference. NVFP4's micro-block design, such as a group size of 16, offers strong representational flexibility for capturing local weight distributions and isolating outliers, but it also introduces a large and highly sensitive space of per-group scaling factors. Existing post-training quantization (PTQ) methods primarily focus on refining quantized weight values, leaving this scale-selection step underexplored. To address this gap, we propose \\textbf{H-Scale}, a lightweight post-processing method for NVFP4 per-group scale refinement. Instead of minimizing plain weight reconstruction error, H-Scale selects hardware-valid group scales using a diagonal second-order proxy derived from calibration activations, thereby targeting layer output perturbation more directly. It is designed as a drop-in replacement for RTN-style scale selection in diverse NVFP4 pipelines, requires only modest offline calibration, and introduces strictly zero overhead at inference time. Under a fixed evaluation protocol, experiments on mainstream LLMs show that H-Scale generally improves a broad range of NVFP4 baselines and brings several variants closer to the BF16 reference.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
