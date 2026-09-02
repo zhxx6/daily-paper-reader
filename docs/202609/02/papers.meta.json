@@ -1,0 +1,69 @@
+{
+  "label": "2026-09-02",
+  "date": "2026-09-02",
+  "generated_at": "2026-09-02T21:34:23",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202609/02/2609.00049v1-real-q-e2e-llm-quantization-via-dynamic-gradient-descent",
+      "section": "deep",
+      "title_en": "REAL-Q: E2E LLM Quantization via Dynamic Gradient Descent",
+      "authors": "Qian Zhang, Yaoming Li, Zhewen Tan, Yanshu Wang, Heng Lu, Kun Su, Zongwei Lv, Wenhan Yu, Yongge Ma, Yinjun Han, Ruikuang Liu, Tong Yang",
+      "date": "2026-08-30",
+      "pdf": "https://arxiv.org/pdf/2609.00049v1",
+      "score": "9.0",
+      "evidence": "直接研究大语言模型后训练权重量化，提出端到端损失对齐的动态梯度下降方法以提升量化部署质量",
+      "tldr": "现有PTQ方法为保持解析性而近似损失并冻结Hessian，导致信息错位。REAL-Q采用端到端对齐的代理损失，对每个128列块进行细粒度动态块梯度下降，配合滑动窗口平滑层间迁移，缓解误差传播。在LLaMA-3.1及Qwen3模型的W4A16量化中，相对SOTA方法KL散度最高降低约49%，显著提升量化质量。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Post-training quantization (PTQ) is essential for deploying large language models (LLMs) under strict resource constraints. State-of-the-art PTQ methods quantize each layer with a single closed-form second-order solver: to remain analytically tractable, they heavily approximate the global loss (dropping cross-channel coupling, pooling output rows into groups), and they then freeze the resulting Hessian across the entire layer, with no way to refresh it as the loss landscape shifts column by column--a phenomenon we call information misalignment. We propose REAL-Q (Real-time E2E-loss Aligned LLM Quantization), a novel PTQ paradigm that breaks this compromise: instead of diluting the objective for the sake of analytic tractability, REAL-Q targets an end-to-end-aligned surrogate of the global loss and refines it via fine-grained, dynamic Block-wise Gradient Descent applied after every column block (128 columns). By coupling this fine-grained correction with a sliding window mechanism for smooth cross-layer transitions, REAL-Q effectively mitigates error propagation across the network. On LLaMA-3.1 (8B and 70B) and Qwen3 (0.6B-32B) at W4A16, REAL-Q reduces end-to-end KL divergence by up to ~49% relative to state-of-the-art globally-guided methods.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/02/2609.00407v1-dynande-dynamic-near-data-expert-scheduling-for-batched-moe-inference",
+      "section": "deep",
+      "title_en": "DynaNDE: Dynamic Near-Data Expert Scheduling for Batched MoE Inference",
+      "authors": "Xiaoyang Lu, Belthangady Akash Vi Narayana Pai, Xian-He Sun",
+      "date": "2026-08-31",
+      "pdf": "https://arxiv.org/pdf/2609.00407v1",
+      "score": "9.0",
+      "evidence": "面向批处理MoE推理的动态近数据专家调度框架，直接提升NPU系统推理效率",
+      "tldr": "MoE大模型在NPU系统中推理受数据移动瓶颈影响，现有NPU-NDP协同方案未充分建模硬件异构与动态专家并发。DynaNDE提出解析性能模型刻画计算-通信重叠，逐层决定专家放置于NPU或NDP，并以重用感知运行时避免重复参数传输。相比最先进NPU-NDP服务框架，prefill与解码阶段平均提速2.6x和2.2x，实现高效批处理MoE推理调度。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models enable efficient scaling of large language model (LLM) inference but suffer from substantial data-movement overhead when deployed on neural processing unit (NPU)-based systems. Near-Data Processing (NDP) provides a promising way to mitigate this bottleneck via cooperative NPU-NDP execution. However, existing NPU-NDP MoE systems do not fully account for hardware heterogeneity, dynamic expert-level concurrency, and temporal expert reuse during batched inference. This paper presents DynaNDE, a dynamic near-data expert scheduling framework that exploits NPU-NDP collaboration to accelerate batched MoE inference. DynaNDE introduces an analytical performance model that captures hardware heterogeneity, data-movement costs, and communication-computation overlap in cooperative NPU-NDP execution. Guided by this model, DynaNDE determines per-layer expert scheduling across the NPU and NDP while accounting for expert-level concurrency. DynaNDE also incorporates a reuse-aware runtime that avoids redundant parameter movement when experts reside in NPU memory. Experimental results show that DynaNDE achieves substantial throughput improvements over the state-of-the-art NPU-NDP MoE serving framework, with average speedups of 2.6$\\times$ and 2.2$\\times$ for the prefill and decoding stages, respectively.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/02/2609.01024v1-pcomoe-shifting-moe-inference-from-monolithic-expert-selection-to-fine-grained-path-composition",
+      "section": "deep",
+      "title_en": "PCoMoE: Shifting MoE Inference from Monolithic Expert Selection to Fine-Grained Path Composition",
+      "authors": "Ziyan Gan, Fangxin Liu, Chenyang Guan, Junjie Wang, Ning Yang, Haomin Li, Xiang Li, Siran Yang, Jiamang Wang, Lin Qu, Zongwu Wang, Li Jiang, Haibing Guan",
+      "date": "2026-09-01",
+      "pdf": "https://arxiv.org/pdf/2609.01024v1",
+      "score": "9.0",
+      "evidence": "直接针对混合专家模型高效推理，提出以细粒度路径组合替代整体专家执行的PCoMoE框架",
+      "tldr": "混合专家MoE架构可高效扩展LLM，但推理受整专家抽象束缚：现有系统将专家作为原子单元调度/剪枝，过早固定优化边界，忽视了专家内部细粒度冗余。PCoMoE颠覆这一范式，提出路径组合思想——以路径级计算重新表述专家计算，用兼容性感知的逐层剪枝抑制低价值路径组合，并构建硬件友好的执行引擎，在严格受限开销下复用可拆解的子专家结构。实验获得最高1.31倍端到端加速，同时模型准确率提升10%。代码已开源，为MoE高效推理提供了新方向。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) architectures scale Large Language Model (LLM) capacity efficiently by activating a sparse subset of experts per token. However, modern MoE inference remains heavily constrained by the rigid, whole-expert abstraction. Existing frameworks manage, schedule, or prune experts as atomic execution units, which fixes the optimization boundary too early and leaves fine-grained intra-expert computational redundancy underexplored. In this work, we present PCoMoE, a path-compositional execution framework that shifts MoE inference from coarse-grained expert selection to fine-grained path composition. PCoMoE incorporates a path-level formulation of expert computation, a compatibility-aware layer-wise pruning strategy to suppress low-value path combinations, and a hardware-friendly execution engine to exploit reusable sub-expert structures under strictly bounded overheads. Experimental results demonstrate that PCoMoE achieves up to a 1.31x end-to-end inference speedup while enhancing model accuracy by 10%. The code is available at https://github.com/gzyyy0/PCoMoE",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/02/2609.00066v1-ocgquant-outlier-companion-grouping-for-nvfp4-quantization",
+      "section": "quick",
+      "title_en": "OCGQuant: Outlier-Companion Grouping for NVFP4 Quantization",
+      "authors": "Yishan Yao, Binjun Li, Hanling Yi, Pengyu Li, Xiaoqing Liu, Zihan Yang, Xiaotian Yu, Zhiwen Yu",
+      "date": "2026-08-30",
+      "pdf": "https://arxiv.org/pdf/2609.00066v1",
+      "score": "7.0",
+      "evidence": "面向NVFP4低比特量化提出离群伴随分组，缓解激活离群值导致的量化误差，适用于高效推理",
+      "tldr": "NVFP4是高效低比特推理格式，但激活离群值会主导块内尺度因子，使块内剩余数值的量化误差显著增大。现有PTQ方法如混合精度、旋转或残差补偿，要么并非针对NVFP4设计，要么引入额外计算开销。OCGQuant从通道分组视角定义了可降低的附带量化误差，并提出基于离群-同伴分组的方法，自适应地把离群激活通道与低幅值同伴通道配对，从而优化NVFP4激活块的构成。在Llama3与Qwen3上的实验表明，OCGQuant获得最低WikiText-2困惑度和最高平均下游准确率，同时保持接近RTN的prefill加速并匹配其峰值解码内存。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "NVFP4 is an efficient microscaling format for low-bit inference, but activation outliers can still degrade quantization accuracy within NVFP4 blocks. Within each quantization block, large activations can dominate the block scale, increasing the quantization error of the remaining values sharing the same scale. Existing post-training quantization (PTQ) methods mitigate outlier errors through strategies such as mixed precision, rotation, or residual compensation, but these approaches are either not specifically tailored to NVFP4 or introduce additional computation. In this work, we revisit NVFP4 from a channel-grouping perspective and define the reducible error incurred by remaining block values under the scale set by the block maximum as Collateral Quantization Error. Based on this insight, we propose OCGQuant, a post-training quantization method centered on Outlier-Companion Grouping (OCG), which adaptively pairs outlier channels with low-magnitude companion channels to improve NVFP4 activation block composition. Experiments on Llama3 and Qwen3 show that OCGQuant achieves the lowest WikiText-2 perplexity and highest average downstream accuracy among evaluated PTQ methods, while maintaining prefill speedup close to RTN and matching its peak decoding memory. Code is available at https://github.com/Eshamont/OCGQuant.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
