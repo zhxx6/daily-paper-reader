@@ -1,0 +1,54 @@
+{
+  "label": "2026-09-03",
+  "date": "2026-09-03",
+  "generated_at": "2026-09-03T22:08:20",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202609/03/2608.30320v1-on-the-design-of-qwen38-next-architecture-evaluation-efficiency-and-training-stability",
+      "section": "quick",
+      "title_en": "On the Design of Qwen3.8-Next Architecture: Evaluation, Efficiency, and Training Stability",
+      "authors": "Zihan Qiu, Zekun Wang, Xiao Li, Yanpeng Li, Yang Xu, Yixuan Wang, Huaqing Zhang, Rui Men, Bochao Mao, Chengruidong Zhang, Fan Zhou, Hao Luo, Haofeng Huang, Haoran Lian, Haoyan Huang, Hongqing Chen, Jianwei Zhang, Jing Xu, Junjie Wang, Langshi Chen, Liangyu Wang, Linlang Jiang, Man Yuan, Minmin Sun, Peng Jin, Siqi Zhang, Siyu Wang, Xingzhang Ren, Yakai Wang, Yi Zhang, Yiming Dong, Yizhong Cao, Yubo Ma, Yunfei Mao, Bo Zheng, Dayiheng Liu",
+      "date": "2026-08-31",
+      "pdf": "https://arxiv.org/pdf/2608.30320v1",
+      "score": "7.0",
+      "evidence": "描述大型稀疏MoE架构，通过每token仅激活6B参数和将嵌入表放在加速器外提升效率，与高效MoE推理主题高度相关。",
+      "tldr": "设计高效稀疏MoE模型需兼顾性能、效率与稳定性。本文提出Qwen3.8-Flash-Next架构，采用逐层混合Gated DeltaNet与全局注意力，并引入门控残差与片外n-gram嵌入，继续预训练时以稀疏注意力替换全注意力。该模型以1/3激活参数、1/9 FLOPs在多数基准上匹敌前代，且损失与下游准确率并非单调关联。联合优化架构与Muon优化器可提升稳定性，最终得到更高效、更强大、更稳定的方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We describe the architecture and ablations of Qwen3.8-Flash-Next, a sparse mixture-of-experts model with 125B parameters, 6B activated per token, and additional 51B parameters of n-gram embedding tables held off the accelerator. On fourteen pre-training benchmarks the model leads the 397B-A17B predecessor on eight and trails it on the rest by at most 2.6 points, at 1/3 the activated parameters, 1/3 the training tokens, and roughly 1/9 the training FLOPs. Token mixing uses a layer-wise hybrid of Gated DeltaNet (GDN) and global attention, with one full-attention layer in every four; at continued-pretraining time those full-attention layers are replaced by Qwen Sparse Attention (QSA), which scores context at micro-block granularity with a compressed lightweight indexer. The residual stream is widened to four branches and read through an elementwise gate, a design we call the Gated Residual (GR). Capacity is added outside the backbone by a single n-gram embedding layer whose tables are prefetched from host memory. We evaluate every candidate change along three axes: loss together with downstream benchmarks; the cost of the change in training, prefill and decode; and its effect on the optimal hyperparameters and training stability. Loss and downstream accuracy do not always move together: enlarging the n-gram vocabulary lowers loss monotonically while downstream accuracy saturates. The architecture and the Muon optimizer together shift the optimal learning rate and batch size upwards, render batch-size warmup unnecessary, and substantially improve stability under stress tests. Loss, benchmarks, efficiency and stability form one design problem. Solved jointly, they yield a recipe that is simultaneously more efficient, more capable and more stable.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/03/2609.02451v1-scalable-kronecker-fisher-approximation-efficient-hessian-analysis-for-billion-parameter-language-models-compression",
+      "section": "quick",
+      "title_en": "Scalable Kronecker-Fisher Approximation: Efficient Hessian Analysis for Billion-Parameter Language Models Compression",
+      "authors": "Viacheslav Yusupov, Daria Cherniuk, Evgeny Frolov",
+      "date": "2026-09-02",
+      "pdf": "https://arxiv.org/pdf/2609.02451v1",
+      "score": "7.0",
+      "evidence": "用于指导大语言模型量化与压缩的费雪近似海森分析与层敏感度诊断",
+      "tldr": "针对十亿参数语言模型无法直接进行Fisher矩阵分析的难题，提出可扩展的Kronecker近似方法，在不存储完整Fisher矩阵的前提下捕获跨层交互。该近似揭示价值投影层普遍脆弱且跨层相关性最强，其他组件则表现出架构特定行为。在量化、稀疏化、层间破坏与破坏后微调实验中，该方法与性能退化及恢复强相关，为混合精度分配、逐层稀疏与自适应低秩分解等压缩策略提供理论依据。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "In this paper, we propose a scalable Kronecker-based approximation that captures cross-layer interactions without storing the entire Fisher matrix, enabling practical Hessian analysis for billion-parameter networks where full computation is infeasible. Our approach reveals consistent vulnerability patterns: value projection layers exhibit the highest sensitivity and strongest cross-layer correlations across multiple model families, while other components exhibit architecture-specific behaviors. Through extensive experiments on quantization, sparsification, inter-layer corruption, and post-corruption fine-tuning, we demonstrate that our approximation strongly correlates with both performance degradation and recovery. Our framework provides a practical, theoretically grounded tool for identifying fragile components in large models, opening new avenues for guided compression and optimization strategies, such as mixed-precision allocation, layer-wise sparsity, and adaptive low-rank decomposition across layers and even individual weight groups.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/03/2609.00575v1-residual-sparsification-via-output-importance-for-compressing-mixture-of-experts-llms",
+      "section": "quick",
+      "title_en": "Residual Sparsification via Output Importance for Compressing Mixture-of-Experts LLMs",
+      "authors": "Seungwoo Jung, Dohyeok Kwon, Seungmin Cha, Junseok Lee, Yeonho Yoo, Chuck Yoo, Gyeongsik Yang",
+      "date": "2026-09-01",
+      "pdf": "https://arxiv.org/pdf/2609.00575v1",
+      "score": "6.0",
+      "evidence": "面向MoE大模型的压缩方法，基于输出重要性残差稀疏化降低GPU显存占用，支撑高效MoE推理。",
+      "tldr": "混合专家模型依赖大量显存，残差稀疏化虽能压缩，但常见方法仅按单个残差矩阵误差最小化，忽略投影间的耦合传播，导致专家输出误差偏大。本文提出PARSER，通过输出重要性重新定义压缩目标，直接保持专家输出精度。实验表明在Qwen和DeepSeek上精度差距缩小1.41倍和1.44倍，且显存峰值降低相同。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-experts (MoE) architectures scale large language models efficiently, but they demand massive GPU memory. To cope with such demand, models are commonly compressed to reduce their memory footprint. Residual sparsification is a representative compression technique that decomposes each projection matrix of an expert into a shared base matrix and per-expert residual matrix, and then compresses the residuals. Existing sparsification methods compress each residual matrix independently by minimizing its compression error, thereby minimizing the error of each projection matrix. However, our analysis shows that this objective is misaligned with preserving model accuracy after compression. In an expert, the final output is produced through computations coupled across multiple projections and hidden representations. Therefore, even small errors in individual matrices can propagate through hidden representations and projection interactions, leading to large expert output errors and accuracy degradation. To address this misalignment, we propose PARSER, a new residual sparsification method that shifts the compression objective from minimizing isolated matrix errors to preserving the expert output error. PARSER achieves this by introducing output importance, which measures the actual contribution to the expert output error. Our experiments show that, compared with existing methods, PARSER narrows the accuracy gap to the uncompressed model by 1.41$\\times$ on Qwen and 1.44$\\times$ on DeepSeek, while achieving the same peak memory reduction.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
