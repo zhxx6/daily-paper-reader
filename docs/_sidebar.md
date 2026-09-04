@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-09-04 <!--dpr-date:20260904-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/04/2609.00575v2-residual-sparsification-via-output-importance-for-compressing-mixture-of-experts-llms" data-sidebar-item="{&quot;title&quot;: &quot;Residual Sparsification via Output Importance for Compressing Mixture-of-Experts LLMs&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.00575v2-residual-sparsification-via-output-importance-for-compressing-mixture-of-experts-llms&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;面向 MoE 大模型的输出重要性残差稀疏化压缩，降低显存从而支持更高效的专家推断&quot;}">Residual Sparsification via Output Importance for Compressing Mixture-of-Experts LLMs</a>
   * 2026-09-03 <!--dpr-date:20260903-->
     * 速读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/03/2608.30320v1-on-the-design-of-qwen38-next-architecture-evaluation-efficiency-and-training-stability" data-sidebar-item="{&quot;title&quot;: &quot;On the Design of Qwen3.8-Next Architecture: Evaluation, Efficiency, and Training Stability&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.30320v1-on-the-design-of-qwen38-next-architecture-evaluation-efficiency-and-training-stability&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;描述大型稀疏MoE架构，通过每token仅激活6B参数和将嵌入表放在加速器外提升效率，与高效MoE推理主题高度相关。&quot;}">On the Design of Qwen3.8-Next Architecture: Evaluation, Efficiency, and Training Stability</a>

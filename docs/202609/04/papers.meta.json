@@ -1,0 +1,24 @@
+{
+  "label": "2026-09-04",
+  "date": "2026-09-04",
+  "generated_at": "2026-09-04T22:33:12",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202609/04/2609.00575v2-residual-sparsification-via-output-importance-for-compressing-mixture-of-experts-llms",
+      "section": "quick",
+      "title_en": "Residual Sparsification via Output Importance for Compressing Mixture-of-Experts LLMs",
+      "authors": "Seungwoo Jung, Dohyeok Kwon, Seungmin Cha, Junseok Lee, Yeonho Yoo, Chuck Yoo, Gyeongsik Yang",
+      "date": "2026-09-01",
+      "pdf": "https://arxiv.org/pdf/2609.00575v2",
+      "score": "6.0",
+      "evidence": "面向 MoE 大模型的输出重要性残差稀疏化压缩，降低显存从而支持更高效的专家推断",
+      "tldr": "MoE大语言模型内存开销巨大，常采用残差稀疏化压缩专家投影矩阵。现有方法对各残差矩阵独立最小化重构误差，忽略投影与隐藏表示的耦合，使微小矩阵误差经计算过程放大，严重偏离专家输出。PARSER提出输出重要性，衡量每个可压缩元素对专家输出误差的真实贡献，并据此指导稀疏化。实验显示，与现有方法相比，PARSER在Qwen和DeepSeek上精度差距分别缩小1.41倍和1.44倍，同时实现相同峰值内存削减。该成果强调压缩应以专家输出误差为目标，为MoE压缩提供新范式。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-experts (MoE) architectures scale large language models efficiently, but they demand massive GPU memory. To cope with such demand, models are commonly compressed to reduce their memory footprint. Residual sparsification is a representative compression technique that decomposes each projection matrix of an expert into a shared base matrix and per-expert residual matrix, and then compresses the residuals. Existing sparsification methods compress each residual matrix independently by minimizing its compression error, thereby minimizing the error of each projection matrix. However, our analysis shows that this objective is misaligned with preserving model accuracy after compression. In an expert, the final output is produced through computations coupled across multiple projections and hidden representations. Therefore, even small errors in individual matrices can propagate through hidden representations and projection interactions, leading to large expert output errors and accuracy degradation. To address this misalignment, we propose PARSER, a new residual sparsification method that shifts the compression objective from minimizing isolated matrix errors to preserving the expert output error. PARSER achieves this by introducing output importance, which measures the actual contribution to the expert output error. Our experiments show that, compared with existing methods, PARSER narrows the accuracy gap to the uncompressed model by 1.41$\\times$ on Qwen and 1.44$\\times$ on DeepSeek, while achieving the same peak memory reduction. Our code is available at https://github.com/OSSS-KU/PARSER.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
