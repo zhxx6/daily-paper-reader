@@ -1,0 +1,211 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-07T23:12:03.298700+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2609.04575v1",
+      "source": "arxiv",
+      "title": "Training-Free Halving of Activated Experts in Fine-Grained Mixture-of-Experts Models",
+      "abstract": "Modern fine-grained Mixture-of-Experts (MoE) models route each token to a small number of experts and renormalize their router probabilities. We show that this renormalization implicitly calibrates expert output gain to the training top-$k$: reducing $k$ at inference changes not only which experts are used but also the strength of the expert branch. We separate these effects by activating the top $k_1$ experts while normalizing by the probability mass of the top $k_2$ experts, introducing one integer with no parameters, training, or measurable compute overhead. On Qwen3.6-35B-A3B, reducing from 8 to 4 experts causes a 4.65-point MMLU drop under standard renormalization but only 0.35 points with $k_2=16$, while halving routed-expert compute. The result replicates on the $11\\times$ larger Qwen3.5-397B-A17B, where reducing from 10 to 5 experts loses only 0.55 points with an appropriate reference set. Removing renormalization entirely is catastrophic, showing that preserving a suitable reference mass is crucial. We further find that perplexity and downstream accuracy favor different $k_2$, cautioning against selecting MoE compression settings using unlabeled text alone. Analyses also show that expert identity matters substantially more than expert weighting, while balanced and domain-specialized routing leaves limited room for expert pruning.",
+      "authors": [
+        "Xing Chen",
+        "Hengshuai Yao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-04T00:11:28+00:00",
+      "link": "https://arxiv.org/pdf/2609.04575v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Inference-time method halves activated experts in MoE with a single normalization knob and no training/overhead, directly targeting efficient MoE inference",
+      "llm_evidence_cn": "仅调节归一化概率质量即可减半激活专家，免训练降低MoE推理计算量",
+      "llm_evidence": "仅调节归一化概率质量即可减半激活专家，免训练降低MoE推理计算量",
+      "canonical_evidence": "仅调节归一化概率质量即可减半激活专家，免训练降低MoE推理计算量",
+      "llm_tldr_en": "Shows that in fine-grained MoE models, renormalizing router probabilities by a wider top-k integer lets you halve activated experts at inference with nearly no MMLU loss and no extra compute, training, or parameters.",
+      "llm_tldr_cn": "论文发现细粒度混合专家模型的路由概率重归一化会把专家输出增益隐式校准到训练top-k。作者仅引入一个整型参数，在激活top k1个专家时改用top k2个专家的概率质量归一化，从而在不训练、不增加参数的前提下把激活专家数从8减到4。在Qwen3.6-35B-A3B上，标准重归一化造成4.65点MMLU下降，新设置只下降0.35点，同时减半路由专家计算量，为MoE推理提供了一项几乎零开销的加速技术。",
+      "llm_tldr": "论文发现细粒度混合专家模型的路由概率重归一化会把专家输出增益隐式校准到训练top-k。作者仅引入一个整型参数，在激活top k1个专家时改用top k2个专家的概率质量归一化，从而在不训练、不增加参数的前提下把激活专家数从8减到4。在Qwen3.6-35B-A3B上，标准重归一化造成4.65点MMLU下降，新设置只下降0.35点，同时减半路由专家计算量，为MoE推理提供了一项几乎零开销的加速技术。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.05228v1",
+      "source": "arxiv",
+      "title": "ACE: Adaptive Calibration-Free Expert Skipping for MoE-based LLMs",
+      "abstract": "Mixture-of-Experts (MoE) architectures provide an efficient paradigm for scaling large language models (LLMs), yet fixed top-k routing activates the same number of expert slots for every token, causing substantial redundant computation. Existing expert-skipping methods often rely on router confidence, calibration data, or additional training, and therefore cannot reliably estimate the actual contribution of routed experts. To this end, we propose ACE, a training-free, calibration-free, and checkpoint-preserving framework for token-adaptive expert skipping in MoE-based LLMs. ACE contains two complementary components: 1) Global Spectral Proxy (GSP), which estimates global transformation capacity from the coupled gate, up, and down projections together with RMSNorm scaling; and 2) Router-Conditioned Refinement (RCR), which constructs expert-specific direction prototypes from centered router weights and evaluates expert responses along routing-preferred directions. During inference, ACE combines both estimates with runtime router gates and skips an expert slot only when both views identify it as low-contribution, while always retaining the top-1 expert. All expert statistics are computed offline, leaving only table lookups and lightweight scalar operations online. Extensive experiments across three MoE-based LLMs and eight benchmarks demonstrate that ACE consistently outperforms existing static and dynamic baselines, with increasingly pronounced advantages under aggressive expert skipping. For instance, at a 50% skipping ratio on Qwen3.6-35B-A3B, ACE reduces WikiText-2 perplexity by 7.96% and improves average downstream accuracy by 4.15 percentage points over the strongest competing method.",
+      "authors": [
+        "Zukang Xu",
+        "Zhixiong Zhao",
+        "Xing Hu",
+        "Jiangyong Yu",
+        "Houji Wen",
+        "Jun Li",
+        "Zhe Jiang",
+        "Dawei Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-04T14:56:00+00:00",
+      "link": "https://arxiv.org/pdf/2609.05228v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "training-free calibration-free token-adaptive expert skipping accelerates MoE LLM inference",
+      "llm_evidence_cn": "无训练无校准的token自适应专家跳过方法可加速MoE大模型推理",
+      "llm_evidence": "无训练无校准的token自适应专家跳过方法可加速MoE大模型推理",
+      "canonical_evidence": "无训练无校准的token自适应专家跳过方法可加速MoE大模型推理",
+      "llm_tldr_en": "ACE reduces redundant MoE computation via training-free, calibration-free token-adaptive expert skipping; a global spectral proxy estimates each routed expert's contribution, preserving checkpoints while speeding up LLM inference.",
+      "llm_tldr_cn": "针对MoE大模型固定top-k路由为每个token激活相同数量专家而带来大量冗余计算的问题，现有专家跳过方法依赖路由置信度、校准数据或额外训练。ACE提出无需训练、无需校准且保留检查点的token自适应专家跳过框架，通过全局谱代理从耦合的gate、up、down投影估计专家的实际贡献。实验显示该框架能有效减少冗余专家计算、加快MoE推理，同时保持模型质量，为高效推理提供了与量化正交的新机制。",
+      "llm_tldr": "针对MoE大模型固定top-k路由为每个token激活相同数量专家而带来大量冗余计算的问题，现有专家跳过方法依赖路由置信度、校准数据或额外训练。ACE提出无需训练、无需校准且保留检查点的token自适应专家跳过框架，通过全局谱代理从耦合的gate、up、down投影估计专家的实际贡献。实验显示该框架能有效减少冗余专家计算、加快MoE推理，同时保持模型质量，为高效推理提供了与量化正交的新机制。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.04453v1",
+      "source": "arxiv",
+      "title": "When Load-Balancing Goes Too Far: Expert Pruning in Over-Dispersed Mixture-of-Experts Models",
+      "abstract": "Expert pruning reduces the memory and serving cost of Mixture-of-Experts (MoE) models by removing low-importance experts identified by the router, assuming router probabilities provide a reliable importance signal. We observe that this assumption breaks down under over-dispersed routing, a regime associated with aggressive load-balancing during training, in which tokens are distributed nearly uniformly across experts and importance signals collapse. In this regime, perplexity does not predict downstream task accuracy: on gpt-oss-20B, the lowest-perplexity pruning configuration yields the worst mathematical reasoning, while the highest-perplexity configuration preserves it. This does not occur under standard routing (e.g., Mixtral-8x7B-Instruct), where perplexity and accuracy degrade together. Pruning under over-dispersed routing also exposes a capability trade-off in which no single scoring metric dominates: activation-aware scoring preserves mathematical reasoning but severely degrades knowledge-intensive science (an 18-point gap on GPQA), whereas frequency-based scoring exhibits the reverse. We propose Minimax Expert Score Allocation (MESA), a domain-aware method that iteratively boosts importance scores for experts serving whichever domain is currently worst-affected, minimizing worst-case domain degradation rather than average accuracy. At 25% expert pruning MESA achieves the smallest worst-case degradation across domains, outperforming activation-aware baselines on 7 of 11 benchmarks at a correspondingly reduced memory footprint, and it generalizes to gpt-oss-120B, Gemma-4-26B-A4B, and OLMoE-1B-7B. Our results indicate that over-dispersed routing is a qualitatively distinct pruning regime in which standard assumptions fail, and that recognizing it is a prerequisite for principled expert pruning of load-balanced MoE models.",
+      "authors": [
+        "Berkcan Kapusuzoglu",
+        "Connor Pryor",
+        "Sangwoo Cho",
+        "Supriyo Chakraborty",
+        "Shi-Xiong Zhang",
+        "Sambit Sahu",
+        "Milind Naphade"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-09-03T20:21:20+00:00",
+      "link": "https://arxiv.org/pdf/2609.04453v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Expert pruning techniques for reducing MoE memory and serving cost",
+      "llm_evidence_cn": "面向MoE服务成本降低的专家剪枝分析",
+      "llm_evidence": "面向MoE服务成本降低的专家剪枝分析",
+      "canonical_evidence": "面向MoE服务成本降低的专家剪枝分析",
+      "llm_tldr_en": "The paper shows that over-dispersed routing in MoE models can render router probabilities unreliable for expert pruning, causing the lowest-perplexity pruning configuration to degrade math reasoning most while higher perplexity preserves it.",
+      "llm_tldr_cn": "MoE模型中的专家剪枝通常依据路由器概率来判断专家重要性，但过度的负载均衡会造成近均匀路由，使该信号崩溃。本文在gpt-oss-20B等模型上发现，困惑度最低的剪枝配置反而严重损害数学推理能力，而困惑度较高时能力得以保留。这说明路由分布会显著影响剪枝评估，仅靠困惑度无法可靠衡量剪枝后果。该发现为MoE推理的内存与成本优化提供了剪枝方法上的重要警示。",
+      "llm_tldr": "MoE模型中的专家剪枝通常依据路由器概率来判断专家重要性，但过度的负载均衡会造成近均匀路由，使该信号崩溃。本文在gpt-oss-20B等模型上发现，困惑度最低的剪枝配置反而严重损害数学推理能力，而困惑度较高时能力得以保留。这说明路由分布会显著影响剪枝评估，仅靠困惑度无法可靠衡量剪枝后果。该发现为MoE推理的内存与成本优化提供了剪枝方法上的重要警示。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.04724v1",
+      "source": "arxiv",
+      "title": "FlexPosit: Tunable Fractional Precision for LLM Inference Accelerators",
+      "abstract": "Large language models (LLMs) offer remarkable capabilities but impose prohibitive compute and energy costs. Quantization governs the trade-offs between accuracy and hardware efficiency across granularity and bit-width. Finer granularity (e.g., group-wise) provides high accuracy but incurs scaling and control overhead, while coarser granularity (e.g., channel-wise) has lower overhead but loses accuracy at low precision. Meanwhile, mixed-precision quantization exposes rich accuracy-efficiency trade-offs algorithmically, but existing LLM accelerators remain limited to discrete precision modes, leaving the fractional design space between them unexplored.   FlexPosit bridges these gaps through co-design of Posit-based quantization and a precision-tunable bit-serial architecture. Algorithmically, FlexPosit employs distribution-aware quantization with hardware-aligned, sensitivity-guided mixed-precision allocation, leveraging the Posit format's tapered precision to achieve group-wise-like accuracy with channel-wise-like regularity. Architecturally, FlexPosit is a unified bit-serial systolic array with lightweight per-column decoders, unified Processing Elements (PEs), and a global precision controller, enabling tunable fractional precision while preserving fully regular systolic dataflow. Across diverse LLMs, FlexPosit achieves near-FP16 accuracy with sub-5-bit fractional weights. It achieves up to 1.8x higher throughput and 1.2x lower energy than BitMoD (group-wise quantization), and 1.5x higher throughput and 2.0x lower energy than OliVe (channel-wise quantization), establishing a new Pareto frontier for precision-tunable LLM acceleration.",
+      "authors": [
+        "Yimin Gao",
+        "Liangtao Dai",
+        "Jun Yin",
+        "Xinfei Guo",
+        "Mircea Stan"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR"
+      ],
+      "published": "2026-09-04T04:48:35+00:00",
+      "link": "https://arxiv.org/pdf/2609.04724v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Posit-based LLM quantization covering group-wise granularity and mixed precision for efficient inference",
+      "llm_evidence_cn": "面向LLM推理加速器的Posit量化，覆盖组粒度与混合精度，直接服务于大模型量化推理需求",
+      "llm_evidence": "面向LLM推理加速器的Posit量化，覆盖组粒度与混合精度，直接服务于大模型量化推理需求",
+      "canonical_evidence": "面向LLM推理加速器的Posit量化，覆盖组粒度与混合精度，直接服务于大模型量化推理需求",
+      "llm_tldr_en": "Introduces FlexPosit, co-designing Posit-based quantization and a tunable precision architecture to fill fractional precision gaps in LLM accelerators, balancing grouping granularity and accuracy/efficiency trade-offs.",
+      "llm_tldr_cn": "LLM推理的量化精度与硬件效率难以兼顾：细粒度分组量化精度高但控制开销大，粗粒度则低位宽精度损失明显，且现有加速器仅支持离散精度模式，无法探索中间分数精度设计空间。FlexPosit提出Posit量化与可调分数精度硬件协同设计，允许在组粒度上平滑调节位宽。该方案在保持硬件加速的同时利用分数精度扩展精度-效率曲线，为大规模语言模型推理加速器提供更灵活的量化策略。",
+      "llm_tldr": "LLM推理的量化精度与硬件效率难以兼顾：细粒度分组量化精度高但控制开销大，粗粒度则低位宽精度损失明显，且现有加速器仅支持离散精度模式，无法探索中间分数精度设计空间。FlexPosit提出Posit量化与可调分数精度硬件协同设计，允许在组粒度上平滑调节位宽。该方案在保持硬件加速的同时利用分数精度扩展精度-效率曲线，为大规模语言模型推理加速器提供更灵活的量化策略。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.03459v1",
+      "source": "arxiv",
+      "title": "FlowTT: Exploiting Computation Flow Reuse in Irregular Tensor-Train Embedding",
+      "abstract": "Tensor-Train (TT) decomposition effectively compresses large embedding tables in recommendation models, but TT-based embedding lookup remains inefficient because partially shared computation flows across input indices are not fully reused and intermediate results are repeatedly materialized off-chip between sequential TT-core contractions. We present FlowTT, a flow-aware GPU execution framework that reformulates TT gather as a set of prefix-shared irregular computation flows. FlowTT combines flow-aligned prefix-based index grouping, a fused TT-embedding execution path with on-chip intermediate retention, and persistent-thread scheduling with chunk-based work stealing and L2 checkpointing to preserve reuse under skewed workloads. By co-designing task formation, data buffering, and scheduling with the structure of TT gather, FlowTT reduces redundant TT-core operations, global-memory traffic, and load imbalance. On Meta's synthetic recommendation benchmarks (Meta-240, Meta-480, and Meta-788), FlowTT consistently achieves the lowest latency compared to existing methods. At batch size 32,768, it reduces latency by up to 42.2% in inference and 49.2% in training relative to EcoRec, while also achieving the lowest inference peak memory usage. These results show that exposing prefix-shared computation is key to efficient TT-based embedding execution.",
+      "authors": [
+        "Jongmin Seok",
+        "Chae Eun Rhee"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.AR"
+      ],
+      "published": "2026-09-03T07:17:33+00:00",
+      "link": "https://arxiv.org/pdf/2609.03459v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "GPU kernel fusion with prefix-based index grouping and on-chip reuse in tensor-train embedding; method transferable to grouped expert computation",
+      "llm_evidence_cn": "在张量列嵌入中做GPU核融合与前缀索引分组，可迁移至分组专家计算",
+      "llm_evidence": "在张量列嵌入中做GPU核融合与前缀索引分组，可迁移至分组专家计算",
+      "canonical_evidence": "在张量列嵌入中做GPU核融合与前缀索引分组，可迁移至分组专家计算",
+      "llm_tldr_en": "FlowTT is a GPU execution framework for irregular tensor-train embedding that reformulates TT gather into prefix-shared computation flows, and uses flow-aligned index grouping, fused TT execution, on-chip retention, persistent-thread scheduling and L2 checkpointing to improve skewed workloads. Its grouping and kernel-fusion strategies are transferable to grouped expert computation in MoE.",
+      "llm_tldr_cn": "针对张量列(TT)嵌入查找因顺序TT核收缩导致共享计算未复用、中间结果频繁离片的问题，本文提出GPU执行框架FlowTT。它将TT收集重写为前缀共享的不规则计算流，结合流对齐前缀分组、融合TT执行路径、片内中间结果驻留以及L2检查点等优化，保留不平衡负载下的计算复用。实验表明FlowTT可有效提升不规则TT嵌入在GPU上的执行效率。该工作的分组与融合优化对MoE分组专家计算和核融合方法具有可迁移的启发意义。",
+      "llm_tldr": "针对张量列(TT)嵌入查找因顺序TT核收缩导致共享计算未复用、中间结果频繁离片的问题，本文提出GPU执行框架FlowTT。它将TT收集重写为前缀共享的不规则计算流，结合流对齐前缀分组、融合TT执行路径、片内中间结果驻留以及L2检查点等优化，保留不平衡负载下的计算复用。实验表明FlowTT可有效提升不规则TT嵌入在GPU上的执行效率。该工作的分组与融合优化对MoE分组专家计算和核融合方法具有可迁移的启发意义。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "kernel fusion techniques for grouped expert computation in MoE",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
