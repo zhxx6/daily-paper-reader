@@ -6,35 +6,27 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-09-07
-- 运行时间：2026-09-07 23:18:09 UTC
+- 最新运行日期：2026-09-08
+- 运行时间：2026-09-08 22:04:38 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：4
-- 速读区：1
+- 本次总论文数：2
+- 精读区：2
+- 速读区：0
 
 ### 今日简报（AI）
-今日精读4篇、速读1篇，聚焦无训练MoE推理加速手段。最值得关注两项9分工作：细粒度MoE激活专家减半，以及免校准的专家跳过方法，均不依赖额外训练。后续可优先复现这类“免费”加速方案，留意其在大模型推理中的精度与吞吐折中。
-- 详情：[/202609/07/README](/202609/07/README)
+今日精读2篇高效LLM推理与量化论文：聚焦MoE内存优化及4-bit微缩放模型适配器合并。最值得关注的是《Cache-Aware Joint Router Adaptation》（9.0分），提出缓存感知的路由器联合适配以降低MoE推理内存占用；《Scale-QLoRA》（8.0分）则实现原生4-bit下的代码不变适配器合并。建议优先研读高分MoE方案，若关注量化部署可再看QLoRA变体。
+- 详情：[/202609/08/README](/202609/08/README)
 
 ### 精读区论文标签
-1. [Training-Free Halving of Activated Experts in Fine-Grained Mixture-of-Experts Models](/202609/07/2609.04575v1-training-free-halving-of-activated-experts-in-fine-grained-mixture-of-experts-models)  
+1. [Cache-Aware Joint Router Adaptation for Memory-Efficient MoE Inference](/202609/08/2609.04895v1-cache-aware-joint-router-adaptation-for-memory-efficient-moe-inference)  
    标签：评分：9.0/10、query:moe-gk-quant
-   evidence：仅调节归一化概率质量即可减半激活专家，免训练降低MoE推理计算量
-2. [ACE: Adaptive Calibration-Free Expert Skipping for MoE-based LLMs](/202609/07/2609.05228v1-ace-adaptive-calibration-free-expert-skipping-for-moe-based-llms)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：无训练无校准的token自适应专家跳过方法可加速MoE大模型推理
-3. [When Load-Balancing Goes Too Far: Expert Pruning in Over-Dispersed Mixture-of-Experts Models](/202609/07/2609.04453v1-when-load-balancing-goes-too-far-expert-pruning-in-over-dispersed-mixture-of-experts-models)  
+   evidence：面向MoE内存高效推理的专家缓存与联调路由；语义属于高效MoE推理技术
+2. [Scale-QLoRA: Code-Invariant Adapter Merging for Native 4-bit Microscaling LLMs](/202609/08/2609.04526v1-scale-qlora-code-invariant-adapter-merging-for-native-4-bit-microscaling-llms)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向MoE服务成本降低的专家剪枝分析
-4. [FlexPosit: Tunable Fractional Precision for LLM Inference Accelerators](/202609/07/2609.04724v1-flexposit-tunable-fractional-precision-for-llm-inference-accelerators)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向LLM推理加速器的Posit量化，覆盖组粒度与混合精度，直接服务于大模型量化推理需求
+   evidence：面向原生4比特微缩放大模型的权重量化与适配器合并问题
 
 ### 速读区论文标签
-1. [FlowTT: Exploiting Computation Flow Reuse in Irregular Tensor-Train Embedding](/202609/07/2609.03459v1-flowtt-exploiting-computation-flow-reuse-in-irregular-tensor-train-embedding)  
-   标签：评分：6.0/10、query:moe-gk-quant
-   evidence：在张量列嵌入中做GPU核融合与前缀索引分组，可迁移至分组专家计算
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">

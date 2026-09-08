@@ -1,0 +1,96 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-08T21:59:18.604862+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2609.04895v1",
+      "source": "arxiv",
+      "title": "Cache-Aware Joint Router Adaptation for Memory-Efficient MoE Inference",
+      "abstract": "Mixture-of-Experts (MoE) models activate only a small subset of experts per token, but the full expert set often exceeds GPU memory, causing repeated weight transfers during decoding. We formulate expert-cache management as a model-side algorithmic problem and propose a cache-aware post-training framework that jointly adapts the MoE backbone and lightweight auxiliary cache routers while preserving the native Top-K expert-selection rule at inference. Its update-only mode, Temporal Router, predicts same-layer reuse and retains experts for future tokens without proactive loading. The full Spatio-Temporal Router adds a Spatio Router that uses the causal predecessor's hidden state to refine the temporal cache before target-layer access. We evaluate both modes on Qwen3 and GPT-OSS across GSM8K, MATH, and CommonsenseQA. Temporal Router consistently improves cache hit rate and reduces expert-weight traffic over matched LM-only baselines. On Qwen3, Spatio-Temporal Router achieves the best load-adjusted efficiency across three tasks, improving adjusted hit rate by 1.15--18.03 points and reducing traffic by 4.6--53.3% relative to the strongest evaluated prefetching baseline; results on GPT-OSS are competitive but task-dependent. An auxiliary-only ablation preserves baseline accuracy but yields modest cache gains, whereas joint post-training produces larger improvements. Sensitivity analyses show that cache capacity controls transfer demand, while the refinement budget governs the trade-off between pre-access coverage and proactive traffic.",
+      "authors": [
+        "Zhenhe Wu",
+        "Yaping Jin",
+        "Qinghua Xing",
+        "Hang Zhou",
+        "Wei He",
+        "Xianjie Wu",
+        "Xianfu Cheng",
+        "Jian Yang",
+        "Hanting Chen"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-04T08:52:36+00:00",
+      "link": "https://arxiv.org/pdf/2609.04895v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "cache-aware joint router adaptation for memory-efficient MoE inference",
+      "llm_evidence_cn": "面向MoE内存高效推理的专家缓存与联调路由；语义属于高效MoE推理技术",
+      "llm_evidence": "面向MoE内存高效推理的专家缓存与联调路由；语义属于高效MoE推理技术",
+      "canonical_evidence": "面向MoE内存高效推理的专家缓存与联调路由；语义属于高效MoE推理技术",
+      "llm_tldr_en": "MoE decoding repeatedly transfers experts that exceed GPU memory; Cache-Aware Joint Router Adaptation post-trains the MoE backbone and lightweight auxiliary cache routers under native Top-K selection to predict expert reuse, reducing weight transfers during decoding.",
+      "llm_tldr_cn": "MoE模型在解码时需要反复载入超出GPU显存的专家权重，造成大量数据搬运。论文把专家缓存管理建模为模型侧算法问题，提出缓存感知的联合后训练框架，在保持原生Top-K选择规则的前提下，联合优化MoE主干与轻量辅助缓存路由器。仅更新的时间路由器预测同层专家在未来词元上的复用，空时路由器则借助因果前驱的隐状态优化目标层缓存。结果显示该方法可显著降低显存开销和权重转移，使MoE解码更高效。",
+      "llm_tldr": "MoE模型在解码时需要反复载入超出GPU显存的专家权重，造成大量数据搬运。论文把专家缓存管理建模为模型侧算法问题，提出缓存感知的联合后训练框架，在保持原生Top-K选择规则的前提下，联合优化MoE主干与轻量辅助缓存路由器。仅更新的时间路由器预测同层专家在未来词元上的复用，空时路由器则借助因果前驱的隐状态优化目标层缓存。结果显示该方法可显著降低显存开销和权重转移，使MoE解码更高效。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.04526v1",
+      "source": "arxiv",
+      "title": "Scale-QLoRA: Code-Invariant Adapter Merging for Native 4-bit Microscaling LLMs",
+      "abstract": "Merging a LoRA adapter into its base model is standard deployment practice: it removes the runtime adapter's per-forward overhead and leaves a single standalone checkpoint any serving stack can load. On a native 4-bit microscaling checkpoint (NVFP4, MXFP4) that step stops being free. The merged weights must be written back through a quantizer, which re-derives the checkpoint's discrete E2M1 code plane (roughly 90% of the artifact's bytes), so the deployed artifact becomes coupled to one quantization convention, and every later code-touching event in its lifecycle can move it. Done naively the step is worse than fragile: it deletes the adaptation, by up to 39 pp, because against an already-on-grid base the reconstruction optimum is that base. Scale-QLoRA instead adapts only the native per-block scale field, trains those scales on the deployment grid, and freezes every E2M1 code. Within a fixed native format, scale grid, block layout and code plane, merging is then a bit-exact identity and the merged artifact is code-invariant. Across four models and four tasks, Scale-QLoRA and merge-aware QAT-LoRA are both accuracy-lossless, so we claim no accuracy ordering between them; they differ structurally, in that QAT-LoRA re-derives the code plane through a quantizer while Scale-QLoRA preserves it exactly. That difference is what the lifecycle prices: nearest-rounding implementations disagree by about a point on the measured task, and more extreme rule mismatches can drive the weight-space artifact to ~0%, which we report as a sensitivity bound rather than a deployment frequency. Preserving the code plane also drops the weight-space straight-through estimator from training (3.9x per step on the dense 8B model) and enables exact rollback, code-plane deduplication, and a ~125x faster scale-only task swap.",
+      "authors": [
+        "Tung-Ling Li",
+        "Jiale Huang",
+        "Lee-Chi Wang",
+        "Janaki Ram Gotei"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-09-03T22:29:37+00:00",
+      "link": "https://arxiv.org/pdf/2609.04526v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "directly addresses 4-bit microscaling weight quantization for LLMs and adapter merging through quantizer",
+      "llm_evidence_cn": "面向原生4比特微缩放大模型的权重量化与适配器合并问题",
+      "llm_evidence": "面向原生4比特微缩放大模型的权重量化与适配器合并问题",
+      "canonical_evidence": "面向原生4比特微缩放大模型的权重量化与适配器合并问题",
+      "llm_tldr_en": "Naive adapter merging into 4-bit microscaling LLMs requantizes weights and can delete the adaptation by 39pp; Scale-QLoRA merges adapters code-invariantly, preserving the discrete code plane and model behavior.",
+      "llm_tldr_cn": "将LoRA合并回原生4比特微缩放大模型时，权重需重新通过量化器写回，导致部署模型被绑定到某种量化约定，朴素合并甚至会让适配效果下降多达39个百分点。为此论文提出Scale-QLoRA，采用代码不变的方式完成适配器合并，避免重推导E2M1离散码平面，从而同时保留量化权重和LoRA带来的能力。该工作凸显低比特部署中量化码本对模型生命周期的深层影响，为4比特LLM适配器部署提供了稳健路径。",
+      "llm_tldr": "将LoRA合并回原生4比特微缩放大模型时，权重需重新通过量化器写回，导致部署模型被绑定到某种量化约定，朴素合并甚至会让适配效果下降多达39个百分点。为此论文提出Scale-QLoRA，采用代码不变的方式完成适配器合并，避免重推导E2M1离散码平面，从而同时保留量化权重和LoRA带来的能力。该工作凸显低比特部署中量化码本对模型生命周期的深层影响，为4比特LLM适配器部署提供了稳健路径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
