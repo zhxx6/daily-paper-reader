@@ -1,0 +1,97 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-09T22:06:09.215020+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2609.07536v1",
+      "source": "arxiv",
+      "title": "Analytical Resource Management for Fine-grained MoE Computation-Communication Overlap",
+      "abstract": "Fine-grained computation--communication overlap in distributed Mixture-of-Experts (MoE) inference allows communication to begin as partial compute results become ready. However, cooperative thread arrays (CTAs) performing computation and communication contend for finite residency capacity on streaming multiprocessors (SMs). Because a resident CTA generally retains its allocated SM resources until completion, CTAs that cannot be co-resident must wait for resources, resulting in wave-like execution. A fixed resource partition cannot adapt to changes in input size, routed expert load, and kernel configuration, potentially causing a communication backlog or reducing expert compute parallelism.   We present a wave-quantized analytical model and launch-time resource manager for dependency-coupled overlap pipelines. Using routed-tile counts, kernel occupancy, GPU residency constraints, and split-level readiness dependencies, it selects the communication-CTA count and resource partition before each launch without candidate execution, per-workload profiling, or kernel recompilation. We integrate the method into the public COMET A100 implementation in FLUX.   We evaluate three MoE models on four NVIDIA A100 GPUs under several parallelism strategies at the GEMM2+GatherRS operator, complete post-router MoE layer, and complete-model prefill levels. Across 15 real-p90 workloads, the analytical selector achieves 3.22 percent mean regret relative to the measured oracle with a mean solver overhead of 0.157 microseconds. Over COMET, our method achieves geometric-mean speedups of 2.528x at the GEMM2+GatherRS operator, 1.771x at the complete post-router MoE layer, and 1.185x for complete-model prefill, with maxima of 4.218x, 2.584x, and 1.439x, respectively. At every feasible TP=2/EP=2 sequence length of at least 4,096, our implementation outperforms COMET, Megatron core-TE, and FastMoE TP+NCCL.",
+      "authors": [
+        "Hongyu Liu",
+        "Minyu Cui",
+        "Miquel Pericas"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-09-07T14:20:36+00:00",
+      "link": "https://arxiv.org/pdf/2609.07536v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Directly targets MoE inference efficiency via CTA/SM resource management and computation-communication overlap",
+      "llm_evidence_cn": "直接针对MoE推理的计算通信重叠与SM资源管理优化",
+      "llm_evidence": "直接针对MoE推理的计算通信重叠与SM资源管理优化",
+      "canonical_evidence": "直接针对MoE推理的计算通信重叠与SM资源管理优化",
+      "llm_tldr_en": "Presents wave-quantized analytical resource management for distributed fine-grained MoE inference, balancing CTA compute-communication overlap against SM residency limits to adapt to input, load, and kernel configuration.",
+      "llm_tldr_cn": "针对分布式细粒度MoE推理中细粒度计算通信重叠受SM驻留容量限制的问题，论文提出波量化解析模型来管理CTA资源分配。由于固定资源划分无法适应输入大小、路由专家负载和kernel配置变化，该模型刻画计算与通信CTA争用SM资源导致的wave式执行，用于动态调整资源以避免通信积压或专家并行度下降。该方法直接支撑MoE推理的高效执行调度，属于推理侧系统优化，而非量化或分组kernel融合。",
+      "llm_tldr": "针对分布式细粒度MoE推理中细粒度计算通信重叠受SM驻留容量限制的问题，论文提出波量化解析模型来管理CTA资源分配。由于固定资源划分无法适应输入大小、路由专家负载和kernel配置变化，该模型刻画计算与通信CTA争用SM资源导致的wave式执行，用于动态调整资源以避免通信积压或专家并行度下降。该方法直接支撑MoE推理的高效执行调度，属于推理侧系统优化，而非量化或分组kernel融合。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.07664v1",
+      "source": "arxiv",
+      "title": "Accuracy is Not Enough: A Divergence-Based Approach to Evaluate Fidelity Loss in Quantized LLMs",
+      "abstract": "Deployment of Large Language Models (LLMs) on memory-constrained edge devices relies heavily on aggressive post-training quantization. However, evaluating these models is largely based on zero-shot task accuracy, which depends solely on argmax predictions and is insensitive to changes in the underlying predictive distribution. Consequently, accuracy can exhibit unstable, non-monotonic behavior under progressive quantization, masking substantial fidelity loss relative to the BFloat16 (BF16) uncompressed base model and providing misleading deployment signals. We introduce a distribution-sensitive evaluation framework quantifying information loss in quantized LLMs as the divergence between full-vocabulary predictive distributions at the token decision boundary. We compute statistical distances, including Jensen-Shannon Divergence and Total Variation Distance, between outputs of full-precision and quantized models, enabling a fine-grained analysis of distributional shift. Using this framework, we quantify probability mass displacement and distributional drift relative to the BF16 reference, capturing predictive distribution changes not reflected in top-1 accuracy. We conduct a 120-run experimental matrix across five foundation architectures and four reasoning benchmarks under progressive quantization regimes, from uncompressed BF16 to Q2_K, providing a systematic fidelity analysis. Our results show divergence metrics generally increase under stronger quantization, complementing task accuracy with a fidelity signal. Across tested llama.cpp schemes, mixed-precision Q4_K generally yields lower divergence than uniform Q4_0 at similar memory footprints. These findings motivate distribution-aware evaluation as a practical diagnostic complement to task accuracy; they do not directly establish correctness, calibration, safety, or user-perceived quality.",
+      "authors": [
+        "Shahzeb Qamar",
+        "Lorenz Sparrenberg",
+        "Christian Bauckhage",
+        "Baha Rababah",
+        "Carson Leung",
+        "Murat Kantarcioglu",
+        "Cuneyt Gurcan Akcora",
+        "Rafet Sifa"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-07T15:49:52+00:00",
+      "link": "https://arxiv.org/pdf/2609.07664v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Distribution-sensitive fidelity evaluation directly supports weight quantization and edge deployment of quantized LLMs",
+      "llm_evidence_cn": "面向量化LLM的分布敏感保真度评估，支撑权重量化与边缘部署",
+      "llm_evidence": "面向量化LLM的分布敏感保真度评估，支撑权重量化与边缘部署",
+      "canonical_evidence": "面向量化LLM的分布敏感保真度评估，支撑权重量化与边缘部署",
+      "llm_tldr_en": "Quantized LLM evaluation relying only on zero-shot accuracy can mask fidelity loss caused by aggressive post-training quantization. This paper introduces a distribution-sensitive framework that measures divergence between the quantized model and the original BF16 model over the full vocabulary, exposing unstable accuracy trends and giving more reliable deployment signals.",
+      "llm_tldr_cn": "在内存受限的边缘设备上部署大语言模型通常依赖激进的后训练量化，但已有评测以零样本准确率为主，无法洞察底层预测分布的改变，甚至会出现非单调的不稳定趋势。作者提出一种分布敏感的评测框架，通过量化模型与BF16未量化基座模型在全词表上的预测分布散度来量化信息损失。实验表明该框架能揭示被准确率掩盖的保真度损失，为量化策略选择和边缘侧部署提供更可靠的信号。",
+      "llm_tldr": "在内存受限的边缘设备上部署大语言模型通常依赖激进的后训练量化，但已有评测以零样本准确率为主，无法洞察底层预测分布的改变，甚至会出现非单调的不稳定趋势。作者提出一种分布敏感的评测框架，通过量化模型与BF16未量化基座模型在全词表上的预测分布散度来量化信息损失。实验表明该框架能揭示被准确率掩盖的保真度损失，为量化策略选择和边缘侧部署提供更可靠的信号。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

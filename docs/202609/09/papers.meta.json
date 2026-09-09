@@ -1,0 +1,39 @@
+{
+  "label": "2026-09-09",
+  "date": "2026-09-09",
+  "generated_at": "2026-09-09T22:08:29",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202609/09/2609.07536v1-analytical-resource-management-for-fine-grained-moe-computation-communication-overlap",
+      "section": "deep",
+      "title_en": "Analytical Resource Management for Fine-grained MoE Computation-Communication Overlap",
+      "authors": "Hongyu Liu, Minyu Cui, Miquel Pericas",
+      "date": "2026-09-07",
+      "pdf": "https://arxiv.org/pdf/2609.07536v1",
+      "score": "8.0",
+      "evidence": "直接针对MoE推理的计算通信重叠与SM资源管理优化",
+      "tldr": "分布式MoE推理中，细粒度计算-通信重叠允许部分结果就绪即发起通信，但计算与通信CTA竞争SM驻留资源，产生波式等待；固定分区无法适应输入与路由变化。本文提出波量化分析模型与启动时资源管理器，基于路由tile数、占用率、驻留约束和就绪依赖，在启动前自动选择通信CTA数与资源划分，无需候选执行或内核重编译。集成至COMET实现，在A100上对GEMM2+GatherRS算子、MoE层和完整prefill分别取得2.528x/1.771x/1.185x平均加速，调度开销仅0.157微秒。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Fine-grained computation--communication overlap in distributed Mixture-of-Experts (MoE) inference allows communication to begin as partial compute results become ready. However, cooperative thread arrays (CTAs) performing computation and communication contend for finite residency capacity on streaming multiprocessors (SMs). Because a resident CTA generally retains its allocated SM resources until completion, CTAs that cannot be co-resident must wait for resources, resulting in wave-like execution. A fixed resource partition cannot adapt to changes in input size, routed expert load, and kernel configuration, potentially causing a communication backlog or reducing expert compute parallelism.   We present a wave-quantized analytical model and launch-time resource manager for dependency-coupled overlap pipelines. Using routed-tile counts, kernel occupancy, GPU residency constraints, and split-level readiness dependencies, it selects the communication-CTA count and resource partition before each launch without candidate execution, per-workload profiling, or kernel recompilation. We integrate the method into the public COMET A100 implementation in FLUX.   We evaluate three MoE models on four NVIDIA A100 GPUs under several parallelism strategies at the GEMM2+GatherRS operator, complete post-router MoE layer, and complete-model prefill levels. Across 15 real-p90 workloads, the analytical selector achieves 3.22 percent mean regret relative to the measured oracle with a mean solver overhead of 0.157 microseconds. Over COMET, our method achieves geometric-mean speedups of 2.528x at the GEMM2+GatherRS operator, 1.771x at the complete post-router MoE layer, and 1.185x for complete-model prefill, with maxima of 4.218x, 2.584x, and 1.439x, respectively. At every feasible TP=2/EP=2 sequence length of at least 4,096, our implementation outperforms COMET, Megatron core-TE, and FastMoE TP+NCCL.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/09/2609.07664v1-accuracy-is-not-enough-a-divergence-based-approach-to-evaluate-fidelity-loss-in-quantized-llms",
+      "section": "quick",
+      "title_en": "Accuracy is Not Enough: A Divergence-Based Approach to Evaluate Fidelity Loss in Quantized LLMs",
+      "authors": "Shahzeb Qamar, Lorenz Sparrenberg, Christian Bauckhage, Baha Rababah, Carson Leung, Murat Kantarcioglu, Cuneyt Gurcan Akcora, Rafet Sifa",
+      "date": "2026-09-07",
+      "pdf": "https://arxiv.org/pdf/2609.07664v1",
+      "score": "6.0",
+      "evidence": "面向量化LLM的分布敏感保真度评估，支撑权重量化与边缘部署",
+      "tldr": "大语言模型低比特量化常以任务准确率评估，但准确率仅看argmax，对概率分布变化不敏感，强量化下出现非单调漂移。本文提出分布敏感评估框架，用JSD与TVD衡量量化前后全词汇预测散度，捕捉概率质量位移。在5种架构、4个基准、120组实验中，散度指标随量化增强而增大；同内存下Q4_K优于Q4_0。该框架可作为任务准确率的实用诊断补充，而非替代其正确性、安全等评估。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Deployment of Large Language Models (LLMs) on memory-constrained edge devices relies heavily on aggressive post-training quantization. However, evaluating these models is largely based on zero-shot task accuracy, which depends solely on argmax predictions and is insensitive to changes in the underlying predictive distribution. Consequently, accuracy can exhibit unstable, non-monotonic behavior under progressive quantization, masking substantial fidelity loss relative to the BFloat16 (BF16) uncompressed base model and providing misleading deployment signals. We introduce a distribution-sensitive evaluation framework quantifying information loss in quantized LLMs as the divergence between full-vocabulary predictive distributions at the token decision boundary. We compute statistical distances, including Jensen-Shannon Divergence and Total Variation Distance, between outputs of full-precision and quantized models, enabling a fine-grained analysis of distributional shift. Using this framework, we quantify probability mass displacement and distributional drift relative to the BF16 reference, capturing predictive distribution changes not reflected in top-1 accuracy. We conduct a 120-run experimental matrix across five foundation architectures and four reasoning benchmarks under progressive quantization regimes, from uncompressed BF16 to Q2_K, providing a systematic fidelity analysis. Our results show divergence metrics generally increase under stronger quantization, complementing task accuracy with a fidelity signal. Across tested llama.cpp schemes, mixed-precision Q4_K generally yields lower divergence than uniform Q4_0 at similar memory footprints. These findings motivate distribution-aware evaluation as a practical diagnostic complement to task accuracy; they do not directly establish correctness, calibration, safety, or user-perceived quality.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

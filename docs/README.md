@@ -6,27 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-09-08
-- 运行时间：2026-09-08 22:04:38 UTC
+- 最新运行日期：2026-09-09
+- 运行时间：2026-09-09 22:08:25 UTC
 - 运行状态：成功
 - 本次总论文数：2
-- 精读区：2
-- 速读区：0
+- 精读区：1
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读2篇高效LLM推理与量化论文：聚焦MoE内存优化及4-bit微缩放模型适配器合并。最值得关注的是《Cache-Aware Joint Router Adaptation》（9.0分），提出缓存感知的路由器联合适配以降低MoE推理内存占用；《Scale-QLoRA》（8.0分）则实现原生4-bit下的代码不变适配器合并。建议优先研读高分MoE方案，若关注量化部署可再看QLoRA变体。
-- 详情：[/202609/08/README](/202609/08/README)
+今日精读聚焦MoE计算通信重叠的细粒度资源管理，速读探讨量化LLM的保真度评估；最值得关注的是精读论文提出的分析式资源分配方法，对降低MoE训练/推理通信开销有明确参考价值；建议普通读者优先理解“通信与计算重叠”的思路，后续可关注该方法的实验规模与扩展性。
+- 详情：[/202609/09/README](/202609/09/README)
 
 ### 精读区论文标签
-1. [Cache-Aware Joint Router Adaptation for Memory-Efficient MoE Inference](/202609/08/2609.04895v1-cache-aware-joint-router-adaptation-for-memory-efficient-moe-inference)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：面向MoE内存高效推理的专家缓存与联调路由；语义属于高效MoE推理技术
-2. [Scale-QLoRA: Code-Invariant Adapter Merging for Native 4-bit Microscaling LLMs](/202609/08/2609.04526v1-scale-qlora-code-invariant-adapter-merging-for-native-4-bit-microscaling-llms)  
+1. [Analytical Resource Management for Fine-grained MoE Computation-Communication Overlap](/202609/09/2609.07536v1-analytical-resource-management-for-fine-grained-moe-computation-communication-overlap)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：面向原生4比特微缩放大模型的权重量化与适配器合并问题
+   evidence：直接针对MoE推理的计算通信重叠与SM资源管理优化
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [Accuracy is Not Enough: A Divergence-Based Approach to Evaluate Fidelity Loss in Quantized LLMs](/202609/09/2609.07664v1-accuracy-is-not-enough-a-divergence-based-approach-to-evaluate-fidelity-loss-in-quantized-llms)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：面向量化LLM的分布敏感保真度评估，支撑权重量化与边缘部署
 
 
 <div class="dpr-home-promo-card">
