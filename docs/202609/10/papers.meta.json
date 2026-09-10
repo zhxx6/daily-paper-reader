@@ -1,0 +1,54 @@
+{
+  "label": "2026-09-10",
+  "date": "2026-09-10",
+  "generated_at": "2026-09-10T21:19:02",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202609/10/2609.06161v1-all-for-1-bit-towards-genuine-1-bit-post-training-quantization-for-llms",
+      "section": "deep",
+      "title_en": "All for 1-Bit: Towards Genuine 1-Bit Post-Training Quantization for LLMs",
+      "authors": "Zhixiong Zhao, Zukang Xu, Guangyu Sun, Lifeng Liu, Dawei Yang",
+      "date": "2026-09-05",
+      "pdf": "https://arxiv.org/pdf/2609.06161v1",
+      "score": "8.0",
+      "evidence": "面向大模型的1比特训练后权重量化",
+      "tldr": "大语言模型在实际部署中受存储与内存带宽限制，权重量化至一比特是理想方案，但现有二值化训练后量化方法因隐藏开销难以实现真正一比特。本文提出名为AF1的框架，包含零空间感知二值分解NABF以及分层Shapley容量分配HiSA，在严格1.0-BPW预算下显著提升二值重建与结构容量。在LLaMA、Qwen、Gemma等模型上，AF1的困惑度和零样本准确率均优于现有二值化训练后量化方法。相比BF16，平均推理加速2.5倍，内存减少超过90%，这推动大语言模型真正可部署的一比特压缩。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Large language models (LLMs) have achieved remarkable progress, yet their massive storage and memory-bandwidth demands still hinder efficient deployment. Weight binarization is a promising solution, but existing binarization-based post-training quantization (PTQ) methods usually far exceed the nominal 1-bit storage target due to hidden overhead. To address this gap, we propose All for 1-Bit (AF1), a genuine 1-bit PTQ framework for LLMs. AF1 comprises two complementary components: (1) Null-space-Aware Binary Factorization (NABF) for improving binary reconstruction through Hessian-aware surrogate reparameterization, null-space-aware binary factorization, and scale-only global reconstruction; and (2) Hierarchical Shapley Allocation (HiSA) for assigning structural capacity using hierarchical Shapley sensitivity. Together, they preserve model accuracy under a strict 1.0-BPW budget in the PTQ setting. Experiments on LLaMA, Qwen, and Gemma families show that AF1 consistently outperforms existing binarization-based PTQ methods in perplexity and zero-shot accuracy. Compared with BF16, AF1 achieves an average 2.5 times inference speedup and over 90% memory reduction across evaluated models, providing a practical path toward deployable genuine 1-bit compression for LLMs. The code for reproducibility is available at https://github.com/Kishon-zzx/AF1.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/10/2609.09241v1-distribution-consistent-inference-for-dynamic-sparse-mixture-of-experts",
+      "section": "quick",
+      "title_en": "Distribution-Consistent Inference for Dynamic Sparse Mixture-of-Experts",
+      "authors": "Dohyeon Kim, Bedionita Soro, Sung Ju Hwang",
+      "date": "2026-09-08",
+      "pdf": "https://arxiv.org/pdf/2609.09241v1",
+      "score": "7.0",
+      "evidence": "动态稀疏MoE的分布一致推理",
+      "tldr": "MoE 常采用固定 top-k 专家路由，每个 token 分配相同专家预算。推理时动态 top-k 可省算力，但偏离训练路由会带来分布偏移，降低性能。本文提出层间分布对齐 LDA，用逐层校准统计在推理时纠正降路由表示。在多种 SMoE LLM、基准和路由策略上，LDA 以极小开销恢复大部分性能，并保持稀疏推理效率。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) architectures have emerged as a powerful paradigm for scaling model capacity while preserving efficient inference in large foundation models. However, most MoE models use a fixed top-$k$ expert selection policy, assigning the same expert budget to every token even when fewer experts may be sufficient. Inference-time dynamic top-$k$ routing can reduce computation without retraining, but existing methods often overlook the distributional shift caused by deviating from the training-time routing configuration. We show that reducing the number of activated experts consistently increases the RMS scale and variance of SMoE outputs, inducing a representation mismatch that contributes to downstream performance degradation in addition to the loss of expert capacity. To address this correctable component, we propose Layer-wise Distribution Alignment (LDA), a lightweight inference-time correction that uses layer-wise calibration statistics to align reduced-routing representations with the default configuration. Across multiple SMoE LLMs, benchmarks, and routing strategies, LDA recovers much of the performance lost induced by the distributional shift under reduced routing while preserving sparse-inference efficiency with negligible overhead.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/10/2609.09721v1-efq-softmax-exp-free-quantization-for-softmax",
+      "section": "quick",
+      "title_en": "EFQ-Softmax: Exp-Free Quantization for Softmax",
+      "authors": "Haohui Han, Yuming Wan, Hongni Wang, Pengcheng Xie, Xiaodong Yan, Runqi You, Wencong Zhang",
+      "date": "2026-09-09",
+      "pdf": "https://arxiv.org/pdf/2609.09721v1",
+      "score": "6.0",
+      "evidence": "面向Transformer推理的低比特量化与分块缩放",
+      "tldr": "低比特注意力将 QK^T 与 PV 矩阵乘移至 FP8/FP4 引擎，但 softmax 仍高精度算指数、生成临时概率块再量化，造成生产者与消费者精度错配。EFQ-Softmax 直接把移位注意力分数映射为块缩放 E2M1 操作数：按微缩放块局部最大值选指数缩放，映射到归一化残差域，用单一仿射规则生成非负概率码，并统一用于 P̃V 分子和 P̃1 分母更新，同时保留 FlashAttention 行最大值更新与高精度累加。它在 Qwen3-8B 七任务均值从 0.6749 提至 0.6773，Qwen3-VL 九任务均值从 0.7826 提至 0.8000，A5 向量单元融合核延迟平均降 40.33%。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Low-bit attention accelerates Transformer inference by moving the $QK^\\top$ and $PV$ matrix multiplications to FP8 or FP4 matrix engines. However, the softmax path often evaluates shifted-score exponentials in higher precision, forms a temporary probability block, and quantizes it before low-bit $PV$ multiplication. This exp-then-quantize path creates a mismatch between a high-precision probability producer and a low-bit matrix consumer. We propose EFQ-Softmax (Exp-Free Quantization for Softmax), a low-bit probability-generation method that directly maps shifted attention scores to block-scaled E2M1 operands. For each microscaling block, EFQ-Softmax selects an exponent-only scale from the local maximum, maps the shifted scores to a normalized residual domain, and generates nonnegative E2M1 probability codes using a single affine rule. The resulting operand is used consistently in both the $\\widetilde{P}V$ numerator update and the $\\widetilde{P}\\mathbf{1}$ denominator update. The FlashAttention-style row-maximum update, historical rescaling, high-precision accumulation, and final normalization remain unchanged. We evaluate end-to-end quality on Qwen3-8B, Qwen3-VL-8B-Instruct, and WAN2.2-TI2V-5B, and separately measure kernel-level performance on the A5 vector unit. EFQ-Softmax improves the Qwen3-8B seven-task mean from 0.6749 with MXFP4 to 0.6773 and the Qwen3-VL nine-task mean from 0.7826 to 0.8000. On WAN2.2, it maintains temporal consistency and visual quality comparable to the FP16 and MXFP4 baselines under VBench. On the A5 vector unit, EFQ-Softmax reduces the vector-stage latency of the fused probability-generation kernel by 40.33% on average across sequence lengths from 16K to 128K. These results show that direct low-bit probability generation can replace the conventional exp-then-quantize path while preserving end-to-end model quality.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
