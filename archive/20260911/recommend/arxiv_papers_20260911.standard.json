@@ -1,0 +1,177 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-11T21:24:15.171742+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2609.04895v2",
+      "source": "arxiv",
+      "title": "Cache-Aware Joint Router Adaptation for Memory-Efficient MoE Inference",
+      "abstract": "Mixture-of-Experts (MoE) models activate few experts per token, yet their full expert sets can exceed GPU memory and require repeated weight transfers during decoding. We formulate expert-cache management as a model-side algorithmic problem and propose cache-aware post-training that jointly adapts the MoE backbone and lightweight auxiliary routers while preserving the native inference-time Top-K rule. The update-only Temporal Router learns same-layer retention across tokens without proactive loading. The full Spatio-Temporal Router adds a Spatio Router that uses the causal predecessor's hidden state to refine the temporal cache before target-layer access. We evaluate both modes on Qwen3 and GPT-OSS across GSM8K, MATH, and CommonsenseQA. Temporal Router consistently improves hit rate and reduces expert-weight traffic over matched LM-only baselines. On Qwen3, the full mode improves adjusted hit rate by 1.15--18.03 points and reduces traffic by 4.6--53.3\\% relative to the strongest evaluated prefetching baseline; GPT-OSS results are competitive but task-dependent. Auxiliary-only training preserves baseline accuracy but yields modest coverage gains; joint post-training achieves substantially higher coverage. Sensitivity analyses distinguish the effects of cache capacity, refinement budget, and cache-loss weight on coverage, traffic, and quality.",
+      "authors": [
+        "Zhenhe Wu",
+        "Yaping Jin",
+        "Qinghua Xing",
+        "Hang Zhou",
+        "Wei He",
+        "Xianjie Wu",
+        "Xianfu Cheng",
+        "Jian Yang",
+        "Hanting Chen"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-04T08:52:36+00:00",
+      "link": "https://arxiv.org/pdf/2609.04895v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "cache-aware router adaptation for memory-efficient MoE inference",
+      "llm_evidence_cn": "面向内存高效MoE推理的缓存感知路由适配",
+      "llm_evidence": "面向内存高效MoE推理的缓存感知路由适配",
+      "canonical_evidence": "面向内存高效MoE推理的缓存感知路由适配",
+      "llm_tldr_en": "Formulates expert-cache management as a model-side problem and proposes cache-aware post-training that adapts MoE backbone and auxiliary routers, using temporal and spatio-temporal routers to reduce weight transfers during decoding.",
+      "llm_tldr_cn": "专家混合模型虽每token只激活少量专家，但完整专家集常超出GPU显存，解码时需反复搬运权重。本文将专家缓存管理建模为模型侧算法问题，提出缓存感知的后训练方法，联合适配MoE主干与轻量辅助路由器并保持原生Top-K推理规则。其中的时序路由器学习同层跨token保留，时空路由器进一步利用因果前驱隐状态优化缓存。在Qwen3与GPT-OSS上于GSM8K、MATH和常识问答评估，验证了该方案在降低显存搬运的同时维持推理质量。",
+      "llm_tldr": "专家混合模型虽每token只激活少量专家，但完整专家集常超出GPU显存，解码时需反复搬运权重。本文将专家缓存管理建模为模型侧算法问题，提出缓存感知的后训练方法，联合适配MoE主干与轻量辅助路由器并保持原生Top-K推理规则。其中的时序路由器学习同层跨token保留，时空路由器进一步利用因果前驱隐状态优化缓存。在Qwen3与GPT-OSS上于GSM8K、MATH和常识问答评估，验证了该方案在降低显存搬运的同时维持推理质量。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.11687v1",
+      "source": "arxiv",
+      "title": "Structured Transforms for Low-Overhead Quantization of Language Models",
+      "abstract": "We revisit Kashin-decomposition-based weight quantization for large language models and propose an improved algorithm with stronger convergence properties and structured, efficient orthogonal transforms. The method retains the core factorization of each weight into two components -- one with bounded infinity norm and the other with bounded infinity norm after an orthogonal transformation -- but replaces the dense random orthogonal matrix with a sign-randomized Discrete Cosine Transform (DCT), reducing the per-iteration cost from $\\mathcal{O}(N^2)$ to $\\mathcal{O}(N \\log N)$. The proposed greedy algorithm with alternating updates guarantees the four-peak distribution required for stable 2-bit clustering of each factor and admits closed-form initialization of cluster centers, removing the multi-restart k-means bottleneck of prior work. Composed with OPTQ-style sequential error compensation and QuIP-style incoherence preprocessing, the resulting JAX pipeline is competitive with OPTQ, QuIP, QuIP-RG and a fine-tuning- and vector-quantization-free variant of QuIP# at 4-bit per channel on OPT, Llama-2 and Pythia, with favorable wall-clock scaling. The bounded-$\\ell_\\infty$ factorization is also notably robust: on stress configurations where QuIP variants diverge to four-digit perplexity (Pythia-6.9B) or abort with NaNs in LDL back-substitution (Mistral-7B), Kashin-DCT remains numerically stable and stays close to FP16 baseline. At inference time, each weight decomposes into two 2-bit factor codes per channel that are structurally suited to native-2-bit hardware.",
+      "authors": [
+        "Daria Cherniuk",
+        "Alexander Rudikov",
+        "Boris Kashin",
+        "Ivan Oseledets"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-09-10T15:15:50+00:00",
+      "link": "https://arxiv.org/pdf/2609.11687v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "weight quantization for large language models with efficient transforms",
+      "llm_evidence_cn": "面向大语言模型的高效权重量化",
+      "llm_evidence": "面向大语言模型的高效权重量化",
+      "canonical_evidence": "面向大语言模型的高效权重量化",
+      "llm_tldr_en": "Revisits Kashin-decomposition weight quantization for LLMs, replacing dense random orthogonal transforms with a sign-randomized DCT to cut cost from O(N^2) to O(N log N) while ensuring stable 2-bit clustering.",
+      "llm_tldr_cn": "针对大语言模型权重后训练量化中正交变换代价过高的问题，本文重新审视基于Kashin分解的量化方法。作者用符号随机化的离散余弦变换替代稠密随机正交矩阵，把每轮迭代复杂度从O(N^2)降到O(N log N)，并通过带交替更新的贪心算法保证稳定2位聚类所需的四峰分布。实验表明该方法在保持量化精度的同时显著降低开销，为高效低比特LLM量化提供了实用的结构化变换方案。",
+      "llm_tldr": "针对大语言模型权重后训练量化中正交变换代价过高的问题，本文重新审视基于Kashin分解的量化方法。作者用符号随机化的离散余弦变换替代稠密随机正交矩阵，把每轮迭代复杂度从O(N^2)降到O(N log N)，并通过带交替更新的贪心算法保证稳定2位聚类所需的四峰分布。实验表明该方法在保持量化精度的同时显著降低开销，为高效低比特LLM量化提供了实用的结构化变换方案。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.11716v1",
+      "source": "arxiv",
+      "title": "Why Does Post-Training Quantization Work?",
+      "abstract": "Post-training quantization compresses large language models (LLMs) by storing their weights at reduced precision, and each quantized weight introduces an error into the hidden states. Naively, these errors should accumulate with depth and corrupt next-token prediction; randomly initialized models accumulate these discrepancies rapidly, whereas quantized pretrained models accumulate much less hidden-state error and largely maintain downstream task performance, even though they were never trained with quantization noise. This raises the question we address: why does post-training quantization work? Comparing full-precision and quantized forward passes, we identify two mechanisms that characterize pretrained quantization robustness. First, the error a layer newly introduces tends to oppose the error it inherits from the layer's input. The two cancel partially such that the discrepancy between full-precision and quantized passes grows slowly. This counteracting residual interaction develops during pretraining. Our quantitative analysis identifies it as a major factor slowing hidden-error growth. Second, LM-head geometry preferentially preserves the scores and probabilities of high-ranked tokens, which typically represent the model's most confident predictions. Together, these mechanisms explain why quantization error that passes through numerous layers can still produce only small output changes, and we verify the findings across models and quantization settings.",
+      "authors": [
+        "Yuxiang Chen",
+        "Michael Beyer",
+        "Jun Zhu",
+        "Jianfei Chen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-09-10T15:32:32+00:00",
+      "link": "https://arxiv.org/pdf/2609.11716v1",
+      "tags": [
+        "keyword:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "analysis of post-training weight quantization for LLMs",
+      "llm_evidence_cn": "对LLM后训练权重量化的机理分析",
+      "llm_evidence": "对LLM后训练权重量化的机理分析",
+      "canonical_evidence": "对LLM后训练权重量化的机理分析",
+      "llm_tldr_en": "Post-training quantization compresses LLM weights but it is unclear why quantization errors do not accumulate with depth. Comparing full-precision and quantized forward passes, the paper identifies two mechanisms behind pretrained quantization robustness. It explains why PTQ works and informs quantizer design.",
+      "llm_tldr_cn": "后训练量化通过降低权重精度压缩大语言模型，但量化误差为何未随网络深度累积并破坏下一词预测仍不清楚。本文通过对比全精度与量化的前向传播，识别出刻画预训练模型量化鲁棒性的两种机制，发现预训练模型累积的隐藏状态误差远小于随机初始化模型。该分析解释了后训练量化为何有效，并为量化器设计提供了理论依据。",
+      "llm_tldr": "后训练量化通过降低权重精度压缩大语言模型，但量化误差为何未随网络深度累积并破坏下一词预测仍不清楚。本文通过对比全精度与量化的前向传播，识别出刻画预训练模型量化鲁棒性的两种机制，发现预训练模型累积的隐藏状态误差远小于随机初始化模型。该分析解释了后训练量化为何有效，并为量化器设计提供了理论依据。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.07664v2",
+      "source": "arxiv",
+      "title": "Accuracy is Not Enough: A Divergence-Based Approach to Evaluate Fidelity Loss in Quantized LLMs",
+      "abstract": "Deployment of Large Language Models (LLMs) on memory-constrained edge devices relies heavily on aggressive post-training quantization. However, evaluating these models is largely based on zero-shot task accuracy, which depends solely on argmax predictions and is insensitive to changes in the underlying predictive distribution. Consequently, accuracy can exhibit unstable, non-monotonic behavior under progressive quantization, masking substantial fidelity loss relative to the BFloat16 (BF16) uncompressed base model and providing misleading deployment signals. We introduce a distribution-sensitive evaluation framework quantifying information loss in quantized LLMs as the divergence between full-vocabulary predictive distributions at the token decision boundary. We compute statistical distances, including Jensen-Shannon Divergence and Total Variation Distance, between outputs of full-precision and quantized models, enabling a fine-grained analysis of distributional shift. Using this framework, we quantify probability mass displacement and distributional drift relative to the BF16 reference, capturing predictive distribution changes not reflected in top-1 accuracy. We conduct a 120-run experimental matrix across five foundation architectures and four reasoning benchmarks under progressive quantization regimes, from uncompressed BF16 to Q2_K, providing a systematic fidelity analysis. Our results show divergence metrics generally increase under stronger quantization, complementing task accuracy with a fidelity signal. Across tested llama-cpp schemes, mixed-precision Q4_K generally yields lower divergence than uniform Q4_0 at similar memory footprints. These findings motivate distribution-aware evaluation as a practical diagnostic complement to task accuracy; they do not directly establish correctness, calibration, safety, or user-perceived quality.",
+      "authors": [
+        "Shahzeb Qamar",
+        "Lorenz Sparrenberg",
+        "Christian Bauckhage",
+        "Baha Rababah",
+        "Carson Leung",
+        "Murat Kantarcioglu",
+        "Cuneyt Gurcan Akcora",
+        "Rafet Sifa"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-07T15:49:52+00:00",
+      "link": "https://arxiv.org/pdf/2609.07664v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "evaluating fidelity loss of quantized LLMs via predictive distribution divergence",
+      "llm_evidence_cn": "通过预测分布散度评估量化大模型保真度损失",
+      "llm_evidence": "通过预测分布散度评估量化大模型保真度损失",
+      "canonical_evidence": "通过预测分布散度评估量化大模型保真度损失",
+      "llm_tldr_en": "This paper argues zero-shot accuracy is insufficient for quantized LLMs and proposes a divergence-based framework measuring fidelity loss against the uncompressed model's predictive distribution.",
+      "llm_tldr_cn": "该文针对大模型在边缘设备上依赖激进后训练量化、而现有评估只看零样本任务准确率的问题，指出准确率仅依赖 argmax 预测，对底层预测分布变化不敏感，因而在渐进量化下呈现非单调波动，掩盖了真实的保真度损失。作者提出分布敏感的评估框架，用全词表预测分布与 BFloat16 基座模型之间的散度来量化信息损失。该工作为量化 LLM 的可靠性评估提供了新指标，属于大模型权重量化相关研究。",
+      "llm_tldr": "该文针对大模型在边缘设备上依赖激进后训练量化、而现有评估只看零样本任务准确率的问题，指出准确率仅依赖 argmax 预测，对底层预测分布变化不敏感，因而在渐进量化下呈现非单调波动，掩盖了真实的保真度损失。作者提出分布敏感的评估框架，用全词表预测分布与 BFloat16 基座模型之间的散度来量化信息损失。该工作为量化 LLM 的可靠性评估提供了新指标，属于大模型权重量化相关研究。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
