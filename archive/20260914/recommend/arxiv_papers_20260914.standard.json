@@ -1,0 +1,93 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-14T22:27:04.787779+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2609.12550v1",
+      "source": "arxiv",
+      "title": "Quality-Constrained Routing over a Fixed Pool of Quantized Mixture-of-Experts Instances",
+      "abstract": "Quantized Mixture-of-Experts (MoE) services can hold several pre-materialized instances of one base model, but quantization damage varies sharply across requests and bitwidths. Because instance materialization and replica counts consume memory and require slow reconfiguration, we treat them as upstream provisioning decisions and study routing within a fixed resident pool. Within this fixed-pool boundary, we route each request to maximize modeled throughput under a class-level expected quality-degradation budget and measured instance capacities. To predict this request-specific risk, we introduce FWP (Fragility-Weighted Perplexity), computed from prompt tokens on a reference-instance prefill and calibrated to candidate-instance degradation. Underlying FWP is an exact two-expert affinity--fragility decomposition and a conditional multi-layer top-$k$ expansion whose bias, interaction, route-change, separability, and higher-order terms remain explicit. Using these calibrated risks, a window-level linear program yields a signed reduced-reward score that is KKT-consistent with the LP optimum under optimal prices and primal-feasible tie allocation. On 88 extended Qwen prompts, complete W2, W3, and W4 instances quantizing all 6,144 expert blocks incur mean $Δ$NLL of $0.9437$, $0.1832$, and $0.0513$. Under the same population and $τ=0.1513$, FWP allocation reaches a $1.284\\times$ offline model-based multiplier versus $1.253\\times$ for request-agnostic mixing and $1.000\\times$ for static W4, an incremental $2.5\\%$ relative FWP gain.",
+      "authors": [
+        "Zhenghong Huang",
+        "Hongfan Wu",
+        "Jiheng Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-11T07:57:25+00:00",
+      "link": "https://arxiv.org/pdf/2609.12550v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "routing requests over a fixed pool of quantized MoE instances",
+      "llm_evidence_cn": "在固定量化混合专家实例池上进行请求路由",
+      "llm_evidence": "在固定量化混合专家实例池上进行请求路由",
+      "canonical_evidence": "在固定量化混合专家实例池上进行请求路由",
+      "llm_tldr_en": "This paper studies routing over a fixed pool of quantized MoE instances, introducing Fragility-Weighted Perplexity to predict request-specific quantization damage under quality budgets.",
+      "llm_tldr_cn": "该文针对量化混合专家服务中量化损伤随请求与位宽剧烈变化的问题，指出实例物化与副本数量属于上游配置决策且重配置缓慢，因此研究在固定常驻实例池内的路由问题。作者提出脆弱性加权困惑度FWP，用参考实例预填充的提示词预测请求级质量退化，并在类级期望质量预算与实测实例容量约束下最大化吞吐。工作直接面向量化MoE推理的路由与服务质量权衡，与量化MoE推理需求高度契合。",
+      "llm_tldr": "该文针对量化混合专家服务中量化损伤随请求与位宽剧烈变化的问题，指出实例物化与副本数量属于上游配置决策且重配置缓慢，因此研究在固定常驻实例池内的路由问题。作者提出脆弱性加权困惑度FWP，用参考实例预填充的提示词预测请求级质量退化，并在类级期望质量预算与实测实例容量约束下最大化吞吐。工作直接面向量化MoE推理的路由与服务质量权衡，与量化MoE推理需求高度契合。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.12310v1",
+      "source": "arxiv",
+      "title": "ESTS at WMT26: Routing-Informed Expert Pruning for Model Compression",
+      "abstract": "We describe six submissions under the team name ESTS to the unconstrained WMT26 Model Compression Shared Task for English--Simplified Chinese and English--Egyptian Arabic. We submit three compression operating points per translation direction, all derived from GPT-OSS-20B. We use task-specific routing mass to rank experts and cross-lingual routing divergence to allocate retained capacity across layers, then physically remove low-importance experts. The resulting specialists are recovery-tuned on GPT-5.1-generated synthetic translation data and further compressed by applying MXFP4 quantization to the retained expert projection weights. We additionally implement a robust inference system for the instruction-conditioned WMT26 setting, including category inference, output validation, retries, segmented fallback, and source-owned JSON reconstruction. Across our six submissions, parameter counts range from 4.186B to 7.770B and packed artifact sizes from 4.55 to 6.33~GiB. Internal xCOMET-XL evaluation using GPT-5.1 pseudo-references provides an internal comparison across the submitted compression operating points.",
+      "authors": [
+        "Liu O. Martin",
+        "Lucas Bandarkar",
+        "Nanyun Peng"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-09-11T00:30:43+00:00",
+      "link": "https://arxiv.org/pdf/2609.12310v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "expert pruning plus MXFP4 quantization of retained expert weights in MoE compression",
+      "llm_evidence_cn": "专家剪枝并对保留专家权重做MXFP4量化",
+      "llm_evidence": "专家剪枝并对保留专家权重做MXFP4量化",
+      "canonical_evidence": "专家剪枝并对保留专家权重做MXFP4量化",
+      "llm_tldr_en": "For WMT26 model compression, uses routing-informed expert pruning and MXFP4 quantization of retained expert weights, then recovery-tunes robust instruction-conditioned translation systems.",
+      "llm_tldr_cn": "面向WMT26模型压缩任务，该文基于GPT-OSS-20B提出路由感知的专家剪枝方法，利用任务相关路由质量排序专家并按跨语言路由差异分配各层容量。随后对保留专家权重施加MXFP4量化并进行恢复微调，构建稳健的指令条件推理系统。实验在英中与英埃翻译方向给出多档压缩方案，验证了专家剪枝与量化结合的有效性。",
+      "llm_tldr": "面向WMT26模型压缩任务，该文基于GPT-OSS-20B提出路由感知的专家剪枝方法，利用任务相关路由质量排序专家并按跨语言路由差异分配各层容量。随后对保留专家权重施加MXFP4量化并进行恢复微调，构建稳健的指令条件推理系统。实验在英中与英埃翻译方向给出多档压缩方案，验证了专家剪枝与量化结合的有效性。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

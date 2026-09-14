@@ -1,0 +1,39 @@
+{
+  "label": "2026-09-14",
+  "date": "2026-09-14",
+  "generated_at": "2026-09-14T22:30:31",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202609/14/2609.12550v1-quality-constrained-routing-over-a-fixed-pool-of-quantized-mixture-of-experts-instances",
+      "section": "deep",
+      "title_en": "Quality-Constrained Routing over a Fixed Pool of Quantized Mixture-of-Experts Instances",
+      "authors": "Zhenghong Huang, Hongfan Wu, Jiheng Zhang",
+      "date": "2026-09-11",
+      "pdf": "https://arxiv.org/pdf/2609.12550v1",
+      "score": "8.0",
+      "evidence": "在固定量化混合专家实例池上进行请求路由",
+      "tldr": "量化MoE服务可预置多个不同位宽实例，但量化损伤随请求与位宽剧烈变化，且实例物化和副本数受内存与重配置限制。为此，论文在固定常驻实例池内研究质量约束路由，提出FWP脆弱性加权困惑度预测请求风险，并用窗口级线性规划求KKT一致的路由分数。在88条Qwen提示上，W2/W3/W4平均ΔNLL为0.9437/0.1832/0.0513；FWP在τ=0.1513下达到1.284×离线模型吞吐倍数，优于请求无关混合的1.253×和静态W4的1.000×。该工作把质量退化预算纳入固定池路由，实现相对提升2.5%。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Quantized Mixture-of-Experts (MoE) services can hold several pre-materialized instances of one base model, but quantization damage varies sharply across requests and bitwidths. Because instance materialization and replica counts consume memory and require slow reconfiguration, we treat them as upstream provisioning decisions and study routing within a fixed resident pool. Within this fixed-pool boundary, we route each request to maximize modeled throughput under a class-level expected quality-degradation budget and measured instance capacities. To predict this request-specific risk, we introduce FWP (Fragility-Weighted Perplexity), computed from prompt tokens on a reference-instance prefill and calibrated to candidate-instance degradation. Underlying FWP is an exact two-expert affinity--fragility decomposition and a conditional multi-layer top-$k$ expansion whose bias, interaction, route-change, separability, and higher-order terms remain explicit. Using these calibrated risks, a window-level linear program yields a signed reduced-reward score that is KKT-consistent with the LP optimum under optimal prices and primal-feasible tie allocation. On 88 extended Qwen prompts, complete W2, W3, and W4 instances quantizing all 6,144 expert blocks incur mean $Δ$NLL of $0.9437$, $0.1832$, and $0.0513$. Under the same population and $τ=0.1513$, FWP allocation reaches a $1.284\\times$ offline model-based multiplier versus $1.253\\times$ for request-agnostic mixing and $1.000\\times$ for static W4, an incremental $2.5\\%$ relative FWP gain.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/14/2609.12310v1-ests-at-wmt26-routing-informed-expert-pruning-for-model-compression",
+      "section": "quick",
+      "title_en": "ESTS at WMT26: Routing-Informed Expert Pruning for Model Compression",
+      "authors": "Liu O. Martin, Lucas Bandarkar, Nanyun Peng",
+      "date": "2026-09-11",
+      "pdf": "https://arxiv.org/pdf/2609.12310v1",
+      "score": "6.0",
+      "evidence": "专家剪枝并对保留专家权重做MXFP4量化",
+      "tldr": "面向WMT26无约束模型压缩任务，ESTS在英译简中与英译埃及阿拉伯语方向提交六个系统，均从GPT-OSS-20B压缩而来。方法上按任务路由质量排序专家，并用跨语言路由散度分配各层保留容量，直接剪除低重要性专家，再以GPT-5.1合成翻译数据恢复微调，并对保留专家投影权重做MXFP4量化。六个提交参数量为4.186B至7.770B，打包体积4.55至6.33 GiB，并用xCOMET-XL与GPT-5.1伪参考进行内部比较。该工作验证了路由信息驱动的专家剪枝与量化可在多语言翻译压缩中形成可复现的操作点。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "We describe six submissions under the team name ESTS to the unconstrained WMT26 Model Compression Shared Task for English--Simplified Chinese and English--Egyptian Arabic. We submit three compression operating points per translation direction, all derived from GPT-OSS-20B. We use task-specific routing mass to rank experts and cross-lingual routing divergence to allocate retained capacity across layers, then physically remove low-importance experts. The resulting specialists are recovery-tuned on GPT-5.1-generated synthetic translation data and further compressed by applying MXFP4 quantization to the retained expert projection weights. We additionally implement a robust inference system for the instruction-conditioned WMT26 setting, including category inference, output validation, retries, segmented fallback, and source-owned JSON reconstruction. Across our six submissions, parameter counts range from 4.186B to 7.770B and packed artifact sizes from 4.55 to 6.33~GiB. Internal xCOMET-XL evaluation using GPT-5.1 pseudo-references provides an internal comparison across the submitted compression operating points.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
