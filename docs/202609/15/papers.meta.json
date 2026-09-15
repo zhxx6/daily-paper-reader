@@ -1,0 +1,69 @@
+{
+  "label": "2026-09-15",
+  "date": "2026-09-15",
+  "generated_at": "2026-09-15T21:53:12",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202609/15/2609.14643v1-bigmomo-efficient-inference-of-large-scale-moe-with-speculative-decoding-on-mobile-devices",
+      "section": "deep",
+      "title_en": "BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices",
+      "authors": "Maoliang Li, Hailong Zou, Taohong Han, Haoze Chi, Jiayu Chen, Zihao Zheng, Jie Zhang, Guojie Luo, Xiang Chen",
+      "date": "2026-09-13",
+      "pdf": "https://arxiv.org/pdf/2609.14643v1",
+      "score": "8.0",
+      "evidence": "移动端高效MoE推理运行时",
+      "tldr": "MoE 可扩展手机端模型容量，但 DRAM 有限且专家卸载搬运昂贵，顺序 token 路由使稀疏计算常等待碎片化 flash 读取。BigMoMo 利用推测解码的多 token 验证窗口，解耦专家移动与单 token 执行，实现权重复用、连续 flash 读取和计算传输重叠。它按接受率、路由影响与移动成本剪枝，重排 flash 专家并批量调度就绪专家。在四模型五基准两平台上平均解码加速 4.83 倍，超最佳推测 MoE 基线 1.82 倍，支持 30B 参数。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) models expand language model capacity on smartphones, but expert offloading remains constrained by limited DRAM capacity and costly data movement. Sequential token routing couples expert execution to fragmented flash reads and multistage NPU preparation, leaving sparse computation stalled on weight transfers. Each transfer serves few tokens before execution moves on. We exploit the multi-token verification window of speculative decoding to decouple expert movement from single-token execution, enabling weight reuse, contiguous flash reads, and load-compute overlap. We present \\textsc{BigMoMo}, a mobile MoE runtime that exploits this window across the memory hierarchy. It prunes speculative branches and expert activations using acceptance rates, routing impact, and movement cost; reorganizes on-flash experts according to runtime co-loading patterns; and batches ready experts to overlap NPU computation with pending transfers. Across four MoE models and five benchmarks on two mobile platforms, \\textsc{BigMoMo} achieves mean decoding speedups of $4.83\\times$ over on-demand autoregressive offloading and $1.82\\times$ over the best speculative MoE baseline, supporting MoE models up to 30B parameter.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/15/2609.14706v1-waterkron-and-flipflop-hessian-information-theoretically-grounded-quantization-with-kronecker-factored-hessians",
+      "section": "deep",
+      "title_en": "WaterKron and FlipFlop Hessian: Information-Theoretically Grounded Quantization with Kronecker-factored Hessians",
+      "authors": "Johann Birnick, Rayan Saab",
+      "date": "2026-09-13",
+      "pdf": "https://arxiv.org/pdf/2609.14706v1",
+      "score": "8.0",
+      "evidence": "基于Kronecker分解Hessian的训练后权重量化与率失真分析",
+      "tldr": "针对训练后量化中 Kronecker 分解 Hessian 近似应如何选择这一关键问题，本文提出 WaterKron 方法，将双边 GPTQ 与行列相关注水缩放以及熵编码结合起来。作者推导了相对于完整 Hessian 的高码率失真，并引入显式的 Kronecker-Hessian 失配因子 Φ，用以量化因 Kronecker 近似造成的渐近失真惩罚，同时为最优因子选择提供判据。最小化 Φ 可转化为高斯协方差拟合问题，其解对应经典 flip-flop 更新，从而为 FlipFlop Hessian 提供率失真理论依据。实验发现，该 Hessian 选择在 KL 散度和困惑度上稳定优于仅输入、边缘及 Frobenius 等基线。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "How should a Kronecker-factored Hessian approximation be chosen for post-training quantization? We address this question through WaterKron, which combines two-sided GPTQ with row- and column-dependent waterfilling scales and entropy coding. We derive its high-rate distortion with respect to the full Hessian using an explicit Kronecker-Hessian mismatch factor $Φ$. This factor quantifies the asymptotic distortion penalty due to the Kronecker Hessian approximation and provides a criterion for selecting the factors optimally. Minimizing $Φ$ leads to a Gaussian covariance-fitting problem with classical ``flip-flop'' updates. We thus give a rate-distortion justification for using the resulting FlipFlop Hessian in quantization. We evaluate it empirically, finding that the FlipFlop Hessian consistently improves KL divergence and perplexity over input-only, marginal, and Frobenius-based Hessian choices.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/15/2609.14507v1-physically-partitioned-kvcache-format-for-cpu--gpu-load-balancing-in-moe-inference",
+      "section": "quick",
+      "title_en": "Physically Partitioned KVCache Format for CPU--GPU Load Balancing in MoE Inference",
+      "authors": "Enda Yu, Dezun Dong, Xiangke Liao",
+      "date": "2026-09-13",
+      "pdf": "https://arxiv.org/pdf/2609.14507v1",
+      "score": "7.0",
+      "evidence": "面向MoE高效推理的KVCache格式",
+      "tldr": "单图形处理器长上下文专家混合推理需将KVCache溢出到中央处理器，但图形处理器注意力与中央处理器原地计算要求相反状态，现有抽象难动态均衡。提出InplaceKVCache，写入时固定每字节驻留，按设备亲和与访问模式划四区域，把负载均衡变成纯调度；WriteScope沿序列切分中央处理器与图形处理器份额，用屋顶线模型随长度调最优占比并在线校正。长上下文A100获1.5–2.5倍、V100获1.4–1.7倍加速，KV预算翻倍仍失败。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Single-GPU long-context inference with Mixture-of-Experts (MoE) models requires spilling the key-value cache (KVCache) to CPU memory. The spilled KV serves two complementary purposes---transferring to the GPU for attention computation, or computing in-place on the CPU---which demand opposing physical states. The optimal split between them varies with workload, yet existing KVCache abstractions offer only storage semantics over a monolithic object of a single physical state, and cannot express dynamic load balancing. We propose InplaceKVCache, the first KVCache abstraction whose format fixes each byte's physical residency at write time, so that the CPU--GPU load balance can be adjusted without moving data after placement. It realizes this as a four-region layout along two dimensions---device affinity and access pattern---turning load balancing into pure scheduling. Built on this abstraction, WriteScope splits CPU--GPU shares along the sequence dimension, and a portable roofline performance model determines the optimal CPU share as sequence length evolves, with online feedback tracking CPU cost drift. On three MoE models (DeepSeek-V2-Lite, Qwen3-30B-A3B, Mixtral-8$\\times$7B) with a 32~GB VRAM budget, WriteScope supports end-to-end inference at the 1M-token aggregate scale. In the long-context regime ($\\ge$8K), it achieves geometric-mean speedups of $1.5\\times$--$2.5\\times$ on A100 and $1.4\\times$--$1.7\\times$ on V100 over four reproduced baselines, while vLLM, SGLang, and KTransformers fail even with a doubled KV budget. A DeepSeek-V4-Flash case study validates composition with native sparse attention.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/15/2609.13031v1-attention-quantization-for-tabular-foundation-models",
+      "section": "quick",
+      "title_en": "Attention Quantization for Tabular Foundation Models",
+      "authors": "Jonas M. Kübler, Benjamin Jäger, Klemens Flöge, Noah Hollmann, Frank Hutter",
+      "date": "2026-09-11",
+      "pdf": "https://arxiv.org/pdf/2609.13031v1",
+      "score": "6.0",
+      "evidence": "面向Transformer推理的量化策略",
+      "tldr": "表格基础模型推理优化成为新方向，但其规模与服务模式不同于LLM，权重或KV缓存量化未必是重点。本文聚焦注意力计算，将Q、K、V量化到FP8并调用显式FP8矩阵乘指令加速。关键发现是需对齐测试行与训练行的量化误差，否则精度骤降。Triton内核较16位内核最高提速1.7倍，在TabPFN-v3与TabICLv2及TabArena、BeyondArena上无明显精度损失。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "With the recent rise and adoption of tabular foundation models, optimizing their inference performance becomes an emerging field for efficiency research. While the models are architecturally similar to transformer-based large language models (LLMs), the size and serving patterns differ significantly. We show that the focus should be on the attention calculation and less on weight or KV cache quantization, which are more popular in LLMs. We develop a quantization strategy for queries, keys, and values to FP8 and use explicit FP8 matrix multiplication instructions to speed up the attention calculation. We find that it is crucial to align the quantization error in the test rows with the quantization error in the training rows, as otherwise the accuracy drops drastically. Our Triton kernel achieves a speedup up to 1.7x over regular 16-bit kernels, and we show that on TabPFN-v3 and TabICLv2 there is no relevant accuracy loss across TabArena and BeyondArena.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

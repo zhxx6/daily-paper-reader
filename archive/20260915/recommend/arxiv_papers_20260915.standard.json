@@ -1,0 +1,175 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-15T21:47:54.638000+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2609.14643v1",
+      "source": "arxiv",
+      "title": "BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices",
+      "abstract": "Mixture-of-Experts (MoE) models expand language model capacity on smartphones, but expert offloading remains constrained by limited DRAM capacity and costly data movement. Sequential token routing couples expert execution to fragmented flash reads and multistage NPU preparation, leaving sparse computation stalled on weight transfers. Each transfer serves few tokens before execution moves on. We exploit the multi-token verification window of speculative decoding to decouple expert movement from single-token execution, enabling weight reuse, contiguous flash reads, and load-compute overlap. We present \\textsc{BigMoMo}, a mobile MoE runtime that exploits this window across the memory hierarchy. It prunes speculative branches and expert activations using acceptance rates, routing impact, and movement cost; reorganizes on-flash experts according to runtime co-loading patterns; and batches ready experts to overlap NPU computation with pending transfers. Across four MoE models and five benchmarks on two mobile platforms, \\textsc{BigMoMo} achieves mean decoding speedups of $4.83\\times$ over on-demand autoregressive offloading and $1.82\\times$ over the best speculative MoE baseline, supporting MoE models up to 30B parameter.",
+      "authors": [
+        "Maoliang Li",
+        "Hailong Zou",
+        "Taohong Han",
+        "Haoze Chi",
+        "Jiayu Chen",
+        "Zihao Zheng",
+        "Jie Zhang",
+        "Guojie Luo",
+        "Xiang Chen"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR",
+        "cs.DC"
+      ],
+      "published": "2026-09-13T16:28:12+00:00",
+      "link": "https://arxiv.org/pdf/2609.14643v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient MoE inference runtime on mobile",
+      "llm_evidence_cn": "移动端高效MoE推理运行时",
+      "llm_evidence": "移动端高效MoE推理运行时",
+      "canonical_evidence": "移动端高效MoE推理运行时",
+      "llm_tldr_en": "BigMoMo is a mobile MoE runtime that exploits the multi-token verification window of speculative decoding to decouple expert weight movement from single-token execution, enabling weight reuse and load-compute overlap.",
+      "llm_tldr_cn": "针对MoE模型在手机端推理时受限于DRAM容量与专家权重搬运开销的问题，论文提出BigMoMo移动端运行时，利用推测解码的多token验证窗口将专家权重搬运与单token执行解耦，从而实现权重复用、连续闪存读取以及加载与计算的重叠，并剪枝推测分支。该方案缓解了专家卸载导致的稀疏计算停滞，为端侧大规模MoE推理提供了高效路径。",
+      "llm_tldr": "针对MoE模型在手机端推理时受限于DRAM容量与专家权重搬运开销的问题，论文提出BigMoMo移动端运行时，利用推测解码的多token验证窗口将专家权重搬运与单token执行解耦，从而实现权重复用、连续闪存读取以及加载与计算的重叠，并剪枝推测分支。该方案缓解了专家卸载导致的稀疏计算停滞，为端侧大规模MoE推理提供了高效路径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.14706v1",
+      "source": "arxiv",
+      "title": "WaterKron and FlipFlop Hessian: Information-Theoretically Grounded Quantization with Kronecker-factored Hessians",
+      "abstract": "How should a Kronecker-factored Hessian approximation be chosen for post-training quantization? We address this question through WaterKron, which combines two-sided GPTQ with row- and column-dependent waterfilling scales and entropy coding. We derive its high-rate distortion with respect to the full Hessian using an explicit Kronecker-Hessian mismatch factor $Φ$. This factor quantifies the asymptotic distortion penalty due to the Kronecker Hessian approximation and provides a criterion for selecting the factors optimally. Minimizing $Φ$ leads to a Gaussian covariance-fitting problem with classical ``flip-flop'' updates. We thus give a rate-distortion justification for using the resulting FlipFlop Hessian in quantization. We evaluate it empirically, finding that the FlipFlop Hessian consistently improves KL divergence and perplexity over input-only, marginal, and Frobenius-based Hessian choices.",
+      "authors": [
+        "Johann Birnick",
+        "Rayan Saab"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-13T18:03:21+00:00",
+      "link": "https://arxiv.org/pdf/2609.14706v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "post-training weight quantization with Kronecker-factored Hessians and rate-distortion analysis",
+      "llm_evidence_cn": "基于Kronecker分解Hessian的训练后权重量化与率失真分析",
+      "llm_evidence": "基于Kronecker分解Hessian的训练后权重量化与率失真分析",
+      "canonical_evidence": "基于Kronecker分解Hessian的训练后权重量化与率失真分析",
+      "llm_tldr_en": "WaterKron combines two-sided GPTQ with waterfilling scales and entropy coding, deriving a Kronecker-Hessian mismatch factor that gives a rate-distortion criterion for choosing the FlipFlop Hessian in post-training quantization.",
+      "llm_tldr_cn": "针对训练后量化中如何选择Kronecker分解Hessian近似的问题，本文提出WaterKron方法。它将双侧GPTQ与行列相关的水填充缩放及熵编码结合，并推导出相对于完整Hessian的高码率失真，用显式的Kronecker-Hessian失配因子Φ衡量近似带来的失真惩罚。最小化Φ可转化为高斯协方差拟合问题，从而给出使用FlipFlop Hessian的率失真依据，为量化中的Hessian近似选择提供理论指导。",
+      "llm_tldr": "针对训练后量化中如何选择Kronecker分解Hessian近似的问题，本文提出WaterKron方法。它将双侧GPTQ与行列相关的水填充缩放及熵编码结合，并推导出相对于完整Hessian的高码率失真，用显式的Kronecker-Hessian失配因子Φ衡量近似带来的失真惩罚。最小化Φ可转化为高斯协方差拟合问题，从而给出使用FlipFlop Hessian的率失真依据，为量化中的Hessian近似选择提供理论指导。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.14507v1",
+      "source": "arxiv",
+      "title": "Physically Partitioned KVCache Format for CPU--GPU Load Balancing in MoE Inference",
+      "abstract": "Single-GPU long-context inference with Mixture-of-Experts (MoE) models requires spilling the key-value cache (KVCache) to CPU memory. The spilled KV serves two complementary purposes---transferring to the GPU for attention computation, or computing in-place on the CPU---which demand opposing physical states. The optimal split between them varies with workload, yet existing KVCache abstractions offer only storage semantics over a monolithic object of a single physical state, and cannot express dynamic load balancing. We propose InplaceKVCache, the first KVCache abstraction whose format fixes each byte's physical residency at write time, so that the CPU--GPU load balance can be adjusted without moving data after placement. It realizes this as a four-region layout along two dimensions---device affinity and access pattern---turning load balancing into pure scheduling. Built on this abstraction, WriteScope splits CPU--GPU shares along the sequence dimension, and a portable roofline performance model determines the optimal CPU share as sequence length evolves, with online feedback tracking CPU cost drift. On three MoE models (DeepSeek-V2-Lite, Qwen3-30B-A3B, Mixtral-8$\\times$7B) with a 32~GB VRAM budget, WriteScope supports end-to-end inference at the 1M-token aggregate scale. In the long-context regime ($\\ge$8K), it achieves geometric-mean speedups of $1.5\\times$--$2.5\\times$ on A100 and $1.4\\times$--$1.7\\times$ on V100 over four reproduced baselines, while vLLM, SGLang, and KTransformers fail even with a doubled KV budget. A DeepSeek-V4-Flash case study validates composition with native sparse attention.",
+      "authors": [
+        "Enda Yu",
+        "Dezun Dong",
+        "Xiangke Liao"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.LG"
+      ],
+      "published": "2026-09-13T13:33:24+00:00",
+      "link": "https://arxiv.org/pdf/2609.14507v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "KVCache format for efficient MoE inference",
+      "llm_evidence_cn": "面向MoE高效推理的KVCache格式",
+      "llm_evidence": "面向MoE高效推理的KVCache格式",
+      "canonical_evidence": "面向MoE高效推理的KVCache格式",
+      "llm_tldr_en": "InplaceKVCache is a KVCache abstraction whose format fixes each byte's physical residency at write time, allowing CPU-GPU load balance in long-context MoE inference to be adjusted without moving data.",
+      "llm_tldr_cn": "针对单GPU长上下文MoE推理中KVCache需溢出到CPU、而现有抽象无法表达动态CPU-GPU负载均衡的问题，论文提出InplaceKVCache，在写入时即固定每个字节的物理驻留位置，使负载均衡可在不搬移数据的情况下调整。该格式区分了供GPU注意力计算与供CPU原地计算的两类KV用途，为MoE长上下文推理的内存层级调度提供了新的缓存抽象。",
+      "llm_tldr": "针对单GPU长上下文MoE推理中KVCache需溢出到CPU、而现有抽象无法表达动态CPU-GPU负载均衡的问题，论文提出InplaceKVCache，在写入时即固定每个字节的物理驻留位置，使负载均衡可在不搬移数据的情况下调整。该格式区分了供GPU注意力计算与供CPU原地计算的两类KV用途，为MoE长上下文推理的内存层级调度提供了新的缓存抽象。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2609.13031v1",
+      "source": "arxiv",
+      "title": "Attention Quantization for Tabular Foundation Models",
+      "abstract": "With the recent rise and adoption of tabular foundation models, optimizing their inference performance becomes an emerging field for efficiency research. While the models are architecturally similar to transformer-based large language models (LLMs), the size and serving patterns differ significantly. We show that the focus should be on the attention calculation and less on weight or KV cache quantization, which are more popular in LLMs. We develop a quantization strategy for queries, keys, and values to FP8 and use explicit FP8 matrix multiplication instructions to speed up the attention calculation. We find that it is crucial to align the quantization error in the test rows with the quantization error in the training rows, as otherwise the accuracy drops drastically. Our Triton kernel achieves a speedup up to 1.7x over regular 16-bit kernels, and we show that on TabPFN-v3 and TabICLv2 there is no relevant accuracy loss across TabArena and BeyondArena.",
+      "authors": [
+        "Jonas M. Kübler",
+        "Benjamin Jäger",
+        "Klemens Flöge",
+        "Noah Hollmann",
+        "Frank Hutter"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-11T16:31:29+00:00",
+      "link": "https://arxiv.org/pdf/2609.13031v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "quantization strategy for transformer attention inference",
+      "llm_evidence_cn": "面向Transformer推理的量化策略",
+      "llm_evidence": "面向Transformer推理的量化策略",
+      "canonical_evidence": "面向Transformer推理的量化策略",
+      "llm_tldr_en": "Tabular foundation models share transformer architecture but differ in size and serving from LLMs. This paper shows attention quantization to FP8 matters more than weight or KV cache quantization, and that aligning test-row and train-row quantization error is crucial to avoid accuracy collapse.",
+      "llm_tldr_cn": "表格基础模型在架构上类似Transformer大语言模型，但规模与服务模式差异显著，其推理效率优化仍属新兴方向。作者指出优化重点应放在注意力计算，而非大模型中常见的权重或KV缓存量化，并设计了将查询、键、值量化到FP8的策略，配合显式FP8矩阵乘法指令加速注意力计算。研究还发现必须让测试行与训练行的量化误差对齐，否则精度会急剧下降。该工作为Transformer类模型的高效量化推理提供了不同于LLM的优化视角。",
+      "llm_tldr": "表格基础模型在架构上类似Transformer大语言模型，但规模与服务模式差异显著，其推理效率优化仍属新兴方向。作者指出优化重点应放在注意力计算，而非大模型中常见的权重或KV缓存量化，并设计了将查询、键、值量化到FP8的策略，配合显式FP8矩阵乘法指令加速注意力计算。研究还发现必须让测试行与训练行的量化误差对齐，否则精度会急剧下降。该工作为Transformer类模型的高效量化推理提供了不同于LLM的优化视角。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
