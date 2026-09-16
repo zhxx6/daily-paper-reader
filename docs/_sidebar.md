@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-09-16 <!--dpr-date:20260916-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/16/2609.13486v1-mixture-of-experts-language-models-can-be-strong-and-efficient-retrievers" data-sidebar-item="{&quot;title&quot;: &quot;Mixture-of-Experts Language Models Can Be Strong and Efficient Retrievers&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.13486v1-mixture-of-experts-language-models-can-be-strong-and-efficient-retrievers&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;MoE大模型用于高效推理与降低编码成本&quot;}">Mixture-of-Experts Language Models Can Be Strong and Efficient Retrievers</a>
   * 2026-09-15 <!--dpr-date:20260915-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/15/2609.14643v1-bigmomo-efficient-inference-of-large-scale-moe-with-speculative-decoding-on-mobile-devices" data-sidebar-item="{&quot;title&quot;: &quot;BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.14643v1-bigmomo-efficient-inference-of-large-scale-moe-with-speculative-decoding-on-mobile-devices&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;移动端高效MoE推理运行时&quot;}">BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices</a>

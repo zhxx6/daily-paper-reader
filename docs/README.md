@@ -6,32 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-09-15
-- 运行时间：2026-09-15 21:53:10 UTC
+- 最新运行日期：2026-09-16
+- 运行时间：2026-09-16 21:54:19 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：2
-- 速读区：2
+- 本次总论文数：1
+- 精读区：0
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读2篇、速读2篇，聚焦移动端MoE推测解码与大模型量化推理优化。最值得看的是BigMoMo在手机上高效跑大规模MoE的推测解码方案，以及WaterKron用Kronecker分解Hessian做信息论量化。普通读者可先读这两篇精读，再按需扫速读中的KV缓存CPU-GPU负载均衡思路。
-- 详情：[/202609/15/README](/202609/15/README)
+今日仅速读1篇，聚焦《Mixture-of-Experts Language Models Can Be Strong and Efficient Retrievers》。
+最值得看的是MoE检索方向：标题给出“强且高效”的结论，但6.0/10评分提示需核实证据强度。
+普通读者可优先看摘要、实验设置与基线对比，判断效率优势是否牺牲检索效果。
+- 详情：[/202609/16/README](/202609/16/README)
 
 ### 精读区论文标签
-1. [BigMoMo: Efficient Inference of Large-Scale MoE with Speculative Decoding on Mobile Devices](/202609/15/2609.14643v1-bigmomo-efficient-inference-of-large-scale-moe-with-speculative-decoding-on-mobile-devices)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：移动端高效MoE推理运行时
-2. [WaterKron and FlipFlop Hessian: Information-Theoretically Grounded Quantization with Kronecker-factored Hessians](/202609/15/2609.14706v1-waterkron-and-flipflop-hessian-information-theoretically-grounded-quantization-with-kronecker-factored-hessians)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：基于Kronecker分解Hessian的训练后权重量化与率失真分析
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Physically Partitioned KVCache Format for CPU--GPU Load Balancing in MoE Inference](/202609/15/2609.14507v1-physically-partitioned-kvcache-format-for-cpu--gpu-load-balancing-in-moe-inference)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：面向MoE高效推理的KVCache格式
-2. [Attention Quantization for Tabular Foundation Models](/202609/15/2609.13031v1-attention-quantization-for-tabular-foundation-models)  
+1. [Mixture-of-Experts Language Models Can Be Strong and Efficient Retrievers](/202609/16/2609.13486v1-mixture-of-experts-language-models-can-be-strong-and-efficient-retrievers)  
    标签：评分：6.0/10、query:moe-gk-quant
-   evidence：面向Transformer推理的量化策略
+   evidence：MoE大模型用于高效推理与降低编码成本
 
 
 <div class="dpr-home-promo-card">
