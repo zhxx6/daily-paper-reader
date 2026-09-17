@@ -1,0 +1,54 @@
+{
+  "label": "2026-09-17",
+  "date": "2026-09-17",
+  "generated_at": "2026-09-17T22:36:42",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202609/17/2609.18131v1-colla-q-toward-collaborative-experts-in-moe-quantization-via-minimax-precision-balancing",
+      "section": "deep",
+      "title_en": "Colla-Q: Toward Collaborative Experts in MoE Quantization via Minimax Precision Balancing",
+      "authors": "Eunju Shin, Jongbin Ryu",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18131v1",
+      "score": "9.0",
+      "evidence": "基于激活熵的MoE量化与专家比特分配",
+      "tldr": "MoE量化虽能降低内存与计算开销，但专家参数量小、对低位表示敏感，单个专家性能下降会拖累整体模型。针对此，Colla-Q提出基于激活熵的比特分配框架，通过极小化精度失衡为各专家动态分配位宽。它鼓励量化后专家保持协同贡献，从而提升MoE整体性能，并减少对校准数据集的依赖。由于统一调节各专家性能可增强模型鲁棒性与稳定性，该方法在不同校准数据集上具有更一致的泛化能力。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "In this paper, we present a Mixture-of-Experts (MoE) quantization method based on activation entropy. Although quantization reduces memory and computational costs, it can substantially degrade performance. In particular, performance decline is pronounced in quantized MoE models, where individual experts have a small number of parameters that are sensitive to low-bit representation. Considering that MoE operates as an ensemble model with collaborative contributions from routed experts, a significant performance decline of a particular expert due to quantization can harm model performance. Therefore, we propose Colla-Q, a bit-allocation framework to maintain balanced performance across experts through an activation-entropy-based bit-width allocation algorithm. This approach encourages each expert to operate collaboratively in the quantized model, thereby 1) improving the overall MoE performance and 2) reducing the dependence on the calibration dataset. Since uniformly adjusting each expert's performance facilitates robustness and stability of the MoE model, the proposed MoE quantization method can generalize more consistently across different calibration datasets. Our code is available at: https://github.com/mmai-laboratory/Colla_Q",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/17/2609.18063v1-the-other-half-of-the-memory-wall-serving-35b-moes-from-ssd-with-trained-routing-prediction",
+      "section": "deep",
+      "title_en": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "authors": "Yu Lin, Yiming Wang, Runyuan Cai, Hanze Liu, Xiaodong Zeng",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18063v1",
+      "score": "8.0",
+      "evidence": "流式MoE推理引擎，涉及4比特权重内存与路由预测",
+      "tldr": "MoE推理受限于权重内存，35B模型4-bit仍需19.5GB，单纯SSD卸载因下一层专家需等上一层输出而难以提前预取。Edge0训练预路由头，提前一token预测下一层路由并直接作为路由，使预取专家集与实选集一致、不丢专家。配合未合并恢复LoRA补偿int4量化与路由替换损失，单张24GB机器上35B MoE达20tok/s，峰值活跃内存低于3GiB，五个基准平均接近fp16教师。框架、检查点与适配器开源。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0   serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/17/2609.18110v1-ssd-llama-ssd-native-inference-for-trillion-parameter-moe-at-1-tokens-on-a-consumer-pc",
+      "section": "quick",
+      "title_en": "SSD-LLaMA: SSD-Native Inference for Trillion-Parameter MoE at 1+ Token/s on a Consumer PC",
+      "authors": "Fangzhou Liang, Yibin Shen, Jianmin Hu, Jiayang Xu, Hanchi Gao, Minxian Xu, Zili Meng",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18110v1",
+      "score": "7.0",
+      "evidence": "面向万亿参数MoE的SSD原生本地推理系统",
+      "tldr": "前沿开源大模型正转向 MoE 架构，但本地推理仍须保留完整专家池，消费级 RAM 与 VRAM 即使量化后也远不足以容纳万亿参数模型。SSD-LLaMA 提出 SSD 原生本地 MoE 推理系统，借助面向专家投递的 SSD I/O 流水线、SSD-RAM-VRAM 三层存储动态管理以及 CPU-GPU 混合执行，在不剪枝、不替换专家的前提下执行全部选中专家。在三个前沿 MoE 模型上，预填充吞吐提升 1.52-4.19 倍，解码吞吐提升 2.10-15.58 倍。单张 RTX 5090 与不超过 32GB 内存即可让万亿参数模型达到 1 token/s 以上，证明 SSD 原生推理能突破本地内存瓶颈。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Frontier open-weight language models increasingly use Mixture-of-Experts (MoE) architectures to expand model capacity while activating only a small subset of experts per token. Local inference must nevertheless keep the complete expert pool available, which remains far beyond consumer-grade RAM and VRAM capacity even after quantization. SSDs provide practical capacity at this scale, but turning that capacity into executable model memory requires efficient expert delivery, coordinated management of SSD, RAM, and VRAM, and CPU--GPU hybrid execution under bounded bandwidth. We present \\textit{SSD-LLaMA}, an SSD-native local MoE inference system that addresses these challenges with an SSD I/O pipeline optimized for expert delivery, a native three-tier storage hierarchy that delivers and retains experts dynamically, and balanced CPU--GPU hybrid execution. \\textit{SSD-LLaMA} executes every selected expert without pruning or substitution. Across three frontier MoE model families, \\textit{SSD-LLaMA} improves prefill token rate by 1.52$\\times$--4.19$\\times$ and decode token rate by 2.10$\\times$--15.58$\\times$ over the evaluated baselines. We also achieve higher than 1 token/s for running trillion-parameter model with a single RTX 5090 and no more than 32GB RAM.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

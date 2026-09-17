@@ -1,0 +1,133 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-17T22:33:56.175148+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2609.18131v1",
+      "source": "arxiv",
+      "title": "Colla-Q: Toward Collaborative Experts in MoE Quantization via Minimax Precision Balancing",
+      "abstract": "In this paper, we present a Mixture-of-Experts (MoE) quantization method based on activation entropy. Although quantization reduces memory and computational costs, it can substantially degrade performance. In particular, performance decline is pronounced in quantized MoE models, where individual experts have a small number of parameters that are sensitive to low-bit representation. Considering that MoE operates as an ensemble model with collaborative contributions from routed experts, a significant performance decline of a particular expert due to quantization can harm model performance. Therefore, we propose Colla-Q, a bit-allocation framework to maintain balanced performance across experts through an activation-entropy-based bit-width allocation algorithm. This approach encourages each expert to operate collaboratively in the quantized model, thereby 1) improving the overall MoE performance and 2) reducing the dependence on the calibration dataset. Since uniformly adjusting each expert's performance facilitates robustness and stability of the MoE model, the proposed MoE quantization method can generalize more consistently across different calibration datasets. Our code is available at: https://github.com/mmai-laboratory/Colla_Q",
+      "authors": [
+        "Eunju Shin",
+        "Jongbin Ryu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-09-16T05:09:22+00:00",
+      "link": "https://arxiv.org/pdf/2609.18131v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "MoE quantization with activation-entropy bit allocation for balanced experts",
+      "llm_evidence_cn": "基于激活熵的MoE量化与专家比特分配",
+      "llm_evidence": "基于激活熵的MoE量化与专家比特分配",
+      "canonical_evidence": "基于激活熵的MoE量化与专家比特分配",
+      "llm_tldr_en": "Colla-Q addresses performance degradation in quantized MoE models by allocating bits across experts via activation entropy, balancing expert performance in a minimax precision framework.",
+      "llm_tldr_cn": "量化虽能降低MoE模型的内存与计算开销，但专家参数少且对低比特敏感，个别专家性能下降会拖累整体表现。本文提出Colla-Q，基于激活熵为各专家分配比特位，以极小化最大精度损失的框架维持专家间性能均衡。实验表明该方法在量化MoE推理中优于均匀比特分配，为MoE量化部署提供了专家协同的新思路。",
+      "llm_tldr": "量化虽能降低MoE模型的内存与计算开销，但专家参数少且对低比特敏感，个别专家性能下降会拖累整体表现。本文提出Colla-Q，基于激活熵为各专家分配比特位，以极小化最大精度损失的框架维持专家间性能均衡。实验表明该方法在量化MoE推理中优于均匀比特分配，为MoE量化部署提供了专家协同的新思路。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.18063v1",
+      "source": "arxiv",
+      "title": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "abstract": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0   serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "authors": [
+        "Yu Lin",
+        "Yiming Wang",
+        "Runyuan Cai",
+        "Hanze Liu",
+        "Xiaodong Zeng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-09-16T03:09:04+00:00",
+      "link": "https://arxiv.org/pdf/2609.18063v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Streaming MoE inference engine with 4-bit weight memory and routing prediction",
+      "llm_evidence_cn": "流式MoE推理引擎，涉及4比特权重内存与路由预测",
+      "llm_evidence": "流式MoE推理引擎，涉及4比特权重内存与路由预测",
+      "canonical_evidence": "流式MoE推理引擎，涉及4比特权重内存与路由预测",
+      "llm_tldr_en": "Presents Edge0, a streaming MoE inference engine that predicts next-layer routing one token ahead so SSD-staged experts equal routed experts, addressing weight-memory bounds at 4-bit.",
+      "llm_tldr_cn": "MoE在消费级硬件上推理受限于权重内存，35B模型4比特下仍需19.5GB，且下一层专家须在本层输出前确定，导致SSD预读无法隐藏延迟。本文提出Edge0流式MoE推理引擎，用预路由器逐层提前一个token预测下一层路由并直接作为路由使用，配合恢复LoRA补偿。该方案在不丢弃专家的前提下实现高效流式推理，直接对应量化MoE推理与高效MoE推理主题。",
+      "llm_tldr": "MoE在消费级硬件上推理受限于权重内存，35B模型4比特下仍需19.5GB，且下一层专家须在本层输出前确定，导致SSD预读无法隐藏延迟。本文提出Edge0流式MoE推理引擎，用预路由器逐层提前一个token预测下一层路由并直接作为路由使用，配合恢复LoRA补偿。该方案在不丢弃专家的前提下实现高效流式推理，直接对应量化MoE推理与高效MoE推理主题。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.18110v1",
+      "source": "arxiv",
+      "title": "SSD-LLaMA: SSD-Native Inference for Trillion-Parameter MoE at 1+ Token/s on a Consumer PC",
+      "abstract": "Frontier open-weight language models increasingly use Mixture-of-Experts (MoE) architectures to expand model capacity while activating only a small subset of experts per token. Local inference must nevertheless keep the complete expert pool available, which remains far beyond consumer-grade RAM and VRAM capacity even after quantization. SSDs provide practical capacity at this scale, but turning that capacity into executable model memory requires efficient expert delivery, coordinated management of SSD, RAM, and VRAM, and CPU--GPU hybrid execution under bounded bandwidth. We present \\textit{SSD-LLaMA}, an SSD-native local MoE inference system that addresses these challenges with an SSD I/O pipeline optimized for expert delivery, a native three-tier storage hierarchy that delivers and retains experts dynamically, and balanced CPU--GPU hybrid execution. \\textit{SSD-LLaMA} executes every selected expert without pruning or substitution. Across three frontier MoE model families, \\textit{SSD-LLaMA} improves prefill token rate by 1.52$\\times$--4.19$\\times$ and decode token rate by 2.10$\\times$--15.58$\\times$ over the evaluated baselines. We also achieve higher than 1 token/s for running trillion-parameter model with a single RTX 5090 and no more than 32GB RAM.",
+      "authors": [
+        "Fangzhou Liang",
+        "Yibin Shen",
+        "Jianmin Hu",
+        "Jiayang Xu",
+        "Hanchi Gao",
+        "Minxian Xu",
+        "Zili Meng"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-09-16T04:28:47+00:00",
+      "link": "https://arxiv.org/pdf/2609.18110v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "SSD-native local MoE inference system for trillion-parameter models",
+      "llm_evidence_cn": "面向万亿参数MoE的SSD原生本地推理系统",
+      "llm_evidence": "面向万亿参数MoE的SSD原生本地推理系统",
+      "canonical_evidence": "面向万亿参数MoE的SSD原生本地推理系统",
+      "llm_tldr_en": "SSD-LLaMA is an SSD-native local MoE inference system delivering trillion-parameter MoE at 1+ token/s on a consumer PC via an expert-delivery I/O pipeline and CPU-GPU hybrid execution.",
+      "llm_tldr_cn": "前沿开源大模型越来越多采用MoE架构以扩展容量，但本地推理需常驻完整专家池，即便量化后仍远超消费级内存与显存容量。SSD-LLaMA提出SSD原生的本地MoE推理系统，通过面向专家交付的I/O流水线、SSD/RAM/VRAM协同管理与CPU-GPU混合执行来突破带宽限制。该系统在消费级PC上以每秒1个以上token的速度运行万亿参数MoE模型，为超大模型本地部署提供了可行路径。",
+      "llm_tldr": "前沿开源大模型越来越多采用MoE架构以扩展容量，但本地推理需常驻完整专家池，即便量化后仍远超消费级内存与显存容量。SSD-LLaMA提出SSD原生的本地MoE推理系统，通过面向专家交付的I/O流水线、SSD/RAM/VRAM协同管理与CPU-GPU混合执行来突破带宽限制。该系统在消费级PC上以每秒1个以上token的速度运行万亿参数MoE模型，为超大模型本地部署提供了可行路径。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
