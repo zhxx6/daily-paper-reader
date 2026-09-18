@@ -6,29 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-09-17
-- 运行时间：2026-09-17 22:36:37 UTC
+- 最新运行日期：2026-09-18
+- 运行时间：2026-09-18 21:23:16 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：2
-- 速读区：1
+- 本次总论文数：1
+- 精读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日精读两篇高分 MoE 论文，聚焦量化精度平衡与 SSD 路由预测，速读一篇消费级 SSD 推理方案。最值得看的是 Colla-Q 的极小极大精度平衡思路，以及 35B MoE 靠训练路由预测从 SSD 服务的方向。普通读者可先关注 MoE 量化与 SSD 卸载如何让大模型在有限显存和消费硬件上跑得更稳。
-- 详情：[/202609/17/README](/202609/17/README)
+今日只精读 1 篇、速读 0 篇，8.0 分聚焦于 MoE 推理的内存墙问题。
+最值得看的方向：这篇《The Other Half of the Memory Wall》把目光从显存转向 SSD，用训练好的路由预测来支撑 35B MoE 的服务，思路是"预测代替搬运"。
+普通读者可先关注其路由预测机制是否真能减少 SSD 读取，再想想这种存储侧思路能否迁移到自己的推理部署场景。
+- 详情：[/202609/18/README](/202609/18/README)
 
 ### 精读区论文标签
-1. [Colla-Q: Toward Collaborative Experts in MoE Quantization via Minimax Precision Balancing](/202609/17/2609.18131v1-colla-q-toward-collaborative-experts-in-moe-quantization-via-minimax-precision-balancing)  
-   标签：评分：9.0/10、query:moe-gk-quant
-   evidence：基于激活熵的MoE量化与专家比特分配
-2. [The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction](/202609/17/2609.18063v1-the-other-half-of-the-memory-wall-serving-35b-moes-from-ssd-with-trained-routing-prediction)  
+1. [The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction](/202609/18/2609.18063v2-the-other-half-of-the-memory-wall-serving-35b-moes-from-ssd-with-trained-routing-prediction)  
    标签：评分：8.0/10、query:moe-gk-quant
-   evidence：流式MoE推理引擎，涉及4比特权重内存与路由预测
+   evidence：带预路由的流式MoE推理引擎，4位权重与SSD服务
 
 ### 速读区论文标签
-1. [SSD-LLaMA: SSD-Native Inference for Trillion-Parameter MoE at 1+ Token/s on a Consumer PC](/202609/17/2609.18110v1-ssd-llama-ssd-native-inference-for-trillion-parameter-moe-at-1-tokens-on-a-consumer-pc)  
-   标签：评分：7.0/10、query:moe-gk-quant
-   evidence：面向万亿参数MoE的SSD原生本地推理系统
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">

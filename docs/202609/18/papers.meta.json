@@ -1,0 +1,24 @@
+{
+  "label": "2026-09-18",
+  "date": "2026-09-18",
+  "generated_at": "2026-09-18T21:23:19",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202609/18/2609.18063v2-the-other-half-of-the-memory-wall-serving-35b-moes-from-ssd-with-trained-routing-prediction",
+      "section": "deep",
+      "title_en": "The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction",
+      "authors": "Yu Lin, Yiming Wang, Runyuan Cai, Hanze Liu, Xiaodong Zeng",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18063v2",
+      "score": "8.0",
+      "evidence": "带预路由的流式MoE推理引擎，4位权重与SSD服务",
+      "tldr": "混合专家模型推理受权重内存墙限制，350亿参数模型4比特量化仍需19.5GB，朴素SSD卸载因无法提前预取下一层专家而难以奏效。Edge0引入逐层预路由头，提前一个词元预测下一层路由并直接作为路由使用，使预取专家集合等于实际路由集合；再以学生路径训练的非合并恢复低秩适配补偿量化与路由替换损失。单台24GB机器上，35B MoE达20tok/s，峰值活跃内存3GiB，五项公开基准平均仅比fp16教师低几分。8B档同框架，框架与适配器开源。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-experts (MoE) inference on consumer hardware is bounded by weight memory: a 35B-class model is 19.5GB at 4-bit, and sparsity shrinks the compute per token, not the bytes that must be held. Naive offloading to SSD does not help on its own, because layer N+1's experts must be chosen before layer N's output exists, so the reads cannot start early enough to hide behind compute. We present Edge0, a streaming MoE inference engine that closes the gap with a prerouter: a per-layer head predicts the next layer's routing one token ahead, and the prediction is consumed as the routing itself, so the staged expert set equals the routed set and nothing is dropped. An unmerged recovery LoRA, trained on the student path, pays back the quality lost to int4 quantization and routing replacement. On a single 24GB machine, Edge0 serves a 35B MoE at 20tok/s inside 3GiB of peak active memory, within a few points of its fp16 teacher on average across five public benchmarks. An 8B tier runs on the same framework, and the framework, checkpoints, and adapters are open source.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
