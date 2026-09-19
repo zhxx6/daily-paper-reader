@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-09-19 <!--dpr-date:20260919-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/19/2609.18176v1-more-mixture-of-reused-experts" data-sidebar-item="{&quot;title&quot;: &quot;MoRE: Mixture of Reused Experts&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.18176v1-more-mixture-of-reused-experts&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;共享专家池的混合专家架构，降低内存开销以提升推理效率&quot;}">MoRE: Mixture of Reused Experts</a>
   * 2026-09-18 <!--dpr-date:20260918-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/18/2609.18063v2-the-other-half-of-the-memory-wall-serving-35b-moes-from-ssd-with-trained-routing-prediction" data-sidebar-item="{&quot;title&quot;: &quot;The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.18063v2-the-other-half-of-the-memory-wall-serving-35b-moes-from-ssd-with-trained-routing-prediction&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;带预路由的流式MoE推理引擎，4位权重与SSD服务&quot;}">The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction</a>

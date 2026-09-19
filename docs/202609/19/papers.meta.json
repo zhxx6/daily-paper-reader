@@ -1,0 +1,24 @@
+{
+  "label": "2026-09-19",
+  "date": "2026-09-19",
+  "generated_at": "2026-09-19T21:00:48",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202609/19/2609.18176v1-more-mixture-of-reused-experts",
+      "section": "quick",
+      "title_en": "MoRE: Mixture of Reused Experts",
+      "authors": "Eric S. Qiu, Utku Umur Acikalin, Justin Lovelace, Christian Belardi, Arjun B. Mulchandani, Carla P. Gomes, Kilian Q. Weinberger",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18176v1",
+      "score": "6.0",
+      "evidence": "共享专家池的混合专家架构，降低内存开销以提升推理效率",
+      "tldr": "MoE 能以稀疏激活扩展容量，但专家数增长带来显存开销；循环 Transformer 复用层权重虽省参数，语言建模能力却常受限。MoRE 让相邻层分组共享专家池，各层保留独立路由器，并引入轻量可学习深度嵌入帮助共享专家区分层。在 114M 至 1.15B 三种规模、同等计算与参数预算下，MoRE 困惑度和下游任务均优于标准 MoE 及先进权重共享架构。它为参数高效 MoE 提供了一种仅需极小改动的混合复用方案。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) architectures decouple model capacity from computational cost, yet incur high memory footprints as parameters grow linearly with the number of experts. Recurrent Transformers achieve parameter efficiency by reusing layer weights, but typically lack the capacity for competitive language modeling. We propose Mixture of Reused Experts (MoRE), a hybrid that shares expert pools across groups of adjacent layers. Each layer retains its own router but selects from a larger shared pool, expanding the diversity of routing combinations without additional parameters. To enable shared experts to distinguish between layers, we introduce lightweight learnable depth embeddings that condition each layer's input before routing. Experiments across three model scales (114M-1.15B parameters) show that MoRE consistently achieves lower perplexity and stronger downstream performance than standard MoEs and state-of-the-art weight-sharing architectures at matched compute and parameter budgets, with only minimal modifications to existing MoE implementations.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

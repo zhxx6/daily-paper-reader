@@ -6,26 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-09-18
-- 运行时间：2026-09-18 21:23:16 UTC
+- 最新运行日期：2026-09-19
+- 运行时间：2026-09-19 21:00:40 UTC
 - 运行状态：成功
 - 本次总论文数：1
-- 精读区：1
-- 速读区：0
+- 精读区：0
+- 速读区：1
 
 ### 今日简报（AI）
-今日只精读 1 篇、速读 0 篇，8.0 分聚焦于 MoE 推理的内存墙问题。
-最值得看的方向：这篇《The Other Half of the Memory Wall》把目光从显存转向 SSD，用训练好的路由预测来支撑 35B MoE 的服务，思路是"预测代替搬运"。
-普通读者可先关注其路由预测机制是否真能减少 SSD 读取，再想想这种存储侧思路能否迁移到自己的推理部署场景。
-- 详情：[/202609/18/README](/202609/18/README)
+2026-09-19 日报：今日仅筛出 1 篇论文，精读 0 篇、速读 1 篇，方向集中在混合专家（MoE）架构。
+唯一可看的是速读 6.0/10 的《MoRE: Mixture of Reused Experts》，从标题看主打"复用已有专家"来搭 MoE，属中等分数、可作思路参考而非定论。
+普通读者建议先扫一眼它的专家复用机制和实验设置，判断是否与自己的降本/扩参需求相关，再决定要不要深挖。
+- 详情：[/202609/19/README](/202609/19/README)
 
 ### 精读区论文标签
-1. [The Other Half of the Memory Wall: Serving 35B MoEs from SSD with Trained Routing Prediction](/202609/18/2609.18063v2-the-other-half-of-the-memory-wall-serving-35b-moes-from-ssd-with-trained-routing-prediction)  
-   标签：评分：8.0/10、query:moe-gk-quant
-   evidence：带预路由的流式MoE推理引擎，4位权重与SSD服务
+- 本次无精读推荐。
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [MoRE: Mixture of Reused Experts](/202609/19/2609.18176v1-more-mixture-of-reused-experts)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：共享专家池的混合专家架构，降低内存开销以提升推理效率
 
 
 <div class="dpr-home-promo-card">
