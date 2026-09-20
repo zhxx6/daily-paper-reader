@@ -1,0 +1,59 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-20T21:38:40.603350+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2609.18176v2",
+      "source": "arxiv",
+      "title": "MoRE: Mixture of Reused Experts",
+      "abstract": "Mixture-of-Experts (MoE) architectures decouple model capacity from computational cost, yet incur high memory footprints as parameters grow linearly with the number of experts. Recurrent Transformers achieve parameter efficiency by reusing layer weights, but typically lack the capacity for competitive language modeling. We propose Mixture of Reused Experts (MoRE), a hybrid that shares expert pools across groups of adjacent layers. Each layer retains its own router but selects from a larger shared pool, expanding the diversity of routing combinations without additional parameters. To enable shared experts to distinguish between layers, we introduce lightweight learnable depth embeddings that condition each layer's input before routing. Experiments across three model scales (114M-1.15B parameters) show that MoRE consistently achieves lower perplexity and stronger downstream performance than standard MoEs and state-of-the-art weight-sharing architectures at matched compute and parameter budgets, with only minimal modifications to existing MoE implementations.",
+      "authors": [
+        "Eric S. Qiu",
+        "Utku Umur Acikalin",
+        "Justin Lovelace",
+        "Christian Belardi",
+        "Arjun B. Mulchandani",
+        "Carla P. Gomes",
+        "Kilian Q. Weinberger"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-16T06:03:56+00:00",
+      "link": "https://arxiv.org/pdf/2609.18176v2",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "efficient Mixture-of-Experts with shared expert pools and depth embeddings",
+      "llm_evidence_cn": "共享专家池的高效混合专家架构",
+      "llm_evidence": "共享专家池的高效混合专家架构",
+      "canonical_evidence": "共享专家池的高效混合专家架构",
+      "llm_tldr_en": "MoE models scale memory linearly with experts; MoRE shares expert pools across adjacent layers with per-layer routers and learnable depth embeddings, expanding routing diversity without extra parameters across 114M-1.15B scales.",
+      "llm_tldr_cn": "针对MoE模型参数量随专家数线性增长导致内存开销过高、而循环Transformer又缺乏足够语言建模能力的问题，论文提出复用专家混合模型MoRE，让相邻层共享同一专家池并各自保留路由器，同时用轻量可学习深度嵌入帮助共享专家区分层来源。在114M到1.15B三种规模上的实验表明，该方法在不增加参数的前提下扩大了路由组合的多样性，兼顾参数效率与建模容量。",
+      "llm_tldr": "针对MoE模型参数量随专家数线性增长导致内存开销过高、而循环Transformer又缺乏足够语言建模能力的问题，论文提出复用专家混合模型MoRE，让相邻层共享同一专家池并各自保留路由器，同时用轻量可学习深度嵌入帮助共享专家区分层来源。在114M到1.15B三种规模上的实验表明，该方法在不增加参数的前提下扩大了路由组合的多样性，兼顾参数效率与建模容量。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

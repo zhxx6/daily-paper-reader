@@ -1,0 +1,24 @@
+{
+  "label": "2026-09-20",
+  "date": "2026-09-20",
+  "generated_at": "2026-09-20T21:39:30",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202609/20/2609.18176v2-more-mixture-of-reused-experts",
+      "section": "quick",
+      "title_en": "MoRE: Mixture of Reused Experts",
+      "authors": "Eric S. Qiu, Utku Umur Acikalin, Justin Lovelace, Christian Belardi, Arjun B. Mulchandani, Carla P. Gomes, Kilian Q. Weinberger",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18176v2",
+      "score": "6.0",
+      "evidence": "共享专家池的高效混合专家架构",
+      "tldr": "问题背景：混合专家（MoE）能解耦模型容量与计算成本，但参数量随专家数量线性增长，显存开销高；循环 Transformer 虽通过复用层权重实现参数高效，却难以取得有竞争力的语言建模效果。核心方法：提出 Mixture of Reused Experts（MoRE），让相邻层组共享同一专家池，各层仍保留独立路由器，并引入轻量可学习深度嵌入以帮助共享专家区分不同层。关键结果：在 114M 至 1.15B 三种参数规模、同等计算与参数预算下，MoRE 的困惑度和下游任务表现均优于标准 MoE 及先进权重共享架构。贡献意义：该方案仅需对现有 MoE 实现做极小改动，即可扩展路由组合、提升参数效率，为高效大模型提供新思路。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) architectures decouple model capacity from computational cost, yet incur high memory footprints as parameters grow linearly with the number of experts. Recurrent Transformers achieve parameter efficiency by reusing layer weights, but typically lack the capacity for competitive language modeling. We propose Mixture of Reused Experts (MoRE), a hybrid that shares expert pools across groups of adjacent layers. Each layer retains its own router but selects from a larger shared pool, expanding the diversity of routing combinations without additional parameters. To enable shared experts to distinguish between layers, we introduce lightweight learnable depth embeddings that condition each layer's input before routing. Experiments across three model scales (114M-1.15B parameters) show that MoRE consistently achieves lower perplexity and stronger downstream performance than standard MoEs and state-of-the-art weight-sharing architectures at matched compute and parameter budgets, with only minimal modifications to existing MoE implementations.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

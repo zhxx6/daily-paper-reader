@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-09-20 <!--dpr-date:20260920-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/20/2609.18176v2-more-mixture-of-reused-experts" data-sidebar-item="{&quot;title&quot;: &quot;MoRE: Mixture of Reused Experts&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.18176v2-more-mixture-of-reused-experts&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;共享专家池的高效混合专家架构&quot;}">MoRE: Mixture of Reused Experts</a>
   * 2026-09-19 <!--dpr-date:20260919-->
     * 速读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/19/2609.18176v1-more-mixture-of-reused-experts" data-sidebar-item="{&quot;title&quot;: &quot;MoRE: Mixture of Reused Experts&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.18176v1-more-mixture-of-reused-experts&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;moe-gk-quant&quot;}], &quot;evidence&quot;: &quot;共享专家池的混合专家架构，降低内存开销以提升推理效率&quot;}">MoRE: Mixture of Reused Experts</a>
