@@ -6,26 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-09-20
-- 运行时间：2026-09-20 21:39:24 UTC
+- 最新运行日期：2026-09-21
+- 运行时间：2026-09-21 23:10:58 UTC
 - 运行状态：成功
-- 本次总论文数：1
-- 精读区：0
-- 速读区：1
+- 本次总论文数：4
+- 精读区：2
+- 速读区：2
 
 ### 今日简报（AI）
-今天精读挂零、速读 1 篇：MoRE: Mixture of Reused Experts（6.0/10）。
-唯一看点是“复用专家”思路，适合关注专家混合模型的人顺带一读，但 6.0 分不算高，别期待过猛。
-普通读者先看速读摘要即可，若后续有更多验证再考虑深入。
-- 详情：[/202609/20/README](/202609/20/README)
+- 今日共生成 4 篇推荐（精读 2 篇，速读 2 篇）
+- 精读：《A Multi-Engine Dataflow for MoE Decoding on Scratchpad-Based Tensor Accelerators》（9.0/10）, 《Understanding LLM Quantization through Activation-Guided Compensation and Orthogonal Residuals》（8.0/10）
+- 速读：《Higher-order pruning of experts in mixture-of-experts language models》（6.0/10）, 《Accelerating Dense LLMs via L0-regularized Mixture-of-Experts》（6.0/10）
+- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
+- 详情：[/202609/21/README](/202609/21/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [A Multi-Engine Dataflow for MoE Decoding on Scratchpad-Based Tensor Accelerators](/202609/21/2609.21137v1-a-multi-engine-dataflow-for-moe-decoding-on-scratchpad-based-tensor-accelerators)  
+   标签：评分：9.0/10、query:moe-gk-quant
+   evidence：量化专家权重与多引擎MoE解码数据流协同设计
+2. [Understanding LLM Quantization through Activation-Guided Compensation and Orthogonal Residuals](/202609/21/2609.21450v1-understanding-llm-quantization-through-activation-guided-compensation-and-orthogonal-residuals)  
+   标签：评分：8.0/10、query:moe-gk-quant
+   evidence：面向大模型的后训练权值-激活量化，分析W4A4激活离群误差
 
 ### 速读区论文标签
-1. [MoRE: Mixture of Reused Experts](/202609/20/2609.18176v2-more-mixture-of-reused-experts)  
+1. [Higher-order pruning of experts in mixture-of-experts language models](/202609/21/2609.18916v1-higher-order-pruning-of-experts-in-mixture-of-experts-language-models)  
    标签：评分：6.0/10、query:moe-gk-quant
-   evidence：共享专家池的高效混合专家架构
+   evidence：面向MoE显存瓶颈的二阶专家剪枝
+2. [Accelerating Dense LLMs via L0-regularized Mixture-of-Experts](/202609/21/2609.21672v1-accelerating-dense-llms-via-l0-regularized-mixture-of-experts)  
+   标签：评分：6.0/10、query:moe-gk-quant
+   evidence：基于MoE加速稠密LLM推理
 
 
 <div class="dpr-home-promo-card">

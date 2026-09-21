@@ -1,0 +1,69 @@
+{
+  "label": "2026-09-21",
+  "date": "2026-09-21",
+  "generated_at": "2026-09-21T23:11:06",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202609/21/2609.21137v1-a-multi-engine-dataflow-for-moe-decoding-on-scratchpad-based-tensor-accelerators",
+      "section": "deep",
+      "title_en": "A Multi-Engine Dataflow for MoE Decoding on Scratchpad-Based Tensor Accelerators",
+      "authors": "Bin Ma, Wenjie Fan, Dong Li",
+      "date": "2026-09-17",
+      "pdf": "https://arxiv.org/pdf/2609.21137v1",
+      "score": "9.0",
+      "evidence": "量化专家权重与多引擎MoE解码数据流协同设计",
+      "tldr": "在基于暂存器的张量加速器（STA）上，MoE 解码主要开销来自搬运专家权重，计算引擎常处于闲置；由于专家要路由后才确定，这部分流量既难隐藏，也难在不损质量、不增关键路径工作的情况下压缩。CARDAN 将每个专家权重矩阵拆成向量量化分量与共享基低秩分量，并协同设计多引擎解码数据流，从而分离专家公共与私有计算。该数据流让 DMA 与多个引擎上的计算重叠。在 AWS Trainium3 上，五个 MoE 系列全部匹配或优于 BF16 教师困惑度，batch-one 解码较 AWS 稠密 MoE megakernel 加速 1.15-1.31 倍，batch size 16 时达 1.7 倍。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) decoding on scratchpad-based tensor accelerators (STA) is dominated by moving expert weights while the compute engines sit idle. This traffic is hard to hide, because the experts are known only after routing, and hard to shrink without losing quality or adding critical-path work. We present CARDAN, which represents each expert-weight matrix as a vector-quantized component plus a shared-basis low-rank component and co-designs this representation with a multi-engine decoding dataflow. The representation separates expert-common from expert-private work, so the dataflow overlaps DMA with computation on several engines. Across five MoE families on AWS Trainium3, CARDAN matches or improves BF16-teacher perplexity across all five models and speeds up batch-one decoding by 1.15-1.31x over AWS dense MoE megakernels, rising to 1.7x at batch size 16.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/21/2609.21450v1-understanding-llm-quantization-through-activation-guided-compensation-and-orthogonal-residuals",
+      "section": "deep",
+      "title_en": "Understanding LLM Quantization through Activation-Guided Compensation and Orthogonal Residuals",
+      "authors": "Yamato Narita, Issei Sato",
+      "date": "2026-09-18",
+      "pdf": "https://arxiv.org/pdf/2609.21450v1",
+      "score": "8.0",
+      "evidence": "面向大模型的后训练权值-激活量化，分析W4A4激活离群误差",
+      "tldr": "W4A4后训练权激活量化受激活离群值制约，有效分辨率下降。本文把局部量化误差分解为激活引导的权重补偿项和正交残差，并用持续通道离群量与常规激活量给出残差界。基于该界，作者推导随机Hadamard旋转、符号选择与通道缩放准则，解释随机符号抑制离群通道相长干涉、二阶矩平衡导出L2缩放并可松弛为SmoothQuant式L∞缩放。在八个Llama和Mistral模型上无反向传播验证，性能与梯度训练的SpinQuant相当。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Post-training weight-activation quantization reduces the memory and inference costs of large language models, but aggressive W4A4 quantization remains difficult because activation outliers degrade effective quantization resolution. Although weight optimization, channel-wise scaling, and orthogonal rotation mitigate this problem, the error components they address and their relationship remain unclear. Using an exact decomposition of local weight-activation quantization error into an activation-guided weight compensation term and an orthogonal residual, we bound the residual using persistent channel-wise outlier and regular activation quantities. This decomposition clarifies which error components can be addressed by weight compensation and which require transformation design. We then use the residual bounds to derive practical guidelines for applying randomized Hadamard rotation, sign selection, and channel scaling. In particular, the analysis explains how random signs suppress constructive interference among persistent outlier channels, how sampling multiple sign patterns can improve transformation selection, and how second-moment balancing leads to an $L_2$ scaling rule while a further relaxation recovers SmoothQuant-style $L_\\infty$ scaling. We evaluate these guidelines through backpropagation-free configurations across eight Llama and Mistral models, obtaining performance competitive with gradient-trained SpinQuant.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/21/2609.18916v1-higher-order-pruning-of-experts-in-mixture-of-experts-language-models",
+      "section": "quick",
+      "title_en": "Higher-order pruning of experts in mixture-of-experts language models",
+      "authors": "Alex M. Tseng, Prannay Kaul, Luca Zancato, Wei Xia, Stefano Soatto",
+      "date": "2026-09-16",
+      "pdf": "https://arxiv.org/pdf/2609.18916v1",
+      "score": "6.0",
+      "evidence": "面向MoE显存瓶颈的二阶专家剪枝",
+      "tldr": "混合专家语言模型参数量庞大，带来严重的显存瓶颈，而现有专家剪枝方法独立评估各专家并假设其贡献可加，忽略了专家间的协同作用。本文提出HOPE，一种二阶剪枝目标，可证明地最小化剪枝误差上界，并指出REAP是其忽略交互项的一阶特例。在三个参数量达122B的前沿MoE模型上实验验证了方法的有效性。该工作为MoE模型的参数压缩与高效推理提供了更准确的专家剪枝准则。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Mixture-of-Experts (MoE) language models suffer from large parameter counts, which create a significant memory bottleneck. Expert pruning is the most direct approach for reducing this parameter count, yet existing methods make pruning decisions for each expert independently, and assume experts' contributions are purely additive. In reality, expert usage in MoEs is inherently cooperative. We derive HOPE (Higher-Order Pruning of Experts), a second-order pruning objective which provably minimizes an upper bound on the error resulting from pruning. We show that REAP (a state-of-the-art first-order pruning method) is a special case of HOPE where interaction terms are ignored. Across three frontier MoE models (up to 122B parameters), two distinct calibration sets, and multiple benchmarks (including math, instruction following, coding, and an agentic suite), we demonstrate that HOPE produces better pruning decisions than existing methods, and its advantage is most pronounced at high pruning rates and on challenging agentic workloads. At 50% pruning, HOPE outperforms all baselines and achieves an average rank of 1.58 out of 5 methods (versus 2.42 for the next-best method, REAP), with gains of up to +6.1% on agentic coding. Over all conditions, HOPE again achieves the best average rank and surpasses every other method in the majority of head-to-head comparisons. By preserving cooperative expert structure that first-order methods ignore, HOPE enables aggressive compression with minimal degradation, particularly on complex tasks where diverse expert combinations are invoked over long sequences.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202609/21/2609.21672v1-accelerating-dense-llms-via-l0-regularized-mixture-of-experts",
+      "section": "quick",
+      "title_en": "Accelerating Dense LLMs via L0-regularized Mixture-of-Experts",
+      "authors": "Zhenyu Zhang, Jiudong Yang, Zhaowen Tao, Meng Chen",
+      "date": "2026-09-18",
+      "pdf": "https://arxiv.org/pdf/2609.21672v1",
+      "score": "6.0",
+      "evidence": "基于MoE加速稠密LLM推理",
+      "tldr": "大语言模型性能强但推理慢且成本高，现有加速方法常带来明显性能下降，而混合专家模型又需要大量计算资源。本文提出L0-MoE，利用L0正则化的轻量MoE来加速稠密大语言模型，并引入聚类混淆矩阵进行领域感知数据筛选、采用动态批处理提升训练效率。实验显示其相较稠密模型最高取得2.5倍加速且性能保持竞争力，优于现有加速基线。",
+      "tags": "query:moe-gk-quant",
+      "abstract_en": "Large language models (LLMs) achieve strong performance but suffer from slow and costly inference. Existing acceleration methods often lead to noticeable performance degradation, while Mixture-of-Experts (MoE) models require extensive computational resources. In this paper, we propose L0-MoE, a lightweight MoE approach using L0-regularization to accelerate dense LLMs nearly without performance loss. Our method introduces a cluster confusion matrix for domain-aware dataset curation and applies dynamic batching for efficient training. Experiments show that L0-MoE achieves up to 2.5x speedup over dense models while maintaining competitive performance, outperforming existing LLM acceleration baselines.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

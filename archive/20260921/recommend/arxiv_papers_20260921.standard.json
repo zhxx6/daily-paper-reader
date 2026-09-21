@@ -1,0 +1,168 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-21T23:06:53.126352+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2609.21137v1",
+      "source": "arxiv",
+      "title": "A Multi-Engine Dataflow for MoE Decoding on Scratchpad-Based Tensor Accelerators",
+      "abstract": "Mixture-of-Experts (MoE) decoding on scratchpad-based tensor accelerators (STA) is dominated by moving expert weights while the compute engines sit idle. This traffic is hard to hide, because the experts are known only after routing, and hard to shrink without losing quality or adding critical-path work. We present CARDAN, which represents each expert-weight matrix as a vector-quantized component plus a shared-basis low-rank component and co-designs this representation with a multi-engine decoding dataflow. The representation separates expert-common from expert-private work, so the dataflow overlaps DMA with computation on several engines. Across five MoE families on AWS Trainium3, CARDAN matches or improves BF16-teacher perplexity across all five models and speeds up batch-one decoding by 1.15-1.31x over AWS dense MoE megakernels, rising to 1.7x at batch size 16.",
+      "authors": [
+        "Bin Ma",
+        "Wenjie Fan",
+        "Dong Li"
+      ],
+      "primary_category": "cs.AR",
+      "categories": [
+        "cs.AR"
+      ],
+      "published": "2026-09-17T22:47:01+00:00",
+      "link": "https://arxiv.org/pdf/2609.21137v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "quantized expert weights plus multi-engine MoE decoding dataflow on tensor accelerators",
+      "llm_evidence_cn": "量化专家权重与多引擎MoE解码数据流协同设计",
+      "llm_evidence": "量化专家权重与多引擎MoE解码数据流协同设计",
+      "canonical_evidence": "量化专家权重与多引擎MoE解码数据流协同设计",
+      "llm_tldr_en": "CARDAN represents each MoE expert-weight matrix as a vector-quantized component plus a shared-basis low-rank component and co-designs a multi-engine decoding dataflow that overlaps DMA with compute; across five MoE families it matches or beats BF16-teacher perplexity while cutting expert-weight traffic.",
+      "llm_tldr_cn": "该文针对便笺式张量加速器上MoE解码受制于专家权重搬运、计算引擎大量空闲，且专家在路由后才可知导致该流量难以隐藏的问题，提出CARDAN。方法将每个专家权重矩阵表示为向量量化分量与共享基低秩分量之和，并与多引擎解码数据流协同设计，从而把专家共性与私有计算分离，使DMA与多引擎计算重叠。在AWS Trainium3上跨五种MoE家族，CARDAN的困惑度达到或优于BF16教师模型，说明量化表示与数据流协同可在不损质量的前提下缓解MoE解码瓶颈。",
+      "llm_tldr": "该文针对便笺式张量加速器上MoE解码受制于专家权重搬运、计算引擎大量空闲，且专家在路由后才可知导致该流量难以隐藏的问题，提出CARDAN。方法将每个专家权重矩阵表示为向量量化分量与共享基低秩分量之和，并与多引擎解码数据流协同设计，从而把专家共性与私有计算分离，使DMA与多引擎计算重叠。在AWS Trainium3上跨五种MoE家族，CARDAN的困惑度达到或优于BF16教师模型，说明量化表示与数据流协同可在不损质量的前提下缓解MoE解码瓶颈。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "quantized mixture of experts model inference",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2609.21450v1",
+      "source": "arxiv",
+      "title": "Understanding LLM Quantization through Activation-Guided Compensation and Orthogonal Residuals",
+      "abstract": "Post-training weight-activation quantization reduces the memory and inference costs of large language models, but aggressive W4A4 quantization remains difficult because activation outliers degrade effective quantization resolution. Although weight optimization, channel-wise scaling, and orthogonal rotation mitigate this problem, the error components they address and their relationship remain unclear. Using an exact decomposition of local weight-activation quantization error into an activation-guided weight compensation term and an orthogonal residual, we bound the residual using persistent channel-wise outlier and regular activation quantities. This decomposition clarifies which error components can be addressed by weight compensation and which require transformation design. We then use the residual bounds to derive practical guidelines for applying randomized Hadamard rotation, sign selection, and channel scaling. In particular, the analysis explains how random signs suppress constructive interference among persistent outlier channels, how sampling multiple sign patterns can improve transformation selection, and how second-moment balancing leads to an $L_2$ scaling rule while a further relaxation recovers SmoothQuant-style $L_\\infty$ scaling. We evaluate these guidelines through backpropagation-free configurations across eight Llama and Mistral models, obtaining performance competitive with gradient-trained SpinQuant.",
+      "authors": [
+        "Yamato Narita",
+        "Issei Sato"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-09-18T08:00:27+00:00",
+      "link": "https://arxiv.org/pdf/2609.21450v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "post-training weight-activation quantization for LLMs, W4A4 activation outlier analysis",
+      "llm_evidence_cn": "面向大模型的后训练权值-激活量化，分析W4A4激活离群误差",
+      "llm_evidence": "面向大模型的后训练权值-激活量化，分析W4A4激活离群误差",
+      "canonical_evidence": "面向大模型的后训练权值-激活量化，分析W4A4激活离群误差",
+      "llm_tldr_en": "This work decomposes local weight-activation quantization error into an activation-guided weight compensation term and an orthogonal residual, bounding the residual via persistent channel-wise outliers; the analysis clarifies which errors weight optimization, channel scaling and rotation fix, aiding aggressive LLM quantization.",
+      "llm_tldr_cn": "该文针对后训练权值-激活量化虽能降低大模型显存与推理成本、但W4A4激进量化下激活离群值会削弱有效量化分辨率的问题展开研究。作者将局部权值-激活量化误差精确分解为激活引导的权值补偿项与正交残差项，并用持续通道离群量与常规激活量给出残差上界。该分解厘清了权值优化、通道缩放与正交旋转各自修正的误差成分及其关系，为设计更有效的低比特LLM量化方案提供了理论指导。",
+      "llm_tldr": "该文针对后训练权值-激活量化虽能降低大模型显存与推理成本、但W4A4激进量化下激活离群值会削弱有效量化分辨率的问题展开研究。作者将局部权值-激活量化误差精确分解为激活引导的权值补偿项与正交残差项，并用持续通道离群量与常规激活量给出残差上界。该分解厘清了权值优化、通道缩放与正交旋转各自修正的误差成分及其关系，为设计更有效的低比特LLM量化方案提供了理论指导。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "weight quantization for large language models",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2609.18916v1",
+      "source": "arxiv",
+      "title": "Higher-order pruning of experts in mixture-of-experts language models",
+      "abstract": "Mixture-of-Experts (MoE) language models suffer from large parameter counts, which create a significant memory bottleneck. Expert pruning is the most direct approach for reducing this parameter count, yet existing methods make pruning decisions for each expert independently, and assume experts' contributions are purely additive. In reality, expert usage in MoEs is inherently cooperative. We derive HOPE (Higher-Order Pruning of Experts), a second-order pruning objective which provably minimizes an upper bound on the error resulting from pruning. We show that REAP (a state-of-the-art first-order pruning method) is a special case of HOPE where interaction terms are ignored. Across three frontier MoE models (up to 122B parameters), two distinct calibration sets, and multiple benchmarks (including math, instruction following, coding, and an agentic suite), we demonstrate that HOPE produces better pruning decisions than existing methods, and its advantage is most pronounced at high pruning rates and on challenging agentic workloads. At 50% pruning, HOPE outperforms all baselines and achieves an average rank of 1.58 out of 5 methods (versus 2.42 for the next-best method, REAP), with gains of up to +6.1% on agentic coding. Over all conditions, HOPE again achieves the best average rank and surpasses every other method in the majority of head-to-head comparisons. By preserving cooperative expert structure that first-order methods ignore, HOPE enables aggressive compression with minimal degradation, particularly on complex tasks where diverse expert combinations are invoked over long sequences.",
+      "authors": [
+        "Alex M. Tseng",
+        "Prannay Kaul",
+        "Luca Zancato",
+        "Wei Xia",
+        "Stefano Soatto"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-09-16T16:55:46+00:00",
+      "link": "https://arxiv.org/pdf/2609.18916v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "second-order expert pruning to relieve MoE memory bottleneck",
+      "llm_evidence_cn": "面向MoE显存瓶颈的二阶专家剪枝",
+      "llm_evidence": "面向MoE显存瓶颈的二阶专家剪枝",
+      "canonical_evidence": "面向MoE显存瓶颈的二阶专家剪枝",
+      "llm_tldr_en": "MoE language models face severe memory bottlenecks; HOPE derives a second-order expert pruning objective that provably minimizes the pruning error bound, generalizes first-order REAP, and is validated on three frontier MoE models up to 122B parameters.",
+      "llm_tldr_cn": "混合专家语言模型参数量庞大，带来严重的显存瓶颈，而现有专家剪枝方法独立评估各专家并假设其贡献可加，忽略了专家间的协同作用。本文提出HOPE，一种二阶剪枝目标，可证明地最小化剪枝误差上界，并指出REAP是其忽略交互项的一阶特例。在三个参数量达122B的前沿MoE模型上实验验证了方法的有效性。该工作为MoE模型的参数压缩与高效推理提供了更准确的专家剪枝准则。",
+      "llm_tldr": "混合专家语言模型参数量庞大，带来严重的显存瓶颈，而现有专家剪枝方法独立评估各专家并假设其贡献可加，忽略了专家间的协同作用。本文提出HOPE，一种二阶剪枝目标，可证明地最小化剪枝误差上界，并指出REAP是其忽略交互项的一阶特例。在三个参数量达122B的前沿MoE模型上实验验证了方法的有效性。该工作为MoE模型的参数压缩与高效推理提供了更准确的专家剪枝准则。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2609.21672v1",
+      "source": "arxiv",
+      "title": "Accelerating Dense LLMs via L0-regularized Mixture-of-Experts",
+      "abstract": "Large language models (LLMs) achieve strong performance but suffer from slow and costly inference. Existing acceleration methods often lead to noticeable performance degradation, while Mixture-of-Experts (MoE) models require extensive computational resources. In this paper, we propose L0-MoE, a lightweight MoE approach using L0-regularization to accelerate dense LLMs nearly without performance loss. Our method introduces a cluster confusion matrix for domain-aware dataset curation and applies dynamic batching for efficient training. Experiments show that L0-MoE achieves up to 2.5x speedup over dense models while maintaining competitive performance, outperforming existing LLM acceleration baselines.",
+      "authors": [
+        "Zhenyu Zhang",
+        "Jiudong Yang",
+        "Zhaowen Tao",
+        "Meng Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-09-18T12:08:31+00:00",
+      "link": "https://arxiv.org/pdf/2609.21672v1",
+      "tags": [
+        "keyword:moe-gk-quant",
+        "query:moe-gk-quant"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "MoE-based acceleration of dense LLM inference",
+      "llm_evidence_cn": "基于MoE加速稠密LLM推理",
+      "llm_evidence": "基于MoE加速稠密LLM推理",
+      "canonical_evidence": "基于MoE加速稠密LLM推理",
+      "llm_tldr_en": "L0-MoE accelerates dense LLM inference with a lightweight L0-regularized MoE, using a cluster confusion matrix and dynamic batching to reach up to 2.5x speedup with competitive quality.",
+      "llm_tldr_cn": "大语言模型性能强但推理慢且成本高，现有加速方法常带来明显性能下降，而混合专家模型又需要大量计算资源。本文提出L0-MoE，利用L0正则化的轻量MoE来加速稠密大语言模型，并引入聚类混淆矩阵进行领域感知数据筛选、采用动态批处理提升训练效率。实验显示其相较稠密模型最高取得2.5倍加速且性能保持竞争力，优于现有加速基线。",
+      "llm_tldr": "大语言模型性能强但推理慢且成本高，现有加速方法常带来明显性能下降，而混合专家模型又需要大量计算资源。本文提出L0-MoE，利用L0正则化的轻量MoE来加速稠密大语言模型，并引入聚类混淆矩阵进行领域感知数据筛选、采用动态批处理提升训练效率。实验显示其相较稠密模型最高取得2.5倍加速且性能保持竞争力，优于现有加速基线。",
+      "llm_tags": [
+        "query:moe-gk-quant"
+      ],
+      "matched_query_tag": "query:moe-gk-quant",
+      "matched_query_text": "efficient mixture of experts inference techniques",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
